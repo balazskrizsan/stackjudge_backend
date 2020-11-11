@@ -1,0 +1,73 @@
+cache:
+  paths:
+    - /root/.m2/repository
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  image: maven:3.6.3-jdk-14
+  script:
+    - mvn clean package
+  tags:
+    - docker
+
+test:
+  stage: test
+  image: maven:3.6.3-jdk-14
+  script:
+    - mvn test
+  tags:
+    - docker
+
+deploy_dev:
+  stage: deploy
+  image: ruby:2.3
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
+  environment:
+    name: prod
+    url: https://weather-snapshot-dev.herokuapp.com/
+  only:
+    - dev
+  tags:
+    - docker
+
+deploy_stage:
+  stage: deploy
+  image: ruby:2.3
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_STAGE_APP --api-key=$HEROKU_API_KEY
+  environment:
+    name: stage
+    url: https://weather-snapshot-stage.herokuapp.com/
+  only:
+    - master
+  tags:
+    - docker
+
+deploy_prod:
+  stage: deploy
+  image: ruby:2.3
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_PROD_APP --api-key=$HEROKU_API_KEY
+  environment:
+    name: prod
+    url: https://weather-snapshot.herokuapp.com/
+  when: manual
+  only:
+    - master
+  tags:
+    - docker
