@@ -8,7 +8,6 @@ import com.kbalazsworks.stackjudge.db.Keys;
 import com.kbalazsworks.stackjudge.db.Public;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Address extends TableImpl<AddressRecord> {
 
-    private static final long serialVersionUID = 2102390460;
+    private static final long serialVersionUID = -125408337;
 
     /**
      * The reference instance of <code>public.address</code>
@@ -66,22 +65,22 @@ public class Address extends TableImpl<AddressRecord> {
     /**
      * The column <code>public.address.marker_lat</code>.
      */
-    public final TableField<AddressRecord, BigDecimal> MARKER_LAT = createField(DSL.name("marker_lat"), org.jooq.impl.SQLDataType.NUMERIC(8, 4).nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MARKER_LAT = createField(DSL.name("marker_lat"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.address.marker_lng</code>.
      */
-    public final TableField<AddressRecord, BigDecimal> MARKER_LNG = createField(DSL.name("marker_lng"), org.jooq.impl.SQLDataType.NUMERIC(9, 4).nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MARKER_LNG = createField(DSL.name("marker_lng"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.address.manual_marker_lat</code>.
      */
-    public final TableField<AddressRecord, BigDecimal> MANUAL_MARKER_LAT = createField(DSL.name("manual_marker_lat"), org.jooq.impl.SQLDataType.NUMERIC(8, 4).nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MANUAL_MARKER_LAT = createField(DSL.name("manual_marker_lat"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.address.manual_marker_lng</code>.
      */
-    public final TableField<AddressRecord, BigDecimal> MANUAL_MARKER_LNG = createField(DSL.name("manual_marker_lng"), org.jooq.impl.SQLDataType.NUMERIC(9, 4).nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MANUAL_MARKER_LNG = createField(DSL.name("manual_marker_lng"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.address.created_at</code>.
@@ -176,7 +175,7 @@ public class Address extends TableImpl<AddressRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Long, String, BigDecimal, BigDecimal, BigDecimal, BigDecimal, LocalDateTime, Long> fieldsRow() {
+    public Row9<Long, Long, String, Double, Double, Double, Double, LocalDateTime, Long> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 }

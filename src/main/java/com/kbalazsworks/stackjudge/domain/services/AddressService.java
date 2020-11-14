@@ -1,8 +1,9 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.repositories.AddressRepository;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
+import org.jooq.exception.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,18 @@ public class AddressService
 
     public void create(Address address)
     {
-        addressRepository.create(address);
+        try
+        {
+            addressRepository.create(address);
+        }
+        catch (DataAccessException e)
+        {
+            if (e.getCause().toString().contains("fk__address_company_id__company_id__on_delete_cascade"))
+            {
+                throw new AddressException("Missing company; id#".concat(address.companyId().toString()));
+            }
+
+            throw e;
+        }
     }
 }

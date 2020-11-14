@@ -9,16 +9,16 @@ public record AddressCreateRequest(
     String fullAddress,
 
     @Pattern(regexp = "^\\d{1,9}\\.\\d{1,20}$")
-    BigDecimal markerLat,
+    Double markerLat,
 
     @Pattern(regexp = "^\\d{1,9}\\.\\d{1,20}$")
-    BigDecimal markerLng,
+    Double markerLng,
 
     @Pattern(regexp = "^\\d{1,9}\\.\\d{1,20}$")
-    BigDecimal manualMarkerLat,
+    Double manualMarkerLat,
 
     @Pattern(regexp = "^\\d{1,9}\\.\\d{1,20}$")
-    BigDecimal manualMarkerLng
+    Double manualMarkerLng
 )
 {
 }

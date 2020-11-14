@@ -11,14 +11,14 @@ CREATE TABLE "company"
 
 CREATE TABLE "address"
 (
-    "id"                bigserial     NOT NULL,
-    "company_id"        bigint        NOT NULL,
-    "full_address"      varchar(255)  NOT NULL,
-    "marker_lat"        numeric(8, 4) NOT NULL,
-    "marker_lng"        numeric(9, 4) NOT NULL,
-    "manual_marker_lat" numeric(8, 4) NOT NULL,
-    "manual_marker_lng" numeric(9, 4) NOT NULL,
-    "created_at"        TIMESTAMP     NOT NULL,
+    "id"                bigserial    NOT NULL,
+    "company_id"        bigint       NOT NULL,
+    "full_address"      varchar(255) NOT NULL,
+    "marker_lat"        float        NOT NULL,
+    "marker_lng"        float        NOT NULL,
+    "manual_marker_lat" float        NOT NULL,
+    "manual_marker_lng" float        NOT NULL,
+    "created_at"        TIMESTAMP    NOT NULL,
     "created_by"        bigint
 ) WITH (OIDS= FALSE);
 
