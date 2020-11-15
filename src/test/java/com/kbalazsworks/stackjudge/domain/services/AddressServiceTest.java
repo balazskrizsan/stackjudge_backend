@@ -6,6 +6,8 @@ import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.mocks.AddressFakeBuilder;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -21,7 +23,32 @@ public class AddressServiceTest extends AbstractIntegrationTest
     @Autowired
     private AddressService addressService;
 
-    @Test
+    private Address provide_create_insertOneRecordToTheDbWithCompany_perfect(
+        int repetition,
+        long companyId,
+        long testedAddressId
+    )
+    throws Exception
+    {
+        if (repetition == 1)
+        {
+            return new AddressFakeBuilder().setId(testedAddressId).setCompanyId(companyId).build();
+        }
+
+        if (repetition == 2)
+        {
+            return new AddressFakeBuilder()
+                .setId(testedAddressId)
+                .setCompanyId(companyId)
+                .setManualMarkerLat(null)
+                .setManualMarkerLng(null)
+                .build();
+        }
+
+        throw new Exception();
+    }
+
+    @RepeatedTest(value = 2, name = RepeatedTest.LONG_DISPLAY_NAME)
     @SqlGroup(
         {
             @Sql(
@@ -36,13 +63,18 @@ public class AddressServiceTest extends AbstractIntegrationTest
             )
         }
     )
-    public void create_insertOneRecordToTheDbWithCompany_perfect()
+    public void create_insertOneRecordToTheDbWithCompany_perfect(RepetitionInfo repetitionInfo) throws Exception
     {
         // Arrange
-        long    testedCompanyId = 164985367L;
-        Address testedAddress   = new AddressFakeBuilder().setId(1111L).setCompanyId(testedCompanyId).build();
+        long testedCompanyId = 164985367L;
+        long testedAddressId = 1111L;
+        Address testedAddress = provide_create_insertOneRecordToTheDbWithCompany_perfect(
+            repetitionInfo.getCurrentRepetition(),
+            testedCompanyId,
+            testedAddressId
+        );
 
-        // Act - Assert
+        // Act
         addressService.create(testedAddress);
 
         // Assert
@@ -50,7 +82,7 @@ public class AddressServiceTest extends AbstractIntegrationTest
             .selectFrom(addressTable)
             .where(addressTable.COMPANY_ID.eq(testedCompanyId))
             .fetchOne();
-        actualAddress.setId(1111L);
+        actualAddress.setId(testedAddressId);
 
         assertEquals(actualAddress.into(Address.class), testedAddress);
     }
@@ -72,7 +104,7 @@ public class AddressServiceTest extends AbstractIntegrationTest
     )
     public void create_insertOneRecordToTheDbWithoutCompany_throwsException()
     {
-        // Arrange
+        // Arrange`
         Address testedAddress = new AddressFakeBuilder().build();
 
         // Act - Assert
