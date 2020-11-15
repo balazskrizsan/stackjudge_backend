@@ -16,8 +16,8 @@ CREATE TABLE "address"
     "full_address"      varchar(255) NOT NULL,
     "marker_lat"        float        NOT NULL,
     "marker_lng"        float        NOT NULL,
-    "manual_marker_lat" float        NOT NULL,
-    "manual_marker_lng" float        NOT NULL,
+    "manual_marker_lat" float,
+    "manual_marker_lng" float,
     "created_at"        TIMESTAMP    NOT NULL,
     "created_by"        bigint
 ) WITH (OIDS= FALSE);
