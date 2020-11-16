@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
-import com.kbalazsworks.stackjudge.domain.mocks.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.domain.fakes.AddressFakeBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;

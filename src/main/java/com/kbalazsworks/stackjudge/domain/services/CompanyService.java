@@ -4,7 +4,6 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +54,8 @@ public class CompanyService
                 address.markerLng(),
                 address.manualMarkerLat(),
                 address.manualMarkerLng(),
-                company.createdAt(),
-                company.createdBy()
+                address.createdAt(),
+                address.createdBy()
             )
         );
     }

@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.mocks;
+package com.kbalazsworks.stackjudge.domain.fakes;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 
