@@ -25,8 +25,8 @@ public class SearchAction
     }
 
     @GetMapping()
-    public ResponseEntity<ResponseData<CompanySearchServiceResponse>> action(@RequestPayload SearchRequest request) throws
-        Exception
+    public ResponseEntity<ResponseData<CompanySearchServiceResponse>> action(@RequestPayload SearchRequest request)
+    throws Exception
     {
         CompanySearchServiceResponse response = companyService.search(
             request.page(),
