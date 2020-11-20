@@ -141,7 +141,7 @@ public class CompanyServiceTest extends AbstractIntegrationTest
         );
 
         // Act
-        List<Company> companyList = companyService.search();
+        List<Company> companyList = companyService.search(1, 1);
 
         // Assert
         Assert.assertEquals(companyList, expectedList);

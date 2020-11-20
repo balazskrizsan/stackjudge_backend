@@ -1,12 +1,15 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
+import com.kbalazsworks.stackjudge.domain.enums.stack_table.TypeEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveStackRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Stack;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
 
 @Repository
@@ -54,5 +57,30 @@ public class StackRepository extends AbstractRepository
             )
             .fetch()
             .into(RecursiveStackRecord.class);
+    }
+
+    public Map<Long, Integer> countStacks(List<Long> companyIds)
+    {
+        return countTeamsOrStacks(companyIds, TypeEnum.STACK);
+    }
+
+    public Map<Long, Integer> countTeams(List<Long> companyIds)
+    {
+        return countTeamsOrStacks(companyIds, TypeEnum.TEAM);
+    }
+
+    private Map<Long, Integer> countTeamsOrStacks(List<Long> companyIds, TypeEnum type)
+    {
+        Map<Long, Integer> result = createQueryBuilder()
+            .select(stackTable.COMPANY_ID, count())
+            .from(stackTable)
+            .where(
+                stackTable.COMPANY_ID.in(companyIds)
+                    .and(stackTable.TYPE_ID.eq(type.getValue()))
+            )
+            .groupBy(stackTable.COMPANY_ID)
+            .fetchMap(stackTable.COMPANY_ID, count());
+
+        return Collections.unmodifiableMap(result);
     }
 }

@@ -1,19 +1,27 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService
 {
     private CompanyRepository companyRepository;
     private AddressService addressService;
+    private StackService stackService;
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository)
@@ -27,6 +35,12 @@ public class CompanyService
         this.addressService = addressService;
     }
 
+    @Autowired
+    public void setStackService(StackService stackService)
+    {
+        this.stackService = stackService;
+    }
+
     public void delete(long companyId)
     {
         companyRepository.delete(companyId);
@@ -37,9 +51,50 @@ public class CompanyService
         return companyRepository.get(companyId);
     }
 
-    public List<Company> search()
+    public List<Company> search(int page, int limit)
     {
         return companyRepository.search();
+    }
+
+    public CompanySearchServiceResponse search(int page, int limit, List<Short> requestRelationIds)
+    {
+        List<Company> companies = search(page, limit);
+
+        List<Map<Long, CompanyStatistic>> companyStatistics = new ArrayList<>();
+        if (requestRelationIds != null)
+        {
+            List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
+
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.STATISTIC.getValue()))
+            {
+                companyStatistics = getStatistic(companyIds);
+            }
+        }
+
+        return new CompanySearchServiceResponse(companies, companyStatistics);
+    }
+
+    // todo: mock test
+    public List<Map<Long, CompanyStatistic>> getStatistic(List<Long> companyIds)
+    {
+        List<Map<Long, CompanyStatistic>> companyStatistics = new ArrayList<>();
+
+        Map<Long, Integer> stackInfo = stackService.countStacks(companyIds);
+        Map<Long, Integer> teamInfo = stackService.countTeams(companyIds);
+
+        companyIds.forEach(id -> {
+            companyStatistics.add(new HashMap<>() {{
+                put(id, new CompanyStatistic(
+                    id,
+                    stackInfo.getOrDefault(id, 0),
+                    teamInfo.getOrDefault(id, 0),
+                    0,
+                    0
+                ));
+            }});
+        });
+
+        return companyStatistics;
     }
 
     public void create(Company company, Address address)
