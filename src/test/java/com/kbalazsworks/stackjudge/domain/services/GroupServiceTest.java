@@ -47,7 +47,6 @@ public class GroupServiceTest extends AbstractIntegrationTest
         Group testedGroup   = new GroupFakeBuilder().build();
         Group expectedGroup = new GroupFakeBuilder().build();
 
-
         // Act
         groupService.create(testedGroup);
 
