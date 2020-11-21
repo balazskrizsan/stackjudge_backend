@@ -1,16 +1,15 @@
 package com.kbalazsworks.stackjudge.domain;
 
+import com.kbalazsworks.stackjudge.db.tables.*;
 import com.kbalazsworks.stackjudge.domain.services.JooqService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractIntegrationTest extends AbstractTest
 {
-    protected final com.kbalazsworks.stackjudge.db.tables.Company companyTable
-        = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY;
-
-    protected final com.kbalazsworks.stackjudge.db.tables.Address addressTable
-        = com.kbalazsworks.stackjudge.db.tables.Address.ADDRESS;
+    protected final Company companyTable = Company.COMPANY;
+    protected final Address addressTable = Address.ADDRESS;
+    protected final Group   groupTable   = Group.GROUP;
 
     @Autowired
     private JooqService jooqService;

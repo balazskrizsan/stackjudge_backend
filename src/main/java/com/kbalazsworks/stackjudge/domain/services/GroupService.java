@@ -20,25 +20,21 @@ public class GroupService
         this.groupRepository = groupRepository;
     }
 
-    // @todo: test
     public void create(Group group)
     {
         groupRepository.create(group);
     }
 
-    // @todo: test
     public List<RecursiveGroupRecord> recursiveSearch(long companyId)
     {
         return groupRepository.recursiveSearch(companyId);
     }
 
-    // @todo: test
     public Map<Long, Integer> countStacks(List<Long> companyIds)
     {
         return groupRepository.countStacks(companyIds);
     }
 
-    // @todo: test
     public Map<Long, Integer> countTeams(List<Long> companyIds)
     {
         return groupRepository.countTeams(companyIds);
