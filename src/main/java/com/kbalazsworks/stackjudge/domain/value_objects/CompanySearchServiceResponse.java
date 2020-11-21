@@ -8,7 +8,7 @@ import java.util.Map;
 
 public record CompanySearchServiceResponse(
     @JsonProperty List<Company> companies,
-    @JsonProperty List<Map<Long, CompanyStatistic>> companyStatistics
+    @JsonProperty Map<Long, CompanyStatistic> companyStatistics
 )
 {
 }

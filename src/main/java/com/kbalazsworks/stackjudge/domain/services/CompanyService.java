@@ -10,7 +10,6 @@ import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,8 @@ import java.util.stream.Collectors;
 public class CompanyService
 {
     private CompanyRepository companyRepository;
-    private AddressService addressService;
-    private StackService stackService;
+    private AddressService    addressService;
+    private StackService      stackService;
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository)
@@ -60,7 +59,7 @@ public class CompanyService
     {
         List<Company> companies = search(page, limit);
 
-        List<Map<Long, CompanyStatistic>> companyStatistics = new ArrayList<>();
+        Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
         if (requestRelationIds != null)
         {
             List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
@@ -75,24 +74,20 @@ public class CompanyService
     }
 
     // todo: mock test
-    public List<Map<Long, CompanyStatistic>> getStatistic(List<Long> companyIds)
+    public Map<Long, CompanyStatistic> getStatistic(List<Long> companyIds)
     {
-        List<Map<Long, CompanyStatistic>> companyStatistics = new ArrayList<>();
+        Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
 
         Map<Long, Integer> stackInfo = stackService.countStacks(companyIds);
-        Map<Long, Integer> teamInfo = stackService.countTeams(companyIds);
+        Map<Long, Integer> teamInfo  = stackService.countTeams(companyIds);
 
-        companyIds.forEach(id -> {
-            companyStatistics.add(new HashMap<>() {{
-                put(id, new CompanyStatistic(
-                    id,
-                    stackInfo.getOrDefault(id, 0),
-                    teamInfo.getOrDefault(id, 0),
-                    0,
-                    0
-                ));
-            }});
-        });
+        companyIds.forEach(id -> companyStatistics.put(id, new CompanyStatistic(
+            id,
+            stackInfo.getOrDefault(id, 0),
+            teamInfo.getOrDefault(id, 0),
+            0,
+            0
+        )));
 
         return companyStatistics;
     }
