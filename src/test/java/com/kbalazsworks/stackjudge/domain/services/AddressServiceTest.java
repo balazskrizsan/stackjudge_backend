@@ -104,7 +104,7 @@ public class AddressServiceTest extends AbstractIntegrationTest
     )
     public void create_insertOneRecordToTheDbWithoutCompany_throwsException()
     {
-        // Arrange`
+        // Arrange
         Address testedAddress = new AddressFakeBuilder().build();
 
         // Act - Assert
