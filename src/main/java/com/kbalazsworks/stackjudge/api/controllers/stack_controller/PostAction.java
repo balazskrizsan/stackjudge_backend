@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.requests.stack_request.StackCreateRequest
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.StackService;
+import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.session.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(StackConfig.CONTROLLER_URI)
 public class PostAction
 {
-    private StackService   stackService;
+    private GroupService   groupService;
     private SessionService sessionService;
 
     @Autowired
-    public void setStackService(StackService stackService)
+    public void setStackService(GroupService groupService)
     {
-        this.stackService = stackService;
+        this.groupService = groupService;
     }
 
     @Autowired
@@ -39,7 +39,7 @@ public class PostAction
     {
         new JavaxValidatorService<StackCreateRequest>().validate(request);
 
-        stackService.create(RequestMapperService.mapToRecord(request, sessionService.getSessionState()));
+        groupService.create(RequestMapperService.mapToRecord(request, sessionService.getSessionState()));
 
         ResponseEntityBuilder<String> responseEntityBuilder = new ResponseEntityBuilder<>();
 

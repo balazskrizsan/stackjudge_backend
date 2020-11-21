@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 public class CompanyService
 {
     private CompanyRepository companyRepository;
-    private AddressService    addressService;
-    private StackService      stackService;
+    private AddressService addressService;
+    private GroupService   groupService;
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository)
@@ -35,9 +35,9 @@ public class CompanyService
     }
 
     @Autowired
-    public void setStackService(StackService stackService)
+    public void setStackService(GroupService groupService)
     {
-        this.stackService = stackService;
+        this.groupService = groupService;
     }
 
     public void delete(long companyId)
@@ -78,8 +78,8 @@ public class CompanyService
     {
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
 
-        Map<Long, Integer> stackInfo = stackService.countStacks(companyIds);
-        Map<Long, Integer> teamInfo  = stackService.countTeams(companyIds);
+        Map<Long, Integer> stackInfo = groupService.countStacks(companyIds);
+        Map<Long, Integer> teamInfo  = groupService.countTeams(companyIds);
 
         companyIds.forEach(id -> companyStatistics.put(id, new CompanyStatistic(
             id,

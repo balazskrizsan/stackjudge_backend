@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.GetStackRecursiv
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
-import com.kbalazsworks.stackjudge.domain.services.StackService;
+import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,12 @@ import java.util.List;
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
 public class GetGroupRecursiveByCompanyIdAction
 {
-    private StackService stackService;
+    private GroupService groupService;
 
     @Autowired
-    public void setStackService(StackService stackService)
+    public void setStackService(GroupService groupService)
     {
-        this.stackService = stackService;
+        this.groupService = groupService;
     }
 
     @GetMapping("{companyId}/group/recursive")
@@ -34,7 +34,7 @@ public class GetGroupRecursiveByCompanyIdAction
 
         ResponseEntityBuilder<List<RecursiveGroupRecord>> responseEntityBuilder = new ResponseEntityBuilder<>();
 
-        responseEntityBuilder.setData(stackService.recursiveSearch(request.getCompanyId()));
+        responseEntityBuilder.setData(groupService.recursiveSearch(request.getCompanyId()));
 
         return responseEntityBuilder.build();
     }

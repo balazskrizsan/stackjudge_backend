@@ -13,7 +13,7 @@ import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
 
 @Repository
-public class StackRepository extends AbstractRepository
+public class GroupRepository extends AbstractRepository
 {
     private final com.kbalazsworks.stackjudge.db.tables.Group groupTable =
         com.kbalazsworks.stackjudge.db.tables.Group.GROUP;
