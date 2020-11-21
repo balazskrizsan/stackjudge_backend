@@ -1,6 +1,6 @@
-package com.kbalazsworks.stackjudge.domain.services;
+package com.kbalazsworks.stackjudge.domain;
 
-import com.kbalazsworks.stackjudge.domain.AbstractTest;
+import com.kbalazsworks.stackjudge.domain.services.JooqService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 

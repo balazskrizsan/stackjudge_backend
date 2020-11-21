@@ -7,7 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
-import com.kbalazsworks.stackjudge.db.tables.Stack;
+import com.kbalazsworks.stackjudge.db.tables.Group;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -1352479164;
+    private static final long serialVersionUID = -1025242735;
 
     /**
      * The reference instance of <code>public</code>
@@ -47,9 +47,9 @@ public class Public extends SchemaImpl {
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
-     * The table <code>public.stack</code>.
+     * The table <code>public.group</code>.
      */
-    public final Stack STACK = Stack.STACK;
+    public final Group GROUP = Group.GROUP;
 
     /**
      * No further instances allowed
@@ -69,7 +69,7 @@ public class Public extends SchemaImpl {
         return Arrays.<Sequence<?>>asList(
             Sequences.ADDRESS_ID_SEQ,
             Sequences.COMPANY_ID_SEQ,
-            Sequences.STACK_ID_SEQ);
+            Sequences.GROUP_ID_SEQ);
     }
 
     @Override
@@ -78,6 +78,6 @@ public class Public extends SchemaImpl {
             Address.ADDRESS,
             Company.COMPANY,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
-            Stack.STACK);
+            Group.GROUP);
     }
 }

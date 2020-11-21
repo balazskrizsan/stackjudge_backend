@@ -5,13 +5,13 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateReq
 import com.kbalazsworks.stackjudge.api.requests.stack_request.StackCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.entities.Stack;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.session.entities.SessionState;
 
 public class RequestMapperService
 {
-    public static Stack mapToRecord(StackCreateRequest request, SessionState sessionState) {
-        return new Stack(
+    public static Group mapToRecord(StackCreateRequest request, SessionState sessionState) {
+        return new Group(
             null,
             request.companyId(),
             request.parentId(),

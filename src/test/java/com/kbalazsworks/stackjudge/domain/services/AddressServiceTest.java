@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
+import com.kbalazsworks.stackjudge.domain.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.fakes.AddressFakeBuilder;

@@ -7,7 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
-import com.kbalazsworks.stackjudge.db.tables.Stack;
+import com.kbalazsworks.stackjudge.db.tables.Group;
 
 
 /**
@@ -32,7 +32,7 @@ public class Tables {
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
-     * The table <code>public.stack</code>.
+     * The table <code>public.group</code>.
      */
-    public static final Stack STACK = Stack.STACK;
+    public static final Group GROUP = Group.GROUP;
 }

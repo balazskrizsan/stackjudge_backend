@@ -7,11 +7,11 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
-import com.kbalazsworks.stackjudge.db.tables.Stack;
+import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.FlywaySchemaHistoryRecord;
-import com.kbalazsworks.stackjudge.db.tables.records.StackRecord;
+import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -33,7 +33,7 @@ public class Keys {
 
     public static final Identity<AddressRecord, Long> IDENTITY_ADDRESS = Identities0.IDENTITY_ADDRESS;
     public static final Identity<CompanyRecord, Long> IDENTITY_COMPANY = Identities0.IDENTITY_COMPANY;
-    public static final Identity<StackRecord, Long> IDENTITY_STACK = Identities0.IDENTITY_STACK;
+    public static final Identity<GroupRecord, Long> IDENTITY_GROUP = Identities0.IDENTITY_GROUP;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -41,15 +41,15 @@ public class Keys {
 
     public static final UniqueKey<CompanyRecord> COMPANY_PK = UniqueKeys0.COMPANY_PK;
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = UniqueKeys0.FLYWAY_SCHEMA_HISTORY_PK;
-    public static final UniqueKey<StackRecord> STACK_PK = UniqueKeys0.STACK_PK;
+    public static final UniqueKey<GroupRecord> GROUP_PK = UniqueKeys0.GROUP_PK;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
-    public static final ForeignKey<StackRecord, CompanyRecord> STACK__FK__STACK_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.STACK__FK__STACK_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
-    public static final ForeignKey<StackRecord, StackRecord> STACK__FK__STACK_PARENT_ID__STACK_ID__ON_DELETE_CASCADE = ForeignKeys0.STACK__FK__STACK_PARENT_ID__STACK_ID__ON_DELETE_CASCADE;
+    public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
+    public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -58,18 +58,18 @@ public class Keys {
     private static class Identities0 {
         public static Identity<AddressRecord, Long> IDENTITY_ADDRESS = Internal.createIdentity(Address.ADDRESS, Address.ADDRESS.ID);
         public static Identity<CompanyRecord, Long> IDENTITY_COMPANY = Internal.createIdentity(Company.COMPANY, Company.COMPANY.ID);
-        public static Identity<StackRecord, Long> IDENTITY_STACK = Internal.createIdentity(Stack.STACK, Stack.STACK.ID);
+        public static Identity<GroupRecord, Long> IDENTITY_GROUP = Internal.createIdentity(Group.GROUP, Group.GROUP.ID);
     }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<CompanyRecord> COMPANY_PK = Internal.createUniqueKey(Company.COMPANY, "company_pk", new TableField[] { Company.COMPANY.ID }, true);
         public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, "flyway_schema_history_pk", new TableField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK }, true);
-        public static final UniqueKey<StackRecord> STACK_PK = Internal.createUniqueKey(Stack.STACK, "stack_pk", new TableField[] { Stack.STACK.ID }, true);
+        public static final UniqueKey<GroupRecord> GROUP_PK = Internal.createUniqueKey(Group.GROUP, "group_pk", new TableField[] { Group.GROUP.ID }, true);
     }
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Address.ADDRESS, "fk__address_company_id__company_id__on_delete_cascade", new TableField[] { Address.ADDRESS.COMPANY_ID }, true);
-        public static final ForeignKey<StackRecord, CompanyRecord> STACK__FK__STACK_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Stack.STACK, "fk__stack_company_id__company_id__on_delete_cascade", new TableField[] { Stack.STACK.COMPANY_ID }, true);
-        public static final ForeignKey<StackRecord, StackRecord> STACK__FK__STACK_PARENT_ID__STACK_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.STACK_PK, Stack.STACK, "fk__stack_parent_id__stack_id__on_delete_cascade", new TableField[] { Stack.STACK.PARENT_ID }, true);
+        public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Group.GROUP, "fk__group_company_id__company_id__on_delete_cascade", new TableField[] { Group.GROUP.COMPANY_ID }, true);
+        public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.GROUP_PK, Group.GROUP, "fk__group_parent_id__group_id__on_delete_cascade", new TableField[] { Group.GROUP.PARENT_ID }, true);
     }
 }

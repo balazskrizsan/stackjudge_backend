@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveStackRecord;
-import com.kbalazsworks.stackjudge.domain.entities.Stack;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
 import com.kbalazsworks.stackjudge.domain.repositories.StackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,13 @@ public class StackService
         this.stackRepository = stackRepository;
     }
 
-    public void create(Stack stack)
+    public void create(Group group)
     {
-        stackRepository.create(stack);
+        stackRepository.create(group);
     }
 
     // @todo: test
-    public List<RecursiveStackRecord> recursiveSearch(long companyId)
+    public List<RecursiveGroupRecord> recursiveSearch(long companyId)
     {
         return stackRepository.recursiveSearch(companyId);
     }

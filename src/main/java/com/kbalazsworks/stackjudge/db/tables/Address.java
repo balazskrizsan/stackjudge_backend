@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Address extends TableImpl<AddressRecord> {
 
-    private static final long serialVersionUID = -125408337;
+    private static final long serialVersionUID = 180556175;
 
     /**
      * The reference instance of <code>public.address</code>
@@ -75,12 +75,12 @@ public class Address extends TableImpl<AddressRecord> {
     /**
      * The column <code>public.address.manual_marker_lat</code>.
      */
-    public final TableField<AddressRecord, Double> MANUAL_MARKER_LAT = createField(DSL.name("manual_marker_lat"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MANUAL_MARKER_LAT = createField(DSL.name("manual_marker_lat"), org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.address.manual_marker_lng</code>.
      */
-    public final TableField<AddressRecord, Double> MANUAL_MARKER_LNG = createField(DSL.name("manual_marker_lng"), org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<AddressRecord, Double> MANUAL_MARKER_LNG = createField(DSL.name("manual_marker_lng"), org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.address.created_at</code>.

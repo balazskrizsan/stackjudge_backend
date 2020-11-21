@@ -1,4 +1,4 @@
 TRUNCATE TABLE
     address,
-    stack,
+    "group",
     company;

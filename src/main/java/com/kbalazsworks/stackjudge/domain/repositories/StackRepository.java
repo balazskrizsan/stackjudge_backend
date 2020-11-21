@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.enums.stack_table.TypeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveStackRecord;
-import com.kbalazsworks.stackjudge.domain.entities.Stack;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -15,48 +15,48 @@ import static org.jooq.impl.DSL.val;
 @Repository
 public class StackRepository extends AbstractRepository
 {
-    private final com.kbalazsworks.stackjudge.db.tables.Stack stackTable =
-        com.kbalazsworks.stackjudge.db.tables.Stack.STACK;
+    private final com.kbalazsworks.stackjudge.db.tables.Group groupTable =
+        com.kbalazsworks.stackjudge.db.tables.Group.GROUP;
 
-    public void create(Stack stack)
+    public void create(Group group)
     {
         createQueryBuilder()
             .insertInto(
-                stackTable,
-                stackTable.COMPANY_ID,
-                stackTable.PARENT_ID,
-                stackTable.TYPE_ID,
-                stackTable.NAME,
-                stackTable.MEMBERS_ON_STACK_ID,
-                stackTable.CREATED_AT,
-                stackTable.CREATED_BY
+                groupTable,
+                groupTable.COMPANY_ID,
+                groupTable.PARENT_ID,
+                groupTable.TYPE_ID,
+                groupTable.NAME,
+                groupTable.MEMBERS_ON_GROUP_ID,
+                groupTable.CREATED_AT,
+                groupTable.CREATED_BY
             )
             .values(
-                stack.companyId(),
-                stack.parentId(),
-                stack.typeId(),
-                stack.name(),
-                stack.membersOnStackId(),
-                stack.createdAt(),
-                stack.createdBy()
+                group.companyId(),
+                group.parentId(),
+                group.typeId(),
+                group.name(),
+                group.membersOnGroupId(),
+                group.createdAt(),
+                group.createdBy()
             )
             .execute();
     }
 
-    public List<RecursiveStackRecord> recursiveSearch(long companyId)
+    public List<RecursiveGroupRecord> recursiveSearch(long companyId)
     {
         return createQueryBuilder()
             .resultQuery(
                 "WITH RECURSIVE rec(id, name, parent_id, depth, path) AS ("
-                    + "     SELECT S.id, S.name, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM stack AS S WHERE S.company_id = {0} AND parent_id IS NULL"
+                    + "     SELECT S.id, S.name, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id = {0} AND parent_id IS NULL"
                     + "     UNION ALL"
-                    + "     SELECT SR.id, SR.name, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) FROM rec AS R, stack AS SR WHERE SR.parent_id = R.id"
+                    + "     SELECT SR.id, SR.name, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
                     + " )"
                     + " SELECT * FROM rec;",
                 val(companyId)
             )
             .fetch()
-            .into(RecursiveStackRecord.class);
+            .into(RecursiveGroupRecord.class);
     }
 
     public Map<Long, Integer> countStacks(List<Long> companyIds)
@@ -72,14 +72,14 @@ public class StackRepository extends AbstractRepository
     private Map<Long, Integer> countTeamsOrStacks(List<Long> companyIds, TypeEnum type)
     {
         Map<Long, Integer> result = createQueryBuilder()
-            .select(stackTable.COMPANY_ID, count())
-            .from(stackTable)
+            .select(groupTable.COMPANY_ID, count())
+            .from(groupTable)
             .where(
-                stackTable.COMPANY_ID.in(companyIds)
-                    .and(stackTable.TYPE_ID.eq(type.getValue()))
+                groupTable.COMPANY_ID.in(companyIds)
+                    .and(groupTable.TYPE_ID.eq(type.getValue()))
             )
-            .groupBy(stackTable.COMPANY_ID)
-            .fetchMap(stackTable.COMPANY_ID, count());
+            .groupBy(groupTable.COMPANY_ID)
+            .fetchMap(groupTable.COMPANY_ID, count());
 
         return Collections.unmodifiableMap(result);
     }

@@ -25,7 +25,7 @@ public class Sequences {
     public static final Sequence<Long> COMPANY_ID_SEQ = Internal.createSequence("company_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
 
     /**
-     * The sequence <code>public.stack_id_seq</code>
+     * The sequence <code>public.group_id_seq</code>
      */
-    public static final Sequence<Long> STACK_ID_SEQ = Internal.createSequence("stack_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Long> GROUP_ID_SEQ = Internal.createSequence("group_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
 }
