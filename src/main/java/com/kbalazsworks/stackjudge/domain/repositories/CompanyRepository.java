@@ -2,7 +2,6 @@ package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,9 +43,16 @@ public class CompanyRepository extends AbstractRepository
             .getValue(companyTable.ID);
     }
 
-    public List<Company> search()
+    public List<Company> search(long seekId, int limit)
     {
-        return createQueryBuilder().selectFrom(companyTable).fetch().into(Company.class);
+
+        return createQueryBuilder()
+            .selectFrom(companyTable)
+            .orderBy(companyTable.ID.asc())
+            .seek(seekId)
+            .limit(limit)
+            .fetch()
+            .into(Company.class);
     }
 
     public Company get(long companyId) throws RepositoryNotFoundException

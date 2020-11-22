@@ -50,14 +50,15 @@ public class CompanyService
         return companyRepository.get(companyId);
     }
 
-    public List<Company> search(int page, int limit)
+    public List<Company> search(long seekId, int limit)
     {
-        return companyRepository.search();
+        return companyRepository.search(seekId, limit);
     }
 
-    public CompanySearchServiceResponse search(int page, int limit, List<Short> requestRelationIds)
+    // todo: mock test
+    public CompanySearchServiceResponse search(long seekId, int limit, List<Short> requestRelationIds)
     {
-        List<Company> companies = search(page, limit);
+        List<Company> companies = search(seekId, limit);
 
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
         if (requestRelationIds != null)

@@ -4,15 +4,15 @@ import com.kbalazsworks.stackjudge.api.enums.SearchLimitEnum;
 
 import java.util.List;
 
-public record SearchRequest(Integer page, Short limit, List<Short> requestRelationIds)
+public record SearchRequest(Integer seekId, Short limit, List<Short> requestRelationIds)
 {
-    public Integer page()
+    public Integer seekId()
     {
-        if (page == null) {
+        if (seekId == null) {
             return 0;
         }
 
-        return page;
+        return seekId;
     }
 
     public Short limit()

@@ -29,7 +29,7 @@ public class SearchAction
     throws Exception
     {
         CompanySearchServiceResponse response = companyService.search(
-            request.page(),
+            request.seekId(),
             request.limit(),
             request.requestRelationIds()
         );

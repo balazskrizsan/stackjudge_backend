@@ -74,6 +74,11 @@ public class AddressServiceTest extends AbstractIntegrationTest
             testedCompanyId,
             testedAddressId
         );
+        Address expectedAddress = provide_create_insertOneRecordToTheDbWithCompany_perfect(
+            repetitionInfo.getCurrentRepetition(),
+            testedCompanyId,
+            testedAddressId
+        );
 
         // Act
         addressService.create(testedAddress);
@@ -85,7 +90,7 @@ public class AddressServiceTest extends AbstractIntegrationTest
             .fetchOne();
         actualAddress.setId(testedAddressId);
 
-        assertEquals(actualAddress.into(Address.class), testedAddress);
+        assertEquals(expectedAddress, actualAddress.into(Address.class));
     }
 
     @Test
