@@ -1,5 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.fakes;
-
+package com.kbalazsworks.stackjudge.integration.domain.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 

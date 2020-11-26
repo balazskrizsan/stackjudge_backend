@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateTest extends AbstractTest
+public class PaginatorServiceGenerateTest extends AbstractTest
 {
     @Autowired
     private PaginatorService paginatorService;
