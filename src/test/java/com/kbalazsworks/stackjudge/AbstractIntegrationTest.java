@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain;
+package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.db.tables.*;
 import com.kbalazsworks.stackjudge.domain.services.JooqService;

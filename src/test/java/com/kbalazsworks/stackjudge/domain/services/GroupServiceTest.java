@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
-import com.kbalazsworks.stackjudge.domain.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.fakes.GroupFakeBuilder;
 import org.junit.Assert;

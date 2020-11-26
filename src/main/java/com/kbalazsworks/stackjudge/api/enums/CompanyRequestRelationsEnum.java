@@ -8,7 +8,8 @@ public enum CompanyRequestRelationsEnum
 {
     STATISTIC((short) 1),
     STACK((short) 2),
-    REVIEW((short) 3);
+    REVIEW((short) 3),
+    PAGINATOR((short) 4);
 
     final private        Short                                   value;
     private static final Map<Short, CompanyRequestRelationsEnum> ENUM_MAP;

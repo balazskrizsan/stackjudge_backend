@@ -3,13 +3,16 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
+import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +22,9 @@ import java.util.stream.Collectors;
 public class CompanyService
 {
     private CompanyRepository companyRepository;
-    private AddressService addressService;
-    private GroupService   groupService;
+    private AddressService    addressService;
+    private GroupService      groupService;
+    private PaginatorService  paginatorService;
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository)
@@ -38,6 +42,12 @@ public class CompanyService
     public void setStackService(GroupService groupService)
     {
         this.groupService = groupService;
+    }
+
+    @Autowired
+    public void setPaginatorService(PaginatorService paginatorService)
+    {
+        this.paginatorService = paginatorService;
     }
 
     public void delete(long companyId)
@@ -61,6 +71,7 @@ public class CompanyService
         List<Company> companies = search(seekId, limit);
 
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
+        List<PaginatorItem>         paginator         = new ArrayList<>();
         if (requestRelationIds != null)
         {
             List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
@@ -69,9 +80,13 @@ public class CompanyService
             {
                 companyStatistics = getStatistic(companyIds);
             }
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
+            {
+                paginator = paginatorService.generate(10L, 100, (short) 5);
+            }
         }
 
-        return new CompanySearchServiceResponse(companies, companyStatistics);
+        return new CompanySearchServiceResponse(companies, paginator, companyStatistics);
     }
 
     // todo: mock test

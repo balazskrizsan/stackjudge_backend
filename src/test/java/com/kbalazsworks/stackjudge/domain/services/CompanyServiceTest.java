@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
-import com.kbalazsworks.stackjudge.domain.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.fakes.AddressFakeBuilder;
@@ -190,11 +190,7 @@ public class CompanyServiceTest extends AbstractIntegrationTest
             );
         }
 
-        if (iteration == 4)
-        {
-            testedSeekId = 0;
-            testedLimit  = 0;
-        }
+        // iteration == 4 - with default vaules
 
         return new provideFor_search_findAllRecords_perfect_data(expectedList, testedSeekId, testedLimit);
     }

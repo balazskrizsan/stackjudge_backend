@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain;
+package com.kbalazsworks.stackjudge;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
