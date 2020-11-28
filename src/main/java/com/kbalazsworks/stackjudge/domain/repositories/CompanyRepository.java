@@ -62,10 +62,28 @@ public class CompanyRepository extends AbstractRepository
             .where(companyTable.ID.eq(companyId))
             .fetchOneInto(Company.class);
 
-        if (company == null) {
+        if (company == null)
+        {
             throw new RepositoryNotFoundException();
         }
 
         return company;
+    }
+
+    public long countRecords()
+    {
+        return createQueryBuilder()
+            .selectCount()
+            .from(companyTable)
+            .fetchOneInto(Long.class);
+    }
+
+    public long countRecordsBeforeId(long seekId)
+    {
+        return createQueryBuilder()
+            .selectCount()
+            .from(companyTable)
+            .where(companyTable.ID.lessThan(seekId))
+            .fetchOneInto(Long.class);
     }
 }

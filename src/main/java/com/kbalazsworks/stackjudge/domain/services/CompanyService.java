@@ -82,11 +82,27 @@ public class CompanyService
             }
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
             {
-                paginator = paginatorService.generate(10L, 100, (short) 5);
+                paginator = paginatorService.generate(
+                    countRecordsBeforeId(seekId),
+                    countRecords(),
+                    limit
+                );
             }
         }
 
         return new CompanySearchServiceResponse(companies, paginator, companyStatistics);
+    }
+
+    //@todo: test
+    public long countRecords()
+    {
+        return companyRepository.countRecords();
+    }
+
+    //@todo: test
+    public long countRecordsBeforeId(long seekId)
+    {
+        return companyRepository.countRecordsBeforeId(seekId);
     }
 
     // todo: mock test
