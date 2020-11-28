@@ -1,12 +1,16 @@
 package com.kbalazsworks.stackjudge.domain.enums.paginator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public enum ItemTypeEnum
 {
+    @JsonProperty("1")
     PAGE((short) 1),
+    @JsonProperty("2")
     SPACER((short) 2);
 
     final private        Short                    value;
