@@ -10,10 +10,11 @@ import java.util.List;
 @Service
 public class PaginatorService
 {
-    public List<PaginatorItem> generate(long elementsBeforeSeekId, long numRows, short limit)
+    public List<PaginatorItem> generate(long elementsBeforeSeekId, long itemCount, int limit)
     {
+        elementsBeforeSeekId++;
         long currentPage = (long) Math.ceil((double) elementsBeforeSeekId / limit);
-        long pages       = (long) Math.ceil((double) numRows / limit);
+        long pages       = (long) Math.ceil((double) itemCount / limit);
 
         List<PaginatorItem> paginatorItems = new ArrayList<>();
         boolean             placerInserted = false;

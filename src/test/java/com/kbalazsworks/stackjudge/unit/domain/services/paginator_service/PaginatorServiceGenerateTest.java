@@ -37,14 +37,14 @@ public class PaginatorServiceGenerateTest extends AbstractTest
     {
         if (repetition == 1)
         {
-            return new TestData(1, 1, (short) 10, new ArrayList<>()
+            return new TestData(0, 1, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", true));
             }});
         }
         if (repetition == 2)
         {
-            return new TestData(5, 10, (short) 10, new ArrayList<>()
+            return new TestData(4, 10, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", true));
             }});
@@ -52,7 +52,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 3)
         {
-            return new TestData(15, 20, (short) 10, new ArrayList<>()
+            return new TestData(14, 20, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -61,7 +61,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 4)
         {
-            return new TestData(5, 20, (short) 10, new ArrayList<>()
+            return new TestData(4, 20, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", true));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", false));
@@ -70,7 +70,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 5)
         {
-            return new TestData(15, 30, (short) 10, new ArrayList<>()
+            return new TestData(14, 30, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -80,7 +80,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 6)
         {
-            return new TestData(15, 40, (short) 10, new ArrayList<>()
+            return new TestData(14, 40, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -91,7 +91,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 7)
         {
-            return new TestData(15, 50, (short) 10, new ArrayList<>()
+            return new TestData(14, 50, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -103,7 +103,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 8)
         {
-            return new TestData(15, 60, (short) 10, new ArrayList<>()
+            return new TestData(14, 60, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -116,7 +116,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 9)
         {
-            return new TestData(15, 70, (short) 10, new ArrayList<>()
+            return new TestData(14, 70, (short) 10, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", true));
@@ -130,7 +130,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
 
         if (repetition == 10)
         {
-            return new TestData(50, 200, (short) 5, new ArrayList<>()
+            return new TestData(49, 200, (short) 5, new ArrayList<>()
             {{
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "1", false));
                 add(new PaginatorItem(ItemTypeEnum.PAGE, "2", false));
