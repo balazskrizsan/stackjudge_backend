@@ -78,12 +78,12 @@ public class CompanyRepository extends AbstractRepository
             .fetchOneInto(Long.class);
     }
 
-    public long countRecordsBeforeId(long seekId)
+    public long countRecordsBeforeId(long id)
     {
         return createQueryBuilder()
             .selectCount()
             .from(companyTable)
-            .where(companyTable.ID.lessThan(seekId))
+            .where(companyTable.ID.lessThan(id))
             .fetchOneInto(Long.class);
     }
 }
