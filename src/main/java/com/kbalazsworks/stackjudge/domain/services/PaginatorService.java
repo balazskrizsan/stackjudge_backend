@@ -12,8 +12,8 @@ public class PaginatorService
 {
     public List<PaginatorItem> generate(long elementsBeforeSeekId, long itemCount, int limit)
     {
-        elementsBeforeSeekId++;
-        long currentPage = (long) Math.ceil((double) elementsBeforeSeekId / limit);
+        long elementsBeforeSeekIdWithSeekId = elementsBeforeSeekId + 1;
+        long currentPage = (long) Math.ceil((double) elementsBeforeSeekIdWithSeekId / limit);
         long pages       = (long) Math.ceil((double) itemCount / limit);
 
         List<PaginatorItem> paginatorItems = new ArrayList<>();
