@@ -3,7 +3,6 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
@@ -72,6 +71,7 @@ public class CompanyService
 
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
         List<PaginatorItem>         paginator         = new ArrayList<>();
+        Long                        newSeekId         = null;
         if (requestRelationIds != null)
         {
             List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
@@ -87,10 +87,11 @@ public class CompanyService
                     countRecords(),
                     limit
                 );
+                newSeekId = companies.get(0).id();
             }
         }
 
-        return new CompanySearchServiceResponse(companies, paginator, companyStatistics);
+        return new CompanySearchServiceResponse(companies, paginator, newSeekId, companyStatistics);
     }
 
     //@todo: test

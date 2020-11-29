@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,11 @@ public class PaginatorService
 
         for (int i = 1; i <= pages; i++)
         {
-            if (isVisiblePageNumber(i, currentPage, pages))
+            NavigationEnum page = getPageEnum(i, currentPage, pages);
+            if (page != null)
             {
                 placerInserted = false;
-                paginatorItems.add(new PaginatorItem(ItemTypeEnum.PAGE, String.valueOf(i), currentPage == i));
+                paginatorItems.add(new PaginatorItem(ItemTypeEnum.PAGE, String.valueOf(i), page, currentPage == i));
 
                 continue;
             }
@@ -32,19 +34,51 @@ public class PaginatorService
             if (!placerInserted)
             {
                 placerInserted = true;
-                paginatorItems.add(new PaginatorItem(ItemTypeEnum.SPACER, "", currentPage == i));
+                paginatorItems.add(new PaginatorItem(ItemTypeEnum.SPACER, "", null, currentPage == i));
             }
         }
 
         return paginatorItems;
     }
 
-    private boolean isVisiblePageNumber(int iteratedPage, long currentPage, long pages)
+    private NavigationEnum getPageEnum(int iteratedPage, long currentPage, long pages)
     {
-        return iteratedPage == 1 || iteratedPage == 2
-            || iteratedPage == currentPage - 2 || iteratedPage == currentPage - 1
-            || iteratedPage == currentPage
-            || iteratedPage == currentPage + 2 || iteratedPage == currentPage + 1
-            || iteratedPage == pages || iteratedPage == pages - 1;
+        if (iteratedPage == 1) {
+            return NavigationEnum.FIRST;
+        }
+
+        if (iteratedPage == 2) {
+            return NavigationEnum.SECOND;
+        }
+
+        if (iteratedPage == currentPage - 2) {
+            return NavigationEnum.CURRENT_MINUS_2;
+        }
+
+        if (iteratedPage == currentPage - 1) {
+            return NavigationEnum.CURRENT_MINUS_1;
+        }
+
+        if (iteratedPage == currentPage) {
+            return NavigationEnum.CURRENT;
+        }
+
+        if (iteratedPage == currentPage + 1) {
+            return NavigationEnum.CURRENT_PLUS_1;
+        }
+
+        if (iteratedPage == currentPage + 2) {
+            return NavigationEnum.CURRENT_PLUS_2;
+        }
+
+        if (iteratedPage == pages - 1) {
+            return NavigationEnum.LAST_MINUS_1;
+        }
+
+        if (iteratedPage == pages) {
+            return NavigationEnum.LAST;
+        }
+
+        return null;
     }
 }

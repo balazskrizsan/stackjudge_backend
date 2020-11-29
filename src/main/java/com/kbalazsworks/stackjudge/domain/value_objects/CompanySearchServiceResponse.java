@@ -9,6 +9,7 @@ import java.util.Map;
 public record CompanySearchServiceResponse(
     @JsonProperty List<Company> companies,
     @JsonProperty List<PaginatorItem> paginator,
+    @JsonProperty Long newSeekId,
     @JsonProperty Map<Long, CompanyStatistic> companyStatistics
 )
 {
