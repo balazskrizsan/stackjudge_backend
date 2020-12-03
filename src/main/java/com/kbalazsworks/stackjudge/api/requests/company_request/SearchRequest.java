@@ -4,11 +4,12 @@ import com.kbalazsworks.stackjudge.api.enums.SearchLimitEnum;
 
 import java.util.List;
 
-public record SearchRequest(Integer seekId, Short limit, List<Short> requestRelationIds)
+public record SearchRequest(Integer seekId, Short limit, List<Short> requestRelationIds, Short navigationId)
 {
     public Integer seekId()
     {
-        if (seekId == null) {
+        if (seekId == null)
+        {
             return 0;
         }
 
@@ -19,7 +20,7 @@ public record SearchRequest(Integer seekId, Short limit, List<Short> requestRela
     {
         if (SearchLimitEnum.getByValue(limit) == null)
         {
-            return  SearchLimitEnum.DEFAULT.getValue();
+            return SearchLimitEnum.DEFAULT.getValue();
         }
 
         return limit;

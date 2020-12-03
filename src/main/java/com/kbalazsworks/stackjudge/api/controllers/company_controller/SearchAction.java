@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.api.controllers.company_controller;
 import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import com.kbalazsworks.stackjudge.api.requests.company_request.SearchRequest;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class SearchAction
         CompanySearchServiceResponse response = companyService.search(
             request.seekId(),
             request.limit(),
-            request.requestRelationIds()
+            request.requestRelationIds(),
+            NavigationEnum.getByValue(request.navigationId())
         );
 
         ResponseEntityBuilder<CompanySearchServiceResponse> responseEntityBuilder = new ResponseEntityBuilder<>();

@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
 import org.junit.Assert;
@@ -32,7 +33,11 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         Assert.assertTrue(true);
     }
 
-    private record TestData(List<Company> expectedList, long testedSeekId, int testedLimit)
+    private record TestData(
+        List<Company> expectedList,
+        long testedSeekId,
+        int testedLimit,
+        NavigationEnum testedNavigation)
     {
     }
 
@@ -41,68 +46,63 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         List<Company> expectedList = new ArrayList<>()
         {
         };
-        long testedSeekId = 0;
-        int  testedLimit  = 0;
+
+        long           testedSeekId = 0;
+        int            testedLimit  = 0;
+        NavigationEnum navigation   = null;
 
         if (iteration == 1)
         {
-            testedLimit = 10;
+            testedSeekId = 1;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.FIRST;
 
             expectedList.add(
                 new CompanyFakeBuilder()
                     .setId(164985367L)
                     .setName("a company 1")
                     .setCompanySizeId((short) 1)
-                    .setItSizeId((short) 2)
-                    .setCreatedAt(LocalDateTime.of(2021, 1, 2, 1, 2, 3))
-                    .setCreatedBy(111L)
+                    .setItSizeId((short) 1)
+                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
+                    .setCreatedBy(1L)
                     .build()
             );
             expectedList.add(
                 new CompanyFakeBuilder()
                     .setId(245678965L)
                     .setName("a company 2")
-                    .setCompanySizeId((short) 3)
-                    .setItSizeId((short) 4)
-                    .setCreatedAt(LocalDateTime.of(2022, 3, 4, 4, 5, 6))
-                    .setCreatedBy(222L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(854621354L)
-                    .setName("a company 3")
-                    .setCompanySizeId((short) 5)
-                    .setItSizeId((short) 6)
-                    .setCreatedAt(LocalDateTime.of(2023, 5, 6, 7, 8, 9))
-                    .setCreatedBy(333L)
+                    .setCompanySizeId((short) 2)
+                    .setItSizeId((short) 2)
+                    .setCreatedAt(LocalDateTime.of(2022, 1, 1, 0, 0, 0))
+                    .setCreatedBy(2L)
                     .build()
             );
         }
 
         if (iteration == 2)
         {
-            testedSeekId = 245678964;
-            testedLimit  = 10;
+            testedSeekId = 1;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.SECOND;
 
             expectedList.add(
                 new CompanyFakeBuilder()
-                    .setId(245678965L)
-                    .setName("a company 2")
+                    .setId(346542314L)
+                    .setName("a company 3")
                     .setCompanySizeId((short) 3)
-                    .setItSizeId((short) 4)
-                    .setCreatedAt(LocalDateTime.of(2022, 3, 4, 4, 5, 6))
-                    .setCreatedBy(222L)
+                    .setItSizeId((short) 3)
+                    .setCreatedAt(LocalDateTime.of(2023, 1, 1, 0, 0, 0))
+                    .setCreatedBy(3L)
                     .build()
             );
             expectedList.add(
                 new CompanyFakeBuilder()
-                    .setId(854621354L)
-                    .setName("a company 3")
-                    .setCompanySizeId((short) 5)
-                    .setItSizeId((short) 6)
-                    .setCreatedAt(LocalDateTime.of(2023, 5, 6, 7, 8, 9))
-                    .setCreatedBy(333L)
+                    .setId(423165498L)
+                    .setName("a company 4")
+                    .setCompanySizeId((short) 4)
+                    .setItSizeId((short) 4)
+                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
+                    .setCreatedBy(4L)
                     .build()
             );
         }
@@ -110,32 +110,132 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         if (iteration == 3)
         {
             testedSeekId = 1;
-            testedLimit  = 1;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.LAST_MINUS_1;
 
             expectedList.add(
                 new CompanyFakeBuilder()
-                    .setId(164985367L)
-                    .setName("a company 1")
-                    .setCompanySizeId((short) 1)
-                    .setItSizeId((short) 2)
-                    .setCreatedAt(LocalDateTime.of(2021, 1, 2, 1, 2, 3))
-                    .setCreatedBy(111L)
+                    .setId(733200321L)
+                    .setName("a company 7")
+                    .setCompanySizeId((short) 7)
+                    .setItSizeId((short) 7)
+                    .setCreatedAt(LocalDateTime.of(2027, 1, 1, 0, 0, 0))
+                    .setCreatedBy(7L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(821356546L)
+                    .setName("a company 8")
+                    .setCompanySizeId((short) 8)
+                    .setItSizeId((short) 8)
+                    .setCreatedAt(LocalDateTime.of(2028, 1, 1, 0, 0, 0))
+                    .setCreatedBy(8L)
                     .build()
             );
         }
 
-        // iteration == 4 - with default vaules
+        if (iteration == 4)
+        {
+            testedSeekId = 1;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.LAST;
 
-        return new TestData(expectedList, testedSeekId, testedLimit);
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(922316542L)
+                    .setName("a company 9")
+                    .setCompanySizeId((short) 9)
+                    .setItSizeId((short) 9)
+                    .setCreatedAt(LocalDateTime.of(2029, 1, 1, 0, 0, 0))
+                    .setCreatedBy(9L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(992354656L)
+                    .setName("a company 10")
+                    .setCompanySizeId((short) 10)
+                    .setItSizeId((short) 10)
+                    .setCreatedAt(LocalDateTime.of(2030, 1, 1, 0, 0, 0))
+                    .setCreatedBy(10L)
+                    .build()
+            );
+        }
+
+        if (iteration == 5)
+        {
+            testedSeekId = 423165498;
+            testedLimit  = 2;
+
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(423165498L)
+                    .setName("a company 4")
+                    .setCompanySizeId((short) 4)
+                    .setItSizeId((short) 4)
+                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
+                    .setCreatedBy(4L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(565432165L)
+                    .setName("a company 5")
+                    .setCompanySizeId((short) 5)
+                    .setItSizeId((short) 5)
+                    .setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0, 0))
+                    .setCreatedBy(5L)
+                    .build()
+            );
+        }
+
+        // missing functionality and tests:
+        // N-2
+        // N-1
+        // N+2
+
+        if (iteration == 6)
+        {
+            testedSeekId = 565432165;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.CURRENT_PLUS_1;
+
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(733200321L)
+                    .setName("a company 7")
+                    .setCompanySizeId((short) 7)
+                    .setItSizeId((short) 7)
+                    .setCreatedAt(LocalDateTime.of(2027, 1, 1, 0, 0, 0))
+                    .setCreatedBy(7L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(821356546L)
+                    .setName("a company 8")
+                    .setCompanySizeId((short) 8)
+                    .setItSizeId((short) 8)
+                    .setCreatedAt(LocalDateTime.of(2028, 1, 1, 0, 0, 0))
+                    .setCreatedBy(8L)
+                    .build()
+            );
+        }
+
+        return new TestData(expectedList, testedSeekId, testedLimit, navigation);
     }
 
-    @RepeatedTest(value = 4, name = RepeatedTest.LONG_DISPLAY_NAME)
+    @RepeatedTest(value = 6, name = RepeatedTest.LONG_DISPLAY_NAME)
     @SqlGroup(
         {
             @Sql(
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_3_companies.sql"}
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                    "classpath:test/sqls/preset_add_10_companies.sql"
+                }
             ),
             @Sql(
                 executionPhase = AFTER_TEST_METHOD,
@@ -144,15 +244,19 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             )
         }
     )
-    public void findAllRecords_perfect(RepetitionInfo repetitionInfo)
+    public void pagingTest_returnCheckByProvider(RepetitionInfo repetitionInfo)
     {
-        // Arrange - In preset
-        TestData providerData = provider(repetitionInfo.getCurrentRepetition());
+        // Arrange
+        TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        List<Company> companyList = companyService.search(providerData.testedSeekId(), providerData.testedLimit());
+        List<Company> actualList = companyService.search(
+            testData.testedSeekId,
+            testData.testedLimit,
+            testData.testedNavigation
+        );
 
         // Assert
-        Assert.assertEquals(providerData.expectedList(), companyList);
+        Assert.assertEquals(testData.expectedList, actualList);
     }
 }

@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
@@ -59,15 +60,30 @@ public class CompanyService
         return companyRepository.get(companyId);
     }
 
-    public List<Company> search(long seekId, int limit)
+    public List<Company> search(long seekId, int limit, NavigationEnum navigation)
     {
-        return companyRepository.search(seekId, limit);
+        if (navigation == null)
+        {
+            return companyRepository.search(seekId, limit);
+        }
+        return switch (navigation)
+            {
+                case FIRST -> companyRepository.search(0, limit);
+                case LAST_MINUS_1, LAST, SECOND -> companyRepository.search(navigation, limit);
+                case CURRENT_PLUS_1 -> companyRepository.search(seekId, navigation, limit);
+                default -> companyRepository.search(seekId, limit);
+            };
     }
 
     // todo: mock test
-    public CompanySearchServiceResponse search(long seekId, int limit, List<Short> requestRelationIds)
+    public CompanySearchServiceResponse search(
+        long seekId,
+        int limit,
+        List<Short> requestRelationIds,
+        NavigationEnum navigation
+    )
     {
-        List<Company> companies = search(seekId, limit);
+        List<Company> companies = search(seekId, limit, navigation);
 
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
         List<PaginatorItem>         paginator         = new ArrayList<>();
