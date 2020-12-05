@@ -8,7 +8,7 @@ public record PaginatorItem(
     @JsonProperty ItemTypeEnum typeId,
     @JsonProperty String pageNumber,
     @JsonProperty NavigationEnum navigation,
-    @JsonProperty boolean isActive
+    @JsonProperty boolean active
 )
 {
 }
