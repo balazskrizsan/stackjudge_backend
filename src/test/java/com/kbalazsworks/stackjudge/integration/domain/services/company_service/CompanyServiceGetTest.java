@@ -4,13 +4,13 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -50,6 +50,6 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
             .where(companyTable.ID.eq(testedCompanyId))
             .fetchOneInto(Company.class);
 
-        Assert.assertEquals(company, expectedCompany);
+        assertThat(company).isEqualTo(expectedCompany);
     }
 }

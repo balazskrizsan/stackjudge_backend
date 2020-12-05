@@ -5,7 +5,6 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -31,7 +30,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
     @Test
     public void vintageHack()
     {
-        Assert.assertTrue(true);
+        assertThat(true).isTrue();
     }
 
     private record TestData(
@@ -339,7 +338,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
 
         // Assert
         String assertMessage = "Error with navigation: ".concat(
-            (testedNavigation == null)? "NULL" : testedNavigation.toString()
+            (testedNavigation == null) ? "NULL" : testedNavigation.toString()
         );
         assertThat(testData.expectedList).as(assertMessage).isEqualTo(actualList);
     }

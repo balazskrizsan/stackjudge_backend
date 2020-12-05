@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class PaginatorServiceGenerateTest extends AbstractTest
 {
     @Autowired
@@ -164,6 +166,6 @@ public class PaginatorServiceGenerateTest extends AbstractTest
         );
 
         // Assert
-        Assert.assertEquals(testData.expectedList(), actualList);
+        assertThat(testData.expectedList()).isEqualTo(actualList);
     }
 }

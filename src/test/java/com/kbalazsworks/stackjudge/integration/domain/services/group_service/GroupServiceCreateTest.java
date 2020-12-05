@@ -3,15 +3,15 @@ package com.kbalazsworks.stackjudge.integration.domain.services.group_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
-import com.kbalazsworks.stackjudge.integration.domain.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import org.junit.Assert;
+import com.kbalazsworks.stackjudge.integration.domain.fake_builders.GroupFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -50,6 +50,6 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
         GroupRecord actualGroup = getQueryBuilder().selectFrom(groupTable).fetchOne();
         actualGroup.setId(testedGroupId);
 
-        Assert.assertEquals(actualGroup.into(Group.class), expectedGroup);
+        assertThat(actualGroup.into(Group.class)).isEqualTo(expectedGroup);
     }
 }

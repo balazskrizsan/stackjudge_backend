@@ -8,13 +8,14 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -63,7 +64,9 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         actualAddress.setId(expectedAddressId);
         actualAddress.setCompanyId(expectedCompanyId);
 
-        Assert.assertEquals(actualCompany.into(Company.class), expectedCompany);
-        Assert.assertEquals(actualAddress.into(Address.class), expectedAddress);
+        assertAll(
+            () -> assertThat(actualCompany.into(Company.class)).isEqualTo(expectedCompany),
+            () -> assertThat(actualAddress.into(Address.class)).isEqualTo(expectedAddress)
+        );
     }
 }

@@ -6,7 +6,6 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.AddressFakeBuilder;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -15,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
@@ -102,9 +102,8 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
         Address testedAddress = new AddressFakeBuilder().build();
 
         // Act - Assert
-        Throwable exception = Assert.assertThrows(AddressException.class, () -> addressService.create(testedAddress));
-
-        // Assert
-        assertEquals("Missing company; id#222", exception.getMessage());
+        assertThatThrownBy(() -> addressService.create(testedAddress))
+            .isInstanceOf((AddressException.class))
+            .hasMessage("Missing company; id#222");
     }
 }
