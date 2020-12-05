@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -329,13 +330,17 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
+        NavigationEnum testedNavigation = testData.testedNavigation;
         List<Company> actualList = companyService.search(
             testData.testedSeekId,
             testData.testedLimit,
-            testData.testedNavigation
+            testedNavigation
         );
 
         // Assert
-        Assert.assertEquals(testData.expectedList, actualList);
+        String assertMessage = "Error with navigation: ".concat(
+            (testedNavigation == null)? "NULL" : testedNavigation.toString()
+        );
+        assertThat(testData.expectedList).as(assertMessage).isEqualTo(actualList);
     }
 }

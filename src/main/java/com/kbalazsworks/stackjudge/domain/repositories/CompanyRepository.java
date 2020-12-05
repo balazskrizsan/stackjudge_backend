@@ -4,9 +4,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
-import org.jooq.Field;
-import org.jooq.Record1;
-import org.jooq.Table;
+import org.jooq.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,6 +16,10 @@ public class CompanyRepository extends AbstractRepository
 {
     private final com.kbalazsworks.stackjudge.db.tables.Company companyTable
         = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY;
+
+    String innerCompanyAlias = "inner_company";
+    com.kbalazsworks.stackjudge.db.tables.Company
+           innerCompany      = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY.as(innerCompanyAlias);
 
     public void delete(long companyId)
     {
@@ -70,182 +72,112 @@ public class CompanyRepository extends AbstractRepository
             .fetchInto(Company.class);
     }
 
-    public List<Company> search(long seekId, NavigationEnum navigation, int limit)
-    {
-        String innerCompanyAlias = "inner_company";
-        com.kbalazsworks.stackjudge.db.tables.Company innerCompany
-            = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY.as(innerCompanyAlias);
-
-        if (navigation == NavigationEnum.CURRENT_PLUS_1)
-        {
-            return createQueryBuilder()
-                .selectFrom(companyTable)
-                .orderBy(companyTable.ID)
-                .seek(
-                    field(
-                        createQueryBuilder()
-                            .select(innerCompany.ID)
-                            .from(
-                                createQueryBuilder()
-                                    .select(companyTable.ID)
-                                    .from(companyTable)
-                                    .where(companyTable.ID.greaterThan(seekId))
-                                    .limit(limit - 1)
-                                    .asTable(innerCompanyAlias)
-                            )
-                            .orderBy(innerCompany.ID.desc())
-                            .limit(1)
-                    )
-                )
-                .limit(limit)
-                .fetchInto(Company.class);
-        }
-
-        if (navigation == NavigationEnum.CURRENT_PLUS_2)
-        {
-            return createQueryBuilder()
-                .selectFrom(companyTable)
-                .where(
-                    companyTable.ID.greaterOrEqual(
-                        field(
-                            createQueryBuilder()
-                                .select(innerCompany.ID)
-                                .from(
-                                    createQueryBuilder()
-                                        .select(companyTable.ID)
-                                        .from(companyTable)
-                                        .where(companyTable.ID.greaterThan(seekId))
-                                        .limit(limit * 2)
-                                        .asTable(innerCompanyAlias)
-                                )
-                                .orderBy(innerCompany.ID.desc())
-                                .limit(1)
-                        )
-                    )
-                )
-                .orderBy(companyTable.ID)
-                .limit(limit)
-                .fetchInto(Company.class);
-        }
-
-        if (navigation == NavigationEnum.CURRENT_MINUS_1)
-        {
-            return createQueryBuilder()
-                .selectFrom(companyTable)
-                .where(
-                    companyTable.ID.greaterOrEqual(
-                        field(
-                            createQueryBuilder()
-                                .select(innerCompany.ID)
-                                .from(
-                                    createQueryBuilder()
-                                        .select(companyTable.ID)
-                                        .from(companyTable)
-                                        .where(companyTable.ID.lessThan(seekId))
-                                        .orderBy(companyTable.ID.desc())
-                                        .limit(limit)
-                                        .asTable(innerCompanyAlias)
-                                )
-                                .orderBy(innerCompany.ID)
-                                .limit(1)
-                        )
-                    )
-                )
-                .orderBy(companyTable.ID)
-                .limit(limit)
-                .fetchInto(Company.class);
-        }
-
-        if (navigation == NavigationEnum.CURRENT_MINUS_2)
-        {
-            return createQueryBuilder()
-                .selectFrom(companyTable)
-                .where(
-                    companyTable.ID.greaterOrEqual(
-                        field(
-                            createQueryBuilder()
-                                .select(innerCompany.ID)
-                                .from(
-                                    createQueryBuilder()
-                                        .select(companyTable.ID)
-                                        .from(companyTable)
-                                        .where(companyTable.ID.lessThan(seekId))
-                                        .orderBy(companyTable.ID.desc())
-                                        .limit(limit * 2)
-                                        .asTable(innerCompanyAlias)
-                                )
-                                .orderBy(innerCompany.ID)
-                                .limit(1)
-                        )
-                    )
-                )
-                .orderBy(companyTable.ID)
-                .limit(limit)
-                .fetchInto(Company.class);
-        }
-
-        //@todo: test
-        throw new CompanyException("Seek sub query not found with enumId#".concat(navigation.getValue().toString()));
-    }
-
     private Field<Long> getSeekSubQueryForSeekId(int limit, NavigationEnum navigation)
     {
-        String innerCompanyAlias = "inner_company";
-        com.kbalazsworks.stackjudge.db.tables.Company innerCompany
-            = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY.as(innerCompanyAlias);
-
-        if (NavigationEnum.SECOND == navigation)
+        Table<Record1<Long>> subQuery;
+        SortField<Long>      order;
+        switch (navigation)
         {
-            Table<Record1<Long>> selectAllUntilTheFirstElementOnSecondPage =
-                createQueryBuilder().select(companyTable.ID).from(companyTable).limit(limit).asTable(innerCompanyAlias);
+            case SECOND -> {
+                subQuery = createQueryBuilder()
+                    .select(companyTable.ID)
+                    .from(companyTable)
+                    .limit(limit)
+                    .asTable(innerCompanyAlias);
+                order = innerCompany.ID.desc();
+            }
+            case LAST_MINUS_1 -> {
+                subQuery = createQueryBuilder()
+                    .select(companyTable.ID)
+                    .from(companyTable)
+                    .orderBy(companyTable.ID.desc())
+                    .limit((limit * 2) + 1)
+                    .asTable(innerCompanyAlias);
+                order    = innerCompany.ID.asc();
+            }
+            case LAST -> {
+                subQuery = createQueryBuilder()
+                    .select(companyTable.ID)
+                    .from(companyTable)
+                    .orderBy(companyTable.ID.desc())
+                    .limit(limit + 1)
+                    .asTable(innerCompanyAlias);
+                order    = innerCompany.ID.asc();
+            }
+            default -> throw new CompanyException(
+                "Seek sub query not found with enumId#".concat(navigation.getValue().toString())
+            );
+        }
 
-            return field(
+        return field(
+            createQueryBuilder()
+                .select(innerCompany.ID)
+                .from(subQuery)
+                .orderBy(order)
+                .limit(1)
+        );
+    }
+
+    public List<Company> search(long seekId, NavigationEnum navigation, int limit)
+    {
+        Condition where = switch (navigation)
+            {
+                case CURRENT_PLUS_1 -> searchCurrentPlusWhereLogic(seekId, limit);
+                case CURRENT_MINUS_1 -> searchCurrentMinusWhereLogic(seekId, limit);
+                case CURRENT_PLUS_2 -> searchCurrentPlusWhereLogic(seekId, limit * 2);
+                case CURRENT_MINUS_2 -> searchCurrentMinusWhereLogic(seekId, limit * 2);
+                default -> throw new CompanyException(
+                    "Seek sub query not found with enumId#".concat(navigation.getValue().toString())
+                );
+            };
+
+        return createQueryBuilder()
+            .selectFrom(companyTable)
+            .where(where)
+            .orderBy(companyTable.ID)
+            .limit(limit)
+            .fetchInto(Company.class);
+    }
+
+    public Condition searchCurrentPlusWhereLogic(long seekId, int limit)
+    {
+        return companyTable.ID.greaterOrEqual(
+            field(
                 createQueryBuilder()
                     .select(innerCompany.ID)
-                    .from(selectAllUntilTheFirstElementOnSecondPage)
+                    .from(
+                        createQueryBuilder()
+                            .select(companyTable.ID)
+                            .from(companyTable)
+                            .where(companyTable.ID.greaterThan(seekId))
+                            .limit(limit)
+                            .asTable(innerCompanyAlias)
+                    )
                     .orderBy(innerCompany.ID.desc())
                     .limit(1)
-            );
-        }
+            )
+        );
+    }
 
-        if (NavigationEnum.LAST_MINUS_1 == navigation)
-        {
-            Table<Record1<Long>> selectLastPageItemsInDesc = createQueryBuilder()
-                .select(companyTable.ID)
-                .from(companyTable)
-                .orderBy(companyTable.ID.desc())
-                .limit((limit * 2) + 1)
-                .asTable(innerCompanyAlias);
-
-            return field(
+    private Condition searchCurrentMinusWhereLogic(long seekId, int limit)
+    {
+        return companyTable.ID.greaterOrEqual(
+            field(
                 createQueryBuilder()
                     .select(innerCompany.ID)
-                    .from(selectLastPageItemsInDesc)
+                    .from(
+                        createQueryBuilder()
+                            .select(companyTable.ID)
+                            .from(companyTable)
+                            .where(companyTable.ID.lessThan(seekId))
+                            .orderBy(companyTable.ID.desc())
+                            .limit(limit)
+                            .asTable(innerCompanyAlias)
+                    )
                     .orderBy(innerCompany.ID)
                     .limit(1)
-            );
-        }
-
-        if (NavigationEnum.LAST == navigation)
-        {
-            Table<Record1<Long>> selectLastPageItemsInDesc = createQueryBuilder()
-                .select(companyTable.ID)
-                .from(companyTable)
-                .orderBy(companyTable.ID.desc())
-                .limit(limit + 1)
-                .asTable(innerCompanyAlias);
-
-            return field(
-                createQueryBuilder()
-                    .select(innerCompany.ID)
-                    .from(selectLastPageItemsInDesc)
-                    .orderBy(innerCompany.ID)
-                    .limit(1)
-            );
-        }
-
-        //@todo: test
-        throw new CompanyException("Seek sub query not found with enumId#".concat(navigation.getValue().toString()));
+            )
+        );
     }
 
     public Company get(long companyId) throws RepositoryNotFoundException
