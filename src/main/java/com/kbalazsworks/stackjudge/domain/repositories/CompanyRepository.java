@@ -56,8 +56,8 @@ public class CompanyRepository extends AbstractRepository
     {
         return createQueryBuilder()
             .selectFrom(companyTable)
+            .where(companyTable.ID.greaterOrEqual(seekId))
             .orderBy(companyTable.ID)
-            .seek(seekId - 1)
             .limit(limit)
             .fetchInto(Company.class);
     }
@@ -66,8 +66,8 @@ public class CompanyRepository extends AbstractRepository
     {
         return createQueryBuilder()
             .selectFrom(companyTable)
+            .where(companyTable.ID.greaterOrEqual(getSeekSubQueryForSeekId(limit, navigation)))
             .orderBy(companyTable.ID)
-            .seek(getSeekSubQueryForSeekId(limit, navigation))
             .limit(limit)
             .fetchInto(Company.class);
     }
@@ -82,16 +82,16 @@ public class CompanyRepository extends AbstractRepository
                 subQuery = createQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
-                    .limit(limit)
+                    .limit(limit + 1)
                     .asTable(innerCompanyAlias);
-                order = innerCompany.ID.desc();
+                order    = innerCompany.ID.desc();
             }
             case LAST_MINUS_1 -> {
                 subQuery = createQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
                     .orderBy(companyTable.ID.desc())
-                    .limit((limit * 2) + 1)
+                    .limit(limit * 2)
                     .asTable(innerCompanyAlias);
                 order    = innerCompany.ID.asc();
             }
@@ -100,7 +100,7 @@ public class CompanyRepository extends AbstractRepository
                     .select(companyTable.ID)
                     .from(companyTable)
                     .orderBy(companyTable.ID.desc())
-                    .limit(limit + 1)
+                    .limit(limit)
                     .asTable(innerCompanyAlias);
                 order    = innerCompany.ID.asc();
             }
