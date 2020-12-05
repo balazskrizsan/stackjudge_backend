@@ -70,7 +70,11 @@ public class CompanyService
             {
                 case FIRST -> companyRepository.search(0, limit);
                 case LAST_MINUS_1, LAST, SECOND -> companyRepository.search(navigation, limit);
-                case CURRENT_PLUS_1 -> companyRepository.search(seekId, navigation, limit);
+                case CURRENT_PLUS_1, CURRENT_PLUS_2, CURRENT_MINUS_1, CURRENT_MINUS_2 -> companyRepository.search(
+                    seekId,
+                    navigation,
+                    limit
+                );
                 default -> companyRepository.search(seekId, limit);
             };
     }

@@ -190,11 +190,6 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             );
         }
 
-        // missing functionality and tests:
-        // N-2
-        // N-1
-        // N+2
-
         if (iteration == 6)
         {
             testedSeekId = 565432165;
@@ -223,10 +218,94 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             );
         }
 
+        if (iteration == 7)
+        {
+            testedSeekId = 565432165;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.CURRENT_PLUS_2;
+
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(922316542L)
+                    .setName("a company 9")
+                    .setCompanySizeId((short) 9)
+                    .setItSizeId((short) 9)
+                    .setCreatedAt(LocalDateTime.of(2029, 1, 1, 0, 0, 0))
+                    .setCreatedBy(9L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(992354656L)
+                    .setName("a company 10")
+                    .setCompanySizeId((short) 10)
+                    .setItSizeId((short) 10)
+                    .setCreatedAt(LocalDateTime.of(2030, 1, 1, 0, 0, 0))
+                    .setCreatedBy(10L)
+                    .build()
+            );
+        }
+
+        if (iteration == 8)
+        {
+            testedSeekId = 565432165;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.CURRENT_MINUS_1;
+
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(346542314L)
+                    .setName("a company 3")
+                    .setCompanySizeId((short) 3)
+                    .setItSizeId((short) 3)
+                    .setCreatedAt(LocalDateTime.of(2023, 1, 1, 0, 0, 0))
+                    .setCreatedBy(3L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(423165498L)
+                    .setName("a company 4")
+                    .setCompanySizeId((short) 4)
+                    .setItSizeId((short) 4)
+                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
+                    .setCreatedBy(4L)
+                    .build()
+            );
+        }
+
+        if (iteration == 9)
+        {
+            testedSeekId = 565432165;
+            testedLimit  = 2;
+            navigation   = NavigationEnum.CURRENT_MINUS_2;
+
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(164985367L)
+                    .setName("a company 1")
+                    .setCompanySizeId((short) 1)
+                    .setItSizeId((short) 1)
+                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
+                    .setCreatedBy(1L)
+                    .build()
+            );
+            expectedList.add(
+                new CompanyFakeBuilder()
+                    .setId(245678965L)
+                    .setName("a company 2")
+                    .setCompanySizeId((short) 2)
+                    .setItSizeId((short) 2)
+                    .setCreatedAt(LocalDateTime.of(2022, 1, 1, 0, 0, 0))
+                    .setCreatedBy(2L)
+                    .build()
+            );
+        }
+
         return new TestData(expectedList, testedSeekId, testedLimit, navigation);
     }
 
-    @RepeatedTest(value = 6, name = RepeatedTest.LONG_DISPLAY_NAME)
+    @RepeatedTest(value = 9, name = RepeatedTest.LONG_DISPLAY_NAME)
     @SqlGroup(
         {
             @Sql(

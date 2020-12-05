@@ -76,27 +76,116 @@ public class CompanyRepository extends AbstractRepository
         com.kbalazsworks.stackjudge.db.tables.Company innerCompany
             = com.kbalazsworks.stackjudge.db.tables.Company.COMPANY.as(innerCompanyAlias);
 
-        return createQueryBuilder()
-            .selectFrom(companyTable)
-            .orderBy(companyTable.ID)
-            .seek(
-                field(
-                    createQueryBuilder()
-                        .select(innerCompany.ID)
-                        .from(
-                            createQueryBuilder()
-                                .select(companyTable.ID)
-                                .from(companyTable)
-                                .where(companyTable.ID.greaterThan(seekId))
-                                .limit(limit)
-                                .asTable(innerCompanyAlias)
-                        )
-                        .orderBy(innerCompany.ID)
-                        .limit(1)
+        if (navigation == NavigationEnum.CURRENT_PLUS_1)
+        {
+            return createQueryBuilder()
+                .selectFrom(companyTable)
+                .orderBy(companyTable.ID)
+                .seek(
+                    field(
+                        createQueryBuilder()
+                            .select(innerCompany.ID)
+                            .from(
+                                createQueryBuilder()
+                                    .select(companyTable.ID)
+                                    .from(companyTable)
+                                    .where(companyTable.ID.greaterThan(seekId))
+                                    .limit(limit - 1)
+                                    .asTable(innerCompanyAlias)
+                            )
+                            .orderBy(innerCompany.ID.desc())
+                            .limit(1)
+                    )
                 )
-            )
-            .limit(limit)
-            .fetchInto(Company.class);
+                .limit(limit)
+                .fetchInto(Company.class);
+        }
+
+        if (navigation == NavigationEnum.CURRENT_PLUS_2)
+        {
+            return createQueryBuilder()
+                .selectFrom(companyTable)
+                .where(
+                    companyTable.ID.greaterOrEqual(
+                        field(
+                            createQueryBuilder()
+                                .select(innerCompany.ID)
+                                .from(
+                                    createQueryBuilder()
+                                        .select(companyTable.ID)
+                                        .from(companyTable)
+                                        .where(companyTable.ID.greaterThan(seekId))
+                                        .limit(limit * 2)
+                                        .asTable(innerCompanyAlias)
+                                )
+                                .orderBy(innerCompany.ID.desc())
+                                .limit(1)
+                        )
+                    )
+                )
+                .orderBy(companyTable.ID)
+                .limit(limit)
+                .fetchInto(Company.class);
+        }
+
+        if (navigation == NavigationEnum.CURRENT_MINUS_1)
+        {
+            return createQueryBuilder()
+                .selectFrom(companyTable)
+                .where(
+                    companyTable.ID.greaterOrEqual(
+                        field(
+                            createQueryBuilder()
+                                .select(innerCompany.ID)
+                                .from(
+                                    createQueryBuilder()
+                                        .select(companyTable.ID)
+                                        .from(companyTable)
+                                        .where(companyTable.ID.lessThan(seekId))
+                                        .orderBy(companyTable.ID.desc())
+                                        .limit(limit)
+                                        .asTable(innerCompanyAlias)
+                                )
+                                .orderBy(innerCompany.ID)
+                                .limit(1)
+                        )
+                    )
+                )
+                .orderBy(companyTable.ID)
+                .limit(limit)
+                .fetchInto(Company.class);
+        }
+
+        if (navigation == NavigationEnum.CURRENT_MINUS_2)
+        {
+            return createQueryBuilder()
+                .selectFrom(companyTable)
+                .where(
+                    companyTable.ID.greaterOrEqual(
+                        field(
+                            createQueryBuilder()
+                                .select(innerCompany.ID)
+                                .from(
+                                    createQueryBuilder()
+                                        .select(companyTable.ID)
+                                        .from(companyTable)
+                                        .where(companyTable.ID.lessThan(seekId))
+                                        .orderBy(companyTable.ID.desc())
+                                        .limit(limit * 2)
+                                        .asTable(innerCompanyAlias)
+                                )
+                                .orderBy(innerCompany.ID)
+                                .limit(1)
+                        )
+                    )
+                )
+                .orderBy(companyTable.ID)
+                .limit(limit)
+                .fetchInto(Company.class);
+        }
+
+        //@todo: test
+        throw new CompanyException("Seek sub query not found with enumId#".concat(navigation.getValue().toString()));
     }
 
     private Field<Long> getSeekSubQueryForSeekId(int limit, NavigationEnum navigation)
