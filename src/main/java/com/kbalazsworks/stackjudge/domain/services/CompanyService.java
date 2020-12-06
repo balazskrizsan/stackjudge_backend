@@ -102,12 +102,12 @@ public class CompanyService
             }
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
             {
+                newSeekId = companies.get(0).id();
                 paginator = paginatorService.generate(
-                    countRecordsBeforeId(seekId),
+                    countRecordsBeforeId(newSeekId),
                     countRecords(),
                     limit
                 );
-                newSeekId = companies.get(0).id();
             }
         }
 
