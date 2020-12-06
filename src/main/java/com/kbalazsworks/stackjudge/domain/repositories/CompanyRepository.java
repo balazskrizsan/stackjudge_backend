@@ -82,6 +82,7 @@ public class CompanyRepository extends AbstractRepository
                 subQuery = createQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
+                    .orderBy(companyTable.ID)
                     .limit(limit + 1)
                     .asTable(innerCompanyAlias);
                 order    = innerCompany.ID.desc();
@@ -150,6 +151,7 @@ public class CompanyRepository extends AbstractRepository
                             .select(companyTable.ID)
                             .from(companyTable)
                             .where(companyTable.ID.greaterThan(seekId))
+                            .orderBy(companyTable.ID)
                             .limit(limit)
                             .asTable(innerCompanyAlias)
                     )
