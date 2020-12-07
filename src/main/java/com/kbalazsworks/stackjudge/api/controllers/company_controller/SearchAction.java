@@ -29,11 +29,12 @@ public class SearchAction
     public ResponseEntity<ResponseData<CompanySearchServiceResponse>> action(@RequestPayload SearchRequest request)
     throws Exception
     {
+        Short navigation = request.navigationId();
         CompanySearchServiceResponse response = companyService.search(
             request.seekId(),
             request.limit(),
             request.requestRelationIds(),
-            NavigationEnum.getByValue(request.navigationId())
+            navigation == null ? null : NavigationEnum.getByValue(request.navigationId())
         );
 
         ResponseEntityBuilder<CompanySearchServiceResponse> responseEntityBuilder = new ResponseEntityBuilder<>();
