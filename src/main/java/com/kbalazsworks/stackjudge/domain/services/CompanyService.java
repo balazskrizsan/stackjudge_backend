@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,13 @@ public class CompanyService
     private AddressService    addressService;
     private GroupService      groupService;
     private PaginatorService  paginatorService;
+    private JooqService       jooqService;
+
+    @Autowired
+    public void setJooqService(JooqService jooqService)
+    {
+        this.jooqService = jooqService;
+    }
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository)
@@ -147,19 +155,23 @@ public class CompanyService
 
     public void create(Company company, Address address)
     {
-        Long newId = companyRepository.create(company);
-        addressService.create(
-            new Address(
-                null,
-                newId,
-                address.fullAddress(),
-                address.markerLat(),
-                address.markerLng(),
-                address.manualMarkerLat(),
-                address.manualMarkerLng(),
-                address.createdAt(),
-                address.createdBy()
-            )
-        );
+        jooqService.transaction(
+            (Configuration config) ->
+            {
+                Long newId = companyRepository.create(company);
+                addressService.create(
+                    new Address(
+                        null,
+                        newId,
+                        address.fullAddress(),
+                        address.markerLat(),
+                        address.markerLng(),
+                        address.manualMarkerLat(),
+                        address.manualMarkerLng(),
+                        address.createdAt(),
+                        address.createdBy()
+                    )
+                );
+            });
     }
 }

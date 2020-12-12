@@ -5,16 +5,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableTransactionManagement
 //@EnableSwagger2
 //@EnableOpenApi
 public class StackJudgeApplication
@@ -36,8 +38,8 @@ public class StackJudgeApplication
         return new BCryptPasswordEncoder();
     }
 
-    @Primary
     @Bean
+    @Primary
     public DataSource dataSource()
     {
         ApplicationProperties applicationProperties = applicationProperties();
@@ -49,5 +51,16 @@ public class StackJudgeApplication
         dataSource.setPassword(applicationProperties.getDataSourcePassword());
 
         return dataSource;
+    }
+
+    @Bean(name="transactionManager")
+    @Primary
+    DataSourceTransactionManager getDataSourceTransactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Bean(name="transactionAwareDataSource")
+    TransactionAwareDataSourceProxy getTransactionAwareDataSourceProxy() {
+        return new TransactionAwareDataSourceProxy(dataSource());
     }
 }

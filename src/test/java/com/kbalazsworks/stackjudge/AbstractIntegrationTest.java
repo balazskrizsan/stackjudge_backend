@@ -16,6 +16,6 @@ public abstract class AbstractIntegrationTest extends AbstractTest
 
     protected DSLContext getQueryBuilder()
     {
-        return jooqService.createQueryBuilder();
+        return jooqService.getDbContext();
     }
 }

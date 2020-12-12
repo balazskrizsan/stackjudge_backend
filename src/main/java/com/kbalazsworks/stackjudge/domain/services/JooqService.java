@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.domain.services;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.TransactionalRunnable;
 import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class JooqService
         this.connection = connectionService.getConnection();
     }
 
-    public DSLContext createQueryBuilder()
+    public DSLContext getDbContext()
     {
         if (null == dslContext)
         {
@@ -29,5 +30,10 @@ public class JooqService
         }
 
         return dslContext;
+    }
+
+    void transaction(TransactionalRunnable transactional)
+    {
+        getDbContext().transaction(transactional);
     }
 }

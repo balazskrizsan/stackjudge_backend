@@ -18,6 +18,6 @@ abstract public class AbstractRepository
 
     DSLContext createQueryBuilder()
     {
-        return jooqService.createQueryBuilder();
+        return jooqService.getDbContext();
     }
 }
