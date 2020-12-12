@@ -8,15 +8,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableResourceServer
+@EnableOAuth2Client
 //@EnableSwagger2
-//@EnableOpenApi
+@EnableOpenApi
 public class StackJudgeApplication
 {
     public static void main(String[] args)
