@@ -83,4 +83,28 @@ public class ApplicationProperties
     {
         return isSearchBoxLogEnabled.equals("true");
     }
+
+    @Value("${AWS_S3_CDN_BUCKET}")
+    private String awsS3CdnBucket;
+
+    public String getAwsS3CdnBucket()
+    {
+        return awsS3CdnBucket;
+    }
+
+    @Value("${AWS_ACCESS_KEY}")
+    private String awsAccessKey;
+
+    public String getAwsAccessKey()
+    {
+        return awsAccessKey;
+    }
+
+    @Value("${AWS_SECRET_KEY}")
+    private String awsSecretKey;
+
+    public String getAwsSecretKey()
+    {
+        return awsSecretKey;
+    }
 }
