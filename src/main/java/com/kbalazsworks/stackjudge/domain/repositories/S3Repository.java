@@ -6,6 +6,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,13 +25,13 @@ public class S3Repository
         );
 
         this.client = AmazonS3ClientBuilder.standard()
-            .withRegion(Regions.SA_EAST_1)
+            .withRegion(Regions.EU_CENTRAL_1)
             .withCredentials(new AWSStaticCredentialsProvider(credentials))
             .build();
     }
 
-    public void put(PutObjectRequest putObjectRequest)
+    public PutObjectResult put(PutObjectRequest putObjectRequest)
     {
-        client.putObject(putObjectRequest);
+        return client.putObject(putObjectRequest);
     }
 }

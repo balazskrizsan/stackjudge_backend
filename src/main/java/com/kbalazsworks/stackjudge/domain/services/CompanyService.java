@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
@@ -12,6 +13,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class CompanyService
     private GroupService      groupService;
     private PaginatorService  paginatorService;
     private JooqService       jooqService;
+    private CdnService        cdnService;
 
     @Autowired
     public void setJooqService(JooqService jooqService)
@@ -56,6 +59,12 @@ public class CompanyService
     public void setPaginatorService(PaginatorService paginatorService)
     {
         this.paginatorService = paginatorService;
+    }
+
+    @Autowired
+    public void setCdnService(CdnService cdnService)
+    {
+        this.cdnService = cdnService;
     }
 
     public void delete(long companyId)
@@ -153,7 +162,8 @@ public class CompanyService
         return companyStatistics;
     }
 
-    public void create(Company company, Address address)
+    // todo: test
+    public void create(Company company, Address address, MultipartFile companyLogo)
     {
         jooqService.transaction(
             (Configuration config) ->
@@ -172,6 +182,12 @@ public class CompanyService
                         address.createdBy()
                     )
                 );
-            });
+
+                if (companyLogo != null && !companyLogo.isEmpty())
+                {
+                    cdnService.put(CdnNamespaceEnum.COMPANY_LOGOS, newId + ".jpg", companyLogo);
+                }
+            }
+        );
     }
 }
