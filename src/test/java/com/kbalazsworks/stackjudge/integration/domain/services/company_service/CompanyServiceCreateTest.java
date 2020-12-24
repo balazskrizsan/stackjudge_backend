@@ -56,7 +56,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
             )
         }
     )
-    public void insertOneCompanyWithOneAddress_perfect()
+    public void insertOneCompanyWithOneAddressWithNoFile_perfect()
     {
         // Arrange
         Company testedCompany     = new CompanyFakeBuilder().build();
@@ -70,7 +70,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
             .build();
 
         // Act
-        companyService.create(testedCompany, testedAddress);
+        companyService.create(testedCompany, testedAddress, null);
 
         // Assert
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();
@@ -116,11 +116,8 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();
         AddressRecord actualAddress = getQueryBuilder().selectFrom(addressTable).fetchOne();
 
-        System.out.println(actualCompany);
-        System.out.println(actualAddress);
-
         assertAll(
-            () -> assertThatThrownBy(() -> companyService.create(testedCompany, testedAddress))
+            () -> assertThatThrownBy(() -> companyService.create(testedCompany, testedAddress, null))
                 .isInstanceOf((AddressException.class)),
             () -> assertThat(actualCompany).isNull(),
             () -> assertThat(actualAddress).isNull()
