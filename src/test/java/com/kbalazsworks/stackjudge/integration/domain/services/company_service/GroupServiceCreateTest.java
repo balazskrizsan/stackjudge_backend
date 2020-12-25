@@ -4,6 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
+import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.GroupFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,20 +124,7 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
     }
 
     @Test
-    @SqlGroup(
-        {
-            @Sql(
-                executionPhase = BEFORE_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            ),
-            @Sql(
-                executionPhase = AFTER_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            )
-        }
-    )
+    @BaseSqlGroup
     public void countTeams_countOnEmptyTable_returnsWithEmptyList()
     {
         // Arrange

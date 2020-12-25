@@ -10,6 +10,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.domain.mock_factories.CdnServiceMockFactory;
@@ -22,18 +23,12 @@ import org.junit.platform.commons.JUnitException;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
 public class CompanyServiceCreateTest extends AbstractIntegrationTest
 {
@@ -111,20 +106,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     }
 
     @RepeatedTest(2)
-    @SqlGroup(
-        {
-            @Sql(
-                executionPhase = BEFORE_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            ),
-            @Sql(
-                executionPhase = AFTER_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            )
-        }
-    )
+    @BaseSqlGroup
     public void insertOneCompanyWithOneAddress_checkByProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange
@@ -154,20 +136,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     }
 
     @Test
-    @SqlGroup(
-        {
-            @Sql(
-                executionPhase = BEFORE_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            ),
-            @Sql(
-                executionPhase = AFTER_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            )
-        }
-    )
+    @BaseSqlGroup
     public void insertOneCompanyWithErrorOnAddress_rollbackShouldClearTheCompany()
     {
         // Arrange
