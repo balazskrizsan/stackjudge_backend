@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
-import com.kbalazsworks.stackjudge.integration.domain.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;

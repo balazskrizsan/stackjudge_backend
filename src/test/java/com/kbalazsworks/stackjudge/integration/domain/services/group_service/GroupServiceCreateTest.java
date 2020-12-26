@@ -4,7 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import com.kbalazsworks.stackjudge.integration.domain.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.fake_builders.GroupFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;

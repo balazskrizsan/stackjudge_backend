@@ -11,9 +11,8 @@ import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
-import com.kbalazsworks.stackjudge.integration.domain.fake_builders.AddressFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.domain.fake_builders.CompanyFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.domain.mock_factories.CdnServiceMockFactory;
+import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -110,7 +109,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     public void insertOneCompanyWithOneAddress_checkByProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange
-        CdnService cdnServiceMock = CdnServiceMockFactory.createMock();
+        CdnService cdnServiceMock = mock(CdnService.class);
         TestData testData = providerFor_insertOneCompanyWithOneAddress_checkByProvider(
             repetitionInfo.getCurrentRepetition(),
             cdnServiceMock
