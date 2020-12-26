@@ -162,7 +162,6 @@ public class CompanyService
         return companyStatistics;
     }
 
-    // todo: test
     public void create(Company company, Address address, MultipartFile companyLogo)
     {
         jooqService.transaction(
