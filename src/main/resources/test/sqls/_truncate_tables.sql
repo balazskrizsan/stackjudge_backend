@@ -1,4 +1,4 @@
 TRUNCATE TABLE
     address,
     "group",
-    company;
+    company RESTART IDENTITY;
