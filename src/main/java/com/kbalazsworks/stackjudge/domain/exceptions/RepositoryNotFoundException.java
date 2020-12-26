@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.exceptions;
 
-public class RepositoryNotFoundException extends RuntimeException
+public class RepositoryNotFoundException extends HttpException
 {
     public RepositoryNotFoundException()
     {

@@ -34,6 +34,7 @@ public class CdnService
     }
 
     public PutObjectResult put(CdnNamespaceEnum cdnNamespaceEnum, String fileName, MultipartFile content)
+    throws AmazonS3Exception
     {
         return put(cdnNamespaceEnum, "", fileName, content);
     }

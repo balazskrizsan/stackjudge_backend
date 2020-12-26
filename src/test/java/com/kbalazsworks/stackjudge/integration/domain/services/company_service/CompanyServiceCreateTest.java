@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
-import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
+import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
@@ -143,7 +143,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         Address testedAddress = new AddressFakeBuilder().build();
 
         AddressService addressServiceMock = mock(AddressService.class);
-        doThrow(AddressException.class).when(addressServiceMock).create(Mockito.any());
+        doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
 
         companyService.setAddressService(addressServiceMock);
 
@@ -153,7 +153,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
 
         assertAll(
             () -> assertThatThrownBy(() -> companyService.create(testedCompany, testedAddress, null))
-                .isInstanceOf((AddressException.class)),
+                .isInstanceOf((AddressHttpException.class)),
             () -> assertThat(actualCompany).isNull(),
             () -> assertThat(actualAddress).isNull()
         );

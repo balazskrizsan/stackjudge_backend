@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
+import com.kbalazsworks.stackjudge.domain.exceptions.HttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,23 @@ import javax.validation.ValidationException;
 public class RestResponseEntityExceptionService extends ResponseEntityExceptionHandler
 {
     private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionService.class);
+
+    @ExceptionHandler(value = {HttpException.class})
+    protected ResponseEntity<ResponseData<String>> handleConflict(HttpException e, WebRequest request) throws Exception
+    {
+        ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<>();
+        errorResponseEntityBuilder.setData(e.getMessage());
+        errorResponseEntityBuilder.setErrorCode(e.getErrorCode());
+        errorResponseEntityBuilder.setStatusCode(e.getStatusCode());
+
+        logger.error(e.getMessage());
+        if (e.isPrintTrace())
+        {
+            e.printStackTrace();
+        }
+
+        return errorResponseEntityBuilder.build();
+    }
 
     @ExceptionHandler(value = {RuntimeException.class})
     protected ResponseEntity<ResponseData<String>> handleConflict(RuntimeException e, WebRequest request) throws Exception
@@ -50,9 +68,7 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
 
     private boolean isTraceNeeded(Exception e)
     {
-        return !(
-            (e instanceof ValidationException)
-            || (e instanceof RepositoryNotFoundException));
+        return !(e instanceof ValidationException);
     }
 
     private HttpStatus getHttpStatus(Exception e)
@@ -74,15 +90,10 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
     {
         if (e instanceof ValidationException)
         {
-            return "Validation error";
+            return "Validation error.";
         }
 
-        if (e instanceof RepositoryNotFoundException)
-        {
-            return "Not found";
-        }
-
-        return "Unknown error occurred";
+        return "Unknown error occurred.";
     }
 
     private int getErrorCode(Exception e)

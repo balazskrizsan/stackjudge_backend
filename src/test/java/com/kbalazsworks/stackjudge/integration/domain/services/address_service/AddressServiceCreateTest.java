@@ -3,7 +3,8 @@ package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.exceptions.AddressException;
+import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
+import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
@@ -91,7 +92,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
 
         // Act - Assert
         assertThatThrownBy(() -> addressService.create(testedAddress))
-            .isInstanceOf((AddressException.class))
-            .hasMessage("Missing company; id#222");
+            .isInstanceOf((CompanyHttpException.class))
+            .hasMessage("Company not found.");
     }
 }

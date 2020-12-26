@@ -3,8 +3,10 @@ package com.kbalazsworks.stackjudge.domain.repositories;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyException;
+import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import org.jooq.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -191,7 +193,9 @@ public class CompanyRepository extends AbstractRepository
 
         if (company == null)
         {
-            throw new RepositoryNotFoundException();
+            throw new RepositoryNotFoundException(ExceptionResponseInfo.CompanyNotFoundMsg)
+                .withErrorCode(ExceptionResponseInfo.CompanyNotFoundErrorCode)
+                .withStatusCode(HttpStatus.NOT_FOUND);
         }
 
         return company;

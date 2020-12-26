@@ -1,17 +1,24 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
+import com.kbalazsworks.stackjudge.api.services.RestResponseEntityExceptionService;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
+import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import org.jooq.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +31,8 @@ import java.util.stream.Collectors;
 @Service
 public class CompanyService
 {
+    private static final Logger logger = LoggerFactory.getLogger(CompanyService.class);
+
     private CompanyRepository companyRepository;
     private AddressService    addressService;
     private GroupService      groupService;
@@ -164,7 +173,7 @@ public class CompanyService
 
     public void create(Company company, Address address, MultipartFile companyLogo)
     {
-        jooqService.transaction(
+        boolean success = jooqService.getDbContext().transactionResult(
             (Configuration config) ->
             {
                 Long newId = companyRepository.create(company);
@@ -184,9 +193,25 @@ public class CompanyService
 
                 if (companyLogo != null && !companyLogo.isEmpty())
                 {
-                    cdnService.put(CdnNamespaceEnum.COMPANY_LOGOS, newId + ".jpg", companyLogo);
+                    try
+                    {
+                        cdnService.put(CdnNamespaceEnum.COMPANY_LOGOS, newId + ".jpg", companyLogo);
+                    }
+                    catch (AmazonS3Exception e) //@todo: test
+                    {
+                        logger.error("Amazon S3 upload failed.", e);
+                    }
                 }
+
+                return true;
             }
         );
+
+        if (!success) //@todo: test
+        {
+            throw new CompanyHttpException(ExceptionResponseInfo.CompanyCreationFailedMsg)
+                .withErrorCode(ExceptionResponseInfo.CompanyCreationFailedErrorCode)
+                .withStatusCode(HttpStatus.BAD_REQUEST);
+        }
     }
 }
