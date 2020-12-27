@@ -34,8 +34,8 @@ public class PostAction
         this.sessionService = sessionService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseData<String>> action(@RequestBody StackCreateRequest request) throws Exception
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseData<String>> action(StackCreateRequest request) throws Exception
     {
         new JavaxValidatorService<StackCreateRequest>().validate(request);
 
