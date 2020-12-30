@@ -16,6 +16,7 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
@@ -27,23 +28,60 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
     @Autowired
     private CompanyService companyService;
 
-    @Test
-    public void vintageHack()
-    {
-        assertThat(true).isTrue();
-    }
-
     private record TestData(
-        List<Company> expectedList,
+        List<Long> expectedIdList,
         long testedSeekId,
         int testedLimit,
         NavigationEnum testedNavigation)
     {
     }
 
+    @Test
+    @SqlGroup(
+        {
+            @Sql(
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                    "classpath:test/sqls/preset_add_10_companies.sql"
+                }
+            ),
+            @Sql(
+                executionPhase = AFTER_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
+            )
+        }
+    )
+    public void checkingAllFieldsFormDb_allAreOk()
+    {
+        // Arrange
+        List<Company> expectedCompany = new ArrayList<>()
+        {{
+            add(
+                new CompanyFakeBuilder()
+                    .setId(164985367L)
+                    .setName("a company 1")
+                    .setCompanySizeId((short) 1)
+                    .setItSizeId((short) 1)
+                    .setLogoPath("folder/1.jpg")
+                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
+                    .setCreatedBy(1L)
+                    .build()
+            );
+        }};
+
+        // Act
+        List<Company> actualList = companyService.search(0, 1, NavigationEnum.FIRST);
+
+        // Assert
+        assertThat(expectedCompany).isEqualTo(actualList);
+    }
+
     private TestData provider(int iteration)
     {
-        List<Company> expectedList = new ArrayList<>()
+        List<Long> expectedIdList = new ArrayList<>()
         {
         };
 
@@ -57,26 +95,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.FIRST;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(164985367L)
-                    .setName("a company 1")
-                    .setCompanySizeId((short) 1)
-                    .setItSizeId((short) 1)
-                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
-                    .setCreatedBy(1L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(245678965L)
-                    .setName("a company 2")
-                    .setCompanySizeId((short) 2)
-                    .setItSizeId((short) 2)
-                    .setCreatedAt(LocalDateTime.of(2022, 1, 1, 0, 0, 0))
-                    .setCreatedBy(2L)
-                    .build()
-            );
+            expectedIdList.add(164985367L);
+            expectedIdList.add(245678965L);
         }
 
         if (iteration == 2)
@@ -85,26 +105,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.SECOND;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(346542314L)
-                    .setName("a company 3")
-                    .setCompanySizeId((short) 3)
-                    .setItSizeId((short) 3)
-                    .setCreatedAt(LocalDateTime.of(2023, 1, 1, 0, 0, 0))
-                    .setCreatedBy(3L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(423165498L)
-                    .setName("a company 4")
-                    .setCompanySizeId((short) 4)
-                    .setItSizeId((short) 4)
-                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
-                    .setCreatedBy(4L)
-                    .build()
-            );
+            expectedIdList.add(346542314L);
+            expectedIdList.add(423165498L);
         }
 
         if (iteration == 3)
@@ -113,26 +115,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.LAST_MINUS_1;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(733200321L)
-                    .setName("a company 7")
-                    .setCompanySizeId((short) 7)
-                    .setItSizeId((short) 7)
-                    .setCreatedAt(LocalDateTime.of(2027, 1, 1, 0, 0, 0))
-                    .setCreatedBy(7L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(821356546L)
-                    .setName("a company 8")
-                    .setCompanySizeId((short) 8)
-                    .setItSizeId((short) 8)
-                    .setCreatedAt(LocalDateTime.of(2028, 1, 1, 0, 0, 0))
-                    .setCreatedBy(8L)
-                    .build()
-            );
+            expectedIdList.add(733200321L);
+            expectedIdList.add(821356546L);
         }
 
         if (iteration == 4)
@@ -141,26 +125,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.LAST;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(922316542L)
-                    .setName("a company 9")
-                    .setCompanySizeId((short) 9)
-                    .setItSizeId((short) 9)
-                    .setCreatedAt(LocalDateTime.of(2029, 1, 1, 0, 0, 0))
-                    .setCreatedBy(9L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(992354656L)
-                    .setName("a company 10")
-                    .setCompanySizeId((short) 10)
-                    .setItSizeId((short) 10)
-                    .setCreatedAt(LocalDateTime.of(2030, 1, 1, 0, 0, 0))
-                    .setCreatedBy(10L)
-                    .build()
-            );
+            expectedIdList.add(922316542L);
+            expectedIdList.add(992354656L);
         }
 
         if (iteration == 5)
@@ -168,26 +134,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedSeekId = 423165498;
             testedLimit  = 2;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(423165498L)
-                    .setName("a company 4")
-                    .setCompanySizeId((short) 4)
-                    .setItSizeId((short) 4)
-                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
-                    .setCreatedBy(4L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(565432165L)
-                    .setName("a company 5")
-                    .setCompanySizeId((short) 5)
-                    .setItSizeId((short) 5)
-                    .setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0, 0))
-                    .setCreatedBy(5L)
-                    .build()
-            );
+            expectedIdList.add(423165498L);
+            expectedIdList.add(565432165L);
         }
 
         if (iteration == 6)
@@ -196,26 +144,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_PLUS_1;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(733200321L)
-                    .setName("a company 7")
-                    .setCompanySizeId((short) 7)
-                    .setItSizeId((short) 7)
-                    .setCreatedAt(LocalDateTime.of(2027, 1, 1, 0, 0, 0))
-                    .setCreatedBy(7L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(821356546L)
-                    .setName("a company 8")
-                    .setCompanySizeId((short) 8)
-                    .setItSizeId((short) 8)
-                    .setCreatedAt(LocalDateTime.of(2028, 1, 1, 0, 0, 0))
-                    .setCreatedBy(8L)
-                    .build()
-            );
+            expectedIdList.add(733200321L);
+            expectedIdList.add(821356546L);
         }
 
         if (iteration == 7)
@@ -224,26 +154,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_PLUS_2;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(922316542L)
-                    .setName("a company 9")
-                    .setCompanySizeId((short) 9)
-                    .setItSizeId((short) 9)
-                    .setCreatedAt(LocalDateTime.of(2029, 1, 1, 0, 0, 0))
-                    .setCreatedBy(9L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(992354656L)
-                    .setName("a company 10")
-                    .setCompanySizeId((short) 10)
-                    .setItSizeId((short) 10)
-                    .setCreatedAt(LocalDateTime.of(2030, 1, 1, 0, 0, 0))
-                    .setCreatedBy(10L)
-                    .build()
-            );
+            expectedIdList.add(922316542L);
+            expectedIdList.add(992354656L);
         }
 
         if (iteration == 8)
@@ -252,26 +164,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_MINUS_1;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(346542314L)
-                    .setName("a company 3")
-                    .setCompanySizeId((short) 3)
-                    .setItSizeId((short) 3)
-                    .setCreatedAt(LocalDateTime.of(2023, 1, 1, 0, 0, 0))
-                    .setCreatedBy(3L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(423165498L)
-                    .setName("a company 4")
-                    .setCompanySizeId((short) 4)
-                    .setItSizeId((short) 4)
-                    .setCreatedAt(LocalDateTime.of(2024, 1, 1, 0, 0, 0))
-                    .setCreatedBy(4L)
-                    .build()
-            );
+            expectedIdList.add(346542314L);
+            expectedIdList.add(423165498L);
         }
 
         if (iteration == 9)
@@ -280,29 +174,11 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_MINUS_2;
 
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(164985367L)
-                    .setName("a company 1")
-                    .setCompanySizeId((short) 1)
-                    .setItSizeId((short) 1)
-                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
-                    .setCreatedBy(1L)
-                    .build()
-            );
-            expectedList.add(
-                new CompanyFakeBuilder()
-                    .setId(245678965L)
-                    .setName("a company 2")
-                    .setCompanySizeId((short) 2)
-                    .setItSizeId((short) 2)
-                    .setCreatedAt(LocalDateTime.of(2022, 1, 1, 0, 0, 0))
-                    .setCreatedBy(2L)
-                    .build()
-            );
+            expectedIdList.add(164985367L);
+            expectedIdList.add(245678965L);
         }
 
-        return new TestData(expectedList, testedSeekId, testedLimit, navigation);
+        return new TestData(expectedIdList, testedSeekId, testedLimit, navigation);
     }
 
     @RepeatedTest(value = 9, name = RepeatedTest.LONG_DISPLAY_NAME)
@@ -329,17 +205,19 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        NavigationEnum testedNavigation = testData.testedNavigation;
-        List<Company> actualList = companyService.search(
+        List<Long> actualList = companyService.search(
             testData.testedSeekId,
             testData.testedLimit,
-            testedNavigation
-        );
+            testData.testedNavigation
+        )
+            .stream()
+            .map(Company::id)
+            .collect(Collectors.toList());
 
         // Assert
         String assertMessage = "Error with navigation: ".concat(
-            (testedNavigation == null) ? "NULL" : testedNavigation.toString()
+            (testData.testedNavigation == null) ? "NULL" : testData.testedNavigation.toString()
         );
-        assertThat(testData.expectedList).as(assertMessage).isEqualTo(actualList);
+        assertThat(testData.expectedIdList).as(assertMessage).isEqualTo(actualList);
     }
 }

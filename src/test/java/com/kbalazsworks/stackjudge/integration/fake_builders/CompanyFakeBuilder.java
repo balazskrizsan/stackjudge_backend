@@ -11,6 +11,7 @@ public class CompanyFakeBuilder
     private String        name          = "a company";
     private short         companySizeId = 2;
     private short         itSizeId      = 3;
+    private String        logoPath      = "folder/file.jpg";
     private LocalDateTime createdAt     = LocalDateTime.of(2020, 1, 2, 3, 4, 5);
     private Long          createdBy     = 444L;
 
@@ -21,6 +22,7 @@ public class CompanyFakeBuilder
             name,
             companySizeId,
             itSizeId,
+            logoPath,
             createdAt,
             createdBy
         );
@@ -50,6 +52,13 @@ public class CompanyFakeBuilder
     public CompanyFakeBuilder setItSizeId(short itSizeId)
     {
         this.itSizeId = itSizeId;
+
+        return this;
+    }
+
+    public CompanyFakeBuilder setLogoPath(String logoPath)
+    {
+        this.logoPath = logoPath;
 
         return this;
     }

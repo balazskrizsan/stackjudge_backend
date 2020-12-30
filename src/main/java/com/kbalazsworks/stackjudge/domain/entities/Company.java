@@ -9,6 +9,7 @@ public record Company(
     @JsonProperty String name,
     @JsonProperty short companySizeId,
     @JsonProperty short itSizeId,
+    @JsonProperty String logoPath,
     LocalDateTime createdAt,
     Long createdBy
 )

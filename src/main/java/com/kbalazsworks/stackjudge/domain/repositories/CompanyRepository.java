@@ -39,6 +39,7 @@ public class CompanyRepository extends AbstractRepository
                 companyTable.NAME,
                 companyTable.COMPANY_SIZE_ID,
                 companyTable.IT_SIZE_ID,
+                companyTable.LOGO_PATH,
                 companyTable.CREATED_AT,
                 companyTable.CREATED_BY
             )
@@ -46,6 +47,7 @@ public class CompanyRepository extends AbstractRepository
                 company.name(),
                 company.companySizeId(),
                 company.itSizeId(),
+                company.logoPath(),
                 company.createdAt(),
                 company.createdBy()
             )
@@ -216,5 +218,14 @@ public class CompanyRepository extends AbstractRepository
             .from(companyTable)
             .where(companyTable.ID.lessThan(id))
             .fetchOneInto(Long.class);
+    }
+
+    public void updateLogoPath(long companyId, String logoPath)
+    {
+        createQueryBuilder()
+            .update(companyTable)
+            .set(companyTable.LOGO_PATH, logoPath)
+            .where(companyTable.ID.eq(companyId))
+            .execute();
     }
 }

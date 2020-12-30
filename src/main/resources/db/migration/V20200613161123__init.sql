@@ -4,6 +4,7 @@ CREATE TABLE "company"
     "name"            varchar(255) NOT NULL,
     "company_size_id" smallint     NOT NULL,
     "it_size_id"      smallint     NOT NULL,
+    "logo_path"       varchar(255),
     "created_at"      TIMESTAMP    NOT NULL,
     "created_by"      bigint,
     CONSTRAINT "company_pk" PRIMARY KEY ("id")

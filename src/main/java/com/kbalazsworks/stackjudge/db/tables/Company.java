@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Company extends TableImpl<CompanyRecord> {
 
-    private static final long serialVersionUID = 1866039739;
+    private static final long serialVersionUID = -1413612142;
 
     /**
      * The reference instance of <code>public.company</code>
@@ -67,6 +67,11 @@ public class Company extends TableImpl<CompanyRecord> {
      * The column <code>public.company.it_size_id</code>.
      */
     public final TableField<CompanyRecord, Short> IT_SIZE_ID = createField(DSL.name("it_size_id"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
+
+    /**
+     * The column <code>public.company.logo_path</code>.
+     */
+    public final TableField<CompanyRecord, String> LOGO_PATH = createField(DSL.name("logo_path"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.company.created_at</code>.
@@ -158,11 +163,11 @@ public class Company extends TableImpl<CompanyRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, String, Short, Short, LocalDateTime, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, String, Short, Short, String, LocalDateTime, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

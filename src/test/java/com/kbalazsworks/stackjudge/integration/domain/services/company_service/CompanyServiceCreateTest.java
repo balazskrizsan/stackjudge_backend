@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
@@ -10,6 +11,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
@@ -85,12 +87,15 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         {
             MockMultipartFile testFile = new MockMultipartFile("a", new byte[]{'a'});
 
+            when(cdnServiceMock.put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+.jpg"), eq(testFile)))
+                .thenReturn(new CdnServicePutResponse(new PutObjectResult(), "fake-path/123.jpg"));
+
             return new TestData(
-                new CompanyFakeBuilder().build(),
+                new CompanyFakeBuilder().setLogoPath("").build(),
                 new AddressFakeBuilder().build(),
                 testFile,
                 23455487L,
-                new CompanyFakeBuilder().setId(23455487L).build(),
+                new CompanyFakeBuilder().setId(23455487L).setLogoPath("fake-path/123.jpg").build(),
                 24562647L,
                 new AddressFakeBuilder()
                     .setId(24562647L)

@@ -2,7 +2,6 @@ package com.kbalazsworks.stackjudge.domain.services;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
-import com.kbalazsworks.stackjudge.api.services.RestResponseEntityExceptionService;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
@@ -11,6 +10,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
@@ -195,7 +195,12 @@ public class CompanyService
                 {
                     try
                     {
-                        cdnService.put(CdnNamespaceEnum.COMPANY_LOGOS, newId + ".jpg", companyLogo);
+                        CdnServicePutResponse cdnServicePutResponse = cdnService.put(
+                            CdnNamespaceEnum.COMPANY_LOGOS,
+                            newId + ".jpg",
+                            companyLogo
+                        );
+                        updateLogoPath(newId, cdnServicePutResponse.path());
                     }
                     catch (AmazonS3Exception e) //@todo: test
                     {
@@ -213,5 +218,10 @@ public class CompanyService
                 .withErrorCode(ExceptionResponseInfo.CompanyCreationFailedErrorCode)
                 .withStatusCode(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private void updateLogoPath(long companyId, String logoPath)
+    {
+        companyRepository.updateLogoPath(companyId, logoPath);
     }
 }

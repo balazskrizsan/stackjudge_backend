@@ -29,6 +29,7 @@ public class RequestMapperService
             request.name(),
             request.companySizeId(),
             request.itSizeId(),
+            "",
             sessionState.getNow(),
             sessionState.getUser().getId()
         );
