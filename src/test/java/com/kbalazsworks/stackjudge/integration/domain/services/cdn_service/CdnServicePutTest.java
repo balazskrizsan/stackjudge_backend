@@ -32,7 +32,8 @@ public class CdnServicePutTest extends AbstractIntegrationTest
     {
         // Arrange
         CdnNamespaceEnum  testedCdnNamespaceEnum = CdnNamespaceEnum.COMPANY_LOGOS;
-        String            testedFileName         = "test.jpg";
+        String            testedFileName         = "test";
+        String            testedFileExtension    = "jpg";
         MockMultipartFile testedFile             = new MockMultipartFile("a", new byte[]{'a', 'b', 'c'});
         String            testedBucket           = "test-aws-bucket";
         String            expectedKey            = "company-logos/test.jpg";
@@ -54,7 +55,7 @@ public class CdnServicePutTest extends AbstractIntegrationTest
         cdnService.setApplicationProperties(applicationPropertiesMock);
 
         // Act
-        cdnService.put(testedCdnNamespaceEnum, testedFileName, testedFile);
+        cdnService.put(testedCdnNamespaceEnum, testedFileName, testedFileExtension, testedFile);
 
         // Assert
         verify(amazonS3Mock).putObject(insertValidPutObjectRequest_perfect_captor.capture());

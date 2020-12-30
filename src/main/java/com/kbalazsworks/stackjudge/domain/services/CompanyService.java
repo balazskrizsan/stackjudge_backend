@@ -197,7 +197,8 @@ public class CompanyService
                     {
                         CdnServicePutResponse cdnServicePutResponse = cdnService.put(
                             CdnNamespaceEnum.COMPANY_LOGOS,
-                            newId + ".jpg",
+                            newId.toString(),
+                            "jpg",
                             companyLogo
                         );
                         updateLogoPath(newId, cdnServicePutResponse.path());

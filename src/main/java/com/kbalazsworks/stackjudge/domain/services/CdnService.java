@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class CdnService
@@ -32,32 +33,39 @@ public class CdnService
         this.applicationProperties = applicationProperties;
     }
 
-    public CdnServicePutResponse put(CdnNamespaceEnum cdnNamespaceEnum, String fileName, MultipartFile content)
+    public CdnServicePutResponse put(
+        CdnNamespaceEnum cdnNamespaceEnum,
+        String fileName,
+        String fileExtension,
+        MultipartFile content
+    )
     throws AmazonS3Exception
     {
-        return put(cdnNamespaceEnum, "", fileName, content);
+        return put(cdnNamespaceEnum, "", fileName, fileExtension, content);
     }
 
     public CdnServicePutResponse put(
         CdnNamespaceEnum cdnNamespaceEnum,
         String subfolder,
         String fileName,
+        String fileExtension,
         MultipartFile content
     ) throws AmazonS3Exception
     {
         try
         {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(ByteSource.wrap(content.getBytes()).openStream().readAllBytes().length);
+            ObjectMetadata objectMetadata     = new ObjectMetadata();
+            ByteSource contentBytes = ByteSource.wrap(content.getBytes());
+            objectMetadata.setContentLength(contentBytes.openStream().readAllBytes().length);
 
-            String pathAndFile = cdnNamespaceEnum.getValue() + subfolder + "/" + fileName;
+            String pathAndFile = cdnNamespaceEnum.getValue() + subfolder + "/" + fileName + "." + fileExtension;
 
             return new CdnServicePutResponse(
                 s3Repository.put(
                     new PutObjectRequest(
                         applicationProperties.getAwsS3CdnBucket(),
                         pathAndFile,
-                        ByteSource.wrap(content.getBytes()).openStream(),
+                        contentBytes.openStream(),
                         objectMetadata
                     )
                 ),

@@ -80,14 +80,21 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
                     .setId(24562647L)
                     .setCompanyId(23455487L)
                     .build(),
-                () -> verify(cdnServiceMock, never()).put(any(), any(), any())
+                () -> verify(cdnServiceMock, never()).put(any(), any(), any(), any())
             );
         }
         if (repetition == 2)
         {
             MockMultipartFile testFile = new MockMultipartFile("a", new byte[]{'a'});
 
-            when(cdnServiceMock.put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+.jpg"), eq(testFile)))
+            when(
+                cdnServiceMock.put(
+                    eq(CdnNamespaceEnum.COMPANY_LOGOS),
+                    matches("\\d+"),
+                    eq("jpg"),
+                    eq(testFile)
+                )
+            )
                 .thenReturn(new CdnServicePutResponse(new PutObjectResult(), "fake-path/123.jpg"));
 
             return new TestData(
@@ -102,7 +109,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
                     .setCompanyId(23455487L)
                     .build(),
                 () -> verify(cdnServiceMock, times(1))
-                    .put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+.jpg"), eq(testFile))
+                    .put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+"), eq("jpg"), eq(testFile))
             );
         }
 
