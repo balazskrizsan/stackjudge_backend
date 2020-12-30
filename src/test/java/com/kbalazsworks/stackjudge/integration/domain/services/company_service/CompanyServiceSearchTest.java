@@ -44,7 +44,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_10_companies.sql"
+                    "classpath:test/sqls/preset_add_one_company.sql"
                 }
             ),
             @Sql(
@@ -60,15 +60,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         List<Company> expectedCompany = new ArrayList<>()
         {{
             add(
-                new CompanyFakeBuilder()
-                    .setId(164985367L)
-                    .setName("a company 1")
-                    .setCompanySizeId((short) 1)
-                    .setItSizeId((short) 1)
-                    .setLogoPath("folder/1.jpg")
-                    .setCreatedAt(LocalDateTime.of(2021, 1, 1, 0, 0, 0))
-                    .setCreatedBy(1L)
-                    .build()
+                new CompanyFakeBuilder().build()
             );
         }};
 
