@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.cdn_service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
@@ -13,6 +14,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+
+import java.text.ParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -28,15 +31,16 @@ public class CdnServicePutTest extends AbstractIntegrationTest
     ArgumentCaptor<PutObjectRequest> insertValidPutObjectRequest_perfect_captor;
 
     @Test
-    public void insertValidPutObjectRequest_perfect()
+    public void insertValidPutObjectRequest_perfect() throws ParseException
     {
         // Arrange
+        String            testMockTime           = "2021-01-01 00:01:02";
         CdnNamespaceEnum  testedCdnNamespaceEnum = CdnNamespaceEnum.COMPANY_LOGOS;
         String            testedFileName         = "test";
         String            testedFileExtension    = "jpg";
         MockMultipartFile testedFile             = new MockMultipartFile("a", new byte[]{'a', 'b', 'c'});
         String            testedBucket           = "test-aws-bucket";
-        String            expectedKey            = "company-logos/test.jpg";
+        String            expectedKey            = "company-logos/test-1609459262.jpg";
         String            expectedBucketName     = "test-aws-bucket";
         byte[]            expectedInput          = new byte[]{'a', 'b', 'c'};
         int               expectedContentLength  = 3;
@@ -53,6 +57,7 @@ public class CdnServicePutTest extends AbstractIntegrationTest
 
         cdnService.setS3Repository(new S3Repository(applicationPropertiesMock, amazonS3ClientFactoryMock));
         cdnService.setApplicationProperties(applicationPropertiesMock);
+        cdnService.setLocalDateTimeFactory(MockFactory.getLocalDateTimeFactoryMockWithDateTime(testMockTime));
 
         // Act
         cdnService.put(testedCdnNamespaceEnum, testedFileName, testedFileExtension, testedFile);
