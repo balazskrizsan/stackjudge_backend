@@ -10,10 +10,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
-import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
-import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.value_objects.*;
 import org.jooq.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,9 +78,20 @@ public class CompanyService
         companyRepository.delete(companyId);
     }
 
-    public Company get(long companyId) throws RepositoryNotFoundException
+    public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
+    throws RepositoryNotFoundException
     {
-        return companyRepository.get(companyId);
+        CompanySearchServiceResponse searchResponse = search(
+            companyId,
+            1,
+            requestRelationIds,
+            NavigationEnum.EXACTLY_ONE
+        );
+
+        return new CompanyGetServiceResponse(
+            searchResponse.companies().get(0),
+            searchResponse.companyStatistics().get(companyId)
+        );
     }
 
     public List<Company> search(long seekId, int limit, NavigationEnum navigation)
@@ -92,6 +100,7 @@ public class CompanyService
         {
             return companyRepository.search(seekId, limit);
         }
+
         return switch (navigation)
             {
                 case FIRST -> companyRepository.search(0, limit);
@@ -101,6 +110,10 @@ public class CompanyService
                     navigation,
                     limit
                 );
+                case EXACTLY_ONE -> new ArrayList<>()
+                {{
+                    add(companyRepository.get(seekId));
+                }};
                 default -> companyRepository.search(seekId, limit);
             };
     }
