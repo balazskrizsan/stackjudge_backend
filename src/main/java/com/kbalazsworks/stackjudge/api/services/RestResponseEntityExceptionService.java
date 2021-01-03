@@ -5,10 +5,13 @@ import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.exceptions.HttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -20,6 +23,30 @@ import javax.validation.ValidationException;
 public class RestResponseEntityExceptionService extends ResponseEntityExceptionHandler
 {
     private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionService.class);
+
+    @Override
+    protected @NotNull ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+        HttpRequestMethodNotSupportedException e,
+        HttpHeaders headers,
+        HttpStatus status,
+        WebRequest request
+    )
+    {
+        ResponseEntityBuilder<Object> errorResponseEntityBuilder = new ResponseEntityBuilder<>();
+        errorResponseEntityBuilder.setData(e.getMessage());
+
+        logger.error(e.getMessage());
+        try
+        {
+            return (ResponseEntity) errorResponseEntityBuilder.build();
+        }
+        catch (ApiException apiException)
+        {
+            apiException.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(value = {HttpException.class})
     protected ResponseEntity<ResponseData<String>> handleConflict(HttpException e, WebRequest request) throws Exception
@@ -39,7 +66,8 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
     }
 
     @ExceptionHandler(value = {RuntimeException.class})
-    protected ResponseEntity<ResponseData<String>> handleConflict(RuntimeException e, WebRequest request) throws Exception
+    protected ResponseEntity<ResponseData<String>> handleConflict(RuntimeException e, WebRequest request)
+    throws Exception
     {
         return exceptionHandler(e);
     }
