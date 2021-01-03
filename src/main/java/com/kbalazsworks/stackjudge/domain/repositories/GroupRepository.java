@@ -52,7 +52,8 @@ public class GroupRepository extends AbstractRepository
                     + "     UNION ALL"
                     + "     SELECT SR.id, SR.name, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
                     + " )"
-                    + " SELECT * FROM rec;",
+                    + " SELECT * FROM rec"
+                    + " ORDER BY path;",
                 val(companyId)
             )
             .fetch()
