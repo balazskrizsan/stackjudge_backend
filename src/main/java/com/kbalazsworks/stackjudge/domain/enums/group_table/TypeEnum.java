@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.enums.stack_table;
+package com.kbalazsworks.stackjudge.domain.enums.group_table;
 
 import java.util.Collections;
 import java.util.Map;

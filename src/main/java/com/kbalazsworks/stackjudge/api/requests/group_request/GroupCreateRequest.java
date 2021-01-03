@@ -1,8 +1,8 @@
-package com.kbalazsworks.stackjudge.api.requests.stack_request;
+package com.kbalazsworks.stackjudge.api.requests.group_request;
 
 import javax.validation.constraints.*;
 
-public record StackCreateRequest(
+public record GroupCreateRequest(
     @Positive
     long companyId,
 
@@ -10,7 +10,7 @@ public record StackCreateRequest(
     Long parentId,
 
     @Min(1)
-    @Max(2)
+    @Max(4)
     short typeId,
 
     @Size(min = 2, max = 255)

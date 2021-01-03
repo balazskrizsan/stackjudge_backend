@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.api.services;
 
 import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
-import com.kbalazsworks.stackjudge.api.requests.stack_request.StackCreateRequest;
+import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
@@ -10,7 +10,7 @@ import com.kbalazsworks.stackjudge.session.entities.SessionState;
 
 public class RequestMapperService
 {
-    public static Group mapToRecord(StackCreateRequest request, SessionState sessionState) {
+    public static Group mapToRecord(GroupCreateRequest request, SessionState sessionState) {
         return new Group(
             null,
             request.companyId(),

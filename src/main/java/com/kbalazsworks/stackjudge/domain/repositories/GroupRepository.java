@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
-import com.kbalazsworks.stackjudge.domain.enums.stack_table.TypeEnum;
+import com.kbalazsworks.stackjudge.domain.enums.group_table.TypeEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import org.springframework.stereotype.Repository;
