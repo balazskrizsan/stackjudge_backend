@@ -1,16 +1,17 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.enums.group_table.TypeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static org.jooq.impl.DSL.count;
-import static org.jooq.impl.DSL.val;
+import static org.jooq.impl.DSL.*;
 
 @Repository
 public class GroupRepository extends AbstractRepository
@@ -43,21 +44,20 @@ public class GroupRepository extends AbstractRepository
             .execute();
     }
 
-    public List<RecursiveGroupRecord> recursiveSearch(long companyId)
+    public List<RecursiveGroup> recursiveSearch(List<Long> companyId)
     {
         return createQueryBuilder()
             .resultQuery(
-                "WITH RECURSIVE rec(id, name, parent_id, depth, path) AS ("
-                    + "     SELECT S.id, S.name, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id = {0} AND parent_id IS NULL"
+                "WITH RECURSIVE rec(id, name, company_id, parent_id, depth, path) AS ("
+                    + "     SELECT S.id, S.name, S.company_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
                     + "     UNION ALL"
-                    + "     SELECT SR.id, SR.name, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
+                    + "     SELECT SR.id, SR.name, SR.company_id, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
                     + " )"
                     + " SELECT * FROM rec"
                     + " ORDER BY path;",
-                val(companyId)
+                list(companyId.stream().map(DSL::val).collect(Collectors.toList()))
             )
-            .fetch()
-            .into(RecursiveGroupRecord.class);
+            .fetchInto(RecursiveGroup.class);
     }
 
     public Map<Long, Integer> countStacks(List<Long> companyIds)

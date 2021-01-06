@@ -8,6 +8,7 @@ import java.util.Map;
 
 public record CompanySearchServiceResponse(
     @JsonProperty List<Company> companies,
+    @JsonProperty Map<Long, List<RecursiveGroupTree>> companyGroups,
     @JsonProperty List<PaginatorItem> paginator,
     @JsonProperty Long newSeekId,
     @JsonProperty Map<Long, CompanyStatistic> companyStatistics

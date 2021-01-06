@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum CompanyRequestRelationsEnum
 {
     STATISTIC((short) 1),
-    STACK((short) 2),
+    GROUP((short) 2),
     REVIEW((short) 3),
     PAGINATOR((short) 4);
 

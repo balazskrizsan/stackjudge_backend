@@ -1,11 +1,14 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.domain.entities.Group;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
 import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +28,19 @@ public class GroupService
         groupRepository.create(group);
     }
 
-    public List<RecursiveGroupRecord> recursiveSearch(long companyId)
+    //@todo: test
+    public List<RecursiveGroup> recursiveSearch(List<Long> companyId)
     {
         return groupRepository.recursiveSearch(companyId);
+    }
+
+    //@todo: mock test
+    public List<RecursiveGroup> recursiveSearch(long companyId)
+    {
+        return recursiveSearch(new ArrayList<>()
+        {{
+            add(companyId);
+        }});
     }
 
     public Map<Long, Integer> countStacks(List<Long> companyIds)
@@ -38,5 +51,46 @@ public class GroupService
     public Map<Long, Integer> countTeams(List<Long> companyIds)
     {
         return groupRepository.countTeams(companyIds);
+    }
+
+    public List<RecursiveGroupTree> generateTreeStructure(List<RecursiveGroup> recursiveGroups)
+    {
+        List<RecursiveGroupTree>            recursiveGroupTrees = new ArrayList<>();
+        Map<Long, List<RecursiveGroupTree>> children            = new HashMap<>();
+
+        int maxDepth = recursiveGroups.stream().map(RecursiveGroup::depth).max(Integer::compareTo).orElse(0);
+
+        for (int depth = maxDepth; depth > 0; depth--)
+        {
+            int finalDepth = depth;
+            recursiveGroups.stream().filter(g -> g.depth() == finalDepth).forEach(
+                recursiveGroup ->
+                {
+                    List<RecursiveGroupTree> childrenOfCurrents = children.get(recursiveGroup.id());
+
+                    RecursiveGroupTree newChild = new RecursiveGroupTree(recursiveGroup, childrenOfCurrents);
+
+                    if (recursiveGroup.depth() == 1)
+                    {
+                        recursiveGroupTrees.add(newChild);
+
+                        return;
+                    }
+
+                    List<RecursiveGroupTree> parent = children.get(recursiveGroup.parentId());
+                    if (null == parent)
+                    {
+                        children.put(recursiveGroup.parentId(), new ArrayList<>()
+                        {{
+                            add(newChild);
+                        }});
+
+                        return;
+                    }
+
+                    parent.add(newChild);
+                });
+        }
+        return recursiveGroupTrees;
     }
 }

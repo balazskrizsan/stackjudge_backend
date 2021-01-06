@@ -90,7 +90,8 @@ public class CompanyService
 
         return new CompanyGetServiceResponse(
             searchResponse.companies().get(0),
-            searchResponse.companyStatistics().get(companyId)
+            searchResponse.companyStatistics().get(companyId),
+            searchResponse.companyGroups().get(companyId)
         );
     }
 
@@ -128,9 +129,11 @@ public class CompanyService
     {
         List<Company> companies = search(seekId, limit, navigation);
 
-        Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
-        List<PaginatorItem>         paginator         = new ArrayList<>();
-        Long                        newSeekId         = null;
+        Map<Long, CompanyStatistic>         companyStatistics = new HashMap<>();
+        Map<Long, List<RecursiveGroupTree>> companyGroups     = new HashMap<>();
+        List<PaginatorItem>                 paginator         = new ArrayList<>();
+        Long                                newSeekId         = null;
+
         if (requestRelationIds != null)
         {
             List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
@@ -139,18 +142,20 @@ public class CompanyService
             {
                 companyStatistics = getStatistic(companyIds);
             }
+
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.GROUP.getValue()))
+            {
+                companyGroups = getCompanyGroups(companyIds);
+            }
+
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
             {
                 newSeekId = companies.get(0).id();
-                paginator = paginatorService.generate(
-                    countRecordsBeforeId(newSeekId),
-                    countRecords(),
-                    limit
-                );
+                paginator = paginatorService.generate(countRecordsBeforeId(newSeekId), countRecords(), limit);
             }
         }
 
-        return new CompanySearchServiceResponse(companies, paginator, newSeekId, companyStatistics);
+        return new CompanySearchServiceResponse(companies, companyGroups, paginator, newSeekId, companyStatistics);
     }
 
     //@todo: test
@@ -163,6 +168,34 @@ public class CompanyService
     public long countRecordsBeforeId(long seekId)
     {
         return companyRepository.countRecordsBeforeId(seekId);
+    }
+
+    //@todo: mock test
+    public Map<Long, List<RecursiveGroupTree>> getCompanyGroups(List<Long> companyIds)
+    {
+        Map<Long, List<RecursiveGroupTree>> companyGroups = new HashMap<>();
+
+        groupService.generateTreeStructure(groupService.recursiveSearch(companyIds)).forEach(
+            recursiveGroupTree ->
+            {
+                long key = recursiveGroupTree.recursiveGroup().companyId();
+
+                List<RecursiveGroupTree> groupTrees = companyGroups.get(key);
+                if (groupTrees == null)
+                {
+                    companyGroups.put(key, new ArrayList<>()
+                    {{
+                        add(recursiveGroupTree);
+                    }});
+
+                    return;
+                }
+
+                groupTrees.add(recursiveGroupTree);
+            }
+        );
+
+        return companyGroups;
     }
 
     // todo: mock test

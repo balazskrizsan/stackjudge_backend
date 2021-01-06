@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.requests.company_request.GetStackRecursiveByCompanyIdRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupRecord;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +28,11 @@ public class GetGroupRecursiveByCompanyIdAction
     }
 
     @GetMapping("{companyId}/group/recursive")
-    public ResponseEntity<ResponseData<List<RecursiveGroupRecord>>> action(GetStackRecursiveByCompanyIdRequest request) throws ApiException
+    public ResponseEntity<ResponseData<List<RecursiveGroup>>> action(GetStackRecursiveByCompanyIdRequest request) throws ApiException
     {
         new JavaxValidatorService<GetStackRecursiveByCompanyIdRequest>().validate(request);
 
-        ResponseEntityBuilder<List<RecursiveGroupRecord>> responseEntityBuilder = new ResponseEntityBuilder<>();
+        ResponseEntityBuilder<List<RecursiveGroup>> responseEntityBuilder = new ResponseEntityBuilder<>();
 
         responseEntityBuilder.setData(groupService.recursiveSearch(request.getCompanyId()));
 
