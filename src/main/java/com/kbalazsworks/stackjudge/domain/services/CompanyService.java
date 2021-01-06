@@ -158,13 +158,11 @@ public class CompanyService
         return new CompanySearchServiceResponse(companies, companyGroups, paginator, newSeekId, companyStatistics);
     }
 
-    //@todo: test
     public long countRecords()
     {
         return companyRepository.countRecords();
     }
 
-    //@todo: test
     public long countRecordsBeforeId(long seekId)
     {
         return companyRepository.countRecordsBeforeId(seekId);
