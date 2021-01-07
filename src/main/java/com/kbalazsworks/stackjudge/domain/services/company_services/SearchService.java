@@ -22,7 +22,6 @@ public class SearchService
         this.groupService = groupService;
     }
 
-    //@todo: unit test
     public Map<Long, List<RecursiveGroupTree>> getCompanyGroups(List<Long> companyIds)
     {
         Map<Long, List<RecursiveGroupTree>> companyGroups = new HashMap<>();
