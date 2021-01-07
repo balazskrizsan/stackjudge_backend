@@ -18,7 +18,6 @@ public class CompanyServiceCountRecordsBeforeSeekIdTest extends AbstractIntegrat
     @Autowired
     private CompanyService companyService;
 
-
     @Test
     @SqlGroup(
         {
@@ -48,5 +47,4 @@ public class CompanyServiceCountRecordsBeforeSeekIdTest extends AbstractIntegrat
         // Assert
         assertThat(actualResult).isEqualTo(expectedNumberOdRecords);
     }
-
 }
