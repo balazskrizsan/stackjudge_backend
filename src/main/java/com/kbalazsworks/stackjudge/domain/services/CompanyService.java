@@ -10,6 +10,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.*;
 import org.jooq.Configuration;
 import org.slf4j.Logger;
@@ -32,10 +33,10 @@ public class CompanyService
 
     private CompanyRepository companyRepository;
     private AddressService    addressService;
-    private GroupService      groupService;
     private PaginatorService  paginatorService;
     private JooqService       jooqService;
     private CdnService        cdnService;
+    private SearchService     searchService;
 
     @Autowired
     public void setJooqService(JooqService jooqService)
@@ -56,12 +57,6 @@ public class CompanyService
     }
 
     @Autowired
-    public void setStackService(GroupService groupService)
-    {
-        this.groupService = groupService;
-    }
-
-    @Autowired
     public void setPaginatorService(PaginatorService paginatorService)
     {
         this.paginatorService = paginatorService;
@@ -76,6 +71,12 @@ public class CompanyService
     public void delete(long companyId)
     {
         companyRepository.delete(companyId);
+    }
+
+    @Autowired
+    public void setSearchService(SearchService searchService)
+    {
+        this.searchService = searchService;
     }
 
     public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
@@ -140,12 +141,12 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.STATISTIC.getValue()))
             {
-                companyStatistics = getStatistic(companyIds);
+                companyStatistics = searchService.getStatistic(companyIds);
             }
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.GROUP.getValue()))
             {
-                companyGroups = getCompanyGroups(companyIds);
+                companyGroups = searchService.getCompanyGroups(companyIds);
             }
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
@@ -166,53 +167,6 @@ public class CompanyService
     public long countRecordsBeforeId(long seekId)
     {
         return companyRepository.countRecordsBeforeId(seekId);
-    }
-
-    //@todo: mock test
-    public Map<Long, List<RecursiveGroupTree>> getCompanyGroups(List<Long> companyIds)
-    {
-        Map<Long, List<RecursiveGroupTree>> companyGroups = new HashMap<>();
-
-        groupService.generateTreeStructure(groupService.recursiveSearch(companyIds)).forEach(
-            recursiveGroupTree ->
-            {
-                long key = recursiveGroupTree.recursiveGroup().companyId();
-
-                List<RecursiveGroupTree> groupTrees = companyGroups.get(key);
-                if (groupTrees == null)
-                {
-                    companyGroups.put(key, new ArrayList<>()
-                    {{
-                        add(recursiveGroupTree);
-                    }});
-
-                    return;
-                }
-
-                groupTrees.add(recursiveGroupTree);
-            }
-        );
-
-        return companyGroups;
-    }
-
-    // todo: mock test
-    public Map<Long, CompanyStatistic> getStatistic(List<Long> companyIds)
-    {
-        Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();
-
-        Map<Long, Integer> stackInfo = groupService.countStacks(companyIds);
-        Map<Long, Integer> teamInfo  = groupService.countTeams(companyIds);
-
-        companyIds.forEach(id -> companyStatistics.put(id, new CompanyStatistic(
-            id,
-            stackInfo.getOrDefault(id, 0),
-            teamInfo.getOrDefault(id, 0),
-            0,
-            0
-        )));
-
-        return companyStatistics;
     }
 
     public void create(Company company, Address address, MultipartFile companyLogo)
