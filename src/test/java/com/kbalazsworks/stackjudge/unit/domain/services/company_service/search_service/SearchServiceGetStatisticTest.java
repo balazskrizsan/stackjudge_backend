@@ -31,7 +31,12 @@ public class SearchServiceGetStatisticTest extends AbstractTest
         Assert.assertTrue(true);
     }
 
-    private record TestData(List<Long> testedCompanyIds, Map<Long, CompanyStatistic> expectedStatistic)
+    private record TestData(
+        List<Long> testedCompanyIds,
+        Map<Long, CompanyStatistic> expectedStatistic,
+        Map<Long, Integer> mockForCountStack,
+        Map<Long, Integer> mockForCountTeams
+    )
     {
     }
 
@@ -51,13 +56,25 @@ public class SearchServiceGetStatisticTest extends AbstractTest
                     put(1L, new CompanyStatistic(1L, 12, 13, 0, 0));
                     put(3L, new CompanyStatistic(3L, 22, 23, 0, 0));
                     put(5L, new CompanyStatistic(5L, 32, 33, 0, 0));
+                }},
+                new HashMap<>()
+                {{
+                    put(1L, 12);
+                    put(3L, 22);
+                    put(5L, 32);
+                }},
+                new HashMap<>()
+                {{
+                    put(1L, 13);
+                    put(3L, 23);
+                    put(5L, 33);
                 }}
             );
         }
 
         if (repetition == 2)
         {
-            return new TestData(new ArrayList<>(), new HashMap<>());
+            return new TestData(new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>());
         }
 
         throw new JUnitException("Missing test data on repetition#" + repetition);
@@ -70,22 +87,9 @@ public class SearchServiceGetStatisticTest extends AbstractTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         GroupService groupServiceMock = mock(GroupService.class);
-        when(groupServiceMock.countStacks(testData.testedCompanyIds)).thenReturn(
-            new HashMap<>()
-            {{
-                put(1L, 12);
-                put(3L, 22);
-                put(5L, 32);
-            }}
-        );
-        when(groupServiceMock.countTeams(testData.testedCompanyIds)).thenReturn(
-            new HashMap<>()
-            {{
-                put(1L, 13);
-                put(3L, 23);
-                put(5L, 33);
-            }}
-        );
+        when(groupServiceMock.countStacks(testData.testedCompanyIds)).thenReturn(testData.mockForCountStack);
+        when(groupServiceMock.countTeams(testData.testedCompanyIds)).thenReturn(testData.mockForCountTeams);
+
         searchService.setGroupService(groupServiceMock);
 
         // Act
