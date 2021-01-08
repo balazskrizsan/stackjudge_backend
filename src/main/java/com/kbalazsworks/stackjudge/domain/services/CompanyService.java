@@ -68,15 +68,15 @@ public class CompanyService
         this.cdnService = cdnService;
     }
 
-    public void delete(long companyId)
-    {
-        companyRepository.delete(companyId);
-    }
-
     @Autowired
     public void setSearchService(SearchService searchService)
     {
         this.searchService = searchService;
+    }
+
+    public void delete(long companyId)
+    {
+        companyRepository.delete(companyId);
     }
 
     public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
@@ -120,7 +120,6 @@ public class CompanyService
             };
     }
 
-    // todo: mock test
     public CompanySearchServiceResponse search(
         long seekId,
         int limit,
