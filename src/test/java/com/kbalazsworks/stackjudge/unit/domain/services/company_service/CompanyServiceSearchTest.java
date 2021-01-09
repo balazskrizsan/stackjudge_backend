@@ -1,0 +1,169 @@
+package com.kbalazsworks.stackjudge.unit.domain.services.company_service;
+
+import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
+import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
+import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyStatisticFakeBuilder;
+import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.platform.commons.JUnitException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class CompanyServiceSearchTest extends AbstractTest
+{
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private AddressService    addressService;
+
+    @Autowired
+    private PaginatorService  paginatorService;
+
+    @Autowired
+    private JooqService       jooqService;
+
+    @Autowired
+    private CdnService        cdnService;
+
+    @Autowired
+    private SearchService     searchService;
+
+    @BeforeEach
+    @AfterEach
+    public void clean()
+    {
+        companyService.setCompanyRepository(companyRepository);
+        companyService.setAddressService(addressService);
+        companyService.setPaginatorService(paginatorService);
+        companyService.setJooqService(jooqService);
+        companyService.setCdnService(cdnService);
+        companyService.setSearchService(searchService);
+    }
+
+    @Test
+    public void VintageHack()
+    {
+        assertThat(true).isTrue();
+    }
+
+    private record TestData(
+        long testedSeekId,
+        int testedLimit,
+        List<Short> testedRequestRelationIds,
+        List<Company> mockedCompanies,
+        Map<Long, CompanyStatistic> mockForGetStatistic,
+        List<PaginatorItem> mockForGenerate,
+        NavigationEnum testedNavigation,
+        CompanySearchServiceResponse expectedResponse
+    )
+    {
+    }
+
+    private TestData provider(int repetition)
+    {
+        if (repetition == 1)
+        {
+            return new TestData(
+                1L,
+                2,
+                null,
+                new CompanyFakeBuilder().buildAsList(),
+                new HashMap<>(),
+                new ArrayList<>(),
+                NavigationEnum.CURRENT_PLUS_1,
+                new CompanySearchServiceResponse(
+                    new CompanyFakeBuilder().buildAsList(),
+                    new HashMap<>(),
+                    new ArrayList<>(),
+                    null,
+                    new HashMap<>()
+                )
+            );
+        }
+        if (repetition == 2)
+        {
+            long expectedSeekId = 164985367L;
+
+            return new TestData(
+                1L,
+                2,
+                List.of((short) 1, (short) 2, (short) 4),
+                new CompanyFakeBuilder().buildAsList(),
+                Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
+                List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
+                NavigationEnum.CURRENT_PLUS_1,
+                new CompanySearchServiceResponse(
+                    new CompanyFakeBuilder().setId(expectedSeekId).buildAsList(),
+                    new HashMap<>(),
+                    List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
+                    expectedSeekId,
+                    Map.of(164985367L, new CompanyStatisticFakeBuilder().build())
+                )
+            );
+        }
+
+        throw new JUnitException("Missing test data on repetition#" + repetition);
+    }
+
+    @RepeatedTest(2)
+    public void allCallableCalled_byTheProvider(RepetitionInfo repetitionInfo)
+    {
+        // Arrange
+        TestData   testData           = provider(repetitionInfo.getCurrentRepetition());
+        List<Long> mockedCompaniesIds = testData.mockedCompanies.stream().map(Company::id).collect(Collectors.toList());
+
+        CompanyRepository companyRepositoryMock = mock(CompanyRepository.class);
+        when(companyRepositoryMock.search(testData.testedSeekId, testData.testedNavigation, testData.testedLimit))
+            .thenReturn(testData.mockedCompanies);
+        when(companyRepositoryMock.countRecordsBeforeId(mockedCompaniesIds.get(0))).thenReturn(1L);
+        when(companyRepositoryMock.countRecords()).thenReturn(2L);
+        companyService.setCompanyRepository(companyRepositoryMock);
+
+        SearchService searchServiceMock = mock(SearchService.class);
+        when(searchServiceMock.getStatistic(mockedCompaniesIds)).thenReturn(testData.mockForGetStatistic);
+        companyService.setSearchService(searchServiceMock);
+
+        PaginatorService paginatorServiceMock = mock(PaginatorService.class);
+        when(paginatorServiceMock.generate(1L, 2L, testData.testedLimit))
+            .thenReturn(testData.mockForGenerate);
+        companyService.setPaginatorService(paginatorServiceMock);
+
+        // Act
+        CompanySearchServiceResponse actualResponse = companyService.search(
+            testData.testedSeekId,
+            testData.testedLimit,
+            testData.testedRequestRelationIds,
+            testData.testedNavigation
+        );
+
+        assertAll(
+            () -> assertThat(actualResponse).isEqualTo(testData.expectedResponse)
+        );
+    }
+}

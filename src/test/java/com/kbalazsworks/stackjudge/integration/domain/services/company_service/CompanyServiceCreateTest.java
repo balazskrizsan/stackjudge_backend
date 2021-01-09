@@ -16,6 +16,7 @@ import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -43,7 +44,8 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     private CdnService cdnService;
 
     @BeforeEach
-    public void setUp()
+    @AfterEach
+    public void clean()
     {
         companyService.setAddressService(addressService);
         companyService.setCdnService(cdnService);
