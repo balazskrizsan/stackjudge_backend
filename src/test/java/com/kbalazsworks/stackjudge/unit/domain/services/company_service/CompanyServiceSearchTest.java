@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.unit.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
@@ -10,6 +11,7 @@ import com.kbalazsworks.stackjudge.domain.services.company_services.SearchServic
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyStatisticFakeBuilder;
 import org.junit.Test;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,19 +43,19 @@ public class CompanyServiceSearchTest extends AbstractTest
     private CompanyRepository companyRepository;
 
     @Autowired
-    private AddressService    addressService;
+    private AddressService addressService;
 
     @Autowired
-    private PaginatorService  paginatorService;
+    private PaginatorService paginatorService;
 
     @Autowired
-    private JooqService       jooqService;
+    private JooqService jooqService;
 
     @Autowired
-    private CdnService        cdnService;
+    private CdnService cdnService;
 
     @Autowired
-    private SearchService     searchService;
+    private SearchService searchService;
 
     @BeforeEach
     @AfterEach
@@ -76,10 +79,11 @@ public class CompanyServiceSearchTest extends AbstractTest
         long testedSeekId,
         int testedLimit,
         List<Short> testedRequestRelationIds,
+        NavigationEnum testedNavigation,
         List<Company> mockedCompanies,
         Map<Long, CompanyStatistic> mockForGetStatistic,
         List<PaginatorItem> mockForGenerate,
-        NavigationEnum testedNavigation,
+        Map<Long, List<Address>> mockForSearchAddresses,
         CompanySearchServiceResponse expectedResponse
     )
     {
@@ -90,40 +94,50 @@ public class CompanyServiceSearchTest extends AbstractTest
         if (repetition == 1)
         {
             return new TestData(
+                // tested
                 1L,
                 2,
                 null,
+                NavigationEnum.CURRENT_PLUS_1,
+                // mock
                 new CompanyFakeBuilder().buildAsList(),
                 new HashMap<>(),
                 new ArrayList<>(),
-                NavigationEnum.CURRENT_PLUS_1,
+                new HashMap<>(),
+                // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().buildAsList(),
                     new HashMap<>(),
                     new ArrayList<>(),
                     null,
+                    new HashMap<>(),
                     new HashMap<>()
                 )
             );
         }
         if (repetition == 2)
         {
-            long expectedSeekId = 164985367L;
+            long expectedCompanyId = 164985367L;
 
             return new TestData(
+                // tested
                 1L,
                 2,
-                List.of((short) 1, (short) 2, (short) 4),
+                List.of((short) 1, (short) 2, (short) 4, (short) 5),
+                NavigationEnum.CURRENT_PLUS_1,
+                // mock
                 new CompanyFakeBuilder().buildAsList(),
                 Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                NavigationEnum.CURRENT_PLUS_1,
+                Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
+                // expected
                 new CompanySearchServiceResponse(
-                    new CompanyFakeBuilder().setId(expectedSeekId).buildAsList(),
+                    new CompanyFakeBuilder().setId(expectedCompanyId).buildAsList(),
                     new HashMap<>(),
                     List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                    expectedSeekId,
-                    Map.of(164985367L, new CompanyStatisticFakeBuilder().build())
+                    expectedCompanyId,
+                    Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
+                    Map.of(164985367L, new AddressFakeBuilder().buildAsList())
                 )
             );
         }
@@ -153,6 +167,10 @@ public class CompanyServiceSearchTest extends AbstractTest
         when(paginatorServiceMock.generate(1L, 2L, testData.testedLimit))
             .thenReturn(testData.mockForGenerate);
         companyService.setPaginatorService(paginatorServiceMock);
+
+        AddressService addressServiceMock = mock(AddressService.class);
+        when(addressServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForSearchAddresses);
+        companyService.setAddressService(addressServiceMock);
 
         // Act
         CompanySearchServiceResponse actualResponse = companyService.search(

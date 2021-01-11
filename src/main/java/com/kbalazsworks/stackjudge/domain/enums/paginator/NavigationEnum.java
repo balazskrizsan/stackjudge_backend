@@ -27,7 +27,7 @@ public enum NavigationEnum
     @JsonProperty("9")
     LAST((short) 9),
     @JsonProperty("10")
-    EXACTLY_ONE((short) 10);
+    EXACTLY_ONE_RECORD((short) 10);
 
     final private        Short                      value;
     private static final Map<Short, NavigationEnum> ENUM_MAP;

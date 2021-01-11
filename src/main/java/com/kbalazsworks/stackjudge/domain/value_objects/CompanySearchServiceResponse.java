@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.value_objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 
 import java.util.List;
@@ -11,7 +12,8 @@ public record CompanySearchServiceResponse(
     @JsonProperty Map<Long, List<RecursiveGroupTree>> companyGroups,
     @JsonProperty List<PaginatorItem> paginator,
     @JsonProperty Long newSeekId,
-    @JsonProperty Map<Long, CompanyStatistic> companyStatistics
+    @JsonProperty Map<Long, CompanyStatistic> companyStatistics,
+    @JsonProperty Map<Long, List<Address>> companyAddresses
 )
 {
 }

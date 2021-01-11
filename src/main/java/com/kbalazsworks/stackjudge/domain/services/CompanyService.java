@@ -86,7 +86,7 @@ public class CompanyService
             companyId,
             1,
             requestRelationIds,
-            NavigationEnum.EXACTLY_ONE
+            NavigationEnum.EXACTLY_ONE_RECORD
         );
 
         return new CompanyGetServiceResponse(
@@ -112,7 +112,7 @@ public class CompanyService
                     navigation,
                     limit
                 );
-                case EXACTLY_ONE -> new ArrayList<>()
+                case EXACTLY_ONE_RECORD -> new ArrayList<>()
                 {{
                     add(companyRepository.get(seekId));
                 }};
@@ -133,6 +133,7 @@ public class CompanyService
         Map<Long, List<RecursiveGroupTree>> companyGroups     = new HashMap<>();
         List<PaginatorItem>                 paginator         = new ArrayList<>();
         Long                                newSeekId         = null;
+        Map<Long, List<Address>>            companyAddresses  = new HashMap<>();
 
         if (requestRelationIds != null)
         {
@@ -153,9 +154,22 @@ public class CompanyService
                 newSeekId = companies.get(0).id();
                 paginator = paginatorService.generate(countRecordsBeforeId(newSeekId), countRecords(), limit);
             }
+
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.ADDRESSS.getValue()))
+            {
+                companyAddresses = addressService.search(companyIds);
+            }
+
         }
 
-        return new CompanySearchServiceResponse(companies, companyGroups, paginator, newSeekId, companyStatistics);
+        return new CompanySearchServiceResponse(
+            companies,
+            companyGroups,
+            paginator,
+            newSeekId,
+            companyStatistics,
+            companyAddresses
+        );
     }
 
     public long countRecords()

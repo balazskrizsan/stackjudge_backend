@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class AddressService
 {
@@ -47,5 +51,10 @@ public class AddressService
 
             throw e;
         }
+    }
+
+    public Map<Long, List<Address>> search(List<Long> companyIds)
+    {
+        return new HashMap<>();
     }
 }

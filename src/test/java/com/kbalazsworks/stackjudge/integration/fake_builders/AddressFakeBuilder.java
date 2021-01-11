@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.fake_builders;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AddressFakeBuilder
 {
@@ -15,6 +16,11 @@ public class AddressFakeBuilder
     private Double        manualMarkerLng = 44.44;
     private LocalDateTime createdAt       = LocalDateTime.of(2020, 11, 22, 11, 22, 33);
     private Long          createdBy       = 333L;
+
+    public List<Address> buildAsList()
+    {
+        return List.of(build());
+    }
 
     public Address build()
     {
