@@ -45,30 +45,22 @@ public class SearchServiceGetStatisticTest extends AbstractTest
         if (repetition == 1)
         {
             return new TestData(
-                new ArrayList<>()
-                {{
-                    add(1L);
-                    add(3L);
-                    add(5L);
-                }},
-                new HashMap<>()
-                {{
-                    put(1L, new CompanyStatistic(1L, 12, 13, 0, 0));
-                    put(3L, new CompanyStatistic(3L, 22, 23, 0, 0));
-                    put(5L, new CompanyStatistic(5L, 32, 33, 0, 0));
-                }},
-                new HashMap<>()
-                {{
-                    put(1L, 12);
-                    put(3L, 22);
-                    put(5L, 32);
-                }},
-                new HashMap<>()
-                {{
-                    put(1L, 13);
-                    put(3L, 23);
-                    put(5L, 33);
-                }}
+                List.of(1L, 3L, 5L),
+                Map.of(
+                    1L, new CompanyStatistic(1L, 12, 13, 0, 0),
+                    3L, new CompanyStatistic(3L, 22, 23, 0, 0),
+                    5L, new CompanyStatistic(5L, 32, 33, 0, 0)
+                ),
+                Map.of(
+                    1L, 12,
+                    3L, 22,
+                    5L, 32
+                ),
+                Map.of(
+                    1L, 13,
+                    3L, 23,
+                    5L, 33
+                )
             );
         }
 

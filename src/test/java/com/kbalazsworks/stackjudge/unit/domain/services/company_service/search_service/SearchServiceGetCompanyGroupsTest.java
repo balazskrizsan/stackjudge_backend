@@ -45,28 +45,19 @@ public class SearchServiceGetCompanyGroupsTest extends AbstractTest
         if (repetition == 1)
         {
             return new TestData(
-                new ArrayList<>()
-                {{
-                    add(1L);
-                    add(3L);
-                }},
-                new HashMap<>()
-                {{
-                    put(1L, new ArrayList<>()
-                    {{
-                        add(new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null));
-                    }});
-                    put(3L, new ArrayList<>()
-                    {{
-                        add(new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null));
-                        add(new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null));
-                    }});
-                }},
-                new ArrayList<>() {{
-                    add(new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null));
-                    add(new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null));
-                    add(new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null));
-                }}
+                List.of(1L, 3L),
+                Map.of(
+                    1L, List.of(new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null)),
+                    3L, List.of(
+                        new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null),
+                        new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null)
+                    )
+                ),
+                List.of(
+                    new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null),
+                    new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null),
+                    new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null)
+                )
             );
         }
 

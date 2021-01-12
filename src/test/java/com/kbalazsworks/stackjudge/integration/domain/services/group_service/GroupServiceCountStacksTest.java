@@ -9,7 +9,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class GroupServiceCountStacksTest extends AbstractIntegrationTest
     public void countOnEmptyTable_returnsWithEmptyList()
     {
         // Arrange
-        List<Long>         testedIds        = Arrays.asList(1L, 3L);
+        List<Long>         testedIds        = List.of(1L, 3L);
         Map<Long, Integer> expectedResponse = new HashMap<>();
 
         // Act
@@ -61,12 +60,8 @@ public class GroupServiceCountStacksTest extends AbstractIntegrationTest
     public void countOnFilledDb_returnWithTheExpectedList()
     {
         // Arrange
-        List<Long> testedIds = Arrays.asList(164985367L, 854621354L);
-        Map<Long, Integer> expectedResponse = new HashMap<>()
-        {{
-            put(164985367L, 2);
-            put(854621354L, 3);
-        }};
+        List<Long>         testedIds        = List.of(164985367L, 854621354L);
+        Map<Long, Integer> expectedResponse = Map.of(164985367L, 2, 854621354L, 3);
 
         // Act
         Map<Long, Integer> actualResponse = groupService.countStacks(testedIds);

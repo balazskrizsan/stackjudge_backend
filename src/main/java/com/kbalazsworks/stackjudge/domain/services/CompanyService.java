@@ -112,10 +112,7 @@ public class CompanyService
                     navigation,
                     limit
                 );
-                case EXACTLY_ONE_RECORD -> new ArrayList<>()
-                {{
-                    add(companyRepository.get(seekId));
-                }};
+                case EXACTLY_ONE_RECORD -> List.of(companyRepository.get(seekId));
                 default -> companyRepository.search(seekId, limit);
             };
     }
