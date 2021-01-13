@@ -7,6 +7,8 @@ import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
@@ -24,7 +26,17 @@ import static org.mockito.Mockito.*;
 public class SearchServiceGetCompanyGroupsTest extends AbstractTest
 {
     @Autowired
+    private GroupService groupService;
+
+    @Autowired
     SearchService searchService;
+
+    @BeforeEach
+    @AfterEach
+    public void clean()
+    {
+        searchService.setGroupService(groupService);
+    }
 
     @Test
     public void vintageHack()

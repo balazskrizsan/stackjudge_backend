@@ -6,6 +6,8 @@ import com.kbalazsworks.stackjudge.domain.services.company_services.SearchServic
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
@@ -23,7 +25,17 @@ import static org.mockito.Mockito.when;
 public class SearchServiceGetStatisticTest extends AbstractTest
 {
     @Autowired
+    private GroupService groupService;
+
+    @Autowired
     SearchService searchService;
+
+    @BeforeEach
+    @AfterEach
+    public void clean()
+    {
+        searchService.setGroupService(groupService);
+    }
 
     @Test
     public void vintageHack()
