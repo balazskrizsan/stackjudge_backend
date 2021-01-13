@@ -92,7 +92,8 @@ public class CompanyService
         return new CompanyGetServiceResponse(
             searchResponse.companies().get(0),
             searchResponse.companyStatistics().get(companyId),
-            searchResponse.companyGroups().get(companyId)
+            searchResponse.companyGroups().get(companyId),
+            searchResponse.companyAddresses().get(companyId)
         );
     }
 

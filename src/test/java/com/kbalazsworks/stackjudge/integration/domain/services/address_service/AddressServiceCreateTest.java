@@ -3,7 +3,6 @@ package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
@@ -53,7 +52,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
             @Sql(
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_one_company.sql"}
+                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_1_company.sql"}
             ),
             @Sql(
                 executionPhase = AFTER_TEST_METHOD,

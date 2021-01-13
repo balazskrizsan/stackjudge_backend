@@ -6,10 +6,14 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
+import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.services.DateTimeFormatterService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,25 @@ import static org.mockito.Mockito.*;
 public class CdnServicePutTest extends AbstractIntegrationTest
 {
     @Autowired
-    private CdnService cdnService;
+    private S3Repository             s3Repository;
+    @Autowired
+    private ApplicationProperties    applicationProperties;
+    @Autowired
+    private LocalDateTimeFactory     localDateTimeFactory;
+    @Autowired
+    private DateTimeFormatterService dateTimeFormatterService;
+    @Autowired
+    private CdnService               cdnService;
+
+    @BeforeEach
+    @AfterEach
+    public void clean()
+    {
+        cdnService.setS3Repository(s3Repository);
+        cdnService.setApplicationProperties(applicationProperties);
+        cdnService.setLocalDateTimeFactory(localDateTimeFactory);
+        cdnService.setDateTimeFormatterService(dateTimeFormatterService);
+    }
 
     @Captor
     ArgumentCaptor<PutObjectRequest> insertValidPutObjectRequest_perfect_captor;

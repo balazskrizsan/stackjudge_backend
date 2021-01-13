@@ -27,7 +27,7 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
             @Sql(
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_one_company.sql"}
+                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_1_company.sql"}
             ),
             @Sql(
                 executionPhase = AFTER_TEST_METHOD,

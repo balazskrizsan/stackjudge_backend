@@ -8,9 +8,9 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
-import com.kbalazsworks.stackjudge.domain.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
 import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
@@ -35,20 +35,30 @@ import static org.mockito.Mockito.*;
 public class CompanyServiceCreateTest extends AbstractIntegrationTest
 {
     @Autowired
-    private CompanyService companyService;
-
+    private CompanyRepository companyRepository;
     @Autowired
-    private AddressService addressService;
-
+    private AddressService    addressService;
     @Autowired
-    private CdnService cdnService;
+    private PaginatorService  paginatorService;
+    @Autowired
+    private JooqService       jooqService;
+    @Autowired
+    private CdnService        cdnService;
+    @Autowired
+    private SearchService     searchService;
+    @Autowired
+    private CompanyService    companyService;
 
     @BeforeEach
     @AfterEach
     public void clean()
     {
+        companyService.setCompanyRepository(companyRepository);
         companyService.setAddressService(addressService);
+        companyService.setPaginatorService(paginatorService);
+        companyService.setJooqService(jooqService);
         companyService.setCdnService(cdnService);
+        companyService.setSearchService(searchService);
     }
 
     private record TestData(

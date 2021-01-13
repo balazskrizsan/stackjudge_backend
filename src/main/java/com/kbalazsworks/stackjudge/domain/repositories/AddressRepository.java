@@ -1,8 +1,9 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class AddressRepository extends AbstractRepository
@@ -35,5 +36,13 @@ public class AddressRepository extends AbstractRepository
                 address.createdBy()
             )
             .execute();
+    }
+
+    public List<Address> search(List<Long> companyIds)
+    {
+        return createQueryBuilder()
+            .selectFrom(addressTable)
+            .where(addressTable.COMPANY_ID.in(companyIds))
+            .fetchInto(Address.class);
     }
 }

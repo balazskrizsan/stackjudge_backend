@@ -13,7 +13,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_one_company.sql"
+                    "classpath:test/sqls/preset_add_1_company.sql"
                 }
             ),
             @Sql(
@@ -165,10 +164,19 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             expectedIdList.add(245678965L);
         }
 
+        if (iteration == 10)
+        {
+            testedSeekId = 565432165;
+            testedLimit  = 1;
+            navigation   = NavigationEnum.EXACTLY_ONE_RECORD;
+
+            expectedIdList.add(565432165L);
+        }
+
         return new TestData(expectedIdList, testedSeekId, testedLimit, navigation);
     }
 
-    @RepeatedTest(value = 9, name = RepeatedTest.LONG_DISPLAY_NAME)
+    @RepeatedTest(value = 10)
     @SqlGroup(
         {
             @Sql(
