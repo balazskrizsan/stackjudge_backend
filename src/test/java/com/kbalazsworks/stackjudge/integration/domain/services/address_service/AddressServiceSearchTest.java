@@ -128,9 +128,8 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        Map<Long, List<Address>> actualResult = addressService.search(testData.testedCompanyIds);
-        Map<Long, List<Long>>    actualIds    = new HashMap<>();
-        actualResult.forEach(
+        Map<Long, List<Long>> actualIds = new HashMap<>();
+        addressService.search(testData.testedCompanyIds).forEach(
             (companyId, addresses) ->
                 actualIds.put(companyId, addresses.stream().map(Address::id).collect(Collectors.toList()))
         );
