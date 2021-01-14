@@ -80,10 +80,7 @@ public class GroupService
                     List<RecursiveGroupTree> parent = children.get(recursiveGroup.parentId());
                     if (null == parent)
                     {
-                        children.put(recursiveGroup.parentId(), new ArrayList<>()
-                        {{
-                            add(newChild);
-                        }});
+                        children.put(recursiveGroup.parentId(), new ArrayList<>(List.of(newChild)));
 
                         return;
                     }

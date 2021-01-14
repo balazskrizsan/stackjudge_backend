@@ -54,22 +54,18 @@ public class AddressService
         }
     }
 
-    //@todo: integration test
     public Map<Long, List<Address>> search(List<Long> companyIds)
     {
         Map<Long, List<Address>> addressesForResponse = new HashMap<>();
         addressRepository.search(companyIds).forEach(
             address ->
             {
-                long key = address.companyId();
+                long companyId = address.companyId();
 
-                List<Address> addresses = addressesForResponse.get(key);
+                List<Address> addresses = addressesForResponse.get(companyId);
                 if (null == addresses)
                 {
-                    addressesForResponse.put(key, new ArrayList<>()
-                    {{
-                        add(address);
-                    }});
+                    addressesForResponse.put(companyId, new ArrayList<>(List.of(address)));
 
                     return;
                 }
