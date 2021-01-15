@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
+import com.kbalazsworks.stackjudge.db.tables.Review;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -1025242735;
+    private static final long serialVersionUID = 1473063980;
 
     /**
      * The reference instance of <code>public</code>
@@ -52,6 +53,11 @@ public class Public extends SchemaImpl {
     public final Group GROUP = Group.GROUP;
 
     /**
+     * The table <code>public.review</code>.
+     */
+    public final Review REVIEW = Review.REVIEW;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -69,7 +75,8 @@ public class Public extends SchemaImpl {
         return Arrays.<Sequence<?>>asList(
             Sequences.ADDRESS_ID_SEQ,
             Sequences.COMPANY_ID_SEQ,
-            Sequences.GROUP_ID_SEQ);
+            Sequences.GROUP_ID_SEQ,
+            Sequences.REVIEW_ID_SEQ);
     }
 
     @Override
@@ -78,6 +85,7 @@ public class Public extends SchemaImpl {
             Address.ADDRESS,
             Company.COMPANY,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
-            Group.GROUP);
+            Group.GROUP,
+            Review.REVIEW);
     }
 }

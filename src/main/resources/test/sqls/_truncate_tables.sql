@@ -1,4 +1,5 @@
 TRUNCATE TABLE
-    address,
+    "address",
     "group",
-    company RESTART IDENTITY;
+    "review",
+    "company" RESTART IDENTITY;
