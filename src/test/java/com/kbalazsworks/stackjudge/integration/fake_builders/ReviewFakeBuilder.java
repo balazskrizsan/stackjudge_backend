@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.fake_builders;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewFakeBuilder
 {
@@ -13,6 +14,11 @@ public class ReviewFakeBuilder
     private short         rate       = 3;
     private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 14, 10, 15, 0);
     private Long          createdBy  = 123L;
+
+    public List<Review> buildAsList()
+    {
+        return List.of(build());
+    }
 
     public Review build()
     {

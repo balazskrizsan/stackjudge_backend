@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
@@ -36,7 +37,8 @@ public class CompanyService
     private PaginatorService  paginatorService;
     private JooqService       jooqService;
     private CdnService        cdnService;
-    private SearchService     searchService;
+    private SearchService searchService;
+    private ReviewService reviewService;
 
     @Autowired
     public void setJooqService(JooqService jooqService)
@@ -72,6 +74,12 @@ public class CompanyService
     public void setSearchService(SearchService searchService)
     {
         this.searchService = searchService;
+    }
+
+    @Autowired
+    public void setReviewService(ReviewService reviewServiceMock)
+    {
+        this.reviewService = reviewServiceMock;
     }
 
     public void delete(long companyId)
@@ -132,6 +140,7 @@ public class CompanyService
         List<PaginatorItem>                 paginator         = new ArrayList<>();
         Long                                newSeekId         = null;
         Map<Long, List<Address>>            companyAddresses  = new HashMap<>();
+        Map<Long, List<Review>>             companyReviews    = new HashMap<>();
 
         if (requestRelationIds != null)
         {
@@ -158,6 +167,11 @@ public class CompanyService
                 companyAddresses = addressService.search(companyIds);
             }
 
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))
+            {
+                companyReviews = reviewService.search(companyIds);
+            }
+
         }
 
         return new CompanySearchServiceResponse(
@@ -166,7 +180,8 @@ public class CompanyService
             paginator,
             newSeekId,
             companyStatistics,
-            companyAddresses
+            companyAddresses,
+            companyReviews
         );
     }
 

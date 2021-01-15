@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.unit.domain.services.company_service;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
@@ -14,6 +15,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyStatisticFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.fake_builders.ReviewFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,22 +40,16 @@ public class CompanyServiceSearchTest extends AbstractTest
 {
     @Autowired
     private CompanyService companyService;
-
     @Autowired
     private CompanyRepository companyRepository;
-
     @Autowired
     private AddressService addressService;
-
     @Autowired
     private PaginatorService paginatorService;
-
     @Autowired
     private JooqService jooqService;
-
     @Autowired
     private CdnService cdnService;
-
     @Autowired
     private SearchService searchService;
 
@@ -84,6 +80,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, CompanyStatistic> mockForGetStatistic,
         List<PaginatorItem> mockForGenerate,
         Map<Long, List<Address>> mockForSearchAddresses,
+        Map<Long, List<Review>> mockForReviews,
         CompanySearchServiceResponse expectedResponse
     )
     {
@@ -104,12 +101,14 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new HashMap<>(),
                 new ArrayList<>(),
                 new HashMap<>(),
+                new HashMap<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().buildAsList(),
                     new HashMap<>(),
                     new ArrayList<>(),
                     null,
+                    new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>()
                 )
@@ -123,13 +122,14 @@ public class CompanyServiceSearchTest extends AbstractTest
                 // tested
                 1L,
                 2,
-                List.of((short) 1, (short) 2, (short) 4, (short) 5),
+                List.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5),
                 NavigationEnum.CURRENT_PLUS_1,
                 // mock
                 new CompanyFakeBuilder().buildAsList(),
                 Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                 Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
+                Map.of(164985367L, new ReviewFakeBuilder().buildAsList()),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().setId(expectedCompanyId).buildAsList(),
@@ -137,7 +137,8 @@ public class CompanyServiceSearchTest extends AbstractTest
                     List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                     expectedCompanyId,
                     Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
-                    Map.of(164985367L, new AddressFakeBuilder().buildAsList())
+                    Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
+                    Map.of(164985367L, new ReviewFakeBuilder().buildAsList())
                 )
             );
         }
@@ -172,6 +173,10 @@ public class CompanyServiceSearchTest extends AbstractTest
         when(addressServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForSearchAddresses);
         companyService.setAddressService(addressServiceMock);
 
+        ReviewService reviewServiceMock = mock(ReviewService.class);
+        when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForReviews);
+        companyService.setReviewService(reviewServiceMock);
+
         // Act
         CompanySearchServiceResponse actualResponse = companyService.search(
             testData.testedSeekId,
@@ -180,6 +185,7 @@ public class CompanyServiceSearchTest extends AbstractTest
             testData.testedNavigation
         );
 
+        // Assert
         assertAll(
             () -> assertThat(actualResponse).isEqualTo(testData.expectedResponse)
         );

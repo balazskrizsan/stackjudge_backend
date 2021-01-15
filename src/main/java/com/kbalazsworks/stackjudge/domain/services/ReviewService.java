@@ -5,6 +5,10 @@ import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class ReviewService
 {
@@ -19,5 +23,10 @@ public class ReviewService
     public void create(Review review)
     {
         reviewRepository.create(review);
+    }
+
+    public Map<Long, List<Review>> search(List<Long> mockedCompaniesIds)
+    {
+        return new HashMap<>();
     }
 }
