@@ -25,7 +25,7 @@ public class ReviewService
         reviewRepository.create(review);
     }
 
-    public Map<Long, List<Review>> search(List<Long> mockedCompaniesIds)
+    public Map<Long, Map<Long, List<Review>>> search(List<Long> companiesIds)
     {
         return new HashMap<>();
     }

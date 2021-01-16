@@ -37,8 +37,8 @@ public class CompanyService
     private PaginatorService  paginatorService;
     private JooqService       jooqService;
     private CdnService        cdnService;
-    private SearchService searchService;
-    private ReviewService reviewService;
+    private SearchService     searchService;
+    private ReviewService     reviewService;
 
     @Autowired
     public void setJooqService(JooqService jooqService)
@@ -140,7 +140,7 @@ public class CompanyService
         List<PaginatorItem>                 paginator         = new ArrayList<>();
         Long                                newSeekId         = null;
         Map<Long, List<Address>>            companyAddresses  = new HashMap<>();
-        Map<Long, List<Review>>             companyReviews    = new HashMap<>();
+        Map<Long, Map<Long, List<Review>>>  companyReviews    = new HashMap<>();
 
         if (requestRelationIds != null)
         {

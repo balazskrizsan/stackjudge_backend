@@ -79,7 +79,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, CompanyStatistic> mockForGetStatistic,
         List<PaginatorItem> mockForGenerate,
         Map<Long, List<Address>> mockForSearchAddresses,
-        Map<Long, List<Review>> mockForReviews,
+        Map<Long, Map<Long, List<Review>>> mockForReviews,
         CompanySearchServiceResponse expectedResponse
     )
     {
@@ -128,7 +128,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                 Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
-                Map.of(164985367L, new ReviewFakeBuilder().buildAsList()),
+                Map.of(164985367L, Map.of(16432165L, new ReviewFakeBuilder().buildAsList())),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().setId(expectedCompanyId).buildAsList(),
@@ -137,7 +137,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     expectedCompanyId,
                     Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
                     Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
-                    Map.of(164985367L, new ReviewFakeBuilder().buildAsList())
+                    Map.of(164985367L, Map.of(16432165L, new ReviewFakeBuilder().buildAsList()))
                 )
             );
         }
