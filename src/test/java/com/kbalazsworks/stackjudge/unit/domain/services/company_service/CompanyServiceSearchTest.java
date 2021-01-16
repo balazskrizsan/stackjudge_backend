@@ -12,10 +12,10 @@ import com.kbalazsworks.stackjudge.domain.services.company_services.SearchServic
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
-import com.kbalazsworks.stackjudge.integration.fake_builders.AddressFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyStatisticFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyStatisticFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,6 @@ import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

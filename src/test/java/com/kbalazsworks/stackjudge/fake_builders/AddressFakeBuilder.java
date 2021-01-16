@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.integration.fake_builders;
+package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 

@@ -4,7 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
-import com.kbalazsworks.stackjudge.integration.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
