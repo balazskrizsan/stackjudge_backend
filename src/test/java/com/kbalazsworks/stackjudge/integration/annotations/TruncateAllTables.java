@@ -28,6 +28,6 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
         )
     }
 )
-public @interface BaseSqlGroup
+public @interface TruncateAllTables
 {
 }

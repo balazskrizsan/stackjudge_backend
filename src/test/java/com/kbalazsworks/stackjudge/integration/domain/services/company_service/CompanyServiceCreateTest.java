@@ -12,7 +12,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
-import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
+import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
@@ -129,7 +129,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     }
 
     @RepeatedTest(2)
-    @BaseSqlGroup
+    @TruncateAllTables
     public void insertOneCompanyWithOneAddress_checkByProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange
@@ -159,7 +159,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     }
 
     @Test
-    @BaseSqlGroup
+    @TruncateAllTables
     public void insertOneCompanyWithErrorOnAddress_rollbackShouldClearTheCompany()
     {
         // Arrange

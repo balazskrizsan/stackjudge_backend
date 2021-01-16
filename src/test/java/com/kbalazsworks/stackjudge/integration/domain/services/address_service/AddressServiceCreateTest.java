@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
-import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
+import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -83,7 +83,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
     }
 
     @Test
-    @BaseSqlGroup
+    @TruncateAllTables
     public void insertOneRecordToTheDbWithoutCompany_throwsException()
     {
         // Arrange

@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.group_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import com.kbalazsworks.stackjudge.integration.annotations.BaseSqlGroup;
+import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -24,7 +24,7 @@ public class GroupServiceCountTeamsTest extends AbstractIntegrationTest
     private GroupService groupService;
 
     @Test
-    @BaseSqlGroup
+    @TruncateAllTables
     public void countOnEmptyTable_returnsWithEmptyList()
     {
         // Arrange
