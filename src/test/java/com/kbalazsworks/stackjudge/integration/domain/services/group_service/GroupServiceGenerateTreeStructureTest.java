@@ -38,78 +38,56 @@ public class GroupServiceGenerateTreeStructureTest extends AbstractIntegrationTe
         if (repetition == 1)
         {
             return new TestData(
-                new ArrayList<>()
-                {{
-                    add(new RecursiveGroup(1L, "A1", 11L, null, 1, "1"));
-                    add(new RecursiveGroup(2L, "B1", 12L, 1L, 2, "1>2"));
-                    add(new RecursiveGroup(3L, "C1", 13L, 2L, 3, "1>2>3"));
-                    add(new RecursiveGroup(4L, "C2", 14L, 2L, 3, "1>2>3"));
-                    add(new RecursiveGroup(5L, "Q1", 15L, null, 1, "5"));
-                    add(new RecursiveGroup(6L, "W2", 16L, 5L, 2, "5>6"));
-                }},
-                new ArrayList<>()
-                {{
-                    add(
-                        new RecursiveGroupTree(
-                            new RecursiveGroup(1L, "A1", 11L, null, 1, "1"),
-                            new ArrayList<>()
-                            {{
-                                add(
+                List.of(
+                    new RecursiveGroup(1L, "A1", 11L, null, 1, "1"),
+                    new RecursiveGroup(2L, "B1", 12L, 1L, 2, "1>2"),
+                    new RecursiveGroup(3L, "C1", 13L, 2L, 3, "1>2>3"),
+                    new RecursiveGroup(4L, "C2", 14L, 2L, 3, "1>2>3"),
+                    new RecursiveGroup(5L, "Q1", 15L, null, 1, "5"),
+                    new RecursiveGroup(6L, "W2", 16L, 5L, 2, "5>6")
+                ),
+                List.of(
+                    new RecursiveGroupTree(
+                        new RecursiveGroup(1L, "A1", 11L, null, 1, "1"),
+                        List.of(
+                            new RecursiveGroupTree(
+                                new RecursiveGroup(2L, "B1", 12L, 1L, 2, "1>2"),
+                                List.of(
                                     new RecursiveGroupTree(
-                                        new RecursiveGroup(2L, "B1", 12L, 1L, 2, "1>2"),
-                                        new ArrayList<>()
-                                        {{
-                                            add(
-                                                new RecursiveGroupTree(
-                                                    new RecursiveGroup(3L, "C1",  13L, 2L, 3, "1>2>3"),
-                                                    null
-                                                )
-                                            );
-                                            add(
-                                                new RecursiveGroupTree(
-                                                    new RecursiveGroup(4L, "C2",  14L, 2L, 3, "1>2>3"),
-                                                    null
-                                                )
-                                            );
-                                        }}
-                                    )
-                                );
-                            }}
-                        )
-                    );
-                    add(
-                        new RecursiveGroupTree(
-                            new RecursiveGroup(5L, "Q1", 15L, null, 1, "5"),
-                            new ArrayList<>()
-                            {{
-                                add(
+                                        new RecursiveGroup(3L, "C1", 13L, 2L, 3, "1>2>3"),
+                                        null
+                                    ),
                                     new RecursiveGroupTree(
-                                        new RecursiveGroup(6L, "W2", 16L, 5L, 2, "5>6"),
+                                        new RecursiveGroup(4L, "C2", 14L, 2L, 3, "1>2>3"),
                                         null
                                     )
-                                );
-                            }}
+                                )
+                            )
                         )
-                    );
-                }}
+                    ),
+                    new RecursiveGroupTree(
+                        new RecursiveGroup(5L, "Q1", 15L, null, 1, "5"),
+                        List.of(
+                            new RecursiveGroupTree(
+                                new RecursiveGroup(6L, "W2", 16L, 5L, 2, "5>6"),
+                                null
+                            )
+                        )
+                    )
+                )
             );
         }
+
         if (repetition == 2)
         {
             return new TestData(
-                new ArrayList<>()
-                {{
-                    add(new RecursiveGroup(1L, "A1", 11L, null, 1, "1"));
-                }},
-                new ArrayList<>()
-                {{
-                    add(
-                        new RecursiveGroupTree(
-                            new RecursiveGroup(1L, "A1", 11L, null, 1, "1"),
-                            null
-                        )
-                    );
-                }}
+                List.of(new RecursiveGroup(1L, "A1", 11L, null, 1, "1")),
+                List.of(
+                    new RecursiveGroupTree(
+                        new RecursiveGroup(1L, "A1", 11L, null, 1, "1"),
+                        null
+                    )
+                )
             );
         }
 

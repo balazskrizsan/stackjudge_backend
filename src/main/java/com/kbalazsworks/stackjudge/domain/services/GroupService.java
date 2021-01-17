@@ -34,10 +34,7 @@ public class GroupService
     //@todo: mock test
     public List<RecursiveGroup> recursiveSearch(long companyId)
     {
-        return recursiveSearch(new ArrayList<>()
-        {{
-            add(companyId);
-        }});
+        return recursiveSearch(List.of(companyId));
     }
 
     public Map<Long, Integer> countStacks(List<Long> companyIds)
