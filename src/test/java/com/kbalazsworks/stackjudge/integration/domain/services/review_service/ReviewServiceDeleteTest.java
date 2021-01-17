@@ -54,6 +54,5 @@ public class ReviewServiceDeleteTest extends AbstractIntegrationTest
             .fetchOneInto(Review.class);
 
         assertThat(actualReview).isNull();
-
     }
 }
