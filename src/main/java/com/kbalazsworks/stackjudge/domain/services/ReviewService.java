@@ -55,4 +55,9 @@ public class ReviewService
 
         return result;
     }
+
+    public void delete(long companyId)
+    {
+        reviewRepository.delete(companyId);
+    }
 }

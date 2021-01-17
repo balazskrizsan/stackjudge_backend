@@ -53,4 +53,12 @@ public class ReviewRepository extends AbstractRepository
                 r -> r.into(reviewTable.fields()).into(Review.class)
             );
     }
+
+    public void delete(long companyId)
+    {
+        createQueryBuilder()
+            .deleteFrom(reviewTable)
+            .where(reviewTable.ID.eq(companyId))
+            .execute();
+    }
 }
