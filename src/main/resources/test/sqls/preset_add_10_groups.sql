@@ -1,3 +1,4 @@
+-- requires: preset_add_3_companies
 INSERT INTO "group" (id, company_id, parent_id, type_id, name, members_on_group_id, created_at, created_by)
 VALUES (1, 164985367, null, 2, 'QQQ', 1, '2020-01-01 01:01:01', 1),
        (2, 164985367, 1, 1, 'WWW', 1, '2020-01-02 01:01:01', 1),
