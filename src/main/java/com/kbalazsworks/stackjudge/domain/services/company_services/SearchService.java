@@ -34,10 +34,7 @@ public class SearchService
                 List<RecursiveGroupTree> groupTrees = companyGroups.get(key);
                 if (groupTrees == null)
                 {
-                    companyGroups.put(key, new ArrayList<>()
-                    {{
-                        add(recursiveGroupTree);
-                    }});
+                    companyGroups.put(key, new ArrayList<>(List.of(recursiveGroupTree)));
 
                     return;
                 }
