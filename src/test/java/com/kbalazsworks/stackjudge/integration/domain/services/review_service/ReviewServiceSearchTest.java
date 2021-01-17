@@ -12,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +28,47 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
     @Autowired
     private ReviewService reviewService;
 
-    //@todo: create a test to check all field return
     @Test
-    public void VintageHack()
+    @SqlGroup(
+        {
+            @Sql(
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                    "classpath:test/sqls/preset_add_3_companies.sql",
+                    "classpath:test/sqls/preset_add_10_groups.sql",
+                    "classpath:test/sqls/preset_add_10_reviews.sql"
+                }
+            ),
+            @Sql(
+                executionPhase = AFTER_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
+            )
+        }
+    )
+    public void checkAllDbFieldReturned_prefect()
     {
-        assertThat(true).isTrue();
+        // Arrange
+        long       testedCompanyId  = 245678965;
+        long       testedGroupId    = 4;
+        List<Long> testedCompanyIds = List.of(testedCompanyId);
+        Review expectedReview = new Review(
+            6321654L,
+            testedGroupId,
+            (short) 0,
+            (short) 2,
+            "long review test 4",
+            LocalDateTime.of(2021, 1, 19, 1, 50, 1),
+            123L
+        );
+
+        // Act
+        Map<Long, Map<Long, List<Review>>> actualReviews = reviewService.search(testedCompanyIds);
+
+        // Assert
+        assertThat(actualReviews.get(testedCompanyId).get(testedGroupId).get(0)).isEqualTo(expectedReview);
     }
 
     private record TestData(List<Long> testedIds, Map<Long, Map<Long, List<Long>>> expectedReviewIds)
