@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
@@ -65,7 +66,7 @@ public class AddressService
                 List<Address> addresses = addressesForResponse.get(companyId);
                 if (null == addresses)
                 {
-                    addressesForResponse.put(companyId, new ArrayList<>(List.of(address)));
+                    addressesForResponse.put(companyId, Lists.newArrayList(address));
 
                     return;
                 }

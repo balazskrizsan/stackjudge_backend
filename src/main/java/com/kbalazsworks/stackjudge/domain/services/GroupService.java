@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
@@ -74,7 +75,7 @@ public class GroupService
                     List<RecursiveGroupTree> parent = children.get(recursiveGroup.parentId());
                     if (null == parent)
                     {
-                        children.put(recursiveGroup.parentId(), new ArrayList<>(List.of(newChild)));
+                        children.put(recursiveGroup.parentId(), Lists.newArrayList(newChild));
 
                         return;
                     }

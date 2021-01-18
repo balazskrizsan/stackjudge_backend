@@ -1,11 +1,11 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class ReviewService
                         List<Review> list = groups.get(review.groupId());
                         if (null == list)
                         {
-                            groups.put(review.groupId(), new ArrayList<>(List.of(review)));
+                            groups.put(review.groupId(), Lists.newArrayList(review));
 
                             return;
                         }
