@@ -6,8 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public enum TypeEnum
 {
-    STACK((short) 1),
-    TEAM((short) 2);
+    PROJECT((short) 1),
+    TEAM((short) 2),
+    STACK((short) 3),
+    TECHNOLOGY((short) 4);
 
     final private        Short                value;
     private static final Map<Short, TypeEnum> ENUM_MAP;
