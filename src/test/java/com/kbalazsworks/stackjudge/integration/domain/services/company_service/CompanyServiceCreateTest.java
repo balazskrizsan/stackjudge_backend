@@ -181,5 +181,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
             () -> assertThat(actualCompany).isNull(),
             () -> assertThat(actualAddress).isNull()
         );
+
+        clean();
     }
 }
