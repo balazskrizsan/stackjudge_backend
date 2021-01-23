@@ -51,6 +51,8 @@ public class CompanyServiceSearchTest extends AbstractTest
     private CdnService cdnService;
     @Autowired
     private SearchService searchService;
+    @Autowired
+    private ReviewService reviewService;
 
     @BeforeEach
     @AfterEach
@@ -62,6 +64,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         companyService.setJooqService(jooqService);
         companyService.setCdnService(cdnService);
         companyService.setSearchService(searchService);
+        companyService.setReviewService(reviewService);
     }
 
     @Test

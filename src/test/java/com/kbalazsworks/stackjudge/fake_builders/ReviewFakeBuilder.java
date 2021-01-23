@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ReviewFakeBuilder
 {
-    private Long          id         = 654321L;
-    private long          groupId    = 6432456L;
-    private short         visibility = 2;
-    private String        review     = "Long reivew text";
-    private short         rate       = 3;
-    private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 14, 10, 15, 0);
+    private Long          id         = 1654653L;
+    private long          groupId    = 16521654L;
+    private short         visibility = 1;
+    private short         rate       = 2;
+    private String        review     = "long review text";
+    private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 16, 1, 50, 01);
     private Long          createdBy  = 123L;
 
     public List<Review> buildAsList()

@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -17,6 +18,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
@@ -53,6 +55,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new CompanyFakeBuilder().build(),
                     null,
                     null,
+                    null,
                     null
                 )
             );
@@ -61,12 +64,13 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         {
             return new TestData(
                 164985367L,
-                List.of((short) 1, (short) 2, (short) 5),
+                List.of((short) 1, (short) 2, (short) 3, (short) 5),
                 new CompanyGetServiceResponse(
                     new CompanyFakeBuilder().build(),
                     new CompanyStatistic(164985367L, 1, 0, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
-                    List.of(new AddressFakeBuilder().build())
+                    new AddressFakeBuilder().buildAsList(),
+                    Map.of(16521654L, new ReviewFakeBuilder().buildAsList())
                 )
             );
         }
@@ -85,6 +89,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     "classpath:test/sqls/preset_add_1_company.sql",
                     "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_stack_group.sql",
+                    "classpath:test/sqls/preset_add_1_review.sql",
                 }
             ),
             @Sql(
