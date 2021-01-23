@@ -1,17 +1,19 @@
 package com.kbalazsworks.stackjudge.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 public record Address(
-    Long id,
-    Long companyId,
-    String fullAddress,
-    Double markerLat,
-    Double markerLng,
-    Double manualMarkerLat,
-    Double manualMarkerLng,
-    LocalDateTime createdAt,
-    Long createdBy
+    @JsonProperty Long id,
+    @JsonProperty Long companyId,
+    @JsonProperty String fullAddress,
+    @JsonProperty Double markerLat,
+    @JsonProperty Double markerLng,
+    @JsonProperty Double manualMarkerLat,
+    @JsonProperty Double manualMarkerLng,
+    @JsonProperty LocalDateTime createdAt,
+    @JsonProperty Long createdBy
 )
 {
 }
