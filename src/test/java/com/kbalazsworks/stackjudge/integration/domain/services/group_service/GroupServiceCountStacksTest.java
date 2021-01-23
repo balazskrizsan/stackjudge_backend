@@ -60,13 +60,13 @@ public class GroupServiceCountStacksTest extends AbstractIntegrationTest
     public void countOnFilledDb_returnWithTheExpectedList()
     {
         // Arrange
-        List<Long>         testedIds        = List.of(164985367L, 854621354L);
+        List<Long>         testedCompanyIds = List.of(164985367L, 854621354L);
         Map<Long, Integer> expectedResponse = Map.of(164985367L, 2, 854621354L, 3);
 
         // Act
-        Map<Long, Integer> actualResponse = groupService.countStacks(testedIds);
+        Map<Long, Integer> actualResponse = groupService.countStacks(testedCompanyIds);
 
         // Assert
-        assertThat(expectedResponse).isEqualTo(actualResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 }
