@@ -10,7 +10,7 @@ public enum CompanyRequestRelationsEnum
     GROUP((short) 2),
     REVIEW((short) 3),
     PAGINATOR((short) 4),
-    ADDRESSS((short) 5);
+    ADDRESS((short) 5);
 
     final private        Short                                   value;
     private static final Map<Short, CompanyRequestRelationsEnum> ENUM_MAP;

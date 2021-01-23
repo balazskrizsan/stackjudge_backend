@@ -162,7 +162,7 @@ public class CompanyService
                 paginator = paginatorService.generate(countRecordsBeforeId(newSeekId), countRecords(), limit);
             }
 
-            if (requestRelationIds.contains(CompanyRequestRelationsEnum.ADDRESSS.getValue()))
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.ADDRESS.getValue()))
             {
                 companyAddresses = addressService.search(companyIds);
             }
