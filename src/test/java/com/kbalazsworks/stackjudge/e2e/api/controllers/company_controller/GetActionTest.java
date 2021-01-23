@@ -55,7 +55,7 @@ public class GetActionTest extends AbstractIntegrationTest
             )
         }
     )
-    public void callMethodWithCorrectDbData_allReturnFieldHasValues() throws Exception
+    public void callMethodWithCorrectDbData_allReturnedFieldHasValues() throws Exception
     {
         // Arrange
         String testedUri       = "/company/{id}";
@@ -68,12 +68,12 @@ public class GetActionTest extends AbstractIntegrationTest
             add("requestRelationIds", "4");
             add("requestRelationIds", "5");
         }};
-        String expectedCompanyId             = "164985367";
-        String expectedCompanyStatisticId    = "164985367";
-        String expectedRecursiveGroupId      = "16521654";
-        String expectedCompanyAddressesId    = "156789516";
-        String expectedCompanyReviewsGroupId = "16521654";
-        String expectedCompanyReviewsId      = "1654653";
+        long expectedCompanyId             = 164985367;
+        long expectedCompanyStatisticId    = 164985367;
+        long expectedRecursiveGroupId      = 16521654;
+        long expectedCompanyAddressesId    = 156789516;
+        long expectedCompanyReviewsGroupId = 16521654;
+        long expectedCompanyReviewsId      = 1654653;
 
         // Act
         mockMvc
