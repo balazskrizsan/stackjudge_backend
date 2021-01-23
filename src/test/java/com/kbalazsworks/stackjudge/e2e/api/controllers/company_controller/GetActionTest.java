@@ -96,4 +96,30 @@ public class GetActionTest extends AbstractIntegrationTest
                     .value(expectedCompanyReviewsId)
             );
     }
+
+    @Test
+    public void callNotExistingCompany_returnStdApiError() throws Exception
+    {
+        // Arrange
+        String  testedUri         = "/company/{id}";
+        long    testedCompanyId   = 123456;
+        String  expectedData      = "Company not found.";
+        boolean expectedSuccess   = false;
+        int     expectedErrorCode = 1001;
+
+        // Act
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .get(testedUri, testedCompanyId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+
+            // Assert
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.data").value(expectedData))
+            .andExpect(jsonPath("$.success").value(expectedSuccess))
+            .andExpect(jsonPath("$.errorCode").value(expectedErrorCode));
+    }
 }
