@@ -8,11 +8,11 @@ import java.util.List;
 public class ReviewFakeBuilder
 {
     private Long          id         = 1654653L;
-    private long          groupId    = 16521654L;
+    private long          groupId    = 101001L;
     private short         visibility = 1;
     private short         rate       = 2;
     private String        review     = "long review text";
-    private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 16, 1, 50, 01);
+    private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 16, 1, 50, 1);
     private Long          createdBy  = 123L;
 
     public List<Review> buildAsList()

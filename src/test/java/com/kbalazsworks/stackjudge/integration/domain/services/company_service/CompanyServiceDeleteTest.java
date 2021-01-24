@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,7 +38,7 @@ public class CompanyServiceDeleteTest extends AbstractIntegrationTest
     public void deletingExistingRecord_perfect()
     {
         // Arrange - In preset
-        long testedCompanyId = 164985367;
+        long testedCompanyId = new CompanyFakeBuilder().build().id();
 
         // Act
         companyService.delete(testedCompanyId);

@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 public class GroupFakeBuilder
 {
-    private long          id               = 843L;
-    private long          companyId        = 164985367L;
+    private long          id               = 101001L;
+    private long          companyId        = 100001L;
     private Long          parentId         = null;
     private short         typeId           = 1;
     private String        name             = "name of group";

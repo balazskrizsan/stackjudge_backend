@@ -1,13 +1,12 @@
 package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.*;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -46,13 +45,17 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
 
     private TestData provider(int repetition)
     {
+        Company testedCompany   = new CompanyFakeBuilder().build();
+        Company expectedCompany = new CompanyFakeBuilder().build();
+        Group   expectedGroup   = new GroupFakeBuilder().build();
+
         if (repetition == 1)
         {
             return new TestData(
-                164985367L,
+                testedCompany.id(),
                 null,
                 new CompanyGetServiceResponse(
-                    new CompanyFakeBuilder().build(),
+                    testedCompany,
                     null,
                     null,
                     null,
@@ -63,14 +66,14 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         if (repetition == 2)
         {
             return new TestData(
-                164985367L,
+                testedCompany.id(),
                 List.of((short) 1, (short) 2, (short) 3, (short) 5),
                 new CompanyGetServiceResponse(
-                    new CompanyFakeBuilder().build(),
-                    new CompanyStatistic(164985367L, 1, 0, 0, 0),
+                    expectedCompany,
+                    new CompanyStatistic(expectedCompany.id(), 1, 0, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
-                    Map.of(16521654L, new ReviewFakeBuilder().buildAsList())
+                    Map.of(expectedGroup.id(), new ReviewFakeBuilder().buildAsList())
                 )
             );
         }

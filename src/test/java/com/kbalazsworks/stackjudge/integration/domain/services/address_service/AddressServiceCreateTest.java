@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import org.junit.Test;
@@ -52,7 +53,10 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
             @Sql(
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_1_company.sql"}
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                    "classpath:test/sqls/preset_add_1_company.sql"
+                }
             ),
             @Sql(
                 executionPhase = AFTER_TEST_METHOD,
@@ -64,7 +68,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
     public void insertOneRecordToTheDbWithCompany_perfect(RepetitionInfo repetitionInfo) throws Exception
     {
         // Arrange
-        long    testedCompanyId = 164985367L;
+        long    testedCompanyId = new CompanyFakeBuilder().build().id();
         long    testedAddressId = 1111L;
         Address testedAddress   = provider(repetitionInfo.getCurrentRepetition(), testedCompanyId, testedAddressId);
         Address expectedAddress = provider(repetitionInfo.getCurrentRepetition(), testedCompanyId, testedAddressId);

@@ -38,21 +38,21 @@ import static org.mockito.Mockito.when;
 public class CompanyServiceSearchTest extends AbstractTest
 {
     @Autowired
-    private CompanyService companyService;
+    private CompanyService    companyService;
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
-    private AddressService addressService;
+    private AddressService    addressService;
     @Autowired
-    private PaginatorService paginatorService;
+    private PaginatorService  paginatorService;
     @Autowired
-    private JooqService jooqService;
+    private JooqService       jooqService;
     @Autowired
-    private CdnService cdnService;
+    private CdnService        cdnService;
     @Autowired
-    private SearchService searchService;
+    private SearchService     searchService;
     @Autowired
-    private ReviewService reviewService;
+    private ReviewService     reviewService;
 
     @BeforeEach
     @AfterEach
@@ -90,6 +90,9 @@ public class CompanyServiceSearchTest extends AbstractTest
 
     private TestData provider(int repetition)
     {
+        Company testedCompany   = new CompanyFakeBuilder().build();
+        Company expectedCompany = new CompanyFakeBuilder().build();
+
         if (repetition == 1)
         {
             return new TestData(
@@ -118,8 +121,6 @@ public class CompanyServiceSearchTest extends AbstractTest
         }
         if (repetition == 2)
         {
-            long expectedCompanyId = 164985367L;
-
             return new TestData(
                 // tested
                 1L,
@@ -128,19 +129,19 @@ public class CompanyServiceSearchTest extends AbstractTest
                 NavigationEnum.CURRENT_PLUS_1,
                 // mock
                 new CompanyFakeBuilder().buildAsList(),
-                Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
+                Map.of(testedCompany.id(), new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
-                Map.of(164985367L, Map.of(16432165L, new ReviewFakeBuilder().buildAsList())),
+                Map.of(testedCompany.id(), new AddressFakeBuilder().buildAsList()),
+                Map.of(testedCompany.id(), Map.of(16432165L, new ReviewFakeBuilder().buildAsList())),
                 // expected
                 new CompanySearchServiceResponse(
-                    new CompanyFakeBuilder().setId(expectedCompanyId).buildAsList(),
+                    new CompanyFakeBuilder().setId(expectedCompany.id()).buildAsList(),
                     new HashMap<>(),
                     List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                    expectedCompanyId,
-                    Map.of(164985367L, new CompanyStatisticFakeBuilder().build()),
-                    Map.of(164985367L, new AddressFakeBuilder().buildAsList()),
-                    Map.of(164985367L, Map.of(16432165L, new ReviewFakeBuilder().buildAsList()))
+                    expectedCompany.id(),
+                    Map.of(expectedCompany.id(), new CompanyStatisticFakeBuilder().build()),
+                    Map.of(expectedCompany.id(), new AddressFakeBuilder().buildAsList()),
+                    Map.of(expectedCompany.id(), Map.of(16432165L, new ReviewFakeBuilder().buildAsList()))
                 )
             );
         }
@@ -188,8 +189,6 @@ public class CompanyServiceSearchTest extends AbstractTest
         );
 
         // Assert
-        assertAll(
-            () -> assertThat(actualResponse).isEqualTo(testData.expectedResponse)
-        );
+        assertThat(actualResponse).isEqualTo(testData.expectedResponse);
     }
 }

@@ -1,6 +1,12 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +64,9 @@ public class GetActionTest extends AbstractIntegrationTest
     public void callMethodWithCorrectDbData_allReturnedFieldHasValues() throws Exception
     {
         // Arrange
-        String testedUri       = "/company/{id}";
-        long   testedCompanyId = 164985367;
+        Company testedCompany   = new CompanyFakeBuilder().build();
+        String  testedUri       = "/company/{id}";
+        long    testedCompanyId = testedCompany.id();
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
         {{
             add("requestRelationIds", "1");
@@ -68,12 +75,15 @@ public class GetActionTest extends AbstractIntegrationTest
             add("requestRelationIds", "4");
             add("requestRelationIds", "5");
         }};
-        long expectedCompanyId             = 164985367;
-        long expectedCompanyStatisticId    = 164985367;
-        long expectedRecursiveGroupId      = 16521654;
-        long expectedCompanyAddressesId    = 156789516;
-        long expectedCompanyReviewsGroupId = 16521654;
-        long expectedCompanyReviewsId      = 1654653;
+        Company expectedCompany               = new CompanyFakeBuilder().build();
+        Address expectedAddress               = new AddressFakeBuilder().build();
+        Group   expectedGroup                 = new GroupFakeBuilder().build();
+        long    expectedCompanyId             = expectedCompany.id();
+        long    expectedCompanyStatisticId    = expectedCompany.id();
+        long    expectedRecursiveGroupId      = expectedGroup.id();
+        long    expectedCompanyAddressesId    = expectedAddress.id();
+        long    expectedCompanyReviewsGroupId = expectedGroup.id();
+        long    expectedCompanyReviewsId      = 1654653;
 
         // Act
         mockMvc

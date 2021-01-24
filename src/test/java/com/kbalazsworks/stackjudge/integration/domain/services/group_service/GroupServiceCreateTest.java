@@ -27,7 +27,10 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
             @Sql(
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql", "classpath:test/sqls/preset_add_1_company.sql"}
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                    "classpath:test/sqls/preset_add_1_company.sql"
+                }
             ),
             @Sql(
                 executionPhase = AFTER_TEST_METHOD,
@@ -39,7 +42,6 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
     public void addANewRecord_perfect()
     {
         // Arrange
-        Long  testedGroupId = 843L;
         Group testedGroup   = new GroupFakeBuilder().build();
         Group expectedGroup = new GroupFakeBuilder().build();
 
@@ -48,7 +50,7 @@ public class GroupServiceCreateTest extends AbstractIntegrationTest
 
         // Assert
         GroupRecord actualGroup = getQueryBuilder().selectFrom(groupTable).fetchOne();
-        actualGroup.setId(testedGroupId);
+        actualGroup.setId(testedGroup.id());
 
         assertThat(actualGroup.into(Group.class)).isEqualTo(expectedGroup);
     }
