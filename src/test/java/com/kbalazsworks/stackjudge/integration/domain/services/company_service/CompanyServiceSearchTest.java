@@ -56,7 +56,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
     public void checkingAllFieldsFormDb_allAreOk()
     {
         // Arrange
-        List<Company> expectedCompany = List.of(new CompanyFakeBuilder().build());
+        List<Company> expectedCompany = new CompanyFakeBuilder().buildAsList();
 
         // Act
         List<Company> actualList = companyService.search(0, 1, NavigationEnum.FIRST);

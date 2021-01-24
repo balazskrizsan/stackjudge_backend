@@ -8,7 +8,9 @@ import java.util.List;
 
 public class CompanyFakeBuilder
 {
-    private Long          id            = 100001L;
+    public static final Long defaultId1 = 100001L;
+
+    private Long          id            = defaultId1;
     private String        name          = "a company";
     private short         companySizeId = 2;
     private short         itSizeId      = 3;

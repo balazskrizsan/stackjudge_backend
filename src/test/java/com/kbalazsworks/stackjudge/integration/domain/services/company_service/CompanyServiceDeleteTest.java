@@ -38,7 +38,7 @@ public class CompanyServiceDeleteTest extends AbstractIntegrationTest
     public void deletingExistingRecord_perfect()
     {
         // Arrange - In preset
-        long testedCompanyId = new CompanyFakeBuilder().build().id();
+        long testedCompanyId = CompanyFakeBuilder.defaultId1;
 
         // Act
         companyService.delete(testedCompanyId);

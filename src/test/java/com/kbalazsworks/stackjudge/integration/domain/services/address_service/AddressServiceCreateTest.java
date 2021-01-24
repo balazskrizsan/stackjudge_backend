@@ -27,21 +27,16 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
     @Autowired
     private AddressService addressService;
 
-    private Address provider(int repetition, long companyId, long testedAddressId) throws Exception
+    private Address provider(int repetition) throws Exception
     {
         if (repetition == 1)
         {
-            return new AddressFakeBuilder().setId(testedAddressId).setCompanyId(companyId).build();
+            return new AddressFakeBuilder().build();
         }
 
         if (repetition == 2)
         {
-            return new AddressFakeBuilder()
-                .setId(testedAddressId)
-                .setCompanyId(companyId)
-                .setManualMarkerLat(null)
-                .setManualMarkerLng(null)
-                .build();
+            return new AddressFakeBuilder().setManualMarkerLat(null).setManualMarkerLng(null).build();
         }
 
         throw new Exception();
@@ -68,10 +63,10 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
     public void insertOneRecordToTheDbWithCompany_perfect(RepetitionInfo repetitionInfo) throws Exception
     {
         // Arrange
-        long    testedCompanyId = new CompanyFakeBuilder().build().id();
-        long    testedAddressId = 1111L;
-        Address testedAddress   = provider(repetitionInfo.getCurrentRepetition(), testedCompanyId, testedAddressId);
-        Address expectedAddress = provider(repetitionInfo.getCurrentRepetition(), testedCompanyId, testedAddressId);
+        long    testedCompanyId = CompanyFakeBuilder.defaultId1;
+        long    testedAddressId = AddressFakeBuilder.defaultId1;
+        Address testedAddress   = provider(repetitionInfo.getCurrentRepetition());
+        Address expectedAddress = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
         addressService.create(testedAddress);

@@ -12,10 +12,7 @@ import com.kbalazsworks.stackjudge.domain.services.company_services.SearchServic
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
-import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.CompanyStatisticFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.*;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +28,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -90,9 +86,6 @@ public class CompanyServiceSearchTest extends AbstractTest
 
     private TestData provider(int repetition)
     {
-        Company testedCompany   = new CompanyFakeBuilder().build();
-        Company expectedCompany = new CompanyFakeBuilder().build();
-
         if (repetition == 1)
         {
             return new TestData(
@@ -129,19 +122,25 @@ public class CompanyServiceSearchTest extends AbstractTest
                 NavigationEnum.CURRENT_PLUS_1,
                 // mock
                 new CompanyFakeBuilder().buildAsList(),
-                Map.of(testedCompany.id(), new CompanyStatisticFakeBuilder().build()),
+                Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                Map.of(testedCompany.id(), new AddressFakeBuilder().buildAsList()),
-                Map.of(testedCompany.id(), Map.of(16432165L, new ReviewFakeBuilder().buildAsList())),
+                Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
+                Map.of(
+                    CompanyFakeBuilder.defaultId1,
+                    Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
+                ),
                 // expected
                 new CompanySearchServiceResponse(
-                    new CompanyFakeBuilder().setId(expectedCompany.id()).buildAsList(),
+                    new CompanyFakeBuilder().setId(CompanyFakeBuilder.defaultId1).buildAsList(),
                     new HashMap<>(),
                     List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
-                    expectedCompany.id(),
-                    Map.of(expectedCompany.id(), new CompanyStatisticFakeBuilder().build()),
-                    Map.of(expectedCompany.id(), new AddressFakeBuilder().buildAsList()),
-                    Map.of(expectedCompany.id(), Map.of(16432165L, new ReviewFakeBuilder().buildAsList()))
+                    CompanyFakeBuilder.defaultId1,
+                    Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
+                    Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
+                    Map.of(
+                        CompanyFakeBuilder.defaultId1,
+                        Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
+                    )
                 )
             );
         }

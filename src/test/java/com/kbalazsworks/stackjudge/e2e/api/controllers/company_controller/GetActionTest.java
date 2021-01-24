@@ -1,10 +1,6 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
-import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.entities.Group;
-import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
@@ -66,9 +62,8 @@ public class GetActionTest extends AbstractIntegrationTest
     public void callMethodWithCorrectDbData_allReturnedFieldHasValues() throws Exception
     {
         // Arrange
-        Company testedCompany   = new CompanyFakeBuilder().build();
-        String  testedUri       = "/company/{id}";
-        long    testedCompanyId = testedCompany.id();
+        String testedUri       = "/company/{id}";
+        long   testedCompanyId = CompanyFakeBuilder.defaultId1;
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
         {{
             add("requestRelationIds", "1");
@@ -77,14 +72,12 @@ public class GetActionTest extends AbstractIntegrationTest
             add("requestRelationIds", "4");
             add("requestRelationIds", "5");
         }};
-        Company expectedCompany               = new CompanyFakeBuilder().build();
-        Group   expectedGroup                 = new GroupFakeBuilder().build();
-        long    expectedCompanyId             = expectedCompany.id();
-        long    expectedCompanyStatisticId    = expectedCompany.id();
-        long    expectedRecursiveGroupId      = expectedGroup.id();
-        long    expectedCompanyAddressesId    = new AddressFakeBuilder().build().id();
-        long    expectedCompanyReviewsGroupId = expectedGroup.id();
-        long    expectedCompanyReviewsId      = new ReviewFakeBuilder().build().id();
+        long expectedCompanyId             = CompanyFakeBuilder.defaultId1;
+        long expectedCompanyStatisticId    = CompanyFakeBuilder.defaultId1;
+        long expectedRecursiveGroupId      = GroupFakeBuilder.defaultId1;
+        long expectedCompanyAddressesId    = AddressFakeBuilder.defaultId1;
+        long expectedCompanyReviewsGroupId = GroupFakeBuilder.defaultId1;
+        long expectedCompanyReviewsId      = ReviewFakeBuilder.defaultId1;
 
         // Act
         mockMvc
@@ -112,17 +105,17 @@ public class GetActionTest extends AbstractIntegrationTest
     public void callNotExistingCompany_returnStdApiError() throws Exception
     {
         // Arrange
-        String  testedUri         = "/company/{id}";
-        long    testedCompanyId   = 123456;
-        String  expectedData      = "Company not found.";
-        boolean expectedSuccess   = false;
-        int     expectedErrorCode = 1001;
+        String  testedUri                  = "/company/{id}";
+        long    testedNotExistingCompanyId = 123456;
+        String  expectedData               = "Company not found.";
+        boolean expectedSuccess            = false;
+        int     expectedErrorCode          = 1001;
 
         // Act
         mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .get(testedUri, testedCompanyId)
+                    .get(testedUri, testedNotExistingCompanyId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             )

@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 
 public class GroupFakeBuilder
 {
-    private long          id               = 101001L;
+    public static final Long defaultId1 = 101001L;
+
+    private long          id               = defaultId1;
     private long          companyId        = 100001L;
     private Long          parentId         = null;
     private short         typeId           = 1;

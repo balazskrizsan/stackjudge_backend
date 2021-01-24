@@ -65,19 +65,14 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         Company testedCompany,
         Address testedAddress,
         MultipartFile testedFile,
-        long expectedCompanyId,
         Company expectedCompany,
-        long expectedAddressId,
         Address expectedAddress,
         Executable cdnCallVerification
     )
     {
     }
 
-    private TestData providerFor_insertOneCompanyWithOneAddress_checkByProvider(
-        int repetition,
-        CdnService cdnServiceMock
-    )
+    private TestData provider(int repetition, CdnService cdnServiceMock)
     {
         if (repetition == 1)
         {
@@ -85,16 +80,12 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
                 new CompanyFakeBuilder().build(),
                 new AddressFakeBuilder().build(),
                 null,
-                23455487L,
-                new CompanyFakeBuilder().setId(23455487L).build(),
-                24562647L,
-                new AddressFakeBuilder()
-                    .setId(24562647L)
-                    .setCompanyId(23455487L)
-                    .build(),
+                new CompanyFakeBuilder().build(),
+                new AddressFakeBuilder().build(),
                 () -> verify(cdnServiceMock, never()).put(any(), any(), any(), any())
             );
         }
+
         if (repetition == 2)
         {
             MockMultipartFile testFile = new MockMultipartFile("a", new byte[]{'a'});
@@ -113,13 +104,8 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
                 new CompanyFakeBuilder().setLogoPath("").build(),
                 new AddressFakeBuilder().build(),
                 testFile,
-                23455487L,
-                new CompanyFakeBuilder().setId(23455487L).setLogoPath("fake-path/123.jpg").build(),
-                24562647L,
-                new AddressFakeBuilder()
-                    .setId(24562647L)
-                    .setCompanyId(23455487L)
-                    .build(),
+                new CompanyFakeBuilder().setLogoPath("fake-path/123.jpg").build(),
+                new AddressFakeBuilder().build(),
                 () -> verify(cdnServiceMock, times(1))
                     .put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+"), eq("jpg"), eq(testFile))
             );
@@ -134,10 +120,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     {
         // Arrange
         CdnService cdnServiceMock = mock(CdnService.class);
-        TestData testData = providerFor_insertOneCompanyWithOneAddress_checkByProvider(
-            repetitionInfo.getCurrentRepetition(),
-            cdnServiceMock
-        );
+        TestData testData = provider(repetitionInfo.getCurrentRepetition(), cdnServiceMock);
         companyService.setCdnService(cdnServiceMock);
 
         // Act
@@ -145,11 +128,11 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
 
         // Assert
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();
-        actualCompany.setId(testData.expectedCompanyId);
+        actualCompany.setId(testData.expectedCompany.id());
 
         AddressRecord actualAddress = getQueryBuilder().selectFrom(addressTable).fetchOne();
-        actualAddress.setId(testData.expectedAddressId);
-        actualAddress.setCompanyId(testData.expectedCompanyId);
+        actualAddress.setId(testData.expectedAddress.id());
+        actualAddress.setCompanyId(testData.expectedAddress.companyId());
 
         assertAll(
             () -> assertThat(actualCompany.into(Company.class)).isEqualTo(testData.expectedCompany),

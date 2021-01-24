@@ -7,8 +7,10 @@ import java.util.List;
 
 public class AddressFakeBuilder
 {
-    private Long          id              = 101001L; //156789516L;
-    private Long          companyId       = 100001L;
+    public static final Long defaultId1 = 102001L;
+
+    private Long          id              = defaultId1; //156789516L;
+    private Long          companyId       = CompanyFakeBuilder.defaultId1;
     private String        fullAddress     = "Full address 1, 123, 4";
     private Double        markerLat       = 11.11;
     private Double        markerLng       = 22.22;

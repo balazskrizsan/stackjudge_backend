@@ -2,7 +2,6 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
@@ -45,17 +44,17 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
 
     private TestData provider(int repetition)
     {
-        Company testedCompany   = new CompanyFakeBuilder().build();
+        long    testedCompanyId = CompanyFakeBuilder.defaultId1;
         Company expectedCompany = new CompanyFakeBuilder().build();
-        Group   expectedGroup   = new GroupFakeBuilder().build();
+        long    expectedGroupId = GroupFakeBuilder.defaultId1;
 
         if (repetition == 1)
         {
             return new TestData(
-                testedCompany.id(),
+                testedCompanyId,
                 null,
                 new CompanyGetServiceResponse(
-                    testedCompany,
+                    expectedCompany,
                     null,
                     null,
                     null,
@@ -66,14 +65,14 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         if (repetition == 2)
         {
             return new TestData(
-                testedCompany.id(),
+                testedCompanyId,
                 List.of((short) 1, (short) 2, (short) 3, (short) 5),
                 new CompanyGetServiceResponse(
                     expectedCompany,
                     new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
-                    Map.of(expectedGroup.id(), new ReviewFakeBuilder().buildAsList())
+                    Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList())
                 )
             );
         }
