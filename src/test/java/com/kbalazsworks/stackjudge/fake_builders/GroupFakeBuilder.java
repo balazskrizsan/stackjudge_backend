@@ -7,6 +7,15 @@ import java.time.LocalDateTime;
 public class GroupFakeBuilder
 {
     public static final Long defaultId1 = 101001L;
+    public static final Long defaultId2 = 101002L;
+    public static final Long defaultId3 = 101003L;
+    public static final Long defaultId4 = 101004L;
+    public static final Long defaultId5 = 101005L;
+    public static final Long defaultId6 = 101006L;
+    public static final Long defaultId7 = 101007L;
+    public static final Long defaultId8 = 101008L;
+    public static final Long defaultId9 = 101009L;
+    public static final Long defaultId10 = 101010L;
 
     private long          id               = defaultId1;
     private long          companyId        = 100001L;

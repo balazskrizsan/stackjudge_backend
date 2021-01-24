@@ -3,6 +3,9 @@ package com.kbalazsworks.stackjudge.integration.domain.services.review_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -12,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +38,9 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_3_companies.sql",
-                    "classpath:test/sqls/preset_add_10_groups.sql",
-                    "classpath:test/sqls/preset_add_10_reviews.sql"
+                    "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_1_group.sql",
+                    "classpath:test/sqls/preset_add_1_review.sql"
                 }
             ),
             @Sql(
@@ -51,18 +53,10 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
     public void checkAllDbFieldReturned_prefect()
     {
         // Arrange
-        long       testedCompanyId  = 245678965;
-        long       testedGroupId    = 4;
+        long       testedCompanyId  = CompanyFakeBuilder.defaultId1;
+        long       testedGroupId    = GroupFakeBuilder.defaultId1;
         List<Long> testedCompanyIds = List.of(testedCompanyId);
-        Review expectedReview = new Review(
-            6321654L,
-            testedGroupId,
-            (short) 0,
-            (short) 2,
-            "long review test 4",
-            LocalDateTime.of(2021, 1, 19, 1, 50, 1),
-            123L
-        );
+        Review     expectedReview   = new ReviewFakeBuilder().build();
 
         // Act
         Map<Long, Map<Long, List<Review>>> actualReviews = reviewService.search(testedCompanyIds);
@@ -84,18 +78,31 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
 
         if (2 == repetition)
         {
-            return new TestData(List.of(164985367L), Map.of(164985367L, Map.of(1L, List.of(6452316L, 1654653L))));
+            return new TestData(
+                List.of(CompanyFakeBuilder.defaultId1),
+                Map.of(CompanyFakeBuilder.defaultId1, Map.of(
+                    GroupFakeBuilder.defaultId1,
+                    List.of(ReviewFakeBuilder.defaultId2, ReviewFakeBuilder.defaultId1)
+                ))
+            );
         }
 
         if (3 == repetition)
         {
             return new TestData(
-                List.of(164985367L, 245678965L),
+                List.of(CompanyFakeBuilder.defaultId1, CompanyFakeBuilder.defaultId2),
                 Map.of(
-                    164985367L, Map.of(1L, List.of(6452316L, 1654653L)),
-                    245678965L, Map.of(
-                        4L, List.of(6321654L, 5564132L),
-                        5L, List.of(3456232L)
+                    CompanyFakeBuilder.defaultId1,
+                    Map.of(
+                        GroupFakeBuilder.defaultId1,
+                        List.of(ReviewFakeBuilder.defaultId2, ReviewFakeBuilder.defaultId1)
+                    ),
+                    CompanyFakeBuilder.defaultId2,
+                    Map.of(
+                        GroupFakeBuilder.defaultId4,
+                        List.of(ReviewFakeBuilder.defaultId4, ReviewFakeBuilder.defaultId3),
+                        GroupFakeBuilder.defaultId5,
+                        List.of(ReviewFakeBuilder.defaultId5)
                     )
                 )
             );

@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.group_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,11 @@ public class GroupServiceCountTeamsTest extends AbstractIntegrationTest
     public void countOnFilledDb_returnWithTheExpectedList()
     {
         // Arrange
-        List<Long>         testedIds        = List.of(164985367L, 854621354L);
-        Map<Long, Integer> expectedResponse = Map.of(164985367L, 1, 854621354L, 2);
+        List<Long> testedIds = List.of(CompanyFakeBuilder.defaultId1, CompanyFakeBuilder.defaultId3);
+        Map<Long, Integer> expectedResponse = Map.of(
+            CompanyFakeBuilder.defaultId1, 1,
+            CompanyFakeBuilder.defaultId3, 2
+        );
 
         // Act
         Map<Long, Integer> actualResponse = groupService.countTeams(testedIds);

@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.review_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -27,9 +28,9 @@ public class ReviewServiceDeleteTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_3_companies.sql",
-                    "classpath:test/sqls/preset_add_10_groups.sql",
-                    "classpath:test/sqls/preset_add_10_reviews.sql"
+                    "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_1_group.sql",
+                    "classpath:test/sqls/preset_add_1_review.sql"
                 }
             ),
             @Sql(
@@ -42,7 +43,7 @@ public class ReviewServiceDeleteTest extends AbstractIntegrationTest
     public void deletingTheInsertedFields_willBeDeleted()
     {
         // Arrange
-        long testedCompanyId = 3456232;
+        long testedCompanyId = CompanyFakeBuilder.defaultId1;
 
         // Act
         reviewService.delete(testedCompanyId);
