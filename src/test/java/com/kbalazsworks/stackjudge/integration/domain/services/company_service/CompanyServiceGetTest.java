@@ -70,7 +70,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                 List.of((short) 1, (short) 2, (short) 3, (short) 5),
                 new CompanyGetServiceResponse(
                     expectedCompany,
-                    new CompanyStatistic(expectedCompany.id(), 1, 0, 0, 0),
+                    new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
                     Map.of(expectedGroup.id(), new ReviewFakeBuilder().buildAsList())
@@ -91,7 +91,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_1_company.sql",
                     "classpath:test/sqls/preset_add_1_address.sql",
-                    "classpath:test/sqls/preset_add_1_stack_group.sql",
+                    "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql",
                 }
             ),

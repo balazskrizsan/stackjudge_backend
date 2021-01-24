@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReviewFakeBuilder
 {
-    private Long          id         = 1654653L;
+    private Long          id         = 102001L;
     private long          groupId    = 101001L;
     private short         visibility = 1;
     private short         rate       = 2;

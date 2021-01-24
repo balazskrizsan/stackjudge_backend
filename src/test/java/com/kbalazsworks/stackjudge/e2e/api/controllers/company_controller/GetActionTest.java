@@ -4,9 +4,11 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class GetActionTest extends AbstractIntegrationTest
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_1_company.sql",
                     "classpath:test/sqls/preset_add_1_address.sql",
-                    "classpath:test/sqls/preset_add_1_stack_group.sql",
+                    "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql",
                 }
             ),
@@ -78,12 +80,13 @@ public class GetActionTest extends AbstractIntegrationTest
         Company expectedCompany               = new CompanyFakeBuilder().build();
         Address expectedAddress               = new AddressFakeBuilder().build();
         Group   expectedGroup                 = new GroupFakeBuilder().build();
+        Review  expectedReview                = new ReviewFakeBuilder().build();
         long    expectedCompanyId             = expectedCompany.id();
         long    expectedCompanyStatisticId    = expectedCompany.id();
         long    expectedRecursiveGroupId      = expectedGroup.id();
         long    expectedCompanyAddressesId    = expectedAddress.id();
         long    expectedCompanyReviewsGroupId = expectedGroup.id();
-        long    expectedCompanyReviewsId      = 1654653;
+        long    expectedCompanyReviewsId      = expectedReview.id();
 
         // Act
         mockMvc
