@@ -18,7 +18,7 @@ public class GroupFakeBuilder
     public static final Long defaultId10 = 101010L;
 
     private long          id               = defaultId1;
-    private long          companyId        = 100001L;
+    private long          companyId        = CompanyFakeBuilder.defaultId1;
     private Long          parentId         = null;
     private short         typeId           = 1;
     private String        name             = "name of group";

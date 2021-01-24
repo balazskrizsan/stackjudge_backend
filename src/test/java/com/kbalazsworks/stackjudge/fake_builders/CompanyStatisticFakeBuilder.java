@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CompanyStatisticFakeBuilder
 {
-    private long companyId         = 123L;
+    private long companyId         = CompanyFakeBuilder.defaultId1;
     private int  stackCount        = 222;
     private int  teamsCount        = 333;
     private int  reviewCount       = 444;
