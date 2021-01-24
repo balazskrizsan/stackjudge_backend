@@ -78,15 +78,13 @@ public class GetActionTest extends AbstractIntegrationTest
             add("requestRelationIds", "5");
         }};
         Company expectedCompany               = new CompanyFakeBuilder().build();
-        Address expectedAddress               = new AddressFakeBuilder().build();
         Group   expectedGroup                 = new GroupFakeBuilder().build();
-        Review  expectedReview                = new ReviewFakeBuilder().build();
         long    expectedCompanyId             = expectedCompany.id();
         long    expectedCompanyStatisticId    = expectedCompany.id();
         long    expectedRecursiveGroupId      = expectedGroup.id();
-        long    expectedCompanyAddressesId    = expectedAddress.id();
+        long    expectedCompanyAddressesId    = new AddressFakeBuilder().build().id();
         long    expectedCompanyReviewsGroupId = expectedGroup.id();
-        long    expectedCompanyReviewsId      = expectedReview.id();
+        long    expectedCompanyReviewsId      = new ReviewFakeBuilder().build().id();
 
         // Act
         mockMvc
