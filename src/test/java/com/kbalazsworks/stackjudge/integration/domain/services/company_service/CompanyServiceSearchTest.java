@@ -81,8 +81,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.FIRST;
 
-            expectedIdList.add(164985367L);
-            expectedIdList.add(245678965L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId1);
+            expectedIdList.add(CompanyFakeBuilder.defaultId2);
         }
 
         if (iteration == 2)
@@ -91,8 +91,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.SECOND;
 
-            expectedIdList.add(346542314L);
-            expectedIdList.add(423165498L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId3);
+            expectedIdList.add(CompanyFakeBuilder.defaultId4);
         }
 
         if (iteration == 3)
@@ -101,8 +101,8 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.LAST_MINUS_1;
 
-            expectedIdList.add(733200321L);
-            expectedIdList.add(821356546L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId7);
+            expectedIdList.add(CompanyFakeBuilder.defaultId8);
         }
 
         if (iteration == 4)
@@ -111,66 +111,66 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testedLimit  = 2;
             navigation   = NavigationEnum.LAST;
 
-            expectedIdList.add(922316542L);
-            expectedIdList.add(992354656L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId9);
+            expectedIdList.add(CompanyFakeBuilder.defaultId10);
         }
 
         if (iteration == 5)
         {
-            testedSeekId = 423165498;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 2;
 
-            expectedIdList.add(423165498L);
-            expectedIdList.add(565432165L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId5);
+            expectedIdList.add(CompanyFakeBuilder.defaultId6);
         }
 
         if (iteration == 6)
         {
-            testedSeekId = 565432165;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_PLUS_1;
 
-            expectedIdList.add(733200321L);
-            expectedIdList.add(821356546L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId7);
+            expectedIdList.add(CompanyFakeBuilder.defaultId8);
         }
 
         if (iteration == 7)
         {
-            testedSeekId = 565432165;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_PLUS_2;
 
-            expectedIdList.add(922316542L);
-            expectedIdList.add(992354656L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId9);
+            expectedIdList.add(CompanyFakeBuilder.defaultId10);
         }
 
         if (iteration == 8)
         {
-            testedSeekId = 565432165;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_MINUS_1;
 
-            expectedIdList.add(346542314L);
-            expectedIdList.add(423165498L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId3);
+            expectedIdList.add(CompanyFakeBuilder.defaultId4);
         }
 
         if (iteration == 9)
         {
-            testedSeekId = 565432165;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 2;
             navigation   = NavigationEnum.CURRENT_MINUS_2;
 
-            expectedIdList.add(164985367L);
-            expectedIdList.add(245678965L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId1);
+            expectedIdList.add(CompanyFakeBuilder.defaultId2);
         }
 
         if (iteration == 10)
         {
-            testedSeekId = 565432165;
+            testedSeekId = CompanyFakeBuilder.defaultId5;
             testedLimit  = 1;
             navigation   = NavigationEnum.EXACTLY_ONE_RECORD;
 
-            expectedIdList.add(565432165L);
+            expectedIdList.add(CompanyFakeBuilder.defaultId5);
         }
 
         return new TestData(expectedIdList, testedSeekId, testedLimit, navigation);

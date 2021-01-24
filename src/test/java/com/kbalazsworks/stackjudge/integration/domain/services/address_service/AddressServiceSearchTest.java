@@ -3,6 +3,8 @@ package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -40,8 +42,8 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_10_companies.sql",
-                    "classpath:test/sqls/preset_add_10_address.sql"
+                    "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_1_address.sql"
                 }
             ),
             @Sql(
@@ -54,20 +56,10 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
     public void checkingTheResultFields_allShouldBeOk()
     {
         // Arrange
-        List<Long> testedCompanyId = List.of(164985367L);
+        List<Long> testedCompanyId = List.of(CompanyFakeBuilder.defaultId1);
         Map<Long, List<Address>> expectedAddresses = Map.of(
-            164985367L,
-            List.of(new Address(
-                3452345L,
-                164985367L,
-                "Full address 1, 123, 1",
-                11.11,
-                22.22,
-                33.33,
-                44.44,
-                LocalDateTime.of(2020, 11, 22, 11, 22, 33),
-                333L
-            ))
+            CompanyFakeBuilder.defaultId1,
+            new AddressFakeBuilder().buildAsList()
         );
 
         // Act
@@ -86,16 +78,22 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
 
         if (2 == repetition)
         {
-            return new TestData(List.of(733200321L), Map.of(733200321L, List.of(5452345L, 1321654L)));
+            return new TestData(
+                List.of(CompanyFakeBuilder.defaultId2),
+                Map.of(
+                    CompanyFakeBuilder.defaultId2,
+                    List.of(AddressFakeBuilder.defaultId2, AddressFakeBuilder.defaultId3)
+                )
+            );
         }
 
         if (3 == repetition)
         {
             return new TestData(
-                List.of(164985367L, 733200321L),
+                List.of(CompanyFakeBuilder.defaultId1, CompanyFakeBuilder.defaultId2),
                 Map.of(
-                    164985367L, List.of(3452345L),
-                    733200321L, List.of(5452345L, 1321654L)
+                    CompanyFakeBuilder.defaultId1, List.of(AddressFakeBuilder.defaultId1),
+                    CompanyFakeBuilder.defaultId2, List.of(AddressFakeBuilder.defaultId2, AddressFakeBuilder.defaultId3)
                 )
             );
         }
