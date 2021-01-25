@@ -68,6 +68,7 @@ public class CreateActionTest extends AbstractE2eTest
         }};
         ResultMatcher expectedStatusCode = status().is4xxClientError();
         String        expectedData       = "Validation error.";
+        boolean       expectedSuccess    = false;
         int           expectedErrorCode  = 2;
 
         // Act
@@ -83,6 +84,7 @@ public class CreateActionTest extends AbstractE2eTest
         result
             .andExpect(expectedStatusCode)
             .andExpect(jsonPath("$.data").value(expectedData))
+            .andExpect(jsonPath("$.success").value(expectedSuccess))
             .andExpect(jsonPath("$.errorCode").value(expectedErrorCode));
     }
 }
