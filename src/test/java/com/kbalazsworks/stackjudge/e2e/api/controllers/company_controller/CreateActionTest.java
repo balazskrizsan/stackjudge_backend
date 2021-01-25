@@ -52,7 +52,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         int             expectedErrorCode  = 0;
 
         // Act
-        ResultActions act = mockMvc.perform(
+        ResultActions result = mockMvc.perform(
             MockMvcRequestBuilders
                 .multipart(testedUri)
                 .params(testedParams)
@@ -61,7 +61,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         );
 
         // Assert
-        act
+        result
             .andExpect(expectedStatusCode)
             .andExpect(expectedStatusCode)
             .andExpect(jsonPath("$.data").value(expectedData))
@@ -87,7 +87,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         int           expectedErrorCode  = 2;
 
         // Act
-        ResultActions act = mockMvc.perform(
+        ResultActions result = mockMvc.perform(
             MockMvcRequestBuilders
                 .multipart(testedUri)
                 .params(testedParams)
@@ -96,7 +96,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         );
 
         // Assert
-        act
+        result
             .andExpect(expectedStatusCode)
             .andExpect(jsonPath("$.data").value(expectedData))
             .andExpect(jsonPath("$.errorCode").value(expectedErrorCode));

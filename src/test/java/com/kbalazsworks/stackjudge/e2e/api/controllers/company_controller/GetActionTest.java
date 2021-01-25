@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -80,16 +81,16 @@ public class GetActionTest extends AbstractIntegrationTest
         long expectedCompanyReviewsId      = ReviewFakeBuilder.defaultId1;
 
         // Act
-        mockMvc
-            .perform(
-                MockMvcRequestBuilders
-                    .get(testedUri, testedCompanyId)
-                    .params(testedParams)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+        ResultActions result = mockMvc.perform(
+            MockMvcRequestBuilders
+                .get(testedUri, testedCompanyId)
+                .params(testedParams)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
 
-            // Assert
+        // Assert
+        result
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.company.id").value(expectedCompanyId))
             .andExpect(jsonPath("$.data.companyStatistic.companyId").value(expectedCompanyStatisticId))
@@ -112,15 +113,15 @@ public class GetActionTest extends AbstractIntegrationTest
         int     expectedErrorCode          = 1001;
 
         // Act
-        mockMvc
-            .perform(
-                MockMvcRequestBuilders
-                    .get(testedUri, testedNotExistingCompanyId)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+        ResultActions result = mockMvc.perform(
+            MockMvcRequestBuilders
+                .get(testedUri, testedNotExistingCompanyId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
 
-            // Assert
+        // Assert
+        result
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.data").value(expectedData))
             .andExpect(jsonPath("$.success").value(expectedSuccess))
