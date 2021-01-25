@@ -70,7 +70,7 @@ public class CreateActionTest extends AbstractIntegrationTest
 
     @Test
     @TruncateAllTables
-    public void insertInvalidCompanyWithAddress_returns200ok() throws Exception
+    public void insertInvalidCompanyWithAddress_returns4xxClientError() throws Exception
     {
         // Arrange
         String testedUri = "/company";
