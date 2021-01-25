@@ -1,38 +1,22 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
-import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateActionTest extends AbstractIntegrationTest
+public class CreateActionTest extends AbstractE2eTest
 {
-    @Autowired
-    private WebApplicationContext wac;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup()
-    {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
     @Test
     @TruncateAllTables
     public void insertValidCompanyWithAddress_returns200ok() throws Exception
@@ -52,7 +36,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         int             expectedErrorCode  = 0;
 
         // Act
-        ResultActions result = mockMvc.perform(
+        ResultActions result = getMockMvc().perform(
             MockMvcRequestBuilders
                 .multipart(testedUri)
                 .params(testedParams)
@@ -87,7 +71,7 @@ public class CreateActionTest extends AbstractIntegrationTest
         int           expectedErrorCode  = 2;
 
         // Act
-        ResultActions result = mockMvc.perform(
+        ResultActions result = getMockMvc().perform(
             MockMvcRequestBuilders
                 .multipart(testedUri)
                 .params(testedParams)
