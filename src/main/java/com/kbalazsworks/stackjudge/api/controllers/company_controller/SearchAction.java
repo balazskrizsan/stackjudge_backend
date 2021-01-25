@@ -37,10 +37,6 @@ public class SearchAction
             navigation == null ? null : NavigationEnum.getByValue(request.navigationId())
         );
 
-        ResponseEntityBuilder<CompanySearchServiceResponse> responseEntityBuilder = new ResponseEntityBuilder<>();
-
-        responseEntityBuilder.setData(response);
-
-        return responseEntityBuilder.build();
+        return new ResponseEntityBuilder<CompanySearchServiceResponse>().setData(response).build();
     }
 }

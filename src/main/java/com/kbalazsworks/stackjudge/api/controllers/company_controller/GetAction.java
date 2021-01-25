@@ -29,11 +29,9 @@ public class GetAction
     {
         new JavaxValidatorService<GetRequest>().validate(request);
 
-        ResponseEntityBuilder<CompanyGetServiceResponse> responseEntityBuilder = new ResponseEntityBuilder<>();
-
-        responseEntityBuilder.setData(companyService.get(request.getCompanyId(), request.getRequestRelationIds()));
-
-        return responseEntityBuilder.build();
+        return new ResponseEntityBuilder<CompanyGetServiceResponse>()
+            .setData(companyService.get(request.getCompanyId(), request.getRequestRelationIds()))
+            .build();
     }
 }
 

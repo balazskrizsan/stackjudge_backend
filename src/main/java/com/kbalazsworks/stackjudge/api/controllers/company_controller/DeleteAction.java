@@ -30,10 +30,6 @@ public class DeleteAction
 
         companyService.delete(request.getCompanyId());
 
-        ResponseEntityBuilder<String> responseEntityBuilder = new ResponseEntityBuilder<>();
-
-        responseEntityBuilder.setData(null);
-
-        return responseEntityBuilder.build();
+        return new ResponseEntityBuilder<String>().setData(null).build();
     }
 }

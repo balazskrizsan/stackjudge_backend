@@ -40,9 +40,11 @@ public class ResponseEntityBuilder<T>
         return data;
     }
 
-    public void setData(T data)
+    public ResponseEntityBuilder<T> setData(T data)
     {
         this.data = data;
+
+        return this;
     }
 
     public int getErrorCode()
@@ -50,9 +52,11 @@ public class ResponseEntityBuilder<T>
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode)
+    public ResponseEntityBuilder<T> setErrorCode(int errorCode)
     {
         this.errorCode = errorCode;
+
+        return this;
     }
 
     public HttpStatus getStatusCode()
@@ -60,8 +64,10 @@ public class ResponseEntityBuilder<T>
         return statusCode;
     }
 
-    public void setStatusCode(HttpStatus statusCode)
+    public ResponseEntityBuilder<T> setStatusCode(HttpStatus statusCode)
     {
         this.statusCode = statusCode;
+
+        return this;
     }
 }

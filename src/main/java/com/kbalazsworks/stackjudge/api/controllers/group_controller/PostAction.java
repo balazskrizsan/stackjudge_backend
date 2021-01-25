@@ -40,10 +40,6 @@ public class PostAction
 
         groupService.create(RequestMapperService.mapToRecord(request, sessionService.getSessionState()));
 
-        ResponseEntityBuilder<String> responseEntityBuilder = new ResponseEntityBuilder<>();
-
-        responseEntityBuilder.setData(null);
-
-        return responseEntityBuilder.build();
+        return new ResponseEntityBuilder<String>().setData(null).build();
     }
 }

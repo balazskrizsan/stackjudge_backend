@@ -32,10 +32,8 @@ public class GetGroupRecursiveByCompanyIdAction
     {
         new JavaxValidatorService<GetStackRecursiveByCompanyIdRequest>().validate(request);
 
-        ResponseEntityBuilder<List<RecursiveGroup>> responseEntityBuilder = new ResponseEntityBuilder<>();
-
-        responseEntityBuilder.setData(groupService.recursiveSearch(request.getCompanyId()));
-
-        return responseEntityBuilder.build();
+        return new ResponseEntityBuilder<List<RecursiveGroup>>()
+            .setData(groupService.recursiveSearch(request.getCompanyId()))
+            .build();
     }
 }
