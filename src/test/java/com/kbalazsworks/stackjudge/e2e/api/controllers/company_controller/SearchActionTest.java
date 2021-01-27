@@ -92,7 +92,6 @@ public class SearchActionTest extends AbstractE2eTest
             .andExpect(jsonPath(companyStatisticsPath).value(expectedCompanyStatisticId))
             .andExpect(jsonPath(companyGroupsPath).value(expectedRecursiveGroupId))
             .andExpect(jsonPath(companyAddressesPath).value(expectedCompanyAddressesId))
-            .andExpect(jsonPath(companyReviewsPath).value(expectedCompanyReviewsId))
-        ;
+            .andExpect(jsonPath(companyReviewsPath).value(expectedCompanyReviewsId));
     }
 }
