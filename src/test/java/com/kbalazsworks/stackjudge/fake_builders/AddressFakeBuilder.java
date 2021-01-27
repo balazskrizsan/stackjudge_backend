@@ -7,15 +7,15 @@ import java.util.List;
 
 public class AddressFakeBuilder
 {
-    public static final Long defaultId1 = 102001L;
-    public static final Long defaultId2 = 102002L;
-    public static final Long defaultId3 = 102003L;
-    public static final Long defaultId4 = 102004L;
-    public static final Long defaultId5 = 102005L;
-    public static final Long defaultId6 = 102006L;
-    public static final Long defaultId7 = 102007L;
-    public static final Long defaultId8 = 102008L;
-    public static final Long defaultId9 = 102009L;
+    public static final Long defaultId1  = 102001L;
+    public static final Long defaultId2  = 102002L;
+    public static final Long defaultId3  = 102003L;
+    public static final Long defaultId4  = 102004L;
+    public static final Long defaultId5  = 102005L;
+    public static final Long defaultId6  = 102006L;
+    public static final Long defaultId7  = 102007L;
+    public static final Long defaultId8  = 102008L;
+    public static final Long defaultId9  = 102009L;
     public static final Long defaultId10 = 102010L;
 
     private Long          id              = defaultId1; //156789516L;
