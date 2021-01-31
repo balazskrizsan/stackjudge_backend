@@ -68,3 +68,10 @@ ALTER TABLE "review"
     ADD CONSTRAINT "fk__review_id__group_id__on_delete_cascade"
         FOREIGN KEY ("group_id")
             REFERENCES "group" ("id") ON DELETE CASCADE;
+
+CREATE TABLE users
+(
+  id       BIGSERIAL NOT NULL,
+  username VARCHAR,
+  password VARCHAR
+);

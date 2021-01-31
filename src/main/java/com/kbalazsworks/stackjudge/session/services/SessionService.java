@@ -12,9 +12,9 @@ public class SessionService
 {
     public SessionState getSessionState()
     {
-        return new SessionState(
-            new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-            new User(1L)
-        );
+        User user = new User();
+        user.setId(1L);
+
+        return new SessionState(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), user);
     }
 }
