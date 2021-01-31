@@ -47,7 +47,6 @@ public class CreateActionTest extends AbstractE2eTest
         // Assert
         result
             .andExpect(expectedStatusCode)
-            .andExpect(expectedStatusCode)
             .andExpect(jsonPath("$.data").value(expectedData))
             .andExpect(jsonPath("$.errorCode").value(expectedErrorCode));
     }
