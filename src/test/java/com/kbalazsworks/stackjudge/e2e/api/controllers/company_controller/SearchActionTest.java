@@ -86,7 +86,6 @@ public class SearchActionTest extends AbstractE2eTest
             + expectedCompanyReviewsGroupId + ".[0].id";
 
         result
-            .andDo(print())
             .andExpect(expectedStatusCode)
             .andExpect(jsonPath("$.data.companies[0].id").value(expectedCompanyId))
             .andExpect(jsonPath(companyStatisticsPath).value(expectedCompanyStatisticId))
