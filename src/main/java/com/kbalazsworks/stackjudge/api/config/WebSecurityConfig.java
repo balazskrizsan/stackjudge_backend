@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.api.config;
 
-import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilter;
-import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilter;
+import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
+import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
 import com.kbalazsworks.stackjudge.session.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 //            .antMatchers(HttpMethod.GET, ACTION_HEALTH_CHECK).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+            .addFilter(new JWTAuthenticationFilterService(authenticationManager()))
+            .addFilter(new JWTAuthorizationFilterService(authenticationManager()));
     }
 
     @Override

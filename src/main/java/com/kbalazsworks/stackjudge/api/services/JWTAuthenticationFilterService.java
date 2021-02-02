@@ -19,13 +19,13 @@ import java.util.Date;
 
 import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.*;
 
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter
+public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticationFilter
 {
-    private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilterService.class);
 
     private final AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager)
+    public JWTAuthenticationFilterService(AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;
     }

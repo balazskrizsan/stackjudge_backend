@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.*;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter
+public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 {
-    private static final Logger logger = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JWTAuthorizationFilterService.class);
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager)
+    public JWTAuthorizationFilterService(AuthenticationManager authManager)
     {
         super(authManager);
     }
