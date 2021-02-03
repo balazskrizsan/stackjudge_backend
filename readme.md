@@ -20,7 +20,7 @@ data
 - All of our complex requests will came from PK based small selectd instead of the JOIN hell
 - Very easy to handle on client side
 
-###### Get a company without any request relation
+##### Get a company without any request relation
 
 URI `GET:/company/`
 
@@ -51,7 +51,7 @@ Explanation:
 
 This GET request simply request a record from the company table, and there is no any related data connected.
 
-###### Get a company with one request relation
+##### Get a company with one request relation
 
 URI: `/company/1?requestRelationIds=1`
 
@@ -87,7 +87,7 @@ Explanation:
 If anywhere on the site we need a company with related data like now the companyStatistic, we can simply add a
 parameter called requestRelationIds, and from the Enum we can select the ID for the requested data relation.
 
-###### Get a company with more than one request relation
+##### Get a company with more than one request relation
 
 URI: `/company/1?requestRelationIds=1&equestRelationIds=2`
 
