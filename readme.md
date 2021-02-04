@@ -55,6 +55,8 @@ This GET request simply request a record from the company table, and there is no
 
 URI: `/company/1?requestRelationIds=1`
 
+Response:
+
 ```
 {
     "data": {
@@ -87,7 +89,9 @@ Explanation:
 If anywhere on the site we need a company with related data like now the companyStatistic, we can simply add a
 parameter called requestRelationIds, and from the Enum we can select the ID for the requested data relation.
 
-##### Get a company with more than one request relation
+##### Get a company with more than one request relations
+
+Response:
 
 URI: `/company/1?requestRelationIds=1&equestRelationIds=2`
 
@@ -146,3 +150,76 @@ Explanation:
 This example is the same as the previous expect one thing: it is using more than one request relation in one
 request. In this case we get back all requested data. If it's necessary we can select all available data for the
 company.
+
+##### Search companies with more than one request relation
+
+URI: `/company?seekId=1&limit=2&requestRelationIds=1&requestRelationIds=2`
+
+Response:
+```
+{
+    "data": {
+        "companies": [
+            {
+                "id": 1,
+                "name": "Test company 1",
+                "companySizeId": 1,
+                "itSizeId": 5,
+                "logoPath": "folder/1.jpg"
+            },
+            {
+                "id": 2,
+                "name": "Test company with long name 2",
+                "companySizeId": 3,
+                "itSizeId": 4,
+                "logoPath": "folder/2.jpg"
+            }
+        ],
+        "companyGroups": {
+            "1": [
+                {
+                    "recursiveGroup": {
+                        "id": 1,
+                        "name": "Level 0 - Company",
+                        "companyId": 1,
+                        "parentId": null,
+                        "depth": 1,
+                        "path": "1"
+                    },
+                    "children": [
+                    ]
+                }
+            ]
+        },
+        "paginator": [],
+        "newSeekId": null,
+        "companyStatistics": {
+            "1": {
+                "companyId": 1,
+                "stackCount": 3,
+                "teamsCount": 3,
+                "reviewCount": 0,
+                "technologiesCount": 0
+            },
+            "2": {
+                "companyId": 2,
+                "stackCount": 0,
+                "teamsCount": 0,
+                "reviewCount": 0,
+                "technologiesCount": 0
+            },
+        },
+        "companyAddresses": {},
+        "companyReviews": {}
+    },
+    "success": true,
+    "errorCode": 0,
+    "requestId": "1"
+}
+```
+
+Explanation:
+
+In this endpoint we request 2 companies with 2 request relation ids. As we see we have a _flat list_, related data
+aren't included in the company entities. They are in other list. If the client wants to select the related information
+to display it, it's really from the returned key based list, where the key is always the PK, in the case the companyId.
