@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.api.config;
 
+import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
 import com.kbalazsworks.stackjudge.session.services.UserDetailsServiceImpl;
@@ -43,17 +44,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-
+        // @formatter:off
         http
             .addFilterBefore(new CorsFilterConfig(), SessionManagementFilter.class)
+
             .csrf().disable()
+
             .authorizeRequests()
+
             .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-//            .antMatchers(HttpMethod.GET, ACTION_HEALTH_CHECK).permitAll()
+
+            .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.GET_SECURITY_PATH).permitAll()
+            .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.SEARCH_SECURITY_PATH).permitAll()
+
             .anyRequest().authenticated()
+
             .and()
             .addFilter(new JWTAuthenticationFilterService(authenticationManager()))
             .addFilter(new JWTAuthorizationFilterService(authenticationManager()));
+        // @formatter:on
     }
 
     @Override
