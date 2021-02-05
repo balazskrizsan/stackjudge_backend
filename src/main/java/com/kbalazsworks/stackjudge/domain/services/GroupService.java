@@ -83,6 +83,7 @@ public class GroupService
                     parent.add(newChild);
                 });
         }
+
         return recursiveGroupTrees;
     }
 }
