@@ -3,9 +3,11 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
+import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.session.entities.SessionState;
 
 public class RequestMapperService
@@ -44,6 +46,18 @@ public class RequestMapperService
             request.markerLng(),
             request.manualMarkerLat(),
             request.manualMarkerLng(),
+            sessionState.getNow(),
+            sessionState.getUser().getId()
+        );
+    }
+
+    public static Review mapToRecord(ReviewCreateRequest request, SessionState sessionState) {
+        return new Review(
+            null,
+            request.group_id(),
+            request.visibility(),
+            request.rate(),
+            request.review(),
             sessionState.getNow(),
             sessionState.getUser().getId()
         );

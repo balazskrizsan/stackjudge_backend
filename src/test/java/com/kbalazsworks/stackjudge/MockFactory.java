@@ -2,9 +2,13 @@ package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
+import com.kbalazsworks.stackjudge.session.entities.SessionState;
+import com.kbalazsworks.stackjudge.session.entities.User;
+import com.kbalazsworks.stackjudge.session.services.SessionService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.mockito.Mockito.mock;
@@ -31,5 +35,15 @@ public class MockFactory
         localDateTimeFactory.setDateFactory(dateFactory);
 
         return localDateTimeFactory;
+    }
+
+    public static void SessionService_getSessionStateMock(SessionService sessionService)
+    {
+        when(sessionService.getSessionState()).thenReturn(
+            new SessionState(
+                LocalDateTime.of(2001, 1, 2, 3, 4),
+                new User(3L, "", "")
+            )
+        );
     }
 }

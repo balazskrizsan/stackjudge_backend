@@ -12,8 +12,7 @@ public class SessionService
 {
     public SessionState getSessionState()
     {
-        User user = new User();
-        user.setId(1L);
+        User user = new User(1L, "temp user", "password");
 
         return new SessionState(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), user);
     }
