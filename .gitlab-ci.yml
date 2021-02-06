@@ -11,10 +11,10 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
   REPOSITORY_URL: 480189430442.dkr.ecr.ap-southeast-2.amazonaws.com/temperature
 
-#stages:
+stages:
 #  - unit-test
 #  - integration-test
-#  - package
+  - package
 #  - deploy
 
 #maven-unit-test:
