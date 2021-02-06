@@ -58,8 +58,6 @@ deploy_stage:
 deploy_prod:
   stage: deploy
   image: ruby:2.3
-  variables:
-    MAVEN_OPTS: --enable-preview
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
