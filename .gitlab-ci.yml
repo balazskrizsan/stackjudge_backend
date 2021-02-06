@@ -14,7 +14,7 @@ variables:
 stages:
 #  - unit-test
 #  - integration-test
-  - package
+  - build
 #  - deploy
 
 #maven-unit-test:
@@ -41,7 +41,7 @@ stages:
 
 build-image:
   image: docker:latest
-  stage: package
+  stage: build
   services:
     - name: docker:dind
   script:
