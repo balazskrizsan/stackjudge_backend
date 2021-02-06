@@ -1,73 +1,64 @@
+
+before_script:
+  - IMAGE_TAG="$(echo $CI_COMMIT_SHA | head -c 8)"
+
 cache:
   paths:
-    - /root/.m2/repository
+    - maven.repository/
 
-stages:
-  - build
-  - test
-  - deploy
+variables:
+  MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=maven.repository/"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+  REPOSITORY_URL: 480189430442.dkr.ecr.ap-southeast-2.amazonaws.com/temperature
 
-build:
-  stage: build
-  image: maven:3.6.3-jdk-14
+#stages:
+#  - unit-test
+#  - integration-test
+#  - package
+#  - deploy
+
+#maven-unit-test:
+#  image: maven:3-jdk-11
+#  stage: unit-test
+#  script:
+#    - mvn $MAVEN_CLI_OPTS clean test -P unit-test
+#
+#maven-integration-test:
+#  image: maven:3-jdk-11
+#  services:
+#    - name: amazon/dynamodb-local
+#      alias: dynamodblocal
+#  stage: integration-test
+#  script:
+#    - mvn $MAVEN_CLI_OPTS install -P integration-test -Dspring.profiles.active=CI -Dskip.startlocaldynamo=true
+#    - mkdir target/dependency
+#    - (cd target/dependency; jar -xf ../*.jar)
+#  artifacts:
+#    paths:
+#      - target/*.jar
+#      - target/dependency
+#      - target/cucumber-reports/cucumber-html-reports/*
+
+build-image:
+  image: docker:latest
+  stage: package
+  services:
+    - name: docker:dind
   script:
-    - mvn clean package
-  tags:
-    - docker
+    - apk add --no-cache curl jq python3 py-pip
+    - pip install awscli
+    - $(aws ecr get-login --no-include-email --region ap-southeast-2)
+    - docker build -t $REPOSITORY_URL:latest .
+    - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$IMAGE_TAG
+    - docker push $REPOSITORY_URL:latest
+    - docker push $REPOSITORY_URL:$IMAGE_TAG
 
-test:
-  stage: test
-  image: maven:3.6.3-jdk-14
-  script:
-    - mvn test
-  tags:
-    - docker
 
-deploy_dev:
-  stage: deploy
-  image: ruby:2.3
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
-  environment:
-    name: prod
-    url: https://weather-snapshot-dev.herokuapp.com/
-  only:
-    - dev
-  tags:
-    - docker
-
-deploy_stage:
-  stage: deploy
-  image: ruby:2.3
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_STAGE_APP --api-key=$HEROKU_API_KEY
-  environment:
-    name: stage
-    url: https://weather-snapshot-stage.herokuapp.com/
-  only:
-    - master
-  tags:
-    - docker
-
-deploy_prod:
-  stage: deploy
-  image: ruby:2.3
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_PROD_APP --api-key=$HEROKU_API_KEY
-  environment:
-    name: prod
-    url: https://weather-snapshot.herokuapp.com/
-  when: manual
-  only:
-    - master
-  tags:
-    - docker
+#deploy:
+#  image: python:latest
+#  stage: deploy
+#  script:
+#    - pip install awscli
+#    - echo $REPOSITORY_URL:$IMAGE_TAG
+#    - aws ecs register-task-definition --region ap-southeast-2 --family MyTaskDef --cli-input-json file://aws/ecs-task-definition.json
+#    - aws ecs update-service --region ap-southeast-2 --cluster MyCluster --service MyService  --task-definition MyTaskDef
