@@ -45,8 +45,8 @@ public class PostActionTest extends AbstractE2eTest
         ResultMatcher expectedStatusCode = status().isOk();
         Review expectedReview = new ReviewFakeBuilder()
             .setId(null)
-            .setCreatedAt(MockFactory.mockLocalDateTime)
-            .setCreatedBy(MockFactory.mockUser.getId())
+            .setCreatedAt(MockFactory.localDateTimeMock)
+            .setCreatedBy(MockFactory.userMock.getId())
             .build();
 
         // Act

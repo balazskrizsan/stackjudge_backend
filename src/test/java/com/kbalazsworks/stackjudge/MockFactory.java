@@ -16,8 +16,9 @@ import static org.mockito.Mockito.when;
 
 public class MockFactory
 {
-    public static final LocalDateTime mockLocalDateTime = LocalDateTime.of(2001, 1, 2, 3, 4);
-    public static final User mockUser = new User(123L, "MockUser Name", "Mock Password");
+    public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
+    public static final User          userMock          = new User(123L, "MockUser Name", "Mock Password");
+    public static final SessionState  sessionStateMock  = new SessionState(localDateTimeMock, userMock);
 
     public static Date getJavaDateFromDate(String date) throws ParseException
     {
@@ -42,6 +43,6 @@ public class MockFactory
 
     public static void SessionService_getSessionStateMock(SessionService sessionService)
     {
-        when(sessionService.getSessionState()).thenReturn(new SessionState(mockLocalDateTime, mockUser));
+        when(sessionService.getSessionState()).thenReturn(sessionStateMock);
     }
 }
