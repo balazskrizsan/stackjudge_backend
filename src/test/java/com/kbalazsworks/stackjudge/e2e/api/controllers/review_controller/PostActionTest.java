@@ -4,6 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.session.services.SessionService;
 import org.junit.Test;
@@ -14,8 +15,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,21 +37,17 @@ public class PostActionTest extends AbstractE2eTest
         String testedUri = "/review";
         MultiValueMap<String, String> testedPostData = new LinkedMultiValueMap<>()
         {{
-            add("group_id", "1");
-            add("visibility", "2");
-            add("rate", "3");
-            add("review", "review text");
+            add("group_id", "101001");
+            add("visibility", "1");
+            add("rate", "2");
+            add("review", "long review text");
         }};
         ResultMatcher expectedStatusCode = status().isOk();
-        Review expectedReview = new Review(
-            null,
-            1L,
-            (short) 2,
-            (short) 3,
-            "review text",
-            LocalDateTime.of(2001, 1, 2, 3, 4),
-            3L
-        );
+        Review expectedReview = new ReviewFakeBuilder()
+            .setId(null)
+            .setCreatedAt(MockFactory.mockLocalDateTime)
+            .setCreatedBy(MockFactory.mockUser.getId())
+            .build();
 
         // Act
         ResultActions result = getMockMvc().perform(
