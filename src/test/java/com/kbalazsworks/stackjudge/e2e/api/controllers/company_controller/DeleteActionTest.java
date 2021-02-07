@@ -1,10 +1,12 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
+import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -21,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class DeleteActionTest extends AbstractE2eTest
 {
+    @MockBean
+    private CompanyService companyService;
+
     @Test
     @SqlGroup(
         {
@@ -42,12 +48,13 @@ public class DeleteActionTest extends AbstractE2eTest
     public void deleteExistingCompany_returns200ok() throws Exception
     {
         // Arrange
-        String          testedUri          = "/company/{id}";
-        long            testedCompanyId    = CompanyFakeBuilder.defaultId1;
-        ResultMatcher   expectedStatusCode = status().isOk();
-        Matcher<Object> expectedData       = IsNull.nullValue();
-        boolean         expectedSuccess    = true;
-        int             expectedErrorCode  = 0;
+        String          testedUri           = "/company/{id}";
+        long            testedCompanyId     = CompanyFakeBuilder.defaultId1;
+        ResultMatcher   expectedStatusCode  = status().isOk();
+        Matcher<Object> expectedData        = IsNull.nullValue();
+        boolean         expectedSuccess     = true;
+        int             expectedErrorCode   = 0;
+        long            testedCallCompanyId = CompanyFakeBuilder.defaultId1;
 
         // Act
         ResultActions result = getMockMvc().perform(
@@ -63,5 +70,7 @@ public class DeleteActionTest extends AbstractE2eTest
             .andExpect(jsonPath("$.data").value(expectedData))
             .andExpect(jsonPath("$.success").value(expectedSuccess))
             .andExpect(jsonPath("$.errorCode").value(expectedErrorCode));
+
+        verify(companyService).delete(testedCallCompanyId);
     }
 }
