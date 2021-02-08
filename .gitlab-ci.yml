@@ -9,7 +9,7 @@ stages:
 
 build:
   stage: build
-  image: maven:3.6.3-jdk-14
+  image: maven:3.6.3-openjdk-15
   script:
     - mvn clean package
   tags:
