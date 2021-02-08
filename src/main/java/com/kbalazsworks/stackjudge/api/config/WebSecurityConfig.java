@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.api.config;
 
+import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountConfig;
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.controllers.review_controller.ReviewConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
@@ -54,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.GET_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.SEARCH_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.POST, ReviewConfig.CONTROLLER_URI + ReviewConfig.POST_SECURITY_PATH).permitAll()
+            .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_SECURITY_PATH).permitAll()
+            .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
 
             .anyRequest().authenticated()
 
