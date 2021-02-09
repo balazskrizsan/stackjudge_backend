@@ -5,19 +5,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
+        <version>2.3.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kbalazsworks</groupId>
     <artifactId>stackjudge</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>stackjudge</name>
-    <description>StackJudger.com</description>
+    <description>StackJudge.com</description>
 
     <properties>
         <java.version>15</java.version>
-        <maven.compiler.target>15</maven.compiler.target>
-        <maven.compiler.source>15</maven.compiler.source>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
     </properties>
 
@@ -93,10 +91,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>2.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-security</artifactId>
+            <version>2.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -302,23 +302,34 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <arguments>--enable-preview</arguments>
+                    <jvmArguments>--enable-preview</jvmArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                    <compilerArgs>
+                        --enable-preview
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
