@@ -21,3 +21,18 @@ test:
     - mvn test
   tags:
     - docker
+
+deploy_prod:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_PROD --api-key=$HEROKU_API_KEY
+  environment:
+    name: prod
+    url: https://stackjudge-prod.herokuapp.com/
+  when: manual
+  only:
+    - master
+  tags:
+    - docker
