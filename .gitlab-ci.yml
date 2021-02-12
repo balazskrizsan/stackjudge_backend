@@ -10,7 +10,7 @@ build:
   stage: build
   image: maven:3.6.3-openjdk-15
   script:
-    - mvn package -B
+    - mvn clean install -DskipTests=true
   tags:
     - docker
 
