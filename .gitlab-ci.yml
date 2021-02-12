@@ -10,9 +10,6 @@ build:
   stage: build
   image: maven:3.6.3-openjdk-15
   script:
-    - echo $SPRING_DATASOURCE_PASSWORD
-    - echo $SPRING_DATASOURCE_URL
-    - echo $SPRING_DATASOURCE_USERNA
     - mvn package -B
   tags:
     - docker
