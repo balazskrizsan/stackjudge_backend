@@ -43,6 +43,6 @@ public class PostAction
 
         reviewService.create(RequestMapperService.mapToRecord(request, sessionService.getSessionState()));
 
-        return new ResponseEntityBuilder<String>().setData(null).build();
+        return new ResponseEntityBuilder<String>().data(null).build();
     }
 }

@@ -60,6 +60,6 @@ public class PostAction
             companyLogo
         );
 
-        return new ResponseEntityBuilder<String>().setData(null).build();
+        return new ResponseEntityBuilder<String>().data(null).build();
     }
 }

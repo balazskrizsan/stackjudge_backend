@@ -30,7 +30,7 @@ public class GetAction
         new JavaxValidatorService<GetRequest>().validate(request);
 
         return new ResponseEntityBuilder<CompanyGetServiceResponse>()
-            .setData(companyService.get(request.getCompanyId(), request.getRequestRelationIds()))
+            .data(companyService.get(request.getCompanyId(), request.getRequestRelationIds()))
             .build();
     }
 }

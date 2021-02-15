@@ -2,12 +2,18 @@ package com.kbalazsworks.stackjudge.api.builders;
 
 import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class ResponseEntityBuilder<T>
 {
     private T           data;
@@ -33,41 +39,5 @@ public class ResponseEntityBuilder<T>
     {
         headers.setAccessControlExposeHeaders(Collections.singletonList("Content-Disposition"));
         headers.set("Content-Disposition", "attachment; filename=" + fileName + ".csv");
-    }
-
-    public T getData()
-    {
-        return data;
-    }
-
-    public ResponseEntityBuilder<T> setData(T data)
-    {
-        this.data = data;
-
-        return this;
-    }
-
-    public int getErrorCode()
-    {
-        return errorCode;
-    }
-
-    public ResponseEntityBuilder<T> setErrorCode(int errorCode)
-    {
-        this.errorCode = errorCode;
-
-        return this;
-    }
-
-    public HttpStatus getStatusCode()
-    {
-        return statusCode;
-    }
-
-    public ResponseEntityBuilder<T> setStatusCode(HttpStatus statusCode)
-    {
-        this.statusCode = statusCode;
-
-        return this;
     }
 }

@@ -33,7 +33,7 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
     )
     {
         ResponseEntityBuilder<Object> errorResponseEntityBuilder = new ResponseEntityBuilder<>();
-        errorResponseEntityBuilder.setData(e.getMessage());
+        errorResponseEntityBuilder.data(e.getMessage());
 
         logger.error(e.getMessage());
         try
@@ -51,10 +51,10 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
     @ExceptionHandler(value = {HttpException.class})
     protected ResponseEntity<ResponseData<String>> handleConflict(HttpException e, WebRequest request) throws Exception
     {
-        ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<>();
-        errorResponseEntityBuilder.setData(e.getMessage());
-        errorResponseEntityBuilder.setErrorCode(e.getErrorCode());
-        errorResponseEntityBuilder.setStatusCode(e.getStatusCode());
+        ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<String>()
+            .data(e.getMessage())
+            .errorCode(e.getErrorCode())
+            .statusCode(e.getStatusCode());
 
         logger.error(e.getMessage());
         if (e.isPrintTrace())
@@ -80,10 +80,10 @@ public class RestResponseEntityExceptionService extends ResponseEntityExceptionH
 
     private ResponseEntity<ResponseData<String>> exceptionHandler(Exception e) throws ApiException
     {
-        ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<>();
-        errorResponseEntityBuilder.setData(getErrorMessage(e));
-        errorResponseEntityBuilder.setErrorCode(getErrorCode(e));
-        errorResponseEntityBuilder.setStatusCode(getHttpStatus(e));
+        ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<String>()
+            .data(getErrorMessage(e))
+            .errorCode(getErrorCode(e))
+            .statusCode(getHttpStatus(e));
 
         logger.error(e.getMessage());
         if (isTraceNeeded(e))
