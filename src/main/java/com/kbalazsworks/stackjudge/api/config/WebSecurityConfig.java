@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyCon
 import com.kbalazsworks.stackjudge.api.controllers.review_controller.ReviewConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
-import com.kbalazsworks.stackjudge.session.services.UserDetailsServiceImpl;
+import com.kbalazsworks.stackjudge.state.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

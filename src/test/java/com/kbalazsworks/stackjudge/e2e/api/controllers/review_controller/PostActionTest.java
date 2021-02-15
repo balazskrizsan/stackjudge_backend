@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
-import com.kbalazsworks.stackjudge.session.services.SessionService;
+import com.kbalazsworks.stackjudge.state.services.StateService;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -25,14 +25,14 @@ public class PostActionTest extends AbstractE2eTest
     private ReviewService reviewService;
 
     @MockBean
-    private SessionService sessionService;
+    private StateService stateService;
 
     @Test
     @TruncateAllTables
     public void insertOneValidReview_returns200ok() throws Exception
     {
         // Arrange
-        MockFactory.SessionService_getSessionStateMock(sessionService);
+        MockFactory.SessionService_getSessionStateMock(stateService);
 
         String testedUri = "/review";
         MultiValueMap<String, String> testedPostData = new LinkedMultiValueMap<>()

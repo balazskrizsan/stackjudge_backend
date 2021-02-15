@@ -1,7 +1,7 @@
-package com.kbalazsworks.stackjudge.session.services;
+package com.kbalazsworks.stackjudge.state.services;
 
-import com.kbalazsworks.stackjudge.session.entities.User;
-import com.kbalazsworks.stackjudge.session.repositories.UsersRepository;
+import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

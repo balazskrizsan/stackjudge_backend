@@ -8,11 +8,11 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
+import com.kbalazsworks.stackjudge.state.entities.State;
 
 public class RequestMapperService
 {
-    public static Group mapToRecord(GroupCreateRequest request, SessionState sessionState) {
+    public static Group mapToRecord(GroupCreateRequest request, State state) {
         return new Group(
             null,
             request.companyId(),
@@ -20,24 +20,24 @@ public class RequestMapperService
             request.typeId(),
             request.name(),
             request.membersOnStackId(),
-            sessionState.getNow(),
-            sessionState.getUser().getId()
+            state.getNow(),
+            state.getUser().getId()
         );
     }
 
-    public static Company mapToRecord(CompanyCreateRequest request, SessionState sessionState) {
+    public static Company mapToRecord(CompanyCreateRequest request, State state) {
         return new Company(
             null,
             request.name(),
             request.companySizeId(),
             request.itSizeId(),
             "",
-            sessionState.getNow(),
-            sessionState.getUser().getId()
+            state.getNow(),
+            state.getUser().getId()
         );
     }
 
-    public static Address mapToRecord(AddressCreateRequest request, SessionState sessionState) {
+    public static Address mapToRecord(AddressCreateRequest request, State state) {
         return new Address(
             null,
             null,
@@ -46,20 +46,20 @@ public class RequestMapperService
             request.markerLng(),
             request.manualMarkerLat(),
             request.manualMarkerLng(),
-            sessionState.getNow(),
-            sessionState.getUser().getId()
+            state.getNow(),
+            state.getUser().getId()
         );
     }
 
-    public static Review mapToRecord(ReviewCreateRequest request, SessionState sessionState) {
+    public static Review mapToRecord(ReviewCreateRequest request, State state) {
         return new Review(
             null,
             request.group_id(),
             request.visibility(),
             request.rate(),
             request.review(),
-            sessionState.getNow(),
-            sessionState.getUser().getId()
+            state.getNow(),
+            state.getUser().getId()
         );
     }
 }

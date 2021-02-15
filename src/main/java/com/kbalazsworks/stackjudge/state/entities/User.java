@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.session.entities;
+package com.kbalazsworks.stackjudge.state.entities;
 
 import javax.persistence.*;
 

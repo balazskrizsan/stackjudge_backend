@@ -2,9 +2,9 @@ package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
-import com.kbalazsworks.stackjudge.session.entities.SessionState;
-import com.kbalazsworks.stackjudge.session.entities.User;
-import com.kbalazsworks.stackjudge.session.services.SessionService;
+import com.kbalazsworks.stackjudge.state.entities.State;
+import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.services.StateService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,8 +17,8 @@ import static org.mockito.Mockito.when;
 public class MockFactory
 {
     public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
-    public static final User          userMock          = new User(123L, "MockUser Name", "Mock Password");
-    public static final SessionState  sessionStateMock  = new SessionState(localDateTimeMock, userMock);
+    public static final User  userMock   = new User(123L, "MockUser Name", "Mock Password");
+    public static final State STATE_MOCK = new State(localDateTimeMock, userMock);
 
     public static Date getJavaDateFromDate(String date) throws ParseException
     {
@@ -41,8 +41,8 @@ public class MockFactory
         return localDateTimeFactory;
     }
 
-    public static void SessionService_getSessionStateMock(SessionService sessionService)
+    public static void SessionService_getSessionStateMock(StateService stateService)
     {
-        when(sessionService.getSessionState()).thenReturn(sessionStateMock);
+        when(stateService.getState()).thenReturn(STATE_MOCK);
     }
 }
