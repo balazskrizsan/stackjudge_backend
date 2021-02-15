@@ -131,7 +131,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 ),
                 // expected
                 new CompanySearchServiceResponse(
-                    new CompanyFakeBuilder().setId(CompanyFakeBuilder.defaultId1).buildAsList(),
+                    new CompanyFakeBuilder().id(CompanyFakeBuilder.defaultId1).buildAsList(),
                     new HashMap<>(),
                     List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                     CompanyFakeBuilder.defaultId1,

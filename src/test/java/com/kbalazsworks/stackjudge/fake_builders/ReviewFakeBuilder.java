@@ -1,10 +1,16 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class ReviewFakeBuilder
 {
     public static final Long defaultId1  = 103001L;
@@ -34,54 +40,5 @@ public class ReviewFakeBuilder
     public Review build()
     {
         return new Review(id, groupId, visibility, rate, review, createdAt, createdBy);
-    }
-
-    public ReviewFakeBuilder setId(Long id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setGroupId(long groupId)
-    {
-        this.groupId = groupId;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setVisibility(short visibility)
-    {
-        this.visibility = visibility;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setRate(short rate)
-    {
-        this.rate = rate;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setReview(String review)
-    {
-        this.review = review;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setCreatedAt(LocalDateTime createdAt)
-    {
-        this.createdAt = createdAt;
-
-        return this;
-    }
-
-    public ReviewFakeBuilder setCreatedBy(Long createdBy)
-    {
-        this.createdBy = createdBy;
-
-        return this;
     }
 }

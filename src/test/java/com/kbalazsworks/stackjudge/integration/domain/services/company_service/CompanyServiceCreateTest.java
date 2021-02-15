@@ -101,10 +101,10 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
                 .thenReturn(new CdnServicePutResponse(new PutObjectResult(), "fake-path/123.jpg"));
 
             return new TestData(
-                new CompanyFakeBuilder().setLogoPath("").build(),
+                new CompanyFakeBuilder().logoPath("").build(),
                 new AddressFakeBuilder().build(),
                 testFile,
-                new CompanyFakeBuilder().setLogoPath("fake-path/123.jpg").build(),
+                new CompanyFakeBuilder().logoPath("fake-path/123.jpg").build(),
                 new AddressFakeBuilder().build(),
                 () -> verify(cdnServiceMock, times(1))
                     .put(eq(CdnNamespaceEnum.COMPANY_LOGOS), matches("\\d+"), eq("jpg"), eq(testFile))

@@ -1,9 +1,15 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.entities.Group;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class GroupFakeBuilder
 {
     public static final Long defaultId1 = 101001L;
@@ -29,61 +35,5 @@ public class GroupFakeBuilder
     public Group build()
     {
         return new Group(id, companyId, parentId, typeId, name, membersOnGroupId, createdAt, createdBy);
-    }
-
-    public GroupFakeBuilder setId(long id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setCompanyId(long companyId)
-    {
-        this.companyId = companyId;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setParentId(Long parentId)
-    {
-        this.parentId = parentId;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setTypeId(short typeId)
-    {
-        this.typeId = typeId;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setName(String name)
-    {
-        this.name = name;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setMembersOnGroupId(short membersOnGroupId)
-    {
-        this.membersOnGroupId = membersOnGroupId;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setCreatedAt(LocalDateTime createdAt)
-    {
-        this.createdAt = createdAt;
-
-        return this;
-    }
-
-    public GroupFakeBuilder setCreatedBy(Long createdBy)
-    {
-        this.createdBy = createdBy;
-
-        return this;
     }
 }

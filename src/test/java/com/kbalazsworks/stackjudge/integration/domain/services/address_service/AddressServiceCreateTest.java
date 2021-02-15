@@ -36,7 +36,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
 
         if (repetition == 2)
         {
-            return new AddressFakeBuilder().setManualMarkerLat(null).setManualMarkerLng(null).build();
+            return new AddressFakeBuilder().manualMarkerLat(null).manualMarkerLng(null).build();
         }
 
         throw new Exception();

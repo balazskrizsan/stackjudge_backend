@@ -1,7 +1,13 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class RecursiveGroupFakeBuilder
 {
     private Long   id        = 101001L;
@@ -14,47 +20,5 @@ public class RecursiveGroupFakeBuilder
     public RecursiveGroup build()
     {
         return new RecursiveGroup(id, name, companyId, parentId, depth, path);
-    }
-
-    public RecursiveGroupFakeBuilder setId(Long id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    public RecursiveGroupFakeBuilder setName(String name)
-    {
-        this.name = name;
-
-        return this;
-    }
-
-    public RecursiveGroupFakeBuilder setCompanyId(Long companyId)
-    {
-        this.companyId = companyId;
-
-        return this;
-    }
-
-    public RecursiveGroupFakeBuilder setParentId(Long parentId)
-    {
-        this.parentId = parentId;
-
-        return this;
-    }
-
-    public RecursiveGroupFakeBuilder setDepth(int depth)
-    {
-        this.depth = depth;
-
-        return this;
-    }
-
-    public RecursiveGroupFakeBuilder setPath(String path)
-    {
-        this.path = path;
-
-        return this;
     }
 }

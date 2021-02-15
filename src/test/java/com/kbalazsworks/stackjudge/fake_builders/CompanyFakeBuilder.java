@@ -2,10 +2,16 @@ package com.kbalazsworks.stackjudge.fake_builders;
 
 
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class CompanyFakeBuilder
 {
     public static final Long defaultId1  = 100001L;
@@ -43,54 +49,5 @@ public class CompanyFakeBuilder
             createdAt,
             createdBy
         );
-    }
-
-    public CompanyFakeBuilder setId(Long id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setName(String name)
-    {
-        this.name = name;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setCompanySizeId(short companySizeId)
-    {
-        this.companySizeId = companySizeId;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setItSizeId(short itSizeId)
-    {
-        this.itSizeId = itSizeId;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setLogoPath(String logoPath)
-    {
-        this.logoPath = logoPath;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setCreatedAt(LocalDateTime createdAt)
-    {
-        this.createdAt = createdAt;
-
-        return this;
-    }
-
-    public CompanyFakeBuilder setCreatedBy(Long createdBy)
-    {
-        this.createdBy = createdBy;
-
-        return this;
     }
 }

@@ -1,9 +1,15 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class CompanyStatisticFakeBuilder
 {
     private long companyId         = CompanyFakeBuilder.defaultId1;
@@ -26,40 +32,5 @@ public class CompanyStatisticFakeBuilder
             reviewCount,
             technologiesCount
         );
-    }
-
-    public CompanyStatisticFakeBuilder setCompanyId(long companyId)
-    {
-        this.companyId = companyId;
-
-        return this;
-    }
-
-    public CompanyStatisticFakeBuilder setStackCount(int stackCount)
-    {
-        this.stackCount = stackCount;
-
-        return this;
-    }
-
-    public CompanyStatisticFakeBuilder setTeamsCount(int teamsCount)
-    {
-        this.teamsCount = teamsCount;
-
-        return this;
-    }
-
-    public CompanyStatisticFakeBuilder setReviewCount(int reviewCount)
-    {
-        this.reviewCount = reviewCount;
-
-        return this;
-    }
-
-    public CompanyStatisticFakeBuilder setTechnologiesCount(int technologiesCount)
-    {
-        this.technologiesCount = technologiesCount;
-
-        return this;
     }
 }

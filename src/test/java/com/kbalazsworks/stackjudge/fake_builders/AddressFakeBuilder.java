@@ -1,10 +1,16 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class AddressFakeBuilder
 {
     public static final Long defaultId1  = 102001L;
@@ -18,7 +24,7 @@ public class AddressFakeBuilder
     public static final Long defaultId9  = 102009L;
     public static final Long defaultId10 = 102010L;
 
-    private Long          id              = defaultId1; //156789516L;
+    private Long          id              = defaultId1;
     private Long          companyId       = CompanyFakeBuilder.defaultId1;
     private String        fullAddress     = "Full address 1, 123, 4";
     private Double        markerLat       = 11.11;
@@ -46,68 +52,5 @@ public class AddressFakeBuilder
             createdAt,
             createdBy
         );
-    }
-
-    public AddressFakeBuilder setId(Long id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setCompanyId(Long companyId)
-    {
-        this.companyId = companyId;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setFullAddress(String fullAddress)
-    {
-        this.fullAddress = fullAddress;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setMarkerLat(Double markerLat)
-    {
-        this.markerLat = markerLat;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setMarkerLng(Double markerLng)
-    {
-        this.markerLng = markerLng;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setManualMarkerLat(Double manualMarkerLat)
-    {
-        this.manualMarkerLat = manualMarkerLat;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setManualMarkerLng(Double manualMarkerLng)
-    {
-        this.manualMarkerLng = manualMarkerLng;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setCreatedAt(LocalDateTime createdAt)
-    {
-        this.createdAt = createdAt;
-
-        return this;
-    }
-
-    public AddressFakeBuilder setCreatedBy(Long createdBy)
-    {
-        this.createdBy = createdBy;
-
-        return this;
     }
 }
