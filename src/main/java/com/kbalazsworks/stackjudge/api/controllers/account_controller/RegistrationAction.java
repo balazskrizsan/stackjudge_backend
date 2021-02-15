@@ -32,6 +32,6 @@ public class RegistrationAction
         final String authorizationUrl = service.getAuthorizationUrl(secretState);
 
         // redir to
-        return new ResponseEntityBuilder<String>().setData(authorizationUrl).build();
+        return new ResponseEntityBuilder<String>().data(authorizationUrl).build();
     }
 }
