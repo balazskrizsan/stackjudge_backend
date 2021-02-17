@@ -67,7 +67,6 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 
             return null;
         }
-        logger.warn("JWT Auth error: token is null.");
 
         return null;
     }
