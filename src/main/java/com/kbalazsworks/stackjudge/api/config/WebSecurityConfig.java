@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.api.config;
 
 import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountConfig;
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
+import com.kbalazsworks.stackjudge.api.controllers.group_controller.GroupConfig;
 import com.kbalazsworks.stackjudge.api.controllers.review_controller.ReviewConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
@@ -27,7 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     private final UserDetailsService    userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder)
+    {
         this.userDetailsService    = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -57,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .antMatchers(HttpMethod.POST, ReviewConfig.CONTROLLER_URI + ReviewConfig.POST_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
+            .antMatchers(HttpMethod.POST, GroupConfig.CONTROLLER_URI + GroupConfig.POST_SECURITY_PATH).permitAll()
 
             .anyRequest().authenticated()
 
