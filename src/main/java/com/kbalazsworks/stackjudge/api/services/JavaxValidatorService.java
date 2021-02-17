@@ -1,17 +1,16 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import javax.validation.*;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @Service
+@Log
 public class JavaxValidatorService<T>
 {
-    private final Logger logger = Logger.getLogger(JavaxValidatorService.class.toString());
-
     public void validateWithConsoleLog(T entity)
     {
         ValidatorFactory factory   = Validation.buildDefaultValidatorFactory();
@@ -21,7 +20,7 @@ public class JavaxValidatorService<T>
 
         for (ConstraintViolation<T> violation : violations)
         {
-            logger.info("Validation error: " + violation.getMessage());
+            log.info("Validation error: " + violation.getMessage());
         }
     }
 
@@ -37,13 +36,9 @@ public class JavaxValidatorService<T>
         for (ConstraintViolation<T> violation : violations)
         {
             validationException.add(new ValidationException(violation.getMessage()));
-            logger.info("Validation error: " + violation.getMessage());
         }
 
-        if (validationException.size() > 0)
-        {
-            throw validationException.get(0);
-        }
+        new RecursiveValidationExceptionBuilder().buildAndThrow(validationException);
     }
 
     public void arrayValidateWithConsoleLog(ArrayList<T> entities)

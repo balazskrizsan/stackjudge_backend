@@ -6,8 +6,6 @@ import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.exceptions.HttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ValidationException;
 
 @ControllerAdvice
-@Log
 public class RestResponseExceptionService extends ResponseEntityExceptionHandler
 {
     @Override
@@ -80,25 +77,14 @@ public class RestResponseExceptionService extends ResponseEntityExceptionHandler
     private ResponseEntity<ResponseData<String>> exceptionHandler(Exception e) throws ApiException
     {
         ResponseEntityBuilder<String> errorResponseEntityBuilder = new ResponseEntityBuilder<String>()
-            .data(getErrorMessage(e))
+            .data(getErrorMessageAndLog(e))
             .errorCode(getErrorCode(e))
             .statusCode(getHttpStatus(e));
-
-        logger.error(e.getMessage());
-        if (isTraceNeeded(e))
-        {
-            e.printStackTrace();
-        }
 
         return errorResponseEntityBuilder.build();
     }
 
-    private boolean isTraceNeeded(Exception e)
-    {
-        return !(e instanceof ValidationException);
-    }
-
-    private HttpStatus getHttpStatus(Exception e)
+    private HttpStatus getHttpStatus(Throwable e)
     {
         if (e instanceof ValidationException)
         {
@@ -113,17 +99,25 @@ public class RestResponseExceptionService extends ResponseEntityExceptionHandler
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    private String getErrorMessage(Exception e)
+    private String getErrorMessageAndLog(Throwable e)
     {
         if (e instanceof ValidationException)
         {
+            while (e != null)
+            {
+                logger.error(e.getMessage());
+                e = e.getCause();
+            }
+
             return "Validation error.";
         }
+
+        logger.error(e.getMessage());
 
         return "Unknown error occurred.";
     }
 
-    private int getErrorCode(Exception e)
+    private int getErrorCode(Throwable e)
     {
         if (e instanceof ValidationException)
         {
