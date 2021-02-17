@@ -20,10 +20,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ValidationException;
 
 @ControllerAdvice
-public class RestResponseEntityExceptionService extends ResponseEntityExceptionHandler
+@Log
+public class RestResponseExceptionService extends ResponseEntityExceptionHandler
 {
-    private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionService.class);
-
     @Override
     protected @NotNull ResponseEntity<Object> handleHttpRequestMethodNotSupported(
         HttpRequestMethodNotSupportedException e,
