@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class AddressRepository extends AbstractRepository
     private final com.kbalazsworks.stackjudge.db.tables.Address addressTable =
         com.kbalazsworks.stackjudge.db.tables.Address.ADDRESS;
 
-    public void create(Address address)
+    public void create(@NonNull Address address)
     {
         createQueryBuilder()
             .insertInto(

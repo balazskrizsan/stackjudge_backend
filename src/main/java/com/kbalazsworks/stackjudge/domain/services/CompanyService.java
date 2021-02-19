@@ -13,6 +13,8 @@ import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.*;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +30,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CompanyService
 {
-    private static final Logger logger = LoggerFactory.getLogger(CompanyService.class);
-
     private CompanyRepository companyRepository;
     private AddressService    addressService;
     private PaginatorService  paginatorService;
@@ -196,7 +197,7 @@ public class CompanyService
         return companyRepository.countRecordsBeforeId(seekId);
     }
 
-    public void create(Company company, Address address, MultipartFile companyLogo)
+    public void create(@NonNull Company company, @NonNull Address address, MultipartFile companyLogo)
     {
         boolean success = jooqService.getDbContext().transactionResult(
             (Configuration config) ->
@@ -230,7 +231,7 @@ public class CompanyService
                     }
                     catch (AmazonS3Exception e) //@todo: test
                     {
-                        logger.error("Amazon S3 upload failed.", e);
+                        log.error("Amazon S3 upload failed.", e);
                     }
                 }
 

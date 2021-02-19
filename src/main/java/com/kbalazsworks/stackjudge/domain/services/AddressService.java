@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.repositories.AddressRepository;
+import lombok.NonNull;
 import org.jooq.exception.DataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class AddressService
         this.addressRepository = addressRepository;
     }
 
-    public void create(Address address)
+    public void create(@NonNull Address address)
     {
         try
         {

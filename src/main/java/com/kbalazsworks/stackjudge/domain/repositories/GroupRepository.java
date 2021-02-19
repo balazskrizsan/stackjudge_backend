@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.repositories;
 import com.kbalazsworks.stackjudge.domain.enums.group_table.TypeEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
+import lombok.NonNull;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ public class GroupRepository extends AbstractRepository
     private final com.kbalazsworks.stackjudge.db.tables.Group groupTable =
         com.kbalazsworks.stackjudge.db.tables.Group.GROUP;
 
-    public void create(Group group)
+    public void create(@NonNull Group group)
     {
         createQueryBuilder()
             .insertInto(
@@ -70,7 +71,7 @@ public class GroupRepository extends AbstractRepository
         return countTeamsOrStacks(companyIds, TypeEnum.TEAM);
     }
 
-    private Map<Long, Integer> countTeamsOrStacks(List<Long> companyIds, TypeEnum type)
+    private Map<Long, Integer> countTeamsOrStacks(List<Long> companyIds, @NonNull TypeEnum type)
     {
         Map<Long, Integer> result = createQueryBuilder()
             .select(groupTable.COMPANY_ID, count())

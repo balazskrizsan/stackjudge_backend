@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public class S3Repository
         );
     }
 
-    public PutObjectResult put(PutObjectRequest putObjectRequest)
+    public PutObjectResult put(@NonNull PutObjectRequest putObjectRequest)
     {
         return client.putObject(putObjectRequest);
     }

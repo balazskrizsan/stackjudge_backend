@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.api.services;
 
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +18,9 @@ import java.util.ArrayList;
 
 import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.*;
 
+@Slf4j
 public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 {
-    private static final Logger logger = LoggerFactory.getLogger(JWTAuthorizationFilterService.class);
-
     public JWTAuthorizationFilterService(AuthenticationManager authManager)
     {
         super(authManager);
@@ -36,7 +36,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         String header = req.getHeader(HEADER_STRING);
         if (header == null || !header.startsWith(TOKEN_PREFIX))
         {
-            logger.warn("JWT Auth error: header null or missing.");
+            log.warn("JWT Auth error: header null or missing.");
             SecurityContextHolder.getContext().setAuthentication(null);
             chain.doFilter(req, res);
 
@@ -63,7 +63,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
             {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
-            logger.warn("JWT Auth error: user is null.");
+            log.warn("JWT Auth error: user is null.");
 
             return null;
         }

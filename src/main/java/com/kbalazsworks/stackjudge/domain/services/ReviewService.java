@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.services;
 import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ReviewService
         this.reviewRepository = reviewRepository;
     }
 
-    public void create(Review review)
+    public void create(@NonNull Review review)
     {
         reviewRepository.create(review);
     }

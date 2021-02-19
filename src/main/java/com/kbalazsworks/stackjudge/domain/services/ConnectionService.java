@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class ConnectionService
     private Connection connection = null;
 
     @Autowired
-    public void setDataSource(DataSource dataSource)
+    public void setDataSource(@NonNull DataSource dataSource)
     {
         this.dataSource = dataSource;
     }

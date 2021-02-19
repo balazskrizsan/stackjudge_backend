@@ -9,10 +9,12 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.state.entities.State;
+import lombok.NonNull;
 
 public class RequestMapperService
 {
-    public static Group mapToRecord(GroupCreateRequest request, State state) {
+    public static Group mapToRecord(@NonNull GroupCreateRequest request, @NonNull State state)
+    {
         return new Group(
             null,
             request.companyId(),
@@ -25,7 +27,8 @@ public class RequestMapperService
         );
     }
 
-    public static Company mapToRecord(CompanyCreateRequest request, State state) {
+    public static Company mapToRecord(@NonNull CompanyCreateRequest request, @NonNull State state)
+    {
         return new Company(
             null,
             request.name(),
@@ -37,7 +40,8 @@ public class RequestMapperService
         );
     }
 
-    public static Address mapToRecord(AddressCreateRequest request, State state) {
+    public static Address mapToRecord(@NonNull AddressCreateRequest request, @NonNull State state)
+    {
         return new Address(
             null,
             null,
@@ -51,7 +55,8 @@ public class RequestMapperService
         );
     }
 
-    public static Review mapToRecord(ReviewCreateRequest request, State state) {
+    public static Review mapToRecord(@NonNull ReviewCreateRequest request, @NonNull State state)
+    {
         return new Review(
             null,
             request.group_id(),

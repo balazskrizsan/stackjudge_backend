@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,10 +49,10 @@ public class CdnService
     }
 
     public CdnServicePutResponse put(
-        CdnNamespaceEnum cdnNamespaceEnum,
-        String fileName,
-        String fileExtension,
-        MultipartFile content
+        @NonNull CdnNamespaceEnum cdnNamespaceEnum,
+        @NonNull String fileName,
+        @NonNull String fileExtension,
+        @NonNull MultipartFile content
     )
     throws AmazonS3Exception
     {
@@ -59,11 +60,11 @@ public class CdnService
     }
 
     public CdnServicePutResponse put(
-        CdnNamespaceEnum cdnNamespaceEnum,
-        String subfolder,
-        String fileName,
-        String fileExtension,
-        MultipartFile content
+        @NonNull CdnNamespaceEnum cdnNamespaceEnum,
+        @NonNull String subfolder,
+        @NonNull String fileName,
+        @NonNull String fileExtension,
+        @NonNull MultipartFile content
     ) throws AmazonS3Exception
     {
         try

@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ReviewRepository extends AbstractRepository
     private final com.kbalazsworks.stackjudge.db.tables.Group groupTable =
         com.kbalazsworks.stackjudge.db.tables.Group.GROUP;
 
-    public void create(Review review)
+    public void create(@NonNull Review review)
     {
         createQueryBuilder()
             .insertInto(

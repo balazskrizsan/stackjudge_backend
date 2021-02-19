@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
+import lombok.NonNull;
 import org.jooq.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,7 @@ public class CompanyRepository extends AbstractRepository
             .execute();
     }
 
-    public Long create(Company company)
+    public Long create(@NonNull Company company)
     {
         return createQueryBuilder()
             .insertInto(
@@ -123,7 +124,7 @@ public class CompanyRepository extends AbstractRepository
         );
     }
 
-    public List<Company> search(long seekId, NavigationEnum navigation, int limit)
+    public List<Company> search(long seekId, @NonNull NavigationEnum navigation, int limit)
     {
         Condition where = switch (navigation)
             {

@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import lombok.NonNull;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.TransactionalRunnable;
@@ -32,7 +33,7 @@ public class JooqService
         return dslContext;
     }
 
-    void transaction(TransactionalRunnable transactional)
+    void transaction(@NonNull TransactionalRunnable transactional)
     {
         getDbContext().transaction(transactional);
     }

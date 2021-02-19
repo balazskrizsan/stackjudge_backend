@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.exceptions.HttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class RestResponseExceptionService extends ResponseEntityExceptionHandler
     @Override
     protected @NotNull ResponseEntity<Object> handleHttpRequestMethodNotSupported(
         HttpRequestMethodNotSupportedException e,
-        HttpHeaders headers,
-        HttpStatus status,
-        WebRequest request
+        @NonNull HttpHeaders headers,
+        @NonNull HttpStatus status,
+        @NonNull WebRequest request
     )
     {
         ResponseEntityBuilder<Object> errorResponseEntityBuilder = new ResponseEntityBuilder<>();

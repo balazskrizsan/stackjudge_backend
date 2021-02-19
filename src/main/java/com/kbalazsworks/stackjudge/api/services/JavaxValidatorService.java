@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 @Log
 public class JavaxValidatorService<T>
 {
-    public void validateWithConsoleLog(T entity)
+    public void validateWithConsoleLog(@NonNull T entity)
     {
         ValidatorFactory factory   = Validation.buildDefaultValidatorFactory();
         Validator        validator = factory.getValidator();
@@ -24,7 +25,7 @@ public class JavaxValidatorService<T>
         }
     }
 
-    public void validate(T request)
+    public void validate(@NonNull T request)
     {
         ValidatorFactory factory   = Validation.buildDefaultValidatorFactory();
         Validator        validator = factory.getValidator();
