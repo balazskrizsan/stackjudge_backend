@@ -1,0 +1,1 @@
+-- needs to configure the flyway to use only the java version
