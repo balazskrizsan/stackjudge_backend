@@ -88,8 +88,11 @@ public class V000001__init extends AbstractBaseJooqMigration
 
         qB.createTable("users")
             .column("id", BIGINT.nullable(false).identity(true))
+            .column("provider_type", SMALLINTUNSIGNED.nullable(false))
             .column("username", VARCHAR.nullable(true).length(255))
             .column("password", VARCHAR.nullable(true).length(255))
+            .column("display_name", VARCHAR.nullable(true).length(255))
+            .column("external_id", BIGINTUNSIGNED.nullable(false))
             .execute();
     }
 }

@@ -53,14 +53,16 @@ public class StackJudgeApplication
         return dataSource;
     }
 
-    @Bean(name="transactionManager")
+    @Bean(name = "transactionManager")
     @Primary
-    DataSourceTransactionManager getDataSourceTransactionManager() {
+    DataSourceTransactionManager getDataSourceTransactionManager()
+    {
         return new DataSourceTransactionManager(dataSource());
     }
 
-    @Bean(name="transactionAwareDataSource")
-    TransactionAwareDataSourceProxy getTransactionAwareDataSourceProxy() {
+    @Bean(name = "transactionAwareDataSource")
+    TransactionAwareDataSourceProxy getTransactionAwareDataSourceProxy()
+    {
         return new TransactionAwareDataSourceProxy(dataSource());
     }
 }
