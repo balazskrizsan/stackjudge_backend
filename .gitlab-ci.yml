@@ -4,36 +4,40 @@ cache:
 
 stages:
   - build
-  - test
-  - deploy
+#  - test
+#  - deploy
 
 build:
   stage: build
-  image: maven:3.6.3-openjdk-15
+  image: tiangolo/docker-with-compose
+  services:
+    - docker:19.03.12-dind
   script:
-    - mvn clean install -DskipTests=true
-  tags:
-    - docker
-
-test:
-  stage: test
-  image: maven:3.6.3-openjdk-15
-  script:
-    - mvn test
-  tags:
-    - docker
-
-deploy_prod:
-  stage: deploy
-  image: ruby:latest
-  script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_PROD --api-key=$HEROKU_API_KEY
-  environment:
-    name: prod
-    url: https://stackjudge-prod.herokuapp.com/
-  when: manual
+    - docker-compose -f docker-compose-test.yml build
+#    - docker tag spring-boot-gitlab-ci-heroku-build_app registry.gitlab.com/krizsan.balazs/spring-boot-gitlab-ci-heroku-build:latest
+#    - docker push registry.gitlab.com/krizsan.balazs/spring-boot-gitlab-ci-heroku-build:latest
   only:
     - master
-  tags:
-    - docker
+
+#test:
+#  stage: test
+#  image: maven:3.6.3-openjdk-15
+#  script:
+#    - mvn test
+#  tags:
+#    - docker
+#
+#deploy_prod:
+#  stage: deploy
+#  image: ruby:latest
+#  script:
+#    - gem install dpl
+#    - dpl --provider=heroku --app=$HEROKU_APP_PROD --api-key=$HEROKU_API_KEY
+#  environment:
+#    name: prod
+#    url: https://stackjudge-prod.herokuapp.com/
+#  when: manual
+#  only:
+#    - master
+#  tags:
+#    - docker

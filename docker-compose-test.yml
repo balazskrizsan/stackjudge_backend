@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: DockerfileTest
+    ports:
+      - 8182
+    environment:
+      - SERVER_PORT=8182
+    depends_on:
+      - database
+
+  database:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=unicorn_user
+      - POSTGRES_PASSWORD=magical_password
+      - POSTGRES_DB=rainbow_database
