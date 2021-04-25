@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.db.migration;
+package com.kbalazsworks.stackjudge.db_migrations;
 
 import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;

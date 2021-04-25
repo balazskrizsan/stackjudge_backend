@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.db.migration;
+package com.kbalazsworks.stackjudge.db_migrations;
 
 import lombok.val;
 import org.flywaydb.core.api.migration.Context;
@@ -11,7 +11,7 @@ import static org.jooq.impl.SQLDataType.*;
 public class V000001__init extends AbstractBaseJooqMigration
 {
     @Override
-    public void migrate(Context context) throws Exception
+    public void migrate(Context context)
     {
         val qB = getQueryBuilder(context);
 
@@ -20,8 +20,8 @@ public class V000001__init extends AbstractBaseJooqMigration
         qB.createTable("company")
             .column("id", BIGINT.nullable(false).identity(true))
             .column("name", VARCHAR.nullable(false))
-            .column("company_size_id", SMALLINTUNSIGNED.nullable(false))
-            .column("it_size_id", SMALLINTUNSIGNED.nullable(false))
+            .column("company_size_id", TINYINTUNSIGNED.nullable(false))
+            .column("it_size_id", TINYINTUNSIGNED.nullable(false))
             .column("logo_path", VARCHAR.nullable(true).length(255))
             .column("created_at", TIMESTAMP.nullable(false))
             .column("created_by", BIGINT.nullable(true))
@@ -52,8 +52,8 @@ public class V000001__init extends AbstractBaseJooqMigration
             .column("parent_id", BIGINT.nullable(true))
             .column("company_id", BIGINT.nullable(false))
             .column("name", VARCHAR.nullable(true).length(255))
-            .column("type_id", SMALLINTUNSIGNED.nullable(false))
-            .column("members_on_group_id", SMALLINTUNSIGNED.nullable(false))
+            .column("type_id", TINYINTUNSIGNED.nullable(false))
+            .column("members_on_group_id", TINYINTUNSIGNED.nullable(false))
             .column("created_at", TIMESTAMP.nullable(false))
             .column("created_by", BIGINT.nullable(true))
             .constraints(
@@ -72,8 +72,8 @@ public class V000001__init extends AbstractBaseJooqMigration
         qB.createTable("review")
             .column("id", BIGINT.nullable(false).identity(true))
             .column("group_id", BIGINT.nullable(true))
-            .column("visibility", SMALLINTUNSIGNED.nullable(false))
-            .column("rate", SMALLINTUNSIGNED.nullable(true).length(255))
+            .column("visibility", TINYINTUNSIGNED.nullable(false))
+            .column("rate", TINYINTUNSIGNED.nullable(true).length(255))
             .column("review", LONGNVARCHAR.nullable(false))
             .column("created_at", TIMESTAMP.nullable(false))
             .column("created_by", BIGINT.nullable(true))
