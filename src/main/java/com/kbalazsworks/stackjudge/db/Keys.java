@@ -9,11 +9,13 @@ import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Review;
+import com.kbalazsworks.stackjudge.db.tables.Users;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.FlywaySchemaHistoryRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.ReviewRecord;
+import com.kbalazsworks.stackjudge.db.tables.records.UsersRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -37,6 +39,7 @@ public class Keys {
     public static final Identity<CompanyRecord, Long> IDENTITY_COMPANY = Identities0.IDENTITY_COMPANY;
     public static final Identity<GroupRecord, Long> IDENTITY_GROUP = Identities0.IDENTITY_GROUP;
     public static final Identity<ReviewRecord, Long> IDENTITY_REVIEW = Identities0.IDENTITY_REVIEW;
+    public static final Identity<UsersRecord, Long> IDENTITY_USERS = Identities0.IDENTITY_USERS;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -53,8 +56,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
-    public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
     public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE;
+    public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
     public static final ForeignKey<ReviewRecord, GroupRecord> REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE = ForeignKeys0.REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE;
 
     // -------------------------------------------------------------------------
@@ -66,6 +69,7 @@ public class Keys {
         public static Identity<CompanyRecord, Long> IDENTITY_COMPANY = Internal.createIdentity(Company.COMPANY, Company.COMPANY.ID);
         public static Identity<GroupRecord, Long> IDENTITY_GROUP = Internal.createIdentity(Group.GROUP, Group.GROUP.ID);
         public static Identity<ReviewRecord, Long> IDENTITY_REVIEW = Internal.createIdentity(Review.REVIEW, Review.REVIEW.ID);
+        public static Identity<UsersRecord, Long> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID);
     }
 
     private static class UniqueKeys0 {
@@ -78,8 +82,8 @@ public class Keys {
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Address.ADDRESS, "fk__address_company_id__company_id__on_delete_cascade", new TableField[] { Address.ADDRESS.COMPANY_ID }, true);
-        public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Group.GROUP, "fk__group_company_id__company_id__on_delete_cascade", new TableField[] { Group.GROUP.COMPANY_ID }, true);
         public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.GROUP_PK, Group.GROUP, "fk__group_parent_id__group_id__on_delete_cascade", new TableField[] { Group.GROUP.PARENT_ID }, true);
+        public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Group.GROUP, "fk__group_company_id__company_id__on_delete_cascade", new TableField[] { Group.GROUP.COMPANY_ID }, true);
         public static final ForeignKey<ReviewRecord, GroupRecord> REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.GROUP_PK, Review.REVIEW, "fk__review_id__group_id__on_delete_cascade", new TableField[] { Review.REVIEW.GROUP_ID }, true);
     }
 }

@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Review;
+import com.kbalazsworks.stackjudge.db.tables.Users;
 
 
 /**
@@ -41,4 +42,9 @@ public class Tables {
      * The table <code>public.review</code>.
      */
     public static final Review REVIEW = Review.REVIEW;
+
+    /**
+     * The table <code>public.users</code>.
+     */
+    public static final Users USERS = Users.USERS;
 }

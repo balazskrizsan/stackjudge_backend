@@ -19,15 +19,13 @@ public class RegistrationAction
     @GetMapping("/registration")
     public ResponseEntity<ResponseData<String>> action() throws Exception
     {
-        final String clientId     = "";
-        final String clientSecret = "";
+        final String clientId     = "149500276863432"; //@todo: remove and change
+        final String clientSecret = "4738a5809b56a5a2087fb923958fdd4d"; //@todo: remove and change
         final OAuth20Service service = new ServiceBuilder(clientId)
             .apiSecret(clientSecret)
             .callback("https://localhost:8181/account/facebook-callback")
             .build(FacebookApi.instance());
 
-
-        // Obtain the Authorization URL
         final String secretState      = "secret" + new Random().nextInt(999_999);
         final String authorizationUrl = service.getAuthorizationUrl(secretState);
 

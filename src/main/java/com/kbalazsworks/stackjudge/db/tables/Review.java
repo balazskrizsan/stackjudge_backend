@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Review extends TableImpl<ReviewRecord> {
 
-    private static final long serialVersionUID = -1836686390;
+    private static final long serialVersionUID = -348445053;
 
     /**
      * The reference instance of <code>public.review</code>
@@ -51,12 +51,12 @@ public class Review extends TableImpl<ReviewRecord> {
     /**
      * The column <code>public.review.id</code>.
      */
-    public final TableField<ReviewRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('review_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<ReviewRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.review.group_id</code>.
      */
-    public final TableField<ReviewRecord, Long> GROUP_ID = createField(DSL.name("group_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<ReviewRecord, Long> GROUP_ID = createField(DSL.name("group_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>public.review.visibility</code>.
@@ -66,12 +66,12 @@ public class Review extends TableImpl<ReviewRecord> {
     /**
      * The column <code>public.review.rate</code>.
      */
-    public final TableField<ReviewRecord, Short> RATE = createField(DSL.name("rate"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
+    public final TableField<ReviewRecord, Short> RATE = createField(DSL.name("rate"), org.jooq.impl.SQLDataType.SMALLINT, this, "");
 
     /**
      * The column <code>public.review.review</code>.
      */
-    public final TableField<ReviewRecord, String> REVIEW_ = createField(DSL.name("review"), org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<ReviewRecord, String> REVIEW_ = createField(DSL.name("review"), org.jooq.impl.SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
      * The column <code>public.review.created_at</code>.

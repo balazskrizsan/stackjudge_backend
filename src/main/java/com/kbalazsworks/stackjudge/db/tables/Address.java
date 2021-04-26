@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Address extends TableImpl<AddressRecord> {
 
-    private static final long serialVersionUID = -681532911;
+    private static final long serialVersionUID = 188879912;
 
     /**
      * The reference instance of <code>public.address</code>
@@ -51,7 +51,7 @@ public class Address extends TableImpl<AddressRecord> {
     /**
      * The column <code>public.address.id</code>.
      */
-    public final TableField<AddressRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('address_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<AddressRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.address.company_id</code>.
@@ -61,7 +61,7 @@ public class Address extends TableImpl<AddressRecord> {
     /**
      * The column <code>public.address.full_address</code>.
      */
-    public final TableField<AddressRecord, String> FULL_ADDRESS = createField(DSL.name("full_address"), org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<AddressRecord, String> FULL_ADDRESS = createField(DSL.name("full_address"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.address.marker_lat</code>.

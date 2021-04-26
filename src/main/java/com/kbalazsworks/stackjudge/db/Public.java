@@ -9,12 +9,12 @@ import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Review;
+import com.kbalazsworks.stackjudge.db.tables.Users;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Catalog;
-import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
@@ -25,7 +25,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 1473063980;
+    private static final long serialVersionUID = 1806494253;
 
     /**
      * The reference instance of <code>public</code>
@@ -58,6 +58,11 @@ public class Public extends SchemaImpl {
     public final Review REVIEW = Review.REVIEW;
 
     /**
+     * The table <code>public.users</code>.
+     */
+    public final Users USERS = Users.USERS;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -71,21 +76,13 @@ public class Public extends SchemaImpl {
     }
 
     @Override
-    public final List<Sequence<?>> getSequences() {
-        return Arrays.<Sequence<?>>asList(
-            Sequences.ADDRESS_ID_SEQ,
-            Sequences.COMPANY_ID_SEQ,
-            Sequences.GROUP_ID_SEQ,
-            Sequences.REVIEW_ID_SEQ);
-    }
-
-    @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             Address.ADDRESS,
             Company.COMPANY,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             Group.GROUP,
-            Review.REVIEW);
+            Review.REVIEW,
+            Users.USERS);
     }
 }

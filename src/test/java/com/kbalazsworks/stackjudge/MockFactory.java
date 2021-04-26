@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class MockFactory
 {
     public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
-    public static final User  userMock   = new User(123L, "MockUser Name", "Mock Password");
+    public static final User  userMock   = new User(123L, "MockUser Name", "Mock Password", "fn_token", 123L);
     public static final State STATE_MOCK = new State(localDateTimeMock, userMock);
 
     public static Date getJavaDateFromDate(String date) throws ParseException

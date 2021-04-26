@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Group extends TableImpl<GroupRecord> {
 
-    private static final long serialVersionUID = -973823600;
+    private static final long serialVersionUID = -279324952;
 
     /**
      * The reference instance of <code>public.group</code>
@@ -51,12 +51,7 @@ public class Group extends TableImpl<GroupRecord> {
     /**
      * The column <code>public.group.id</code>.
      */
-    public final TableField<GroupRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('group_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
-
-    /**
-     * The column <code>public.group.company_id</code>.
-     */
-    public final TableField<GroupRecord, Long> COMPANY_ID = createField(DSL.name("company_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<GroupRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.group.parent_id</code>.
@@ -64,14 +59,19 @@ public class Group extends TableImpl<GroupRecord> {
     public final TableField<GroupRecord, Long> PARENT_ID = createField(DSL.name("parent_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>public.group.type_id</code>.
+     * The column <code>public.group.company_id</code>.
      */
-    public final TableField<GroupRecord, Short> TYPE_ID = createField(DSL.name("type_id"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
+    public final TableField<GroupRecord, Long> COMPANY_ID = createField(DSL.name("company_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.group.name</code>.
      */
-    public final TableField<GroupRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<GroupRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.group.type_id</code>.
+     */
+    public final TableField<GroupRecord, Short> TYPE_ID = createField(DSL.name("type_id"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
 
     /**
      * The column <code>public.group.members_on_group_id</code>.
@@ -143,15 +143,15 @@ public class Group extends TableImpl<GroupRecord> {
 
     @Override
     public List<ForeignKey<GroupRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<GroupRecord, ?>>asList(Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE, Keys.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE);
-    }
-
-    public Company company() {
-        return new Company(this, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE);
+        return Arrays.<ForeignKey<GroupRecord, ?>>asList(Keys.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE);
     }
 
     public Group group() {
         return new Group(this, Keys.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE);
+    }
+
+    public Company company() {
+        return new Company(this, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE);
     }
 
     @Override
@@ -185,7 +185,7 @@ public class Group extends TableImpl<GroupRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Long, Long, Short, String, Short, LocalDateTime, Long> fieldsRow() {
+    public Row8<Long, Long, Long, String, Short, Short, LocalDateTime, Long> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }
