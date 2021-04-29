@@ -30,30 +30,21 @@ public class JwtService
 
     public String getUserId(String token)
     {
-        Claims claims = Jwts.parser()
-                            .setSigningKey(jwtSecret)
-                            .parseClaimsJws(token)
-                            .getBody();
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
         return claims.getSubject().split(",")[0];
     }
 
     public String getUsername(String token)
     {
-        Claims claims = Jwts.parser()
-                            .setSigningKey(jwtSecret)
-                            .parseClaimsJws(token)
-                            .getBody();
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
         return claims.getSubject().split(",")[1];
     }
 
     public Date getExpirationDate(String token)
     {
-        Claims claims = Jwts.parser()
-                            .setSigningKey(jwtSecret)
-                            .parseClaimsJws(token)
-                            .getBody();
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
         return claims.getExpiration();
     }

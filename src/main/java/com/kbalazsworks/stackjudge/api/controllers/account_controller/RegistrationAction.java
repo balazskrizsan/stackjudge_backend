@@ -3,7 +3,6 @@ package com.kbalazsworks.stackjudge.api.controllers.account_controller;
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
