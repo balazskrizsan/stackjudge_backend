@@ -76,7 +76,7 @@ public class ApplicationProperties
         return env;
     }
 
-//    @Value("${is_search_box_log_enabled}")
+    //    @Value("${is_search_box_log_enabled}")
     private String isSearchBoxLogEnabled = "false";
 
     public boolean isSearchBoxLogEnabled()
@@ -106,5 +106,31 @@ public class ApplicationProperties
     public String getAwsSecretKey()
     {
         return awsSecretKey;
+    }
+
+    // FACEBOOK
+
+    @Value("${FACEBOOK_CLIENT_ID}")
+    private String facebookClientId;
+
+    public String getFacebookClientId()
+    {
+        return facebookClientId;
+    }
+
+    @Value("${FACEBOOK_CLIENT_SECRET}")
+    private String facebookClientSecret;
+
+    public String getFacebookClientSecret()
+    {
+        return facebookClientSecret;
+    }
+
+    @Value("${FACEBOOK_CALLBACK_URL}")
+    private String facebookCallbackUrl;
+
+    public String getFacebookCallbackUrl()
+    {
+        return facebookCallbackUrl;
     }
 }
