@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.unit.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
@@ -13,6 +14,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResp
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.fake_builders.*;
+import lombok.RequiredArgsConstructor;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,33 +36,14 @@ import static org.mockito.Mockito.when;
 public class CompanyServiceSearchTest extends AbstractTest
 {
     @Autowired
-    private CompanyService    companyService;
-    @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
-    private AddressService    addressService;
-    @Autowired
-    private PaginatorService  paginatorService;
-    @Autowired
-    private JooqService       jooqService;
-    @Autowired
-    private CdnService        cdnService;
-    @Autowired
-    private SearchService     searchService;
-    @Autowired
-    private ReviewService     reviewService;
+    private ServiceFactory serviceFactory;
+    private CompanyService companyService;
 
     @BeforeEach
     @AfterEach
     public void clean()
     {
-        companyService.setCompanyRepository(companyRepository);
-        companyService.setAddressService(addressService);
-        companyService.setPaginatorService(paginatorService);
-        companyService.setJooqService(jooqService);
-        companyService.setCdnService(cdnService);
-        companyService.setSearchService(searchService);
-        companyService.setReviewService(reviewService);
+        companyService = serviceFactory.getCompanyService();
     }
 
     @Test
@@ -160,24 +143,21 @@ public class CompanyServiceSearchTest extends AbstractTest
             .thenReturn(testData.mockedCompanies);
         when(companyRepositoryMock.countRecordsBeforeId(mockedCompaniesIds.get(0))).thenReturn(1L);
         when(companyRepositoryMock.countRecords()).thenReturn(2L);
-        companyService.setCompanyRepository(companyRepositoryMock);
 
         SearchService searchServiceMock = mock(SearchService.class);
         when(searchServiceMock.getStatistic(mockedCompaniesIds)).thenReturn(testData.mockForGetStatistic);
-        companyService.setSearchService(searchServiceMock);
 
         PaginatorService paginatorServiceMock = mock(PaginatorService.class);
         when(paginatorServiceMock.generate(1L, 2L, testData.testedLimit))
             .thenReturn(testData.mockForGenerate);
-        companyService.setPaginatorService(paginatorServiceMock);
 
         AddressService addressServiceMock = mock(AddressService.class);
         when(addressServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForSearchAddresses);
-        companyService.setAddressService(addressServiceMock);
 
         ReviewService reviewServiceMock = mock(ReviewService.class);
         when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForReviews);
-        companyService.setReviewService(reviewServiceMock);
+
+        companyService = serviceFactory.getCompanyService(addressServiceMock, searchServiceMock, reviewServiceMock, paginatorServiceMock, null, null, companyRepositoryMock);
 
         // Act
         CompanySearchServiceResponse actualResponse = companyService.search(

@@ -14,11 +14,9 @@ import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.*;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Configuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,57 +29,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CompanyService
 {
-    private CompanyRepository companyRepository;
-    private AddressService    addressService;
-    private PaginatorService  paginatorService;
-    private JooqService       jooqService;
-    private CdnService        cdnService;
-    private SearchService     searchService;
-    private ReviewService     reviewService;
-
-    @Autowired
-    public void setJooqService(JooqService jooqService)
-    {
-        this.jooqService = jooqService;
-    }
-
-    @Autowired
-    public void setCompanyRepository(CompanyRepository companyRepository)
-    {
-        this.companyRepository = companyRepository;
-    }
-
-    @Autowired
-    public void setAddressService(AddressService addressService)
-    {
-        this.addressService = addressService;
-    }
-
-    @Autowired
-    public void setPaginatorService(PaginatorService paginatorService)
-    {
-        this.paginatorService = paginatorService;
-    }
-
-    @Autowired
-    public void setCdnService(CdnService cdnService)
-    {
-        this.cdnService = cdnService;
-    }
-
-    @Autowired
-    public void setSearchService(SearchService searchService)
-    {
-        this.searchService = searchService;
-    }
-
-    @Autowired
-    public void setReviewService(ReviewService reviewServiceMock)
-    {
-        this.reviewService = reviewServiceMock;
-    }
+    private final AddressService    addressService;
+    private final SearchService     searchService;
+    private final ReviewService     reviewService;
+    private final PaginatorService  paginatorService;
+    private final JooqService       jooqService;
+    private final CdnService        cdnService;
+    private final CompanyRepository companyRepository;
 
     public void delete(long companyId)
     {
@@ -89,7 +46,7 @@ public class CompanyService
     }
 
     public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
-    throws RepositoryNotFoundException
+        throws RepositoryNotFoundException
     {
         CompanySearchServiceResponse searchResponse = search(
             companyId,

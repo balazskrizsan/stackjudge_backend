@@ -2,19 +2,20 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
-import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.services.*;
-import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.domain.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
-import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,30 +36,14 @@ import static org.mockito.Mockito.*;
 public class CompanyServiceCreateTest extends AbstractIntegrationTest
 {
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
-    private AddressService    addressService;
-    @Autowired
-    private PaginatorService  paginatorService;
-    @Autowired
-    private JooqService       jooqService;
-    @Autowired
-    private CdnService        cdnService;
-    @Autowired
-    private SearchService     searchService;
-    @Autowired
-    private CompanyService    companyService;
+    private ServiceFactory serviceFactory;
+    private CompanyService companyService;
 
     @BeforeEach
     @AfterEach
     public void clean()
     {
-        companyService.setCompanyRepository(companyRepository);
-        companyService.setAddressService(addressService);
-        companyService.setPaginatorService(paginatorService);
-        companyService.setJooqService(jooqService);
-        companyService.setCdnService(cdnService);
-        companyService.setSearchService(searchService);
+        companyService = serviceFactory.getCompanyService();
     }
 
     private record TestData(
@@ -120,8 +105,8 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     {
         // Arrange
         CdnService cdnServiceMock = mock(CdnService.class);
-        TestData testData = provider(repetitionInfo.getCurrentRepetition(), cdnServiceMock);
-        companyService.setCdnService(cdnServiceMock);
+        TestData   testData       = provider(repetitionInfo.getCurrentRepetition(), cdnServiceMock);
+        companyService = serviceFactory.getCompanyService(null, null, null, null, null, cdnServiceMock, null);
 
         // Act
         companyService.create(testData.testedCompany, testData.testedAddress, testData.testedFile);
@@ -152,7 +137,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         AddressService addressServiceMock = mock(AddressService.class);
         doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
 
-        companyService.setAddressService(addressServiceMock);
+        companyService = serviceFactory.getCompanyService(addressServiceMock, null, null, null, null, null, null);
 
         // Act - Assert
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();
