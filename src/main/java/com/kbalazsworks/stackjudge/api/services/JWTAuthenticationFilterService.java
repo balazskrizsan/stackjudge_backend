@@ -30,7 +30,7 @@ public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticati
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-    throws AuthenticationException
+        throws AuthenticationException
     {
         String username = req.getParameter("username");
         log.info("Login attempt with username: " + username);
