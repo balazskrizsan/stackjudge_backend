@@ -4,8 +4,10 @@ import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountCon
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.controllers.group_controller.GroupConfig;
 import com.kbalazsworks.stackjudge.api.controllers.review_controller.ReviewConfig;
+import com.kbalazsworks.stackjudge.api.controllers.test_controller.TestConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
+import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.state.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,13 +27,19 @@ import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.SIGN_UP_U
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private final UserDetailsService    userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtService jwtService;
 
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public WebSecurityConfig(
+        UserDetailsServiceImpl userDetailsService,
+        BCryptPasswordEncoder bCryptPasswordEncoder,
+        JwtService jwtService
+    )
     {
-        this.userDetailsService    = userDetailsService;
+        this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -48,7 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         http
             .addFilterBefore(new CorsFilterConfig(), SessionManagementFilter.class)
 
-            .csrf().disable()
+            .csrf()
+            .disable()
 
             .authorizeRequests()
 
@@ -56,16 +65,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
             .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.GET_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.SEARCH_SECURITY_PATH).permitAll()
+
             .antMatchers(HttpMethod.POST, ReviewConfig.CONTROLLER_URI + ReviewConfig.POST_SECURITY_PATH).permitAll()
+
             .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_AND_LOGIN_SECURITY_PATH).permitAll()
             .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
+
             .antMatchers(HttpMethod.POST, GroupConfig.CONTROLLER_URI + GroupConfig.POST_SECURITY_PATH).permitAll()
+
+            .antMatchers(HttpMethod.GET, TestConfig.CONTROLLER_URI + TestConfig.NOT_PROTECTED_SECURITY_PATH).permitAll()
 
             .anyRequest().authenticated()
 
             .and()
+
             .addFilter(new JWTAuthenticationFilterService(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilterService(authenticationManager()));
+            .addFilter(new JWTAuthorizationFilterService(authenticationManager(), userDetailsService, jwtService));
         // @formatter:on
     }
 
