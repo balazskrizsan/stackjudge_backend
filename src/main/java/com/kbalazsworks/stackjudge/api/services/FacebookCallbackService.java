@@ -9,10 +9,11 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.controllers.account_controller.FacebookUser;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,34 +22,21 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FacebookCallbackService
 {
-    private static final String NETWORK_NAME           = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v3.2/me";
+    private final UsersRepository       userRepository; //@todo: replace with service
+    private final JwtService            jwtService;
+    private final ApplicationProperties applicationProperties;
 
-    private UsersRepository userRepository; //@todo: replace with service
-    private JwtService      jwtService;
-
-    @Autowired
-    public void setUsersRepository(UsersRepository userRepository)
-    {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setJwtService(JwtService jwtService)
-    {
-        this.jwtService = jwtService;
-    }
+    private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v3.2/me";
 
     @Transactional
     public String handler(String code) throws Exception
     {
-        final String clientId     = "149500276863432"; //@todo: remove and change
-        final String clientSecret = "4738a5809b56a5a2087fb923958fdd4d"; //@todo: remove and change
-        final OAuth20Service service = new ServiceBuilder(clientId)
-            .apiSecret(clientSecret)
-            .callback("https://localhost:8181/account/facebook-callback")
+        final OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
+            .apiSecret(applicationProperties.getFacebookClientSecret())
+            .callback(applicationProperties.getFacebookCallbackUrl())
             .build(FacebookApi.instance());
 
         final OAuth2AccessToken accessToken;
@@ -72,7 +60,7 @@ public class FacebookCallbackService
             throw new Exception(""); //@todo: do with http exception
         }
 
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        OAuthRequest request = new OAuthRequest(Verb.GET, FACEBOOK_GRAPH_API);
         request.addParameter("fields", "id,name");
 
         service.signRequest(accessToken, request);
@@ -96,7 +84,6 @@ public class FacebookCallbackService
             accessToken.getAccessToken(),
             facebookUser.id()
         ));
-
 
         return jwtService.generateAccessToken(user);
     }

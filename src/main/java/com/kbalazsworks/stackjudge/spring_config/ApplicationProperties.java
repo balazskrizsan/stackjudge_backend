@@ -4,6 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ApplicationProperties
 {
+    @Value("${SITE_DOMAIN}")
+    private String siteDomain;
+
+    public String getSiteDomain()
+    {
+        return siteDomain;
+    }
+
     @Value("${server.port}")
     private String serverPort;
 
@@ -108,8 +116,6 @@ public class ApplicationProperties
         return awsSecretKey;
     }
 
-    // FACEBOOK
-
     @Value("${FACEBOOK_CLIENT_ID}")
     private String facebookClientId;
 
@@ -132,5 +138,13 @@ public class ApplicationProperties
     public String getFacebookCallbackUrl()
     {
         return facebookCallbackUrl;
+    }
+
+    @Value("${JWT_SECRET}")
+    private String jwtSecret;
+
+    public String getJwtSecret()
+    {
+        return jwtSecret;
     }
 }
