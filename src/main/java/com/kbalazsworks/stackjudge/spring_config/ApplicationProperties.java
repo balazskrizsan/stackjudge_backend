@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ApplicationProperties
 {
-    @Value("${SITE_DOMAIN}")
+    @Value("${site.domain}")
     private String siteDomain;
 
     public String getSiteDomain()
@@ -18,14 +18,6 @@ public class ApplicationProperties
     public String getServerPort()
     {
         return serverPort;
-    }
-
-    @Value("${logging.file}")
-    private String loggingFile;
-
-    public String getLoggingFile()
-    {
-        return loggingFile;
     }
 
     @Value("${spring.datasource.driver-class-name}")
@@ -60,12 +52,12 @@ public class ApplicationProperties
         return dataSourcePassword;
     }
 
-    @Value("${env_var_test}")
-    private String getEnvVarTest;
+    @Value("${health_check.env_var_test}")
+    private String healthCheckEnvVarTest;
 
-    public String getEnvVarTest()
+    public String getHealthCheckEnvVarTest()
     {
-        return getEnvVarTest;
+        return healthCheckEnvVarTest;
     }
 
     @Value("${searchly.url}")
@@ -76,12 +68,12 @@ public class ApplicationProperties
         return searchlyUrl;
     }
 
-    @Value("${env}")
-    private String env;
+    @Value("${server.env}")
+    private String serverEnv;
 
-    public String getEnv()
+    public String getServerEnv()
     {
-        return env;
+        return serverEnv;
     }
 
     //    @Value("${is_search_box_log_enabled}")
@@ -92,7 +84,7 @@ public class ApplicationProperties
         return isSearchBoxLogEnabled.equals("true");
     }
 
-    @Value("${AWS_S3_CDN_BUCKET}")
+    @Value("${aws.s3.cdn_bucket}")
     private String awsS3CdnBucket;
 
     public String getAwsS3CdnBucket()
@@ -100,7 +92,7 @@ public class ApplicationProperties
         return awsS3CdnBucket;
     }
 
-    @Value("${AWS_ACCESS_KEY}")
+    @Value("${aws.access_key}")
     private String awsAccessKey;
 
     public String getAwsAccessKey()
@@ -108,7 +100,7 @@ public class ApplicationProperties
         return awsAccessKey;
     }
 
-    @Value("${AWS_SECRET_KEY}")
+    @Value("${aws.secret_key}")
     private String awsSecretKey;
 
     public String getAwsSecretKey()
@@ -116,7 +108,7 @@ public class ApplicationProperties
         return awsSecretKey;
     }
 
-    @Value("${FACEBOOK_CLIENT_ID}")
+    @Value("${facebook.client.id}")
     private String facebookClientId;
 
     public String getFacebookClientId()
@@ -124,7 +116,7 @@ public class ApplicationProperties
         return facebookClientId;
     }
 
-    @Value("${FACEBOOK_CLIENT_SECRET}")
+    @Value("${facebook.client.secret}")
     private String facebookClientSecret;
 
     public String getFacebookClientSecret()
@@ -132,7 +124,7 @@ public class ApplicationProperties
         return facebookClientSecret;
     }
 
-    @Value("${FACEBOOK_CALLBACK_URL}")
+    @Value("${facebook.callback.url}")
     private String facebookCallbackUrl;
 
     public String getFacebookCallbackUrl()
@@ -140,7 +132,7 @@ public class ApplicationProperties
         return facebookCallbackUrl;
     }
 
-    @Value("${JWT_SECRET}")
+    @Value("${auth.jwt.secret}")
     private String jwtSecret;
 
     public String getJwtSecret()
