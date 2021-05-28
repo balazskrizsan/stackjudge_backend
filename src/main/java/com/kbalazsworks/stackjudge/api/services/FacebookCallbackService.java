@@ -1,17 +1,16 @@
 package com.kbalazsworks.stackjudge.api.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.scribejava.apis.FacebookApi;
-import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.kbalazsworks.stackjudge.api.controllers.account_controller.FacebookUser;
-import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
+import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
+import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.state.entities.User;
-import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
+import com.kbalazsworks.stackjudge.state.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,40 +24,17 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class FacebookCallbackService
 {
-    private final UsersRepository       userRepository; //@todo: replace with service
-    private final JwtService            jwtService;
-    private final ApplicationProperties applicationProperties;
+    private final UserService                 userService;
+    private final JwtService                  jwtService;
+    private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v3.2/me";
 
     @Transactional
-    public String handler(String code) throws Exception
+    public String handler(String code) throws AuthException, IOException, ExecutionException, InterruptedException
     {
-        final OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
-            .apiSecret(applicationProperties.getFacebookClientSecret())
-            .callback(applicationProperties.getFacebookCallbackUrl())
-            .build(FacebookApi.instance());
-
-        final OAuth2AccessToken accessToken;
-        try
-        {
-            accessToken = service.getAccessToken(code);
-        }
-        catch (IOException e)
-        {
-            log.error("Facebook IO error: ".concat(e.getMessage()));
-            throw new Exception(""); //@todo: do with http exception
-        }
-        catch (InterruptedException e)
-        {
-            log.error("Facebook Interrupted error: ".concat(e.getMessage()));
-            throw new Exception(""); //@todo: do with http exception
-        }
-        catch (ExecutionException e)
-        {
-            log.error("Facebook Execution error: ".concat(e.getMessage()));
-            throw new Exception(""); //@todo: do with http exception
-        }
+        OAuth20Service service = oAuthFacebookServiceBuilder.create();
+        OAuth2AccessToken accessToken = getAccessToken(service, code);
 
         OAuthRequest request = new OAuthRequest(Verb.GET, FACEBOOK_GRAPH_API);
         request.addParameter("fields", "id,name");
@@ -69,15 +45,15 @@ public class FacebookCallbackService
         ObjectMapper objectMapper = new ObjectMapper();
         FacebookUser facebookUser = objectMapper.readValue(response.getBody(), FacebookUser.class);
 
-        User user = userRepository.findByFacebookId(facebookUser.id());
+        User user = userService.findByFacebookId(facebookUser.id());
         if (null != user)
         {
-            userRepository.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.id());
+            userService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.id());
 
             return jwtService.generateAccessToken(user);
         }
 
-        user = userRepository.save(new User(
+        user = userService.create(new User(
             null,
             facebookUser.name(),
             "random",
@@ -86,5 +62,27 @@ public class FacebookCallbackService
         ));
 
         return jwtService.generateAccessToken(user);
+    }
+
+    private OAuth2AccessToken getAccessToken(OAuth20Service service, String code) throws AuthException
+    {
+        try
+        {
+           return service.getAccessToken(code);
+        }
+        catch (IOException e)
+        {
+            log.error("Facebook IO error: ".concat(e.getMessage()));
+        }
+        catch (InterruptedException e)
+        {
+            log.error("Facebook Interrupted error: ".concat(e.getMessage()));
+        }
+        catch (ExecutionException e)
+        {
+            log.error("Facebook Execution error: ".concat(e.getMessage()));
+        }
+
+        throw new AuthException();
     }
 }

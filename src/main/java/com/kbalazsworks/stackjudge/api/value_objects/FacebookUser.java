@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.controllers.account_controller;
+package com.kbalazsworks.stackjudge.api.value_objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
