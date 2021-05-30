@@ -1,4 +1,5 @@
 TRUNCATE TABLE
+    "users",
     "address",
     "group",
     "review",
