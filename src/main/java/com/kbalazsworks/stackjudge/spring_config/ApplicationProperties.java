@@ -11,6 +11,13 @@ public class ApplicationProperties
     {
         return siteDomain;
     }
+    @Value("${site.frontend.host}")
+    private String siteFrontendHost;
+
+    public String getSiteFrontendHost()
+    {
+        return siteFrontendHost;
+    }
 
     @Value("${server.port}")
     private String serverPort;
