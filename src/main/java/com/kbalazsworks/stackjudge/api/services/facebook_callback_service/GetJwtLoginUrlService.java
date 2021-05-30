@@ -6,7 +6,12 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
+import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
+import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.state.entities.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +20,13 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class GetJwtLoginUrlService
 {
+    private final ApplicationProperties applicationProperties;
+    private final JwtService            jwtService;
+    private final FrontendUriService    frontendUriService;
+
     public FacebookUser getFacebookUser(Response response)
     {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -66,5 +76,12 @@ public class GetJwtLoginUrlService
         }
 
         throw new AuthException();
+    }
+
+    public String generateLoginUrl(User user)
+    {
+        return applicationProperties.getSiteFrontendHost().concat(
+            frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user))
+        );
     }
 }

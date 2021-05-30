@@ -24,9 +24,6 @@ public class FacebookCallbackService
 {
     private final UserService                 userService;
     private final GetJwtLoginUrlService       getJwtLoginUrlService;
-    private final JwtService                  jwtService;
-    private final FrontendUriService          frontendUriService;
-    private final ApplicationProperties       applicationProperties;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v3.2/me";
@@ -49,9 +46,7 @@ public class FacebookCallbackService
         {
             userService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.id());
 
-            return applicationProperties.getSiteFrontendHost().concat(
-                frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user))
-            );
+            return getJwtLoginUrlService.generateLoginUrl(user);
         }
 
         user = userService.create(new User(null,
@@ -61,8 +56,6 @@ public class FacebookCallbackService
             facebookUser.id()
         ));
 
-        return applicationProperties.getSiteFrontendHost().concat(
-            frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user))
-        );
+        return getJwtLoginUrlService.generateLoginUrl(user);
     }
 }
