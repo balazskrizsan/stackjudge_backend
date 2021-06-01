@@ -11,12 +11,16 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long   id;
-    private String username;
-    private String password;
-    private String facebookAccessToken;
-    private Long   facebookId;
+    private Long    id;
+    private Boolean isEmailUser;
+    private Boolean isFacebookUser;
+    private String  profilePictureUrl;
+    private String  username;
+    private String  password;
+    private String  facebookAccessToken;
+    private Long    facebookId;
 }

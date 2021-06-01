@@ -23,7 +23,7 @@ public class JwtService
     {
         return Jwts
             .builder()
-            .setSubject(format("%s,%s", user.getId(), user.getUsername()))
+            .setSubject(format("%s,%s,%s", user.getId(), user.getUsername(), user.getProfilePictureUrl()))
             .setIssuer(applicationProperties.getSiteDomain())
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 1 week

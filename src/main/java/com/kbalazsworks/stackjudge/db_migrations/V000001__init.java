@@ -88,6 +88,9 @@ public class V000001__init extends AbstractBaseJooqMigration
 
         qB.createTable("users")
             .column("id", BIGINT.nullable(false).identity(true))
+            .column("is_email_user", BOOLEAN.nullable(false).defaultValue(false))
+            .column("is_facebook_user", BOOLEAN.nullable(false).defaultValue(false))
+            .column("profile_picture_url", VARCHAR(300).nullable(true))
             .column("username", VARCHAR.nullable(true).length(255))
             .column("password", VARCHAR.nullable(true).length(255))
             .column("facebook_access_token", VARCHAR.nullable(true).length(255))

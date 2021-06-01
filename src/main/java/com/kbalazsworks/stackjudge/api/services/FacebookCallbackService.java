@@ -9,7 +9,6 @@ import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
 import com.kbalazsworks.stackjudge.api.services.facebook_callback_service.GetJwtLoginUrlService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
-import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ public class FacebookCallbackService
     private final GetJwtLoginUrlService       getJwtLoginUrlService;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
-    private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v3.2/me";
+    private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
 
     @Transactional
     public String getJwtLoginUrl(String code) throws AuthException
@@ -35,25 +34,29 @@ public class FacebookCallbackService
         OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(service, code);
 
         OAuthRequest request = new OAuthRequest(Verb.GET, FACEBOOK_GRAPH_API);
-        request.addParameter("fields", "id,name");
+        request.addParameter("fields", "id,name,picture");
         service.signRequest(accessToken, request);
 
         Response     response     = getJwtLoginUrlService.getFacebookResponse(service, request);
         FacebookUser facebookUser = getJwtLoginUrlService.getFacebookUser(response);
 
-        User user = userService.findByFacebookId(facebookUser.id());
+        User user = userService.findByFacebookId(facebookUser.getId());
         if (null != user)
         {
-            userService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.id());
+            userService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
             return getJwtLoginUrlService.generateLoginUrl(user);
         }
 
-        user = userService.create(new User(null,
-            facebookUser.name(),
+        user = userService.create(new User(
+            null,
+            false,
+            true,
+            facebookUser.getPictureUrl(),
+            facebookUser.getName(),
             "random",
             accessToken.getAccessToken(),
-            facebookUser.id()
+            facebookUser.getId()
         ));
 
         return getJwtLoginUrlService.generateLoginUrl(user);

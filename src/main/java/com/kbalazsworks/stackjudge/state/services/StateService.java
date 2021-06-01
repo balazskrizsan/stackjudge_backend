@@ -12,7 +12,7 @@ public class StateService
 {
     public State getState()
     {
-        User user = new User(1L, "temp user", "password", "fb_token", 123L);
+        User user = new User(1L, true, false, "http://logo.com/1.jpg", "temp user", "password", "fb_token", 123L);
 
         return new State(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), user);
     }
