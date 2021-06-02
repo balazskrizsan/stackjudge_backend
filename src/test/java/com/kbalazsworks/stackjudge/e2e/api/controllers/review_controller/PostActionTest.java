@@ -32,7 +32,7 @@ public class PostActionTest extends AbstractE2eTest
     public void insertOneValidReview_returns200ok() throws Exception
     {
         // Arrange
-        MockFactory.SessionService_getSessionStateMock(stateService);
+        MockFactory.SessionService_getStateMock(stateService);
 
         String testedUri = "/review";
         MultiValueMap<String, String> testedPostData = new LinkedMultiValueMap<>()

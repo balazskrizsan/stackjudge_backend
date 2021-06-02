@@ -11,4 +11,9 @@ public class DateFactory
     {
         return new Date();
     }
+
+    public Date create(long date)
+    {
+        return new Date(date);
+    }
 }

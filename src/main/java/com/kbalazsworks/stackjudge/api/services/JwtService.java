@@ -1,5 +1,7 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
+import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import io.jsonwebtoken.*;
@@ -18,6 +20,12 @@ import static java.lang.String.format;
 public class JwtService
 {
     private final ApplicationProperties applicationProperties;
+    private final DateFactory           dateFactory;
+    private final SystemFactory         systemFactory;
+
+    private final int USER_ID_INDEX = 0;
+
+    private final long ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
     public String generateAccessToken(@NonNull User user)
     {
@@ -25,23 +33,24 @@ public class JwtService
             .builder()
             .setSubject(format("%s,%s,%s", user.getId(), user.getUsername(), user.getProfilePictureUrl()))
             .setIssuer(applicationProperties.getSiteDomain())
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 1 week
+            .setIssuedAt(dateFactory.create())
+            .setExpiration(dateFactory.create(systemFactory.getCurrentTimeMillis() + ONE_WEEK))
             .signWith(SignatureAlgorithm.HS512, applicationProperties.getJwtSecret())
             .compact();
     }
 
     public Long getUserId(String token)
     {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts
+            .parser()
             .setSigningKey(applicationProperties.getJwtSecret())
             .parseClaimsJws(token)
             .getBody();
 
-        return Long.valueOf(claims.getSubject().split(",")[0]);
+        return Long.valueOf(claims.getSubject().split(",")[USER_ID_INDEX]);
     }
 
-    public String getUsername(String token)
+    public String getUsername(@NonNull String token)
     {
         Claims claims = Jwts
             .parser()
@@ -52,7 +61,7 @@ public class JwtService
         return claims.getSubject().split(",")[1];
     }
 
-    public Date getExpirationDate(String token)
+    public Date getExpirationDate(@NonNull String token) throws ExpiredJwtException
     {
         Claims claims = Jwts
             .parser()

@@ -1,8 +1,12 @@
 package com.kbalazsworks.stackjudge;
 
+import com.kbalazsworks.stackjudge.api.services.JwtService;
+import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
+import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +16,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ServiceFactory
 {
-    private final AddressService    addressService;
-    private final SearchService     searchService;
-    private final ReviewService     reviewService;
-    private final PaginatorService  paginatorService;
-    private final JooqService       jooqService;
-    private final CdnService        cdnService;
-    private final CompanyRepository companyRepository;
+    private final ApplicationProperties applicationProperties;
+    private final DateFactory           dateFactory;
+    private final SystemFactory         systemFactory;
+    private final AddressService        addressService;
+    private final SearchService         searchService;
+    private final ReviewService         reviewService;
+    private final PaginatorService      paginatorService;
+    private final JooqService           jooqService;
+    private final CdnService            cdnService;
+    private final CompanyRepository     companyRepository;
 
     public CompanyService getCompanyService()
     {
@@ -26,23 +33,41 @@ public class ServiceFactory
     }
 
     public CompanyService getCompanyService(
-        AddressService addressServiceReplace,
-        SearchService searchServiceReplace,
-        ReviewService reviewServiceReplace,
-        PaginatorService paginatorServiceReplace,
-        JooqService jooqServiceReplace,
-        CdnService cdnServiceReplace,
-        CompanyRepository companyRepositoryReplace
+        AddressService addressServiceReplacer,
+        SearchService searchServiceReplacer,
+        ReviewService reviewServiceReplacer,
+        PaginatorService paginatorServiceReplacer,
+        JooqService jooqServiceReplacer,
+        CdnService cdnServiceReplacer,
+        CompanyRepository companyRepositoryReplacer
     )
     {
         return new CompanyService(
-            Optional.ofNullable(addressServiceReplace).orElse(addressService),
-            Optional.ofNullable(searchServiceReplace).orElse(searchService),
-            Optional.ofNullable(reviewServiceReplace).orElse(reviewService),
-            Optional.ofNullable(paginatorServiceReplace).orElse(paginatorService),
-            Optional.ofNullable(jooqServiceReplace).orElse(jooqService),
-            Optional.ofNullable(cdnServiceReplace).orElse(cdnService),
-            Optional.ofNullable(companyRepositoryReplace).orElse(companyRepository)
+            Optional.ofNullable(addressServiceReplacer).orElse(addressService),
+            Optional.ofNullable(searchServiceReplacer).orElse(searchService),
+            Optional.ofNullable(reviewServiceReplacer).orElse(reviewService),
+            Optional.ofNullable(paginatorServiceReplacer).orElse(paginatorService),
+            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
+            Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
+            Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
+        );
+    }
+
+    public JwtService getJwtService()
+    {
+        return getJwtService(null, null, null);
+    }
+
+    public JwtService getJwtService(
+        ApplicationProperties applicationPropertiesReplacer,
+        DateFactory dateFactoryReplacer,
+        SystemFactory systemFactoryReplace
+    )
+    {
+        return new JwtService(
+            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
+            Optional.ofNullable(dateFactoryReplacer).orElse(dateFactory),
+            Optional.ofNullable(systemFactoryReplace).orElse(systemFactory)
         );
     }
 }
