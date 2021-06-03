@@ -55,7 +55,6 @@ public class JwtService
         return Long.valueOf(jwtSubService.getUserDataFormJwtString(token, USER_ID_INDEX));
     }
 
-    // @todo: test
     public String getUsername(@NonNull String token)
     {
         return jwtSubService.getUserDataFormJwtString(token, USER_NAME_INDEX);
