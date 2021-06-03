@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.api.services.JwtService;
+import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
@@ -23,6 +24,7 @@ public class ServiceFactory
     private final SearchService         searchService;
     private final ReviewService         reviewService;
     private final PaginatorService      paginatorService;
+    private final JwtSubService         jwtSubService;
     private final JooqService           jooqService;
     private final CdnService            cdnService;
     private final CompanyRepository     companyRepository;
@@ -55,19 +57,21 @@ public class ServiceFactory
 
     public JwtService getJwtService()
     {
-        return getJwtService(null, null, null);
+        return getJwtService(null, null, null, null);
     }
 
     public JwtService getJwtService(
         ApplicationProperties applicationPropertiesReplacer,
         DateFactory dateFactoryReplacer,
-        SystemFactory systemFactoryReplace
+        SystemFactory systemFactoryReplacer,
+        JwtSubService jwtSubServiceReplacer
     )
     {
         return new JwtService(
             Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
             Optional.ofNullable(dateFactoryReplacer).orElse(dateFactory),
-            Optional.ofNullable(systemFactoryReplace).orElse(systemFactory)
+            Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory),
+            Optional.ofNullable(jwtSubServiceReplacer).orElse(jwtSubService)
         );
     }
 }
