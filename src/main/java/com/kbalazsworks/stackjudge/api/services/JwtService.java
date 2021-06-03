@@ -60,6 +60,11 @@ public class JwtService
         return jwtSubService.getUserDataFormJwtString(token, USER_NAME_INDEX);
     }
 
+    public String getProfilePictureUrl(@NonNull String token)
+    {
+        return jwtSubService.getUserDataFormJwtString(token, PROFILE_PICTURE_URL_INDEX);
+    }
+
     // @todo: test
     public Date getExpirationDate(@NonNull String token)
     {
