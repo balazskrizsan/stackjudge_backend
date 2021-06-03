@@ -18,7 +18,7 @@ public class JwtServiceGetUsernameTest extends AbstractTest
     private ServiceFactory serviceFactory;
 
     @Test
-    public void getUserIdFromValidToken_perfect()
+    public void getUsernameFromValidToken_perfect()
     {
         // Arrange
         ApplicationProperties applicationPropertiesMock = mock(ApplicationProperties.class);
