@@ -14,7 +14,6 @@ public class JwtSubService
 {
     private final ApplicationProperties applicationProperties;
 
-    // @todo: test
     public Jws<Claims> errorHandledParseClaimsJws(@NonNull String token)
     {
         try
