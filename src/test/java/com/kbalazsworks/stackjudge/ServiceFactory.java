@@ -74,4 +74,14 @@ public class ServiceFactory
             Optional.ofNullable(jwtSubServiceReplacer).orElse(jwtSubService)
         );
     }
+
+    public JwtSubService getJwtSubService()
+    {
+        return new JwtSubService(applicationProperties);
+    }
+
+    public JwtSubService getJwtSubService(ApplicationProperties applicationPropertiesReplacer)
+    {
+        return new JwtSubService(Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties));
+    }
 }

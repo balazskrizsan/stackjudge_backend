@@ -45,7 +45,6 @@ public class JwtSubService
         throw new JwtException("Invalid authentication error");
     }
 
-    // @todo: test
     public String getUserDataFormJwtString(String token, int dataIndex)
     {
         try
@@ -58,7 +57,7 @@ public class JwtSubService
         }
         catch (Exception e)
         {
-            log.error("Jwt get user data error on id{}, {}", dataIndex, e.getMessage(), e);
+            log.error("Jwt get user data error on id#{}; {}", dataIndex, e.getMessage(), e);
 
             throw new JwtException("Invalid authentication error");
         }
