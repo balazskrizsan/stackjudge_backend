@@ -27,8 +27,9 @@ public class JwtService
     private final SystemFactory         systemFactory;
     private final JwtSubService         jwtSubService;
 
-    private final int USER_ID_INDEX   = 0;
-    private final int USER_NAME_INDEX = 1;
+    private final int USER_ID_INDEX             = 0;
+    private final int USER_NAME_INDEX           = 1;
+    private final int PROFILE_PICTURE_URL_INDEX = 2;
 
     private final long ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
@@ -72,7 +73,7 @@ public class JwtService
     }
 
     // @todo: test
-    public boolean isValid(@NonNull String token)
+    public boolean isIntegrityValid(@NonNull String token)
     {
         try
         {
@@ -88,9 +89,10 @@ public class JwtService
     }
 
     // @todo: test
+    // @todo: add expiry check
     public void validate(@NonNull String token)
     {
-        if (!isValid(token))
+        if (!isIntegrityValid(token))
         {
             throw new JwtException("Invalid authentication error");
         }
