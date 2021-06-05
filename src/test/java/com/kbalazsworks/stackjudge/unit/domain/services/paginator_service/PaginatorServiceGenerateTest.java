@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.platform.commons.JUnitException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -138,7 +139,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
             ));
         }
 
-        throw new Exception();
+        throw new JUnitException("TestData not found with repetition#" + repetition);
     }
 
     @RepeatedTest(value = 10, name = RepeatedTest.LONG_DISPLAY_NAME)

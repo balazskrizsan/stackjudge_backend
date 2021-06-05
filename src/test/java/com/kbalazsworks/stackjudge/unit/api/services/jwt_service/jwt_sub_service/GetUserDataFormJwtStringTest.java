@@ -86,8 +86,8 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
 
         Class<JwtException> expectedClass   = JwtException.class;
         String              expectedMessage = "Invalid authentication error";
-        String expectedErrorLog =
-            "Jwt get user data error on id#10000; Index 10000 out of bounds for length 3";
+        String expectedErrorLog = "Jwt get user data error on id#10000; Index 10000 out of bounds for "
+            + "length 3";
 
         // Act - Assert
         assertAll(
