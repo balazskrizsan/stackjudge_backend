@@ -40,7 +40,9 @@ public class IsValidTest extends AbstractTest
         when(jwtSubServiceMock.errorHandledParseClaimsJws("token")).thenThrow(JwtException.class);
 
         // Act
-        boolean actualState = serviceFactory.getJwtService(null, null, null, jwtSubServiceMock).isValid(testedToken);
+        boolean actualState = serviceFactory
+            .getJwtService(null, null, null, jwtSubServiceMock)
+            .isValid(testedToken);
 
         // Assert
         assertThat(actualState).isFalse();
