@@ -72,8 +72,7 @@ public class JwtService
         return jwtSubService.errorHandledParseClaimsJws(token).getBody().getExpiration();
     }
 
-    // @todo: test
-    public boolean isIntegrityValid(@NonNull String token)
+    public boolean isValid(@NonNull String token)
     {
         try
         {
@@ -86,15 +85,5 @@ public class JwtService
         }
 
         return false;
-    }
-
-    // @todo: test
-    // @todo: add expiry check
-    public void validate(@NonNull String token)
-    {
-        if (!isIntegrityValid(token))
-        {
-            throw new JwtException("Invalid authentication error");
-        }
     }
 }
