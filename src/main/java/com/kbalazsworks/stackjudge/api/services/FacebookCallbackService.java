@@ -27,6 +27,9 @@ public class FacebookCallbackService
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
 
+    // @todo: test: callWithValidCodeWithExistingUser_returnsValidRedirectUrlAndUpdateTheFacebookAccessToken
+    // @todo: test: callWithValidCodeWithNotExistingUser_returnsValidRedirectUrlAndCreateNewUser
+    // @todo: test: callWithValidCodeGenerateLoginUrlThrowsException_logTheErrorAndRollbackTheDatabase
     @Transactional
     public String getJwtLoginUrl(String code) throws AuthException
     {
