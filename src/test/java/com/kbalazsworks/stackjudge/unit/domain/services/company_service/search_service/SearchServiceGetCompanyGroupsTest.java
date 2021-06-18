@@ -5,7 +5,6 @@ import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +20,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class SearchServiceGetCompanyGroupsTest extends AbstractTest
@@ -41,7 +41,7 @@ public class SearchServiceGetCompanyGroupsTest extends AbstractTest
     @Test
     public void vintageHack()
     {
-        Assert.assertTrue(true);
+        assertTrue(true);
     }
 
     private record TestData(
@@ -56,19 +56,23 @@ public class SearchServiceGetCompanyGroupsTest extends AbstractTest
     {
         if (repetition == 1)
         {
+            RecursiveGroup rg1 = new RecursiveGroup(1L, "name1", (short) 11, 111L, 12L, 13, "path1");
+            RecursiveGroup rg2 = new RecursiveGroup(2L, "name2", (short) 22, 333L, 22L, 23, "path1");
+            RecursiveGroup rg3 = new RecursiveGroup(3L, "name3", (short) 33, 333L, 32L, 33, "path3");
+
             return new TestData(
                 List.of(1L, 3L),
                 Map.of(
-                    1L, List.of(new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null)),
-                    3L, List.of(
-                        new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null),
-                        new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null)
+                    111L, List.of(new RecursiveGroupTree(rg1, null)),
+                    333L, List.of(
+                        new RecursiveGroupTree(rg2, null),
+                        new RecursiveGroupTree(rg3, null)
                     )
                 ),
                 List.of(
-                    new RecursiveGroupTree(new RecursiveGroup(1L, "name1", 1L, 12L, 13, "path1"), null),
-                    new RecursiveGroupTree(new RecursiveGroup(2L, "name1", 3L, 22L, 23, "path1"), null),
-                    new RecursiveGroupTree(new RecursiveGroup(3L, "name1", 3L, 32L, 33, "path2"), null)
+                    new RecursiveGroupTree(rg1, null),
+                    new RecursiveGroupTree(rg2, null),
+                    new RecursiveGroupTree(rg3, null)
                 )
             );
         }

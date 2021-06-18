@@ -49,10 +49,10 @@ public class GroupRepository extends AbstractRepository
     {
         return createQueryBuilder()
             .resultQuery(
-                "WITH RECURSIVE rec(id, name, company_id, parent_id, depth, path) AS ("
-                    + "     SELECT S.id, S.name, S.company_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
+                "WITH RECURSIVE rec(id, name, type_id, company_id, parent_id, depth, path) AS ("
+                    + "     SELECT S.id, S.name, S.type_id, S.company_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
                     + "     UNION ALL"
-                    + "     SELECT SR.id, SR.name, SR.company_id, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) AS path FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
+                    + "     SELECT SR.id, SR.name, SR.type_id, SR.company_id, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) AS path FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
                     + " )"
                     + " SELECT * FROM rec"
                     + " ORDER BY path;",

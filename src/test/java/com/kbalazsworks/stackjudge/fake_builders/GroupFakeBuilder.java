@@ -34,6 +34,6 @@ public class GroupFakeBuilder
 
     public Group build()
     {
-        return new Group(id, companyId, parentId, typeId, name, membersOnGroupId, createdAt, createdBy);
+        return new Group(id, parentId, companyId, name, typeId, membersOnGroupId, createdAt, createdBy);
     }
 }

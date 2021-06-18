@@ -17,10 +17,10 @@ public class RequestMapperService
     {
         return new Group(
             null,
-            request.companyId(),
             request.parentId(),
-            request.typeId(),
+            request.companyId(),
             request.name(),
+            request.typeId(),
             request.membersOnStackId(),
             state.now(),
             state.user().getId()
