@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.state.entities.User;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,8 @@ public record CompanySearchServiceResponse(
     @JsonProperty Long newSeekId,
     @JsonProperty Map<Long, CompanyStatistic> companyStatistics,
     @JsonProperty Map<Long, List<Address>> companyAddresses,
-    @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews
+    @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews,
+    @JsonProperty List<User> companyUsers
 )
 {
 }

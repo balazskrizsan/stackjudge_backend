@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         assertThat(true).isTrue();
     }
 
+    // @todo: add user list test
     private TestData provider(int repetition)
     {
         long    testedCompanyId = CompanyFakeBuilder.defaultId1;
@@ -55,6 +57,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                 null,
                 new CompanyGetServiceResponse(
                     expectedCompany,
+                    null,
                     null,
                     null,
                     null,
@@ -72,7 +75,8 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
-                    Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList())
+                    Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
+                    new ArrayList<>()
                 )
             );
         }

@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,12 @@ public class ServiceFactory
     private final JwtSubService         jwtSubService;
     private final JooqService           jooqService;
     private final CdnService            cdnService;
+    private final AccountService        accountService;
     private final CompanyRepository     companyRepository;
 
     public CompanyService getCompanyService()
     {
-        return getCompanyService(null, null, null, null, null, null, null);
+        return getCompanyService(null, null, null, null, null, null, null, null);
     }
 
     public CompanyService getCompanyService(
@@ -43,6 +45,7 @@ public class ServiceFactory
         PaginatorService paginatorServiceReplacer,
         JooqService jooqServiceReplacer,
         CdnService cdnServiceReplacer,
+        AccountService accountServiceReplaces,
         CompanyRepository companyRepositoryReplacer
     )
     {
@@ -53,6 +56,7 @@ public class ServiceFactory
             Optional.ofNullable(paginatorServiceReplacer).orElse(paginatorService),
             Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
             Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
+            Optional.ofNullable(accountServiceReplaces).orElse(accountService),
             Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
         );
     }

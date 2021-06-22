@@ -10,7 +10,7 @@ import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
 import com.kbalazsworks.stackjudge.api.services.facebook_callback_service.GetJwtLoginUrlService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.state.entities.User;
-import com.kbalazsworks.stackjudge.state.services.UserService;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FacebookCallbackService
 {
-    private final UserService                 userService;
-    private final GetJwtLoginUrlService       getJwtLoginUrlService;
+    private final AccountService        accountService;
+    private final GetJwtLoginUrlService getJwtLoginUrlService;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
@@ -43,15 +43,15 @@ public class FacebookCallbackService
         Response     response     = getJwtLoginUrlService.getFacebookResponse(service, request);
         FacebookUser facebookUser = getJwtLoginUrlService.getFacebookUser(response);
 
-        User user = userService.findByFacebookId(facebookUser.getId());
+        User user = accountService.findByFacebookId(facebookUser.getId());
         if (null != user)
         {
-            userService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
+            accountService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
             return getJwtLoginUrlService.generateLoginUrl(user);
         }
 
-        user = userService.create(new User(
+        user = accountService.create(new User(
             null,
             false,
             true,
