@@ -15,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +76,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
-                    new ArrayList<>()
+                    new HashMap<>()
                 )
             );
         }

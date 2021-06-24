@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,7 +105,7 @@ public class CompanyService
         Long                                newSeekId         = null;
         Map<Long, List<Address>>            companyAddresses  = new HashMap<>();
         Map<Long, Map<Long, List<Review>>>  companyReviews    = new HashMap<>();
-        List<User>                          companyUsers      = new ArrayList<>();
+        Map<Long, User>                     companyUsers      = new HashMap<>();
         List<Long>                          affectedUserIds   = new ArrayList<>();
 
         if (requestRelationIds != null)
@@ -137,17 +138,21 @@ public class CompanyService
             {
                 companyReviews = reviewService.search(companyIds);
 
-                companyReviews.forEach((companyId, items) -> {
-                    items.forEach((groupId, review) -> {
-                        affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()));
-                    });
-                });
+                companyReviews.forEach((companyId, items) ->
+                    items.forEach((groupId, review) ->
+                        affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()))
+                    )
+                );
             }
 
             if (!affectedUserIds.isEmpty())
             {
                 List<Long> distinctAffectedUserIds = affectedUserIds.stream().distinct().collect(Collectors.toList());
-                companyUsers = accountService.findByUserIds(distinctAffectedUserIds);
+
+                companyUsers = accountService
+                    .findByUserIds(distinctAffectedUserIds)
+                    .stream()
+                    .collect(Collectors.toMap(User::getId, Function.identity()));
             }
         }
 

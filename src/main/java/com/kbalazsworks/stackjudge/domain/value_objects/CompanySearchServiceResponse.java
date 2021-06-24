@@ -17,7 +17,7 @@ public record CompanySearchServiceResponse(
     @JsonProperty Map<Long, CompanyStatistic> companyStatistics,
     @JsonProperty Map<Long, List<Address>> companyAddresses,
     @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews,
-    @JsonProperty List<User> companyUsers
+    @JsonProperty Map<Long, User> companyUsers
 )
 {
 }

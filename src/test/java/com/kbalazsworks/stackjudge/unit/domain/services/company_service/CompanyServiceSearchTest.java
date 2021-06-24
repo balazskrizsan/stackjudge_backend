@@ -98,7 +98,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>(),
-                    new ArrayList<>()
+                    new HashMap<>()
                 )
             );
         }
@@ -132,7 +132,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                     ),
-                    new ArrayList<>()
+                    new HashMap<>()
                 )
             );
         }
