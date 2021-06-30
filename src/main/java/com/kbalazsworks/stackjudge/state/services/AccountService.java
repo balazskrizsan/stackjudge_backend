@@ -34,4 +34,10 @@ public class AccountService
     {
         usersRepository.updateFacebookAccessToken(token, facebookUserId);
     }
+
+    // @todo: test
+    public User getByReviewId(long reviewId)
+    {
+        return usersRepository.getByReviewId(reviewId);
+    }
 }

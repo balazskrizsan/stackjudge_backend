@@ -30,4 +30,13 @@ public interface UsersRepository extends JpaRepository<User, Long>
         @Param("facebookAccessToken") String facebookAccessToken,
         @Param("facebookId") Long facebookId
     );
+
+    @Query(
+        value = "SELECT * FROM stackjudge.public.users" +
+            "    LEFT JOIN stackjudge.public.review" +
+            "          ON review.created_by = users.id" +
+            "    WHERE review.id = :reviewId",
+        nativeQuery = true
+    )
+    User getByReviewId(@Param("reviewId") long reviewId);
 }
