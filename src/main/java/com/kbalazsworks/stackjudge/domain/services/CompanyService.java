@@ -136,9 +136,9 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))
             {
-                reviewService
-                    .search(companyIds)
-                    .forEach((companyId, items) ->
+                companyReviews = reviewService.search(companyIds);
+
+                companyReviews.forEach((companyId, items) ->
                         items.forEach((groupId, review) ->
                             affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()))
                         )
