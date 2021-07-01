@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.enums.review_table.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
@@ -136,13 +137,13 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))
             {
-                companyReviews = reviewService.search(companyIds);
+                companyReviews = maskProtectedReviewCreatedBys(reviewService.search(companyIds));
 
                 companyReviews.forEach((companyId, items) ->
-                        items.forEach((groupId, review) ->
-                            affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()))
-                        )
-                    );
+                    items.forEach((groupId, review) ->
+                        affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()))
+                    )
+                );
             }
 
             if (!affectedUserIds.isEmpty())
@@ -166,6 +167,28 @@ public class CompanyService
             companyReviews,
             companyUsers
         );
+    }
+
+    // @todo: move out method and test it
+    private Map<Long, Map<Long, List<Review>>> maskProtectedReviewCreatedBys(Map<Long, Map<Long, List<Review>>> companyReviews)
+    {
+        companyReviews.forEach((companyId, items) -> items.forEach((groupId, reviews) -> {
+            List<Review> masked = reviews
+                .stream()
+                .map(r -> r.visibility() != VisibilityEnum.PROTECTED.getValue() ? r : new Review(
+                    r.id(),
+                    r.groupId(),
+                    r.visibility(),
+                    r.rate(),
+                    r.review(),
+                    r.createdAt(),
+                    0L
+                ))
+                .collect(Collectors.toList());
+            items.put(groupId, masked);
+        }));
+
+        return companyReviews;
     }
 
     public long countRecords()
