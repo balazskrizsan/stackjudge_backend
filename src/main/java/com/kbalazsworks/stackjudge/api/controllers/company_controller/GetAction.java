@@ -34,4 +34,3 @@ public class GetAction
             .build();
     }
 }
-
