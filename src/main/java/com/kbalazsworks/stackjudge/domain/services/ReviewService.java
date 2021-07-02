@@ -2,25 +2,23 @@ package com.kbalazsworks.stackjudge.domain.services;
 
 import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.domain.enums.review_table.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService
 {
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    public void setReviewRepository(ReviewRepository reviewRepository)
-    {
-        this.reviewRepository = reviewRepository;
-    }
+    private final ReviewRepository reviewRepository;
 
     public void create(@NonNull Review review)
     {
@@ -60,5 +58,27 @@ public class ReviewService
     public void delete(long companyId)
     {
         reviewRepository.delete(companyId);
+    }
+
+
+    public Map<Long, Map<Long, List<Review>>> maskProtectedReviewCreatedBys(Map<Long, Map<Long, List<Review>>> companyReviews)
+    {
+        companyReviews.forEach((companyId, items) -> items.forEach((groupId, reviews) -> {
+            List<Review> masked = reviews
+                .stream()
+                .map(r -> r.visibility() != VisibilityEnum.PROTECTED.getValue() ? r : new Review(
+                    r.id(),
+                    r.groupId(),
+                    r.visibility(),
+                    r.rate(),
+                    r.review(),
+                    r.createdAt(),
+                    0L
+                ))
+                .collect(Collectors.toList());
+            items.put(groupId, masked);
+        }));
+
+        return companyReviews;
     }
 }

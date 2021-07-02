@@ -6,6 +6,7 @@ import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
@@ -32,6 +33,7 @@ public class ServiceFactory
     private final CdnService            cdnService;
     private final AccountService        accountService;
     private final CompanyRepository     companyRepository;
+    private final ReviewRepository      reviewRepository;
 
     public CompanyService getCompanyService()
     {
@@ -94,6 +96,18 @@ public class ServiceFactory
         return new JwtSubService(
             Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
             Optional.ofNullable(jwtFactoryReplacer).orElse(jwtFactory)
+        );
+    }
+
+    public ReviewService getReviewService()
+    {
+        return new ReviewService(reviewRepository);
+    }
+
+    public ReviewService getReviewService(ReviewRepository reviewRepositoryReplacer)
+    {
+        return new ReviewService(
+            Optional.ofNullable(reviewRepositoryReplacer).orElse(reviewRepository)
         );
     }
 }

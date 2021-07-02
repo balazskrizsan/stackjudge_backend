@@ -137,7 +137,7 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))
             {
-                companyReviews = maskProtectedReviewCreatedBys(reviewService.search(companyIds));
+                companyReviews = reviewService.maskProtectedReviewCreatedBys(reviewService.search(companyIds));
 
                 companyReviews.forEach((companyId, items) ->
                     items.forEach((groupId, review) ->
@@ -167,28 +167,6 @@ public class CompanyService
             companyReviews,
             companyUsers
         );
-    }
-
-    // @todo: move out method and test it
-    private Map<Long, Map<Long, List<Review>>> maskProtectedReviewCreatedBys(Map<Long, Map<Long, List<Review>>> companyReviews)
-    {
-        companyReviews.forEach((companyId, items) -> items.forEach((groupId, reviews) -> {
-            List<Review> masked = reviews
-                .stream()
-                .map(r -> r.visibility() != VisibilityEnum.PROTECTED.getValue() ? r : new Review(
-                    r.id(),
-                    r.groupId(),
-                    r.visibility(),
-                    r.rate(),
-                    r.review(),
-                    r.createdAt(),
-                    0L
-                ))
-                .collect(Collectors.toList());
-            items.put(groupId, masked);
-        }));
-
-        return companyReviews;
     }
 
     public long countRecords()
