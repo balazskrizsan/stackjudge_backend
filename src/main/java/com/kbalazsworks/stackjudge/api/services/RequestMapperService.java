@@ -23,7 +23,7 @@ public class RequestMapperService
             request.typeId(),
             request.membersOnStackId(),
             state.now(),
-            state.user().getId()
+            state.currentUser().getId()
         );
     }
 
@@ -36,7 +36,7 @@ public class RequestMapperService
             request.itSizeId(),
             "",
             state.now(),
-            state.user().getId()
+            state.currentUser().getId()
         );
     }
 
@@ -51,7 +51,7 @@ public class RequestMapperService
             request.manualMarkerLat(),
             request.manualMarkerLng(),
             state.now(),
-            state.user().getId()
+            state.currentUser().getId()
         );
     }
 
@@ -64,7 +64,7 @@ public class RequestMapperService
             request.rate(),
             request.review(),
             state.now(),
-            state.user().getId()
+            state.currentUser().getId()
         );
     }
 }

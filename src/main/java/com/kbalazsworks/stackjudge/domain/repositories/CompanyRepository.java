@@ -26,7 +26,7 @@ public class CompanyRepository extends AbstractRepository
 
     public void delete(long companyId)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .deleteFrom(companyTable)
             .where(companyTable.ID.eq(companyId))
             .execute();
@@ -34,7 +34,7 @@ public class CompanyRepository extends AbstractRepository
 
     public Long create(@NonNull Company company)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .insertInto(
                 companyTable,
                 companyTable.NAME,
@@ -59,7 +59,7 @@ public class CompanyRepository extends AbstractRepository
 
     public List<Company> search(long seekId, int limit)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectFrom(companyTable)
             .where(companyTable.ID.greaterOrEqual(seekId))
             .orderBy(companyTable.ID)
@@ -69,7 +69,7 @@ public class CompanyRepository extends AbstractRepository
 
     public List<Company> search(NavigationEnum navigation, int limit)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectFrom(companyTable)
             .where(companyTable.ID.greaterOrEqual(getSeekSubQueryForSeekId(limit, navigation)))
             .orderBy(companyTable.ID)
@@ -84,7 +84,7 @@ public class CompanyRepository extends AbstractRepository
         switch (navigation)
         {
             case SECOND -> {
-                subQuery = createQueryBuilder()
+                subQuery = getQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
                     .orderBy(companyTable.ID)
@@ -93,7 +93,7 @@ public class CompanyRepository extends AbstractRepository
                 order    = innerCompany.ID.desc();
             }
             case LAST_MINUS_1 -> {
-                subQuery = createQueryBuilder()
+                subQuery = getQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
                     .orderBy(companyTable.ID.desc())
@@ -102,7 +102,7 @@ public class CompanyRepository extends AbstractRepository
                 order    = innerCompany.ID.asc();
             }
             case LAST -> {
-                subQuery = createQueryBuilder()
+                subQuery = getQueryBuilder()
                     .select(companyTable.ID)
                     .from(companyTable)
                     .orderBy(companyTable.ID.desc())
@@ -116,7 +116,7 @@ public class CompanyRepository extends AbstractRepository
         }
 
         return field(
-            createQueryBuilder()
+            getQueryBuilder()
                 .select(innerCompany.ID)
                 .from(subQuery)
                 .orderBy(order)
@@ -137,7 +137,7 @@ public class CompanyRepository extends AbstractRepository
                 );
             };
 
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectFrom(companyTable)
             .where(where)
             .orderBy(companyTable.ID)
@@ -149,10 +149,10 @@ public class CompanyRepository extends AbstractRepository
     {
         return companyTable.ID.greaterOrEqual(
             field(
-                createQueryBuilder()
+                getQueryBuilder()
                     .select(innerCompany.ID)
                     .from(
-                        createQueryBuilder()
+                        getQueryBuilder()
                             .select(companyTable.ID)
                             .from(companyTable)
                             .where(companyTable.ID.greaterThan(seekId))
@@ -170,10 +170,10 @@ public class CompanyRepository extends AbstractRepository
     {
         return companyTable.ID.greaterOrEqual(
             field(
-                createQueryBuilder()
+                getQueryBuilder()
                     .select(innerCompany.ID)
                     .from(
-                        createQueryBuilder()
+                        getQueryBuilder()
                             .select(companyTable.ID)
                             .from(companyTable)
                             .where(companyTable.ID.lessThan(seekId))
@@ -189,7 +189,7 @@ public class CompanyRepository extends AbstractRepository
 
     public Company get(long companyId) throws RepositoryNotFoundException
     {
-        Company company = createQueryBuilder()
+        Company company = getQueryBuilder()
             .selectFrom(companyTable)
             .where(companyTable.ID.eq(companyId))
             .fetchOneInto(Company.class);
@@ -206,7 +206,7 @@ public class CompanyRepository extends AbstractRepository
 
     public long countRecords()
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectCount()
             .from(companyTable)
             .fetchOneInto(Long.class);
@@ -214,7 +214,7 @@ public class CompanyRepository extends AbstractRepository
 
     public long countRecordsBeforeId(long id)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectCount()
             .from(companyTable)
             .where(companyTable.ID.lessThan(id))
@@ -223,7 +223,7 @@ public class CompanyRepository extends AbstractRepository
 
     public void updateLogoPath(long companyId, String logoPath)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .update(companyTable)
             .set(companyTable.LOGO_PATH, logoPath)
             .where(companyTable.ID.eq(companyId))

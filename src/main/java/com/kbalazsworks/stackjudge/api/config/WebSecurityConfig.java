@@ -4,24 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountConfig;
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.controllers.group_controller.GroupConfig;
-import com.kbalazsworks.stackjudge.api.controllers.review_controller.ReviewConfig;
 import com.kbalazsworks.stackjudge.api.controllers.test_controller.TestConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.state.services.UserDetailsServiceImpl;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.session.SessionManagementFilter;
 
@@ -29,22 +26,11 @@ import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.SIGN_UP_U
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtService jwtService;
-
-    public WebSecurityConfig(
-        UserDetailsServiceImpl userDetailsService,
-        BCryptPasswordEncoder bCryptPasswordEncoder,
-        JwtService jwtService
-    )
-    {
-        this.userDetailsService = userDetailsService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.jwtService = jwtService;
-    }
+    private final AccountService accountService;
+    private final JwtService     jwtService;
 
     @Override
     @Bean
@@ -82,16 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .and()
 
             .addFilter(new JWTAuthenticationFilterService(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilterService(authenticationManager(), userDetailsService, jwtService))
+            .addFilter(new JWTAuthorizationFilterService(authenticationManager(), accountService, jwtService))
 
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
         // @formatter:on
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     private AuthenticationEntryPoint authenticationEntryPoint()

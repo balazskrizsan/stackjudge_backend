@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsersRepository extends JpaRepository<User, Long>
 {
@@ -16,6 +17,9 @@ public interface UsersRepository extends JpaRepository<User, Long>
 
     @Override @NotNull
     List<User> findAllById(@NotNull Iterable<Long> ids);
+
+    @Override @NotNull
+    Optional<User> findById(@NotNull Long id);
 
     User findByFacebookId(@Param("facebook_id") Long facebookId);
 

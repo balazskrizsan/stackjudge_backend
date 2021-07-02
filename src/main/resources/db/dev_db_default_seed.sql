@@ -2,6 +2,7 @@ TRUNCATE TABLE
     "address",
     "group",
     "review",
+    "protected_review_log",
     "company" RESTART IDENTITY;
 
 INSERT INTO company(id, name, company_size_id, it_size_id, logo_path, created_at, created_by)
@@ -59,13 +60,17 @@ VALUES (1, 1, null, 1, 'Level 0 - Company', 1, '2020-01-01 01:01:01', 1),
 INSERT INTO "review" (id, group_id, visibility, rate, review, created_at, created_by)
 -- group_id: 1
 VALUES (1, 1, 1, 1, 'Review 1, Group 1, Review text test, short 111', '2021-01-16 01:50:01', 1),
-       (2, 1, 1, 2, 'Review 2, Group 1, Review text test, short 222', '2021-01-16 01:50:01', 2),
+       (2, 1, 2, 2, 'Review 2, Group 1, Review text test, short 222', '2021-01-16 01:50:01', 2),
 -- group_id: 2
-       (3, 2, 1, 3, 'Review 3, Group 2, Review text test, short 333', '2021-01-16 01:50:01', 3),
-       (4, 2, 1, 4, 'Review 4, Group 2, Review text test, short 444', '2021-01-16 01:50:01', 4),
+       (3, 2, 3, 3, 'Review 3, Group 2, Review text test, short 333', '2021-01-16 01:50:01', 1),
+       (4, 2, 1, 4, 'Review 4, Group 2, Review text test, short 444', '2021-01-16 01:50:01', 2),
 -- group_id: 3
-       (5, 3, 1, 5, 'Review 5, Group 3, Review text test, long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long 555', '2021-01-16 01:50:01', 5),
-       (6, 3, 1, 6, 'Review 6, Group 3, Review text test, short 666', '2021-01-16 01:50:01', 6),
+       (5, 3, 2, 5, 'Review 5, Group 3, Review text test, long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long 555', '2021-01-16 01:50:01', 1),
+       (6, 3, 3, 6, 'Review 6, Group 3, Review text test, short 666', '2021-01-16 01:50:01', 2),
 -- group_id: 4
-       (7, 4, 1, 7, 'Review 7, Group 4, Review text test, short 777', '2021-01-16 01:50:01', 7),
-       (8, 4, 1, 8, 'Review 8, Group 4, Review text test, 888 \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line 888', '2021-01-16 01:50:01', 8);
+       (7, 4, 1, 7, 'Review 7, Group 4, Review text test, short 777', '2021-01-16 01:50:01', 1),
+       (8, 4, 2, 8, 'Review 8, Group 4, Review text test, 888 \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line 888', '2021-01-16 01:50:01', 2);
+
+INSERT INTO stackjudge.public."users" (id, is_email_user, is_facebook_user, profile_picture_url, username, password, facebook_access_token, facebook_id)
+VALUES (1, false, true, 'http://logo.com/image.jpg', 'Default User 1', 'QWEqwe123123', 'qwe123', '1'),
+       (2, false, true, 'http://logo.com/image.jpg', 'Default User 2', 'asdASD123123', 'asd123', '2');

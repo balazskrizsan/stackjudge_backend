@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
+import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
 
@@ -37,6 +38,11 @@ public class Tables {
      * The table <code>public.group</code>.
      */
     public static final Group GROUP = Group.GROUP;
+
+    /**
+     * The table <code>public.protected_review_log</code>.
+     */
+    public static final ProtectedReviewLog PROTECTED_REVIEW_LOG = ProtectedReviewLog.PROTECTED_REVIEW_LOG;
 
     /**
      * The table <code>public.review</code>.

@@ -15,7 +15,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row5;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -30,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 1504386883;
+    private static final long serialVersionUID = 955531948;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -49,6 +49,21 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>public.users.id</code>.
      */
     public final TableField<UsersRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>public.users.is_email_user</code>.
+     */
+    public final TableField<UsersRecord, Boolean> IS_EMAIL_USER = createField(DSL.name("is_email_user"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.users.is_facebook_user</code>.
+     */
+    public final TableField<UsersRecord, Boolean> IS_FACEBOOK_USER = createField(DSL.name("is_facebook_user"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.users.profile_picture_url</code>.
+     */
+    public final TableField<UsersRecord, String> PROFILE_PICTURE_URL = createField(DSL.name("profile_picture_url"), org.jooq.impl.SQLDataType.VARCHAR(300), this, "");
 
     /**
      * The column <code>public.users.username</code>.
@@ -140,11 +155,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, String, String, String, BigDecimal> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row8<Long, Boolean, Boolean, String, String, String, String, BigDecimal> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }

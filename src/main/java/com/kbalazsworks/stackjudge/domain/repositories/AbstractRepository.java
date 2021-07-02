@@ -16,7 +16,7 @@ abstract public class AbstractRepository
         this.jooqService = jooqService;
     }
 
-    DSLContext createQueryBuilder()
+    DSLContext getQueryBuilder()
     {
         return jooqService.getDbContext();
     }

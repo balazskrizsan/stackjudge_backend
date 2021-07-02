@@ -86,6 +86,20 @@ public class V000001__init extends AbstractBaseJooqMigration
             )
             .execute();
 
+        qB.createTable("protected_review_log")
+            .column("id", BIGINT.nullable(false).identity(true))
+            .column("viewer_user_id", BIGINT.nullable(true))
+            .column("review_id", BIGINT.nullable(false).identity(true))
+            .column("created_at", TIMESTAMP.nullable(false))
+            .constraints(
+                constraint("protected_review_log_pk").primaryKey("id"),
+                constraint("fk__protected_review_log_review_id__review_id__on_delete_cascade")
+                    .foreignKey("review_id")
+                    .references("review", "id")
+                    .onDeleteCascade()
+            )
+            .execute();
+
         qB.createTable("users")
             .column("id", BIGINT.nullable(false).identity(true))
             .column("is_email_user", BOOLEAN.nullable(false).defaultValue(false))

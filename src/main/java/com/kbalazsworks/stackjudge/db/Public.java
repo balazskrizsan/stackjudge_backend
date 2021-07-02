@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
+import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
 
@@ -25,7 +26,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 1806494253;
+    private static final long serialVersionUID = 788355068;
 
     /**
      * The reference instance of <code>public</code>
@@ -51,6 +52,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.group</code>.
      */
     public final Group GROUP = Group.GROUP;
+
+    /**
+     * The table <code>public.protected_review_log</code>.
+     */
+    public final ProtectedReviewLog PROTECTED_REVIEW_LOG = ProtectedReviewLog.PROTECTED_REVIEW_LOG;
 
     /**
      * The table <code>public.review</code>.
@@ -82,6 +88,7 @@ public class Public extends SchemaImpl {
             Company.COMPANY,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             Group.GROUP,
+            ProtectedReviewLog.PROTECTED_REVIEW_LOG,
             Review.REVIEW,
             Users.USERS);
     }

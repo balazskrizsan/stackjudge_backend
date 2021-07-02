@@ -1,11 +1,11 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -21,18 +21,18 @@ import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.TOKEN_PRE
 @Slf4j
 public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 {
-    private final UserDetailsService userDetailsService;
-    private final JwtService         jwtService;
+    private final AccountService accountService;
+    private final JwtService     jwtService;
 
     public JWTAuthorizationFilterService(
         AuthenticationManager authManager,
-        UserDetailsService userDetailsService,
+        AccountService accountService,
         JwtService jwtService
     )
     {
         super(authManager);
-        this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
+        this.accountService = accountService;
+        this.jwtService     = jwtService;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
     {
         if (jwtService.isValid(token))
         {
-            UserDetails user = userDetailsService.loadUserByUsername(jwtService.getUsername(token));
+            User user = accountService.findByUserId(jwtService.getUserId(token));
 
             return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
         }

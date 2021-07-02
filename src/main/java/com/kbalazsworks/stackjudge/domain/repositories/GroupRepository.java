@@ -22,7 +22,7 @@ public class GroupRepository extends AbstractRepository
 
     public void create(@NonNull Group group)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .insertInto(
                 groupTable,
                 groupTable.COMPANY_ID,
@@ -47,7 +47,7 @@ public class GroupRepository extends AbstractRepository
 
     public List<RecursiveGroup> recursiveSearch(List<Long> companyId)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .resultQuery(
                 "WITH RECURSIVE rec(id, name, type_id, company_id, parent_id, depth, path) AS ("
                     + "     SELECT S.id, S.name, S.type_id, S.company_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
@@ -73,7 +73,7 @@ public class GroupRepository extends AbstractRepository
 
     private Map<Long, Integer> countTeamsOrStacks(List<Long> companyIds, @NonNull TypeEnum type)
     {
-        Map<Long, Integer> result = createQueryBuilder()
+        Map<Long, Integer> result = getQueryBuilder()
             .select(groupTable.COMPANY_ID, count())
             .from(groupTable)
             .where(
