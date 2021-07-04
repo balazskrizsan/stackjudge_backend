@@ -9,6 +9,8 @@ import com.kbalazsworks.stackjudge.db.Public;
 import com.kbalazsworks.stackjudge.db.tables.records.UsersRecord;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -20,6 +22,7 @@ import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 
@@ -30,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 955531948;
+    private static final long serialVersionUID = -537383236;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -126,6 +129,16 @@ public class Users extends TableImpl<UsersRecord> {
     @Override
     public Identity<UsersRecord, Long> getIdentity() {
         return Keys.IDENTITY_USERS;
+    }
+
+    @Override
+    public UniqueKey<UsersRecord> getPrimaryKey() {
+        return Keys.USERS_PK;
+    }
+
+    @Override
+    public List<UniqueKey<UsersRecord>> getKeys() {
+        return Arrays.<UniqueKey<UsersRecord>>asList(Keys.USERS_PK);
     }
 
     @Override
