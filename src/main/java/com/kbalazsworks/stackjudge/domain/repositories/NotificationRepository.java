@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
-import com.kbalazsworks.stackjudge.domain.entities.Notification;
+import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class NotificationRepository extends AbstractRepository
     private final com.kbalazsworks.stackjudge.db.tables.Notification notificationTable
         = com.kbalazsworks.stackjudge.db.tables.Notification.NOTIFICATION;
 
-    public List<Notification> searchMyNotifications(long limit, long userId)
+    public List<RawNotification> searchMyNotifications(long limit, long userId)
     {
         return getQueryBuilder()
             .select(
@@ -28,6 +28,6 @@ public class NotificationRepository extends AbstractRepository
             .where(notificationTable.USER_ID.eq(userId))
             .orderBy(notificationTable.ID.desc())
             .limit(limit)
-            .fetchInto(Notification.class);
+            .fetchInto(RawNotification.class);
     }
 }
