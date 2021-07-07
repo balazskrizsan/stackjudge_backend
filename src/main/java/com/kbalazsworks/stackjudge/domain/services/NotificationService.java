@@ -34,7 +34,7 @@ public class NotificationService
             typedNotifications,
             searchMyNotificationsService.hasNew(typedNotifications),
             typedNotifications.stream().filter(n -> null == n.getViewedAt()).count(),
-            accountService.findByUserIds(affectedUsersIds)
+            accountService.findByUserIdsWithIdMap(affectedUsersIds)
         );
     }
 }

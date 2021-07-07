@@ -13,7 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,14 @@ public class AccountService
     public @NotNull List<User> findByUserIds(List<Long> ids)
     {
         return usersRepository.findAllById(ids);
+    }
+
+    public @NotNull Map<Long, User> findByUserIdsWithIdMap(List<Long> ids)
+    {
+        return findByUserIds(ids)
+            .stream()
+            .distinct()
+            .collect(Collectors.toMap(User::getId, Function.identity()));
     }
 
     public @NotNull User findByUserId(Long id)

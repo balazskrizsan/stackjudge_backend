@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Getter
@@ -16,5 +17,5 @@ public class NotificationResponse
     @JsonProperty List<ITypedNotification> notifications;
     @JsonProperty boolean                  hasNew;
     @JsonProperty long                     newCount;
-    @JsonProperty List<User>               users;
+    @JsonProperty Map<Long, User>          users;
 }

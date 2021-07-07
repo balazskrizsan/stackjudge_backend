@@ -148,12 +148,7 @@ public class CompanyService
 
             if (!affectedUserIds.isEmpty())
             {
-                List<Long> distinctAffectedUserIds = affectedUserIds.stream().distinct().collect(Collectors.toList());
-
-                companyUsers = accountService
-                    .findByUserIds(distinctAffectedUserIds)
-                    .stream()
-                    .collect(Collectors.toMap(User::getId, Function.identity()));
+                companyUsers = accountService.findByUserIdsWithIdMap(affectedUserIds);
             }
         }
 
