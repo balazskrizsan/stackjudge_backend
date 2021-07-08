@@ -25,7 +25,10 @@ public class NotificationRepository extends AbstractRepository
                 notificationTable.VIEWED_AT
             )
             .from(notificationTable)
-            .where(notificationTable.USER_ID.eq(userId))
+            .where(
+                notificationTable.USER_ID.eq(userId)
+                    .and(notificationTable.VIEWED_AT.isNull())
+            )
             .orderBy(notificationTable.ID.desc())
             .limit(limit)
             .fetchInto(RawNotification.class);
