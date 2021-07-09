@@ -30,4 +30,15 @@ public class NotificationRepository extends AbstractRepository
             .limit(limit)
             .fetchInto(RawNotification.class);
     }
+
+    public void delete(long notificationId, Long userId)
+    {
+        getQueryBuilder()
+            .deleteFrom(notificationTable)
+            .where(
+                notificationTable.ID.eq(notificationId)
+                    .and(notificationTable.USER_ID.eq(userId))
+            )
+            .execute();
+    }
 }

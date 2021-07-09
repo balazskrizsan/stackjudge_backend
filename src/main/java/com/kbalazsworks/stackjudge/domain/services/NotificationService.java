@@ -37,4 +37,10 @@ public class NotificationService
             accountService.findByUserIdsWithIdMap(affectedUsersIds)
         );
     }
+
+    // @todo: test
+    public void delete(long notificationId, State state)
+    {
+         notificationRepository.delete(notificationId, state.currentUser().getId());
+    }
 }
