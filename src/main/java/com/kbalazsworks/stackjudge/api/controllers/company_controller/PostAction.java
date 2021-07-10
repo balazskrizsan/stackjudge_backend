@@ -11,7 +11,7 @@ import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,22 +21,11 @@ import java.io.IOException;
 
 @RestController("CompanyPostAction")
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class PostAction
 {
-    private CompanyService companyService;
-    private StateService   stateService;
-
-    @Autowired
-    public void setCompanyService(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
-
-    @Autowired
-    public void setStateService(StateService stateService)
-    {
-        this.stateService = stateService;
-    }
+    private final CompanyService companyService;
+    private final StateService   stateService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseData<String>> action(

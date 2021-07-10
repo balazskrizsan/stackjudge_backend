@@ -5,9 +5,9 @@ import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.requests.company_request.GetStackRecursiveByCompanyIdRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +17,10 @@ import java.util.List;
 
 @RestController("CompanyGetGroupRecursiveByCompanyIdAction")
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class GetGroupRecursiveByCompanyIdAction
 {
-    private GroupService groupService;
-
-    @Autowired
-    public void setStackService(GroupService groupService)
-    {
-        this.groupService = groupService;
-    }
+    private final GroupService groupService;
 
     @GetMapping("{companyId}/group/recursive")
     public ResponseEntity<ResponseData<List<RecursiveGroup>>> action(GetStackRecursiveByCompanyIdRequest request) throws ApiException

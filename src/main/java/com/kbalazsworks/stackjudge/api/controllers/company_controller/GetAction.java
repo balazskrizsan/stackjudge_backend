@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("CompanyGetAction")
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class GetAction
 {
-    private CompanyService companyService;
-
-    @Autowired
-    public void setCompanyService(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
+    private final CompanyService companyService;
 
     @GetMapping("{companyId}")
     public ResponseEntity<ResponseData<CompanyGetServiceResponse>> action(GetRequest request) throws Exception

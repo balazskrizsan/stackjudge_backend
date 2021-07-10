@@ -1,9 +1,11 @@
 package com.kbalazsworks.stackjudge.api.value_objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.util.Map;
 
+@Getter
 public class FacebookUser
 {
     private @JsonProperty("id")                  Long    id;
@@ -23,35 +25,5 @@ public class FacebookUser
         this.pictureIsSilhouette = (boolean) data.get("is_silhouette");
         this.pictureUrl          = String.valueOf(data.get("url"));
         this.pictureWidth        = (Integer) data.get("width");
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public Integer getPictureHeight()
-    {
-        return pictureHeight;
-    }
-
-    public boolean isPictureIsSilhouette()
-    {
-        return pictureIsSilhouette;
-    }
-
-    public String getPictureUrl()
-    {
-        return pictureUrl;
-    }
-
-    public Integer getPictureWidth()
-    {
-        return pictureWidth;
     }
 }
