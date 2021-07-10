@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FacebookCallbackService
 {
-    private final AccountService        accountService;
-    private final GetJwtLoginUrlService getJwtLoginUrlService;
+    private final AccountService              accountService;
+    private final GetJwtLoginUrlService       getJwtLoginUrlService;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
@@ -31,8 +31,16 @@ public class FacebookCallbackService
     // @todo: test: callWithValidCodeWithNotExistingUser_returnsValidRedirectUrlAndCreateNewUser
     // @todo: test: callWithValidCodeGenerateLoginUrlThrowsException_logTheErrorAndRollbackTheDatabase
     @Transactional
-    public String getJwtLoginUrl(String code) throws AuthException
+    public String getJwtLoginUrl(String code, String state) throws AuthException
     {
+        if (!FacebookService.stateStore.contains(state))
+        {
+            log.error("Facebook authentication error with state: " + state);
+            throw new AuthException();
+        }
+
+        FacebookService.stateStore.remove(state);
+
         OAuth20Service    service     = oAuthFacebookServiceBuilder.create();
         OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(service, code);
 
