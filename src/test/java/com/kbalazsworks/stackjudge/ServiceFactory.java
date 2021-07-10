@@ -31,6 +31,7 @@ public class ServiceFactory
 
     private final AddressService           addressService;
     private final SearchService            searchService;
+    private final GroupService             groupService;
     private final ReviewService            reviewService;
     private final PaginatorService         paginatorService;
     private final JwtSubService            jwtSubService;
@@ -136,7 +137,7 @@ public class ServiceFactory
 
     public SearchService getSearchService(GroupService groupServiceReplacer)
     {
-        return new SearchService(Optional.ofNullable(getGroupService()).orElse(groupServiceReplacer));
+        return new SearchService(Optional.ofNullable(groupServiceReplacer).orElse(groupService));
     }
 
     public CdnService getCdnService()

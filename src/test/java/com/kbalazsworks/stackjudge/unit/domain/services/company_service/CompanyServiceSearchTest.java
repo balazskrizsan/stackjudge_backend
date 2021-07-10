@@ -165,6 +165,8 @@ public class CompanyServiceSearchTest extends AbstractTest
 
         ReviewService reviewServiceMock = mock(ReviewService.class);
         when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForReviews);
+        when(reviewServiceMock.maskProtectedReviewCreatedBys(testData.mockForReviews))
+            .thenReturn(testData.mockForReviews);
 
         companyService = serviceFactory.getCompanyService(
             addressServiceMock,
