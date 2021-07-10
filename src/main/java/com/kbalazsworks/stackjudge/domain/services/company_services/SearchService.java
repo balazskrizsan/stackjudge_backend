@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.domain.services.company_services;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,15 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class SearchService
 {
-    private GroupService groupService;
-
-    @Autowired
-    public void setGroupService(GroupService groupService)
-    {
-        this.groupService = groupService;
-    }
+    private final GroupService groupService;
 
     public Map<Long, List<RecursiveGroupTree>> getCompanyGroups(List<Long> companyIds)
     {

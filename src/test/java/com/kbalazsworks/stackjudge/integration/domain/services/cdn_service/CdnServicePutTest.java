@@ -4,19 +4,15 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.MockFactory;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
-import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
-import com.kbalazsworks.stackjudge.domain.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.services.DateTimeFormatterService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import lombok.RequiredArgsConstructor;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.text.ParseException;
@@ -26,28 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@RequiredArgsConstructor
 public class CdnServicePutTest extends AbstractIntegrationTest
 {
-    @Autowired
-    private S3Repository             s3Repository;
-    @Autowired
-    private ApplicationProperties    applicationProperties;
-    @Autowired
-    private LocalDateTimeFactory     localDateTimeFactory;
-    @Autowired
-    private DateTimeFormatterService dateTimeFormatterService;
-    @Autowired
-    private CdnService               cdnService;
-
-    @BeforeEach
-    @AfterEach
-    public void clean()
-    {
-        cdnService.setS3Repository(s3Repository);
-        cdnService.setApplicationProperties(applicationProperties);
-        cdnService.setLocalDateTimeFactory(localDateTimeFactory);
-        cdnService.setDateTimeFormatterService(dateTimeFormatterService);
-    }
+    private final ServiceFactory serviceFactory;
 
     @Captor
     ArgumentCaptor<PutObjectRequest> insertValidPutObjectRequest_perfect_captor;
@@ -77,12 +55,15 @@ public class CdnServicePutTest extends AbstractIntegrationTest
         when(applicationPropertiesMock.getAwsSecretKey()).thenReturn("bbb");
         when(applicationPropertiesMock.getAwsS3CdnBucket()).thenReturn(testedBucket);
 
-        cdnService.setS3Repository(new S3Repository(applicationPropertiesMock, amazonS3ClientFactoryMock));
-        cdnService.setApplicationProperties(applicationPropertiesMock);
-        cdnService.setLocalDateTimeFactory(MockFactory.getLocalDateTimeFactoryMockWithDateTime(testMockTime));
-
         // Act
-        cdnService.put(testedCdnNamespaceEnum, testedFileName, testedFileExtension, testedFile);
+        serviceFactory
+            .getCdnService(
+                applicationPropertiesMock,
+                MockFactory.getLocalDateTimeFactoryMockWithDateTime(testMockTime),
+                null,
+                new S3Repository(applicationPropertiesMock, amazonS3ClientFactoryMock)
+            )
+            .put(testedCdnNamespaceEnum, testedFileName, testedFileExtension, testedFile);
 
         // Assert
         verify(amazonS3Mock).putObject(insertValidPutObjectRequest_perfect_captor.capture());

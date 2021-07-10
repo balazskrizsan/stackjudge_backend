@@ -1,17 +1,15 @@
 package com.kbalazsworks.stackjudge.unit.domain.services.company_service.search_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
+import lombok.RequiredArgsConstructor;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,20 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
+@RequiredArgsConstructor
 public class SearchServiceGetCompanyGroupsTest extends AbstractTest
 {
-    @Autowired
-    private GroupService groupService;
-
-    @Autowired
-    SearchService searchService;
-
-    @BeforeEach
-    @AfterEach
-    public void clean()
-    {
-        searchService.setGroupService(groupService);
-    }
+    public final ServiceFactory serviceFactory;
 
     @Test
     public void vintageHack()
@@ -94,11 +82,10 @@ public class SearchServiceGetCompanyGroupsTest extends AbstractTest
         GroupService groupServiceMock = mock(GroupService.class);
         when(groupServiceMock.generateTreeStructure(any())).thenReturn(testData.mockForGenerateTreeStructure);
 
-        searchService.setGroupService(groupServiceMock);
-
         // Act
-        Map<Long, List<RecursiveGroupTree>> actualCompanyGroups
-            = searchService.getCompanyGroups(testData.testedCompanyIds);
+        Map<Long, List<RecursiveGroupTree>> actualCompanyGroups = serviceFactory
+            .getSearchService(groupServiceMock)
+            .getCompanyGroups(testData.testedCompanyIds);
 
         // Assert
         assertAll(

@@ -1,21 +1,16 @@
 package com.kbalazsworks.stackjudge.domain.factories;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Component
+@RequiredArgsConstructor
 public class LocalDateTimeFactory
 {
-    private DateFactory dateFactory;
-
-    @Autowired
-    public void setDateFactory(DateFactory dateFactory)
-    {
-        this.dateFactory = dateFactory;
-    }
+    private final DateFactory dateFactory;
 
     public LocalDateTime create()
     {

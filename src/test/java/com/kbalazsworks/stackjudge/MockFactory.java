@@ -114,10 +114,7 @@ public class MockFactory
         DateFactory dateFactory = mock(DateFactory.class);
         when(dateFactory.create()).thenReturn(getJavaDateFromDateTime(dateTime));
 
-        LocalDateTimeFactory localDateTimeFactory = new LocalDateTimeFactory();
-        localDateTimeFactory.setDateFactory(dateFactory);
-
-        return localDateTimeFactory;
+        return new LocalDateTimeFactory(dateFactory);
     }
 
     public static void SessionService_getStateMock(StateService stateService)
