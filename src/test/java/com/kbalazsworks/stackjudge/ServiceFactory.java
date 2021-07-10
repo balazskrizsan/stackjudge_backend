@@ -154,9 +154,9 @@ public class ServiceFactory
     {
         return new CdnService(
             Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
-            Optional.ofNullable(localDateTimeFactory).orElse(localDateTimeFactoryReplacer),
+            Optional.ofNullable(localDateTimeFactoryReplacer).orElse(localDateTimeFactory),
             Optional.ofNullable(dateTimeFormatterServiceReplacer).orElse(dateTimeFormatterService),
-            Optional.ofNullable(s3RepositoryReplacer).orElse(s3RepositoryReplacer)
+            Optional.ofNullable(s3RepositoryReplacer).orElse(s3Repository)
         );
     }
 }

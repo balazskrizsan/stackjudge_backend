@@ -9,13 +9,11 @@ import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
-
-import java.text.ParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
