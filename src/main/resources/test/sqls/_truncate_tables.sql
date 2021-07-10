@@ -3,4 +3,7 @@ TRUNCATE TABLE
     "address",
     "group",
     "review",
-    "company" RESTART IDENTITY;
+    "company",
+    "notification",
+    "protected_review_log"
+    RESTART IDENTITY;

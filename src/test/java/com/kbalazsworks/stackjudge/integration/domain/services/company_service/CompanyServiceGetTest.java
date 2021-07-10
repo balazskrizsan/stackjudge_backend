@@ -61,7 +61,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     null,
                     null,
                     null,
-                    null
+                    new HashMap<>()
                 )
             );
         }

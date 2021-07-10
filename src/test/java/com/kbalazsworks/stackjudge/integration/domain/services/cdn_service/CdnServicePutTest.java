@@ -9,10 +9,10 @@ import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import lombok.RequiredArgsConstructor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.text.ParseException;
@@ -22,16 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RequiredArgsConstructor
 public class CdnServicePutTest extends AbstractIntegrationTest
 {
-    private final ServiceFactory serviceFactory;
+    @Autowired
+    private ServiceFactory serviceFactory;
 
     @Captor
     ArgumentCaptor<PutObjectRequest> insertValidPutObjectRequest_perfect_captor;
 
     @Test
-    public void insertValidPutObjectRequest_perfect() throws ParseException
+    public void insertValidPutObjectRequest_perfect()
     {
         // Arrange
         String            testMockTime           = "2021-01-01 00:01:02";

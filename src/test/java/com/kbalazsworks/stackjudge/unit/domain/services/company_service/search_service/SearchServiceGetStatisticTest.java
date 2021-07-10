@@ -4,11 +4,11 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
-import lombok.RequiredArgsConstructor;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RequiredArgsConstructor
 public class SearchServiceGetStatisticTest extends AbstractTest
 {
-    private final ServiceFactory serviceFactory;
+    @Autowired
+    private ServiceFactory serviceFactory;
 
     @Test
     public void vintageHack()

@@ -71,7 +71,7 @@ public class CompanyServiceSearchTest extends AbstractTest
     {
     }
 
-    //@todo: add currentUser mock test
+    //@todo: add user mock test
     private TestData provider(int repetition)
     {
         if (repetition == 1)
