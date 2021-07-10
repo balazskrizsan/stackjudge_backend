@@ -43,4 +43,10 @@ public class NotificationService
     {
          notificationRepository.delete(notificationId, state.currentUser().getId());
     }
+
+    // @todo: test
+    public void markAsRead(long notificationId, State state)
+    {
+        notificationRepository.markAsRead(notificationId, state.currentUser().getId(), state.now());
+    }
 }

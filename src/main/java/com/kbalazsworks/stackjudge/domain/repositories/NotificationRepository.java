@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.repositories;
 import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.jooq.impl.DSL.field;
@@ -35,6 +36,18 @@ public class NotificationRepository extends AbstractRepository
     {
         getQueryBuilder()
             .deleteFrom(notificationTable)
+            .where(
+                notificationTable.ID.eq(notificationId)
+                    .and(notificationTable.USER_ID.eq(userId))
+            )
+            .execute();
+    }
+
+    public void markAsRead(long notificationId, Long userId, LocalDateTime now)
+    {
+        getQueryBuilder()
+            .update(notificationTable)
+            .set(notificationTable.VIEWED_AT, now)
             .where(
                 notificationTable.ID.eq(notificationId)
                     .and(notificationTable.USER_ID.eq(userId))
