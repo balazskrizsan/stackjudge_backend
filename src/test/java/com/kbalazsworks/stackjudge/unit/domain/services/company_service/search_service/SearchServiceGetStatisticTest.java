@@ -1,13 +1,10 @@
 package com.kbalazsworks.stackjudge.unit.domain.services.company_service.search_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
-import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
@@ -19,28 +16,19 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class SearchServiceGetStatisticTest extends AbstractTest
 {
     @Autowired
-    private GroupService groupService;
-
-    @Autowired
-    SearchService searchService;
-
-    @BeforeEach
-    @AfterEach
-    public void clean()
-    {
-        searchService.setGroupService(groupService);
-    }
+    private ServiceFactory serviceFactory;
 
     @Test
     public void vintageHack()
     {
-        Assert.assertTrue(true);
+        assertTrue(true);
     }
 
     private record TestData(
@@ -94,10 +82,10 @@ public class SearchServiceGetStatisticTest extends AbstractTest
         when(groupServiceMock.countStacks(testData.testedCompanyIds)).thenReturn(testData.mockForCountStack);
         when(groupServiceMock.countTeams(testData.testedCompanyIds)).thenReturn(testData.mockForCountTeams);
 
-        searchService.setGroupService(groupServiceMock);
-
         // Act
-        Map<Long, CompanyStatistic> actualStatistic = searchService.getStatistic(testData.testedCompanyIds);
+        Map<Long, CompanyStatistic> actualStatistic = serviceFactory
+            .getSearchService(groupServiceMock)
+            .getStatistic(testData.testedCompanyIds);
 
         // Assert
         assertThat(actualStatistic).isEqualTo(testData.expectedStatistic);

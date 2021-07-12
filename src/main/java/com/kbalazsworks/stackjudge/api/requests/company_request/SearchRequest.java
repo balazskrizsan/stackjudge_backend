@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.requests.company_request;
 
-import com.kbalazsworks.stackjudge.api.enums.SearchLimitEnum;
+import com.kbalazsworks.stackjudge.api.enums.CompanySearchLimitEnum;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public record SearchRequest(Integer seekId, Short limit, List<Short> requestRela
 
     public Short limit()
     {
-        if (SearchLimitEnum.getByValue(limit) == null)
+        if (CompanySearchLimitEnum.getByValue(limit) == null)
         {
-            return SearchLimitEnum.DEFAULT.getValue();
+            return CompanySearchLimitEnum.DEFAULT.getValue();
         }
 
         return limit;

@@ -4,21 +4,16 @@ import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class FacebookService
 {
-    private ApplicationProperties applicationProperties;
-
-    @Autowired
-    public void setApplicationProperties(ApplicationProperties applicationProperties)
-    {
-        this.applicationProperties = applicationProperties;
-    }
+    private final ApplicationProperties applicationProperties;
 
     public String registrationAndLogin()
     {

@@ -14,7 +14,7 @@ public class AddressRepository extends AbstractRepository
 
     public void create(@NonNull Address address)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .insertInto(
                 addressTable,
                 addressTable.COMPANY_ID,
@@ -41,7 +41,7 @@ public class AddressRepository extends AbstractRepository
 
     public List<Address> search(List<Long> companyIds)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .selectFrom(addressTable)
             .where(addressTable.COMPANY_ID.in(companyIds))
             .fetchInto(Address.class);

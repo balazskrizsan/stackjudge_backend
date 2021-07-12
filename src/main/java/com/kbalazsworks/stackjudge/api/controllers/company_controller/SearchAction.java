@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,19 +15,14 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 
 @RestController("CompanySearchAction")
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class SearchAction
 {
-    private CompanyService companyService;
-
-    @Autowired
-    public void setCompanyService(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
+    private final CompanyService companyService;
 
     @GetMapping
     public ResponseEntity<ResponseData<CompanySearchServiceResponse>> action(@RequestPayload SearchRequest request)
-    throws Exception
+        throws Exception
     {
         Short navigation = request.navigationId();
         CompanySearchServiceResponse response = companyService.search(

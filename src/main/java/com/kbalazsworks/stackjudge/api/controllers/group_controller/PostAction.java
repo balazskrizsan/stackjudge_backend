@@ -7,7 +7,7 @@ import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,22 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("GroupPostAction")
 @RequestMapping(GroupConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class PostAction
 {
-    private GroupService groupService;
-    private StateService stateService;
-
-    @Autowired
-    public void setStackService(GroupService groupService)
-    {
-        this.groupService = groupService;
-    }
-
-    @Autowired
-    public void setStateService(StateService stateService)
-    {
-        this.stateService = stateService;
-    }
+    private final GroupService groupService;
+    private final StateService stateService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseData<String>> action(GroupCreateRequest request) throws Exception

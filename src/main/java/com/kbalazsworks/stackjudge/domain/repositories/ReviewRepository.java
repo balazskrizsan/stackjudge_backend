@@ -18,7 +18,7 @@ public class ReviewRepository extends AbstractRepository
 
     public void create(@NonNull Review review)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .insertInto(
                 reviewTable,
                 reviewTable.GROUP_ID,
@@ -41,7 +41,7 @@ public class ReviewRepository extends AbstractRepository
 
     public Map<Long, List<Review>> search(List<Long> companiesIds)
     {
-        return createQueryBuilder()
+        return getQueryBuilder()
             .select(groupTable.COMPANY_ID)
             .select(reviewTable.fields())
             .from(reviewTable)
@@ -57,7 +57,7 @@ public class ReviewRepository extends AbstractRepository
 
     public void delete(long companyId)
     {
-        createQueryBuilder()
+        getQueryBuilder()
             .deleteFrom(reviewTable)
             .where(reviewTable.ID.eq(companyId))
             .execute();

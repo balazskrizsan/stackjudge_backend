@@ -1,7 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -9,16 +8,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @Service
+@RequiredArgsConstructor
 public class ConnectionService
 {
-    private DataSource dataSource;
-    private Connection connection = null;
-
-    @Autowired
-    public void setDataSource(@NonNull DataSource dataSource)
-    {
-        this.dataSource = dataSource;
-    }
+    private final DataSource dataSource;
+    private       Connection connection = null;
 
     public Connection getConnection() throws SQLException
     {

@@ -8,13 +8,16 @@ import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
+import com.kbalazsworks.stackjudge.domain.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.fake_builders.*;
-import lombok.RequiredArgsConstructor;
+import com.kbalazsworks.stackjudge.state.entities.User;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,11 +65,13 @@ public class CompanyServiceSearchTest extends AbstractTest
         List<PaginatorItem> mockForGenerate,
         Map<Long, List<Address>> mockForSearchAddresses,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
+        List<User> mockForUsers,
         CompanySearchServiceResponse expectedResponse
     )
     {
     }
 
+    //@todo: add user mock test
     private TestData provider(int repetition)
     {
         if (repetition == 1)
@@ -83,12 +88,14 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new ArrayList<>(),
                 new HashMap<>(),
                 new HashMap<>(),
+                new ArrayList<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().buildAsList(),
                     new HashMap<>(),
                     new ArrayList<>(),
                     null,
+                    new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>()
@@ -112,6 +119,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     CompanyFakeBuilder.defaultId1,
                     Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                 ),
+                new ArrayList<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().id(CompanyFakeBuilder.defaultId1).buildAsList(),
@@ -123,7 +131,8 @@ public class CompanyServiceSearchTest extends AbstractTest
                     Map.of(
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
-                    )
+                    ),
+                    new HashMap<>()
                 )
             );
         }
@@ -156,8 +165,19 @@ public class CompanyServiceSearchTest extends AbstractTest
 
         ReviewService reviewServiceMock = mock(ReviewService.class);
         when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForReviews);
+        when(reviewServiceMock.maskProtectedReviewCreatedBys(testData.mockForReviews))
+            .thenReturn(testData.mockForReviews);
 
-        companyService = serviceFactory.getCompanyService(addressServiceMock, searchServiceMock, reviewServiceMock, paginatorServiceMock, null, null, companyRepositoryMock);
+        companyService = serviceFactory.getCompanyService(
+            addressServiceMock,
+            searchServiceMock,
+            reviewServiceMock,
+            paginatorServiceMock,
+            null,
+            null,
+            null,
+            companyRepositoryMock
+        );
 
         // Act
         CompanySearchServiceResponse actualResponse = companyService.search(

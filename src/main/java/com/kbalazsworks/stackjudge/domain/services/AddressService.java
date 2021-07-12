@@ -6,30 +6,24 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.repositories.AddressRepository;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.jooq.exception.DataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class AddressService
 {
     private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
 
-    private AddressRepository addressRepository;
-
-    @Autowired
-    public void setAddressRepository(AddressRepository addressRepository)
-    {
-        this.addressRepository = addressRepository;
-    }
+    private final AddressRepository addressRepository;
 
     public void create(@NonNull Address address)
     {

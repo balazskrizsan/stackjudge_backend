@@ -5,21 +5,19 @@ import com.kbalazsworks.stackjudge.domain.entities.Group;
 import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class GroupService
 {
-    private GroupRepository groupRepository;
-
-    @Autowired
-    public void setStackRepository(GroupRepository groupRepository)
-    {
-        this.groupRepository = groupRepository;
-    }
+    private final GroupRepository groupRepository;
 
     public void create(Group group)
     {

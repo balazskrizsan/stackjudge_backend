@@ -8,12 +8,16 @@ import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.Group;
+import com.kbalazsworks.stackjudge.db.tables.Notification;
+import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.CompanyRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.FlywaySchemaHistoryRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.GroupRecord;
+import com.kbalazsworks.stackjudge.db.tables.records.NotificationRecord;
+import com.kbalazsworks.stackjudge.db.tables.records.ProtectedReviewLogRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.ReviewRecord;
 import com.kbalazsworks.stackjudge.db.tables.records.UsersRecord;
 
@@ -38,6 +42,8 @@ public class Keys {
     public static final Identity<AddressRecord, Long> IDENTITY_ADDRESS = Identities0.IDENTITY_ADDRESS;
     public static final Identity<CompanyRecord, Long> IDENTITY_COMPANY = Identities0.IDENTITY_COMPANY;
     public static final Identity<GroupRecord, Long> IDENTITY_GROUP = Identities0.IDENTITY_GROUP;
+    public static final Identity<NotificationRecord, Long> IDENTITY_NOTIFICATION = Identities0.IDENTITY_NOTIFICATION;
+    public static final Identity<ProtectedReviewLogRecord, Long> IDENTITY_PROTECTED_REVIEW_LOG = Identities0.IDENTITY_PROTECTED_REVIEW_LOG;
     public static final Identity<ReviewRecord, Long> IDENTITY_REVIEW = Identities0.IDENTITY_REVIEW;
     public static final Identity<UsersRecord, Long> IDENTITY_USERS = Identities0.IDENTITY_USERS;
 
@@ -49,7 +55,10 @@ public class Keys {
     public static final UniqueKey<CompanyRecord> COMPANY_PK = UniqueKeys0.COMPANY_PK;
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = UniqueKeys0.FLYWAY_SCHEMA_HISTORY_PK;
     public static final UniqueKey<GroupRecord> GROUP_PK = UniqueKeys0.GROUP_PK;
+    public static final UniqueKey<NotificationRecord> NOTIFICATION_PK = UniqueKeys0.NOTIFICATION_PK;
+    public static final UniqueKey<ProtectedReviewLogRecord> PROTECTED_REVIEW_LOG_PK = UniqueKeys0.PROTECTED_REVIEW_LOG_PK;
     public static final UniqueKey<ReviewRecord> REVIEW_PK = UniqueKeys0.REVIEW_PK;
+    public static final UniqueKey<UsersRecord> USERS_PK = UniqueKeys0.USERS_PK;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -58,6 +67,8 @@ public class Keys {
     public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
     public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE;
     public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = ForeignKeys0.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE;
+    public static final ForeignKey<NotificationRecord, UsersRecord> NOTIFICATION__FK__NOTIFICATION_ID__USERS_ID__ON_DELETE_CASCADE = ForeignKeys0.NOTIFICATION__FK__NOTIFICATION_ID__USERS_ID__ON_DELETE_CASCADE;
+    public static final ForeignKey<ProtectedReviewLogRecord, ReviewRecord> PROTECTED_REVIEW_LOG__FK__PROTECTED_REVIEW_LOG_REVIEW_ID__REVIEW_ID__ON_DELETE_CASCAD = ForeignKeys0.PROTECTED_REVIEW_LOG__FK__PROTECTED_REVIEW_LOG_REVIEW_ID__REVIEW_ID__ON_DELETE_CASCAD;
     public static final ForeignKey<ReviewRecord, GroupRecord> REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE = ForeignKeys0.REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE;
 
     // -------------------------------------------------------------------------
@@ -68,6 +79,8 @@ public class Keys {
         public static Identity<AddressRecord, Long> IDENTITY_ADDRESS = Internal.createIdentity(Address.ADDRESS, Address.ADDRESS.ID);
         public static Identity<CompanyRecord, Long> IDENTITY_COMPANY = Internal.createIdentity(Company.COMPANY, Company.COMPANY.ID);
         public static Identity<GroupRecord, Long> IDENTITY_GROUP = Internal.createIdentity(Group.GROUP, Group.GROUP.ID);
+        public static Identity<NotificationRecord, Long> IDENTITY_NOTIFICATION = Internal.createIdentity(Notification.NOTIFICATION, Notification.NOTIFICATION.ID);
+        public static Identity<ProtectedReviewLogRecord, Long> IDENTITY_PROTECTED_REVIEW_LOG = Internal.createIdentity(ProtectedReviewLog.PROTECTED_REVIEW_LOG, ProtectedReviewLog.PROTECTED_REVIEW_LOG.ID);
         public static Identity<ReviewRecord, Long> IDENTITY_REVIEW = Internal.createIdentity(Review.REVIEW, Review.REVIEW.ID);
         public static Identity<UsersRecord, Long> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID);
     }
@@ -77,13 +90,18 @@ public class Keys {
         public static final UniqueKey<CompanyRecord> COMPANY_PK = Internal.createUniqueKey(Company.COMPANY, "company_pk", new TableField[] { Company.COMPANY.ID }, true);
         public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, "flyway_schema_history_pk", new TableField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK }, true);
         public static final UniqueKey<GroupRecord> GROUP_PK = Internal.createUniqueKey(Group.GROUP, "group_pk", new TableField[] { Group.GROUP.ID }, true);
+        public static final UniqueKey<NotificationRecord> NOTIFICATION_PK = Internal.createUniqueKey(Notification.NOTIFICATION, "notification_pk", new TableField[] { Notification.NOTIFICATION.ID }, true);
+        public static final UniqueKey<ProtectedReviewLogRecord> PROTECTED_REVIEW_LOG_PK = Internal.createUniqueKey(ProtectedReviewLog.PROTECTED_REVIEW_LOG, "protected_review_log_pk", new TableField[] { ProtectedReviewLog.PROTECTED_REVIEW_LOG.ID }, true);
         public static final UniqueKey<ReviewRecord> REVIEW_PK = Internal.createUniqueKey(Review.REVIEW, "review_pk", new TableField[] { Review.REVIEW.ID }, true);
+        public static final UniqueKey<UsersRecord> USERS_PK = Internal.createUniqueKey(Users.USERS, "users_pk", new TableField[] { Users.USERS.ID }, true);
     }
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AddressRecord, CompanyRecord> ADDRESS__FK__ADDRESS_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Address.ADDRESS, "fk__address_company_id__company_id__on_delete_cascade", new TableField[] { Address.ADDRESS.COMPANY_ID }, true);
         public static final ForeignKey<GroupRecord, GroupRecord> GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.GROUP_PK, Group.GROUP, "fk__group_parent_id__group_id__on_delete_cascade", new TableField[] { Group.GROUP.PARENT_ID }, true);
         public static final ForeignKey<GroupRecord, CompanyRecord> GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.COMPANY_PK, Group.GROUP, "fk__group_company_id__company_id__on_delete_cascade", new TableField[] { Group.GROUP.COMPANY_ID }, true);
+        public static final ForeignKey<NotificationRecord, UsersRecord> NOTIFICATION__FK__NOTIFICATION_ID__USERS_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.USERS_PK, Notification.NOTIFICATION, "fk__notification_id__users_id__on_delete_cascade", new TableField[] { Notification.NOTIFICATION.USER_ID }, true);
+        public static final ForeignKey<ProtectedReviewLogRecord, ReviewRecord> PROTECTED_REVIEW_LOG__FK__PROTECTED_REVIEW_LOG_REVIEW_ID__REVIEW_ID__ON_DELETE_CASCAD = Internal.createForeignKey(Keys.REVIEW_PK, ProtectedReviewLog.PROTECTED_REVIEW_LOG, "fk__protected_review_log_review_id__review_id__on_delete_cascad", new TableField[] { ProtectedReviewLog.PROTECTED_REVIEW_LOG.REVIEW_ID }, true);
         public static final ForeignKey<ReviewRecord, GroupRecord> REVIEW__FK__REVIEW_ID__GROUP_ID__ON_DELETE_CASCADE = Internal.createForeignKey(Keys.GROUP_PK, Review.REVIEW, "fk__review_id__group_id__on_delete_cascade", new TableField[] { Review.REVIEW.GROUP_ID }, true);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.state.entities.User;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ public record CompanyGetServiceResponse(
     @JsonProperty CompanyStatistic companyStatistic,
     @JsonProperty List<RecursiveGroupTree> companyGroups,
     @JsonProperty List<Address> companyAddresses,
-    @JsonProperty Map<Long, List<Review>> companyReviews
+    @JsonProperty Map<Long, List<Review>> companyReviews,
+    @JsonProperty Map<Long, User> companyUsers
 )
 {
 }

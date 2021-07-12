@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.api.services;
 
 import lombok.NonNull;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Service
-@Log
+@Slf4j
 public class JavaxValidatorService<T>
 {
     public void validateWithConsoleLog(@NonNull T entity)

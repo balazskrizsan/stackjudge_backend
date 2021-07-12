@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public record Group(
     Long id,
-    long companyId,
     Long parentId,
-    short typeId,
+    long companyId,
     String name,
+    short typeId,
     short membersOnGroupId,
     LocalDateTime createdAt,
     Long createdBy

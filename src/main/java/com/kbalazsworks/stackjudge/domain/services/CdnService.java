@@ -10,43 +10,20 @@ import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class CdnService
 {
-    private S3Repository             s3Repository;
-    private ApplicationProperties    applicationProperties;
-    private LocalDateTimeFactory     localDateTimeFactory;
-    private DateTimeFormatterService dateTimeFormatterService;
-
-    @Autowired
-    public void setS3Repository(S3Repository s3Repository)
-    {
-        this.s3Repository = s3Repository;
-    }
-
-    @Autowired
-    public void setApplicationProperties(ApplicationProperties applicationProperties)
-    {
-        this.applicationProperties = applicationProperties;
-    }
-
-    @Autowired
-    public void setLocalDateTimeFactory(LocalDateTimeFactory localDateTimeFactory)
-    {
-        this.localDateTimeFactory = localDateTimeFactory;
-    }
-
-    @Autowired
-    public void setDateTimeFormatterService(DateTimeFormatterService dateTimeFormatterService)
-    {
-        this.dateTimeFormatterService = dateTimeFormatterService;
-    }
+    private final ApplicationProperties    applicationProperties;
+    private final LocalDateTimeFactory     localDateTimeFactory;
+    private final DateTimeFormatterService dateTimeFormatterService;
+    private final S3Repository             s3Repository;
 
     public CdnServicePutResponse put(
         @NonNull CdnNamespaceEnum cdnNamespaceEnum,
@@ -54,7 +31,7 @@ public class CdnService
         @NonNull String fileExtension,
         @NonNull MultipartFile content
     )
-    throws AmazonS3Exception
+        throws AmazonS3Exception
     {
         return put(cdnNamespaceEnum, "", fileName, fileExtension, content);
     }

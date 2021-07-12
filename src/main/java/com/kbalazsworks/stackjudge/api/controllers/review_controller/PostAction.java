@@ -8,7 +8,7 @@ import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,22 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("ReviewPostAction")
 @RequestMapping(ReviewConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class PostAction
 {
-    private ReviewService reviewService;
-    private StateService  stateService;
-
-    @Autowired
-    public void setReviewService(ReviewService reviewService)
-    {
-        this.reviewService = reviewService;
-    }
-
-    @Autowired
-    public void setStateService(StateService stateService)
-    {
-        this.stateService = stateService;
-    }
+    private final ReviewService reviewService;
+    private final StateService  stateService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseData<String>> action(ReviewCreateRequest request) throws ApiException

@@ -7,12 +7,15 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.enums.review_table.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.*;
+import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +42,7 @@ public class CompanyService
     private final PaginatorService  paginatorService;
     private final JooqService       jooqService;
     private final CdnService        cdnService;
+    private final AccountService    accountService;
     private final CompanyRepository companyRepository;
 
     public void delete(long companyId)
@@ -60,7 +65,8 @@ public class CompanyService
             searchResponse.companyStatistics().get(companyId),
             searchResponse.companyGroups().get(companyId),
             searchResponse.companyAddresses().get(companyId),
-            searchResponse.companyReviews().get(companyId)
+            searchResponse.companyReviews().get(companyId),
+            searchResponse.companyUsers()
         );
     }
 
@@ -100,6 +106,8 @@ public class CompanyService
         Long                                newSeekId         = null;
         Map<Long, List<Address>>            companyAddresses  = new HashMap<>();
         Map<Long, Map<Long, List<Review>>>  companyReviews    = new HashMap<>();
+        Map<Long, User>                     companyUsers      = new HashMap<>();
+        List<Long>                          affectedUserIds   = new ArrayList<>();
 
         if (requestRelationIds != null)
         {
@@ -117,7 +125,8 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
             {
-                newSeekId = companies.get(0).id();
+                // @todo: test the condition
+                newSeekId = companies.isEmpty() ? 0 : companies.get(0).id();
                 paginator = paginatorService.generate(countRecordsBeforeId(newSeekId), countRecords(), limit);
             }
 
@@ -128,9 +137,19 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))
             {
-                companyReviews = reviewService.search(companyIds);
+                companyReviews = reviewService.maskProtectedReviewCreatedBys(reviewService.search(companyIds));
+
+                companyReviews.forEach((companyId, items) ->
+                    items.forEach((groupId, review) ->
+                        affectedUserIds.addAll(review.stream().map(Review::createdBy).collect(Collectors.toList()))
+                    )
+                );
             }
 
+            if (!affectedUserIds.isEmpty())
+            {
+                companyUsers = accountService.findByUserIdsWithIdMap(affectedUserIds);
+            }
         }
 
         return new CompanySearchServiceResponse(
@@ -140,7 +159,8 @@ public class CompanyService
             newSeekId,
             companyStatistics,
             companyAddresses,
-            companyReviews
+            companyReviews,
+            companyUsers
         );
     }
 

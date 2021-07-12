@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.DeleteRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("CompanyDeleteAction")
 @RequestMapping(CompanyConfig.CONTROLLER_URI)
+@RequiredArgsConstructor
 public class DeleteAction
 {
-    private CompanyService companyService;
-
-    @Autowired
-    public void setCompanyService(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
+    private final CompanyService companyService;
 
     @DeleteMapping("{companyId}")
     public ResponseEntity<ResponseData<String>> action(DeleteRequest request) throws Exception
