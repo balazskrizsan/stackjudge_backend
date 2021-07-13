@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.api.builders;
 
-import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.kbalazsworks.stackjudge.api.services.FacebookApi10Service;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,6 @@ public class OAuthFacebookServiceBuilder
         return new ServiceBuilder(applicationProperties.getFacebookClientId())
             .apiSecret(applicationProperties.getFacebookClientSecret())
             .callback(applicationProperties.getFacebookCallbackUrl())
-            .build(FacebookApi.instance());
+            .build(FacebookApi10Service.instance());
     }
 }
