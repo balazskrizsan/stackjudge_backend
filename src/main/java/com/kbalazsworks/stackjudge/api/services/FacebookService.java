@@ -28,7 +28,7 @@ public class FacebookService
         OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
             .apiSecret(applicationProperties.getFacebookClientSecret())
             .callback(applicationProperties.getFacebookCallbackUrl())
-            .build(FacebookApi10Service.instance());
+            .build(FacebookLatestApiService.instance());
 
         return service.createAuthorizationUrlBuilder()
             .state(currentStateId)

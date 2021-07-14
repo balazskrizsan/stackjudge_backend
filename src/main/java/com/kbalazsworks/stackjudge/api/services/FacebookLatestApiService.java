@@ -9,38 +9,18 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
-import com.kbalazsworks.stackjudge.api.services.facebook_service.FacebookApi10SignService;
+import com.kbalazsworks.stackjudge.api.services.facebook_service.FacebookLatestApiSignService;
 
 import java.io.OutputStream;
 
-public class FacebookApi10Service extends DefaultApi20
+public class FacebookLatestApiService extends DefaultApi20
 {
-    private final String version;
+    private final        String                   latestVersion = "10.0";
+    private static final FacebookLatestApiService INSTANCE      = new FacebookLatestApiService();
 
-    protected FacebookApi10Service()
+    public static FacebookLatestApiService instance()
     {
-        this("10.0");
-    }
-
-    protected FacebookApi10Service(String version)
-    {
-        this.version = version;
-    }
-
-    private static class InstanceHolder
-    {
-
-        private static final FacebookApi10Service INSTANCE = new FacebookApi10Service();
-    }
-
-    public static FacebookApi10Service instance()
-    {
-        return FacebookApi10Service.InstanceHolder.INSTANCE;
-    }
-
-    public static FacebookApi10Service customVersion(String version)
-    {
-        return new FacebookApi10Service(version);
+        return INSTANCE;
     }
 
     @Override
@@ -52,7 +32,7 @@ public class FacebookApi10Service extends DefaultApi20
     @Override
     public String getAccessTokenEndpoint()
     {
-        return "https://graph.facebook.com/v" + version + "/oauth/access_token";
+        return "https://graph.facebook.com/v" + latestVersion + "/oauth/access_token";
     }
 
     @Override
@@ -64,7 +44,7 @@ public class FacebookApi10Service extends DefaultApi20
     @Override
     protected String getAuthorizationBaseUrl()
     {
-        return "https://www.facebook.com/v" + version + "/dialog/oauth";
+        return "https://www.facebook.com/v" + latestVersion + "/dialog/oauth";
     }
 
     @Override
@@ -80,7 +60,7 @@ public class FacebookApi10Service extends DefaultApi20
     }
 
     @Override
-    public FacebookApi10SignService createService(
+    public FacebookLatestApiSignService createService(
         String apiKey,
         String apiSecret,
         String callback,
@@ -92,7 +72,7 @@ public class FacebookApi10Service extends DefaultApi20
         HttpClient httpClient
     )
     {
-        return new FacebookApi10SignService(
+        return new FacebookLatestApiSignService(
             this,
             apiKey,
             apiSecret,

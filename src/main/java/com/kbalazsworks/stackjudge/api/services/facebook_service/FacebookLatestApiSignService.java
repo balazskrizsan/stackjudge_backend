@@ -4,7 +4,7 @@ import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.kbalazsworks.stackjudge.api.services.FacebookApi10Service;
+import com.kbalazsworks.stackjudge.api.services.FacebookLatestApiService;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,10 +13,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-public class FacebookApi10SignService extends OAuth20Service
+public class FacebookLatestApiSignService extends OAuth20Service
 {
-    public FacebookApi10SignService(
-        FacebookApi10Service api,
+    public FacebookLatestApiSignService(
+        FacebookLatestApiService api,
         String apiKey,
         String apiSecret,
         String callback,
