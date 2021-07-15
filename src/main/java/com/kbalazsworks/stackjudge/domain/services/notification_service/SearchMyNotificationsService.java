@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.domain.entities.ITypedNotification;
 import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
 import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
 import com.kbalazsworks.stackjudge.domain.entities.notification.DataProtectedReview;
-import com.kbalazsworks.stackjudge.domain.enums.notification.NotificationType;
+import com.kbalazsworks.stackjudge.domain.enums.notification.NotificationTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class SearchMyNotificationsService
         return rawNotifications
             .stream()
             .map(r -> {
-                if (r.getType() == NotificationType.PROTECTED_VIEW.getValue())
+                if (r.getType() == NotificationTypeEnum.PROTECTED_VIEW.getValue())
                 {
                     return new TypedNotification<>(
                         r.getId(),
@@ -76,7 +76,7 @@ public class SearchMyNotificationsService
         return typedNotifications
             .stream()
             .map(r -> {
-                if (r.getType() == NotificationType.PROTECTED_VIEW.getValue())
+                if (r.getType() == NotificationTypeEnum.PROTECTED_VIEW.getValue())
                 {
                     return ((DataProtectedReview) r.getData()).getViewerUserId();
                 }

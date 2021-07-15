@@ -1,14 +1,20 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
+import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
+import lombok.extern.slf4j.Slf4j;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.jooq.JSONB;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.jooq.impl.DSL.field;
 
 @Repository
+@Slf4j
 public class NotificationRepository extends AbstractRepository
 {
     private final com.kbalazsworks.stackjudge.db.tables.Notification notificationTable
@@ -51,6 +57,35 @@ public class NotificationRepository extends AbstractRepository
             .where(
                 notificationTable.ID.eq(notificationId)
                     .and(notificationTable.USER_ID.eq(userId))
+            )
+            .execute();
+    }
+
+    public <T> void create(TypedNotification<T> typedNotification)
+    {
+        String data = "{}";
+        try
+        {
+            data = new ObjectMapper().writeValueAsString(typedNotification.getData());
+        }
+        catch (IOException e)
+        {
+            log.error("Parse error on TypeNotification.data", e);
+        }
+
+        getQueryBuilder()
+            .insertInto(
+                notificationTable,
+                notificationTable.USER_ID,
+                notificationTable.TYPE,
+                notificationTable.DATA,
+                notificationTable.CREATED_AT
+            )
+            .values(
+                typedNotification.getUserId(),
+                typedNotification.getType(),
+                JSONB.valueOf(data),
+                typedNotification.getCreatedAt()
             )
             .execute();
     }
