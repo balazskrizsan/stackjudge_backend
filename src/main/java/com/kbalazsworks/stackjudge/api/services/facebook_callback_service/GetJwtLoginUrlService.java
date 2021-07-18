@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.oauth.AccessTokenRequestParams;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
 import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
@@ -56,11 +57,11 @@ public class GetJwtLoginUrlService
         throw new AuthException();
     }
 
-    public OAuth2AccessToken getAccessToken(OAuth20Service service, String code) throws AuthException
+    public OAuth2AccessToken getAccessToken(OAuth20Service service, AccessTokenRequestParams params) throws AuthException
     {
         try
         {
-            return service.getAccessToken(code);
+            return service.getAccessToken(params);
         }
         catch (IOException e)
         {
