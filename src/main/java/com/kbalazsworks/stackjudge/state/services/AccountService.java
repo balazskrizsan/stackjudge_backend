@@ -73,15 +73,18 @@ public class AccountService
     // @todo: test
     public User getByReviewId(long reviewId, State state)
     {
+        User user = usersRepository.getByReviewId(reviewId);
+
         protectedReviewLogService.create(
             new ProtectedReviewLog(
                 null,
-                state.currentUser().getId(),
+                user.getId(),
                 reviewId,
                 state.now()
-            )
+            ),
+            state
         );
 
-        return usersRepository.getByReviewId(reviewId);
+        return user;
     }
 }

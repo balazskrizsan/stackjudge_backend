@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.api.services;
 
-import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -10,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -18,15 +19,23 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 public class FacebookService
 {
     private final SecureRandom stateGenerator = new SecureRandom();
+    private final SecureRandomService   secureRandomService;
+
+    // @todo: hello redis
+    public static List<String> stateStore = new ArrayList<>();
 
     private final ApplicationProperties applicationProperties;
     private final RedisTemplate<String, String> redisTemplate;
 
+    // @todo: test
     public String registrationAndLogin() {
+        String currentStateId = "secret_" + secureRandomService.get(32);
+        FacebookService.stateStore.add(currentStateId);
+
         OAuth20Service service = oAuthService();
 
         AuthorizationUrlBuilder authorizationUrlBuilder = service.createAuthorizationUrlBuilder()
-                .state("secret" + stateGenerator.nextInt(999_999))
+                .state(currentStateId)
                 .initPKCE();
 
         cacheCodeVerifier(authorizationUrlBuilder.getPkce().getCodeVerifier());
@@ -38,7 +47,7 @@ public class FacebookService
         return new ServiceBuilder(applicationProperties.getFacebookClientId())
                 .apiSecret(applicationProperties.getFacebookClientSecret())
                 .callback(applicationProperties.getFacebookCallbackUrl())
-                .build(FacebookApi.instance());
+                .build(FacebookLatestApiService.instance());
     }
 
     private void cacheCodeVerifier(String codeVerifier) {

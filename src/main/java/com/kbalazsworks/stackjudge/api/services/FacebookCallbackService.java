@@ -34,18 +34,26 @@ public class FacebookCallbackService
     // @todo: test: callWithValidCodeWithNotExistingUser_returnsValidRedirectUrlAndCreateNewUser
     // @todo: test: callWithValidCodeGenerateLoginUrlThrowsException_logTheErrorAndRollbackTheDatabase
     @Transactional
-    public String getJwtLoginUrl(String code) throws AuthException
+    public String getJwtLoginUrl(String code, String state) throws AuthException
     {
+        if (!FacebookService.stateStore.contains(state))
+        {
+            log.error("Facebook authentication error with state: " + state);
+            throw new AuthException();
+        }
+
+        FacebookService.stateStore.remove(state);
+
         OAuth20Service service = oAuthFacebookServiceBuilder.create();
 
-  //      String codeVerifier = redisTemplate.opsForValue().get(service.getApiKey());
-  //      redisTemplate.delete(service.getApiKey());
+        String codeVerifier = redisTemplate.opsForValue().get(service.getApiKey());
+        redisTemplate.delete(service.getApiKey());
 
         OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(
                 service,
                 AccessTokenRequestParams
                         .create(code)
-  //                      .pkceCodeVerifier(codeVerifier)
+                        .pkceCodeVerifier(codeVerifier)
         );
 
         OAuthRequest request = new OAuthRequest(Verb.GET, FACEBOOK_GRAPH_API);

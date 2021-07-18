@@ -4,14 +4,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public enum NotificationType
+public enum NotificationTypeEnum
 {
     PROTECTED_VIEW((short) 1);
 
-    final private        short                        value;
-    private static final Map<Short, NotificationType> ENUM_MAP;
+    final private        short                            value;
+    private static final Map<Short, NotificationTypeEnum> ENUM_MAP;
 
-    NotificationType(short value)
+    NotificationTypeEnum(short value)
     {
         this.value = value;
     }
@@ -23,15 +23,15 @@ public enum NotificationType
 
     static
     {
-        Map<Short, NotificationType> map = new ConcurrentHashMap<>();
-        for (NotificationType instance : NotificationType.values())
+        Map<Short, NotificationTypeEnum> map = new ConcurrentHashMap<>();
+        for (NotificationTypeEnum instance : NotificationTypeEnum.values())
         {
             map.put(instance.getValue(), instance);
         }
         ENUM_MAP = Collections.unmodifiableMap(map);
     }
 
-    public static NotificationType getByValue(short name)
+    public static NotificationTypeEnum getByValue(short name)
     {
         return ENUM_MAP.get(name);
     }
