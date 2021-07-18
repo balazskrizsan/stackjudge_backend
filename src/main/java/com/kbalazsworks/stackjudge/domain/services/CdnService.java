@@ -11,12 +11,14 @@ import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CdnService
 {
@@ -44,6 +46,7 @@ public class CdnService
         @NonNull MultipartFile content
     ) throws AmazonS3Exception
     {
+        String pathAndFile = "";
         try
         {
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -52,11 +55,11 @@ public class CdnService
 
             long unixTimestamp = dateTimeFormatterService.toEpoch(localDateTimeFactory.create());
 
-            String pathAndFile = cdnNamespaceEnum.getValue()
+            pathAndFile = cdnNamespaceEnum.getValue()
                 + subfolder
                 + "/" + fileName + "-" + unixTimestamp + "." + fileExtension;
 
-            return new CdnServicePutResponse(
+            CdnServicePutResponse response =  new CdnServicePutResponse(
                 s3Repository.put(
                     new PutObjectRequest(
                         applicationProperties.getAwsS3CdnBucket(),
@@ -67,10 +70,14 @@ public class CdnService
                 ),
                 pathAndFile
             );
+
+            log.info("Successful AWS S3 upload: " + response.path());
+
+            return response;
         }
         catch (IOException e)
         {
-            throw new AmazonS3Exception("File upload error.");
+            throw new AmazonS3Exception("AWS S3 upload error on: " + pathAndFile);
         }
     }
 }
