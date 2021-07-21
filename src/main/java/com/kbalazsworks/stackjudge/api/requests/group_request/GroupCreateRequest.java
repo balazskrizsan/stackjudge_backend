@@ -3,11 +3,15 @@ package com.kbalazsworks.stackjudge.api.requests.group_request;
 import javax.validation.constraints.*;
 
 public record GroupCreateRequest(
+
+    @Positive
+    Long parentId,
+
     @Positive
     long companyId,
 
     @Positive
-    Long parentId,
+    long addressId,
 
     @Min(1)
     @Max(4)

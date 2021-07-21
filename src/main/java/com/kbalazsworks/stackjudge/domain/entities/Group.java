@@ -6,6 +6,7 @@ public record Group(
     Long id,
     Long parentId,
     long companyId,
+    long addressId,
     String name,
     short typeId,
     short membersOnGroupId,

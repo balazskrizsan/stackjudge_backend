@@ -43,18 +43,18 @@ VALUES (1, 1, 'Deák Ferenc tér 1, Budapest, 1052', 47.5167111, 19.0521111, 47.
        (9, 3, 'Deák Ferenc tér 9, Budapest, 1052', 47.5167989, 19.0528999, NULL, NULL, '2020-11-09 11:22:33', 9),
        (10, 4, 'Deák Ferenc tér 10, Budapest, 1052', 47.5167999, 19.0528989, NULL, NULL, '2020-11-10 11:22:33', 10);
 
-INSERT INTO "group" (id, company_id, parent_id, type_id, name, members_on_group_id, created_at, created_by)
+INSERT INTO "group" (id, company_id, address_id, parent_id, type_id, name, members_on_group_id, created_at, created_by)
 -- company: 1
-VALUES (1, 1, null, 1, 'Level 0 - Company', 1, '2020-01-01 01:01:01', 1),
-       (2, 1, 1, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
-       (3, 1, 2, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
-       (4, 1, 3, 4, 'Level 3 - Technology', 1, '2020-01-01 01:01:01', 1),
-       (5, 1, null, 1, 'Level 0 - Company', 1, '2020-01-01 01:01:01', 1),
-       (6, 1, 5, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
-       (7, 1, 6, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
-       (8, 1, 5, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
-       (9, 1, 8, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
-       (10, 1, 9, 4, 'Level 3 - Technology', 1, '2020-01-01 01:01:01', 1);
+VALUES (1, 1, 1, null, 1, 'Level 0 - Company', 1, '2020-01-01 01:01:01', 1),
+       (2, 1, 1, 1, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
+       (3, 1, 1, 2, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
+       (4, 1, 2, 3, 4, 'Level 3 - Technology', 1, '2020-01-01 01:01:01', 1),
+       (5, 1, 2, null, 1, 'Level 0 - Company', 1, '2020-01-01 01:01:01', 1),
+       (6, 1, 2, 5, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
+       (7, 1, 3, 6, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
+       (8, 1, 3, 5, 2, 'Level 1 - Team', 1, '2020-01-01 01:01:01', 1),
+       (9, 1, 4, 8, 3, 'Level 2 - Stack', 1, '2020-01-01 01:01:01', 1),
+       (10, 1, 4, 9, 4, 'Level 3 - Technology', 1, '2020-01-01 01:01:01', 1);
 
 -- requires: preset_add_10_groups.sql
 INSERT INTO "review" (id, group_id, visibility, rate, review, created_at, created_by)

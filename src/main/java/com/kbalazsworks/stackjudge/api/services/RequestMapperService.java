@@ -19,6 +19,7 @@ public class RequestMapperService
             null,
             request.parentId(),
             request.companyId(),
+            request.addressId(),
             request.name(),
             request.typeId(),
             request.membersOnStackId(),

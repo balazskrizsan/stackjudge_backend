@@ -37,12 +37,12 @@ public class GroupServiceGenerateTreeStructureTest extends AbstractIntegrationTe
     {
         if (repetition == 1)
         {
-            RecursiveGroup rg1 = new RecursiveGroup(1L, "A1", (short) 11, 111L, null, 1, "1");
-            RecursiveGroup rg2 = new RecursiveGroup(2L, "B1", (short) 22, 222L, 1L, 2, "1>2");
-            RecursiveGroup rg3 = new RecursiveGroup(3L, "C1", (short) 22, 333L, 2L, 3, "1>2>3");
-            RecursiveGroup rg4 = new RecursiveGroup(4L, "C2", (short) 44, 444L, 2L, 3, "1>2>3");
-            RecursiveGroup rg5 = new RecursiveGroup(5L, "Q1", (short) 55, 555L, null, 1, "5");
-            RecursiveGroup rg6 = new RecursiveGroup(6L, "W2", (short) 55, 666L, 5L, 2, "5>6");
+            RecursiveGroup rg1 = new RecursiveGroup(1L, "A1", (short) 11, 111L, 1111L, null, 1, "1");
+            RecursiveGroup rg2 = new RecursiveGroup(2L, "B1", (short) 22, 222L, 2222L, 1L, 2, "1>2");
+            RecursiveGroup rg3 = new RecursiveGroup(3L, "C1", (short) 22, 333L, 3333L, 2L, 3, "1>2>3");
+            RecursiveGroup rg4 = new RecursiveGroup(4L, "C2", (short) 44, 444L, 4444L, 2L, 3, "1>2>3");
+            RecursiveGroup rg5 = new RecursiveGroup(5L, "Q1", (short) 55, 555L, 5555L, null, 1, "5");
+            RecursiveGroup rg6 = new RecursiveGroup(6L, "W2", (short) 55, 666L, 6666L, 5L, 2, "5>6");
 
             return new TestData(
                 List.of(rg1, rg2, rg3, rg4, rg5, rg6),
@@ -65,7 +65,7 @@ public class GroupServiceGenerateTreeStructureTest extends AbstractIntegrationTe
 
         if (repetition == 2)
         {
-            RecursiveGroup rg = new RecursiveGroup(1L, "A1", (short) 11, 111L, null, 1, "1");
+            RecursiveGroup rg = new RecursiveGroup(1L, "A1", (short) 11, 111L, 1111L, null, 1, "1");
 
             return new TestData(
                 List.of(rg),
