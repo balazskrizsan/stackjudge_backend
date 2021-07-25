@@ -1,37 +1,43 @@
 package com.kbalazsworks.stackjudge.api.services;
 
-import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
-public class FacebookService
-{
-    // @todo: hello redis
-    public static List<String> stateStore = new ArrayList<>();
-
-    private final ApplicationProperties applicationProperties;
-    private final SecureRandomService   secureRandomService;
+public class FacebookService {
+    private final JedisPool jedisPool;
+    private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
+    private final SecureRandomService secureRandomService;
 
     // @todo: test
-    public String registrationAndLogin()
-    {
-        String currentStateId = "secret_" + secureRandomService.get(32);
-        FacebookService.stateStore.add(currentStateId);
+    public String registrationAndLogin() {
 
-        OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
-            .apiSecret(applicationProperties.getFacebookClientSecret())
-            .callback(applicationProperties.getFacebookCallbackUrl())
-            .build(FacebookLatestApiService.instance());
+        String currentStateId = "secret_" + secureRandomService.get(32);
+
+        OAuth20Service service = oAuthFacebookServiceBuilder.create();
+
+        saveState(currentStateId);
 
         return service.createAuthorizationUrlBuilder()
-            .state(currentStateId)
-            .build();
+                .state(currentStateId)
+                .build();
+
     }
+
+    private void saveState(String state) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(state, "");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException("The state could not be saved!");
+        }
+    }
+
 }
