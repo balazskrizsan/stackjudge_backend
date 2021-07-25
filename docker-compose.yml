@@ -2,32 +2,12 @@ version: "3.9"
 services:
   backend:
     container_name: "stack_judge_backend"
+    ports:
+      - "8181:8181"
+    env_file: ${ENV_FILE}
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - "SERVER_PORT=8181"
-      - "IS_SEARCH_BOX_LOG_ENABLED=false"
-      - "HEALTH_CHECK_ENV_VAR_TEST=env var test"
-      - "SPRING_DATASOURCE_URL=jdbc:postgresql://stack_judge_postgres:5432/stackjudge_test"
-      - "SPRING_DATASOURCE_USERNAME=homestead"
-      - "FACEBOOK_CALLBACK_URL=https://localhost:8181/account/facebook-callback"
-      - "SITE_DOMAIN=dev.stackjudge.com"
-      - "SPRING_REDIS_PASSWORD="
-      - "SERVER_SSL_ENABLED=true"
-      - "SPRING_DATASOURCE_PASSWORD=secret"
-      - "SPRING_REDIS_HOST=stack_judge_redis"
-      - "HTTP_CORS_ORIGINS=http://localhost:4200"
-      - "AUTH_JWT_SECRET=12345678901234567890123456789012"
-      - "FACEBOOK_CLIENT_ID=6256044054421319"
-      - "SPRING_REDIS_PORT=6379"
-      - "AWS_S3_CDN_BUCKET=stack-judge-cdn-dev-eu-central-1"
-      - "SERVER_ENV=LOCAL"
-      - "AWS_SECRET_KEY=zxxvzxcv"
-      - "ENV_SEARCHLY_URL=https://paas:1d687870c6c677458f7c33d62b04a03f@gimli-eu-west-1.searchly.com"
-      - "AWS_ACCESS_KEY=zcvzcvzxcv"
-      - "FACEBOOK_CLIENT_SECRET=02d0121396bc2c5f2a3e5713a620a7c2"
-      - "SITE_FRONTEND_DOMAIN=http://localhost:4200/"
     depends_on:
       - postgres
       - redis
@@ -37,11 +17,7 @@ services:
     container_name: "stack_judge_postgres"
     ports:
       - "54320:5432"
-    environment:
-      - "POSTGRES_PASSWORD=password"
-      - "POSTGRES_USER=homestead"
-      - "POSTGRES_PASSWORD=secret"
-      - "POSTGRES_DB=stackjudge_test"
+    env_file: ${ENV_FILE}
 
   redis:
     image: "redis:6.2.4"
