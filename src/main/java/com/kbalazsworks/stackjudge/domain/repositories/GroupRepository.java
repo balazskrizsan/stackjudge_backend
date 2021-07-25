@@ -27,6 +27,7 @@ public class GroupRepository extends AbstractRepository
                 groupTable,
                 groupTable.COMPANY_ID,
                 groupTable.PARENT_ID,
+                groupTable.ADDRESS_ID,
                 groupTable.TYPE_ID,
                 groupTable.NAME,
                 groupTable.MEMBERS_ON_GROUP_ID,
@@ -36,6 +37,7 @@ public class GroupRepository extends AbstractRepository
             .values(
                 group.companyId(),
                 group.parentId(),
+                group.addressId(),
                 group.typeId(),
                 group.name(),
                 group.membersOnGroupId(),
@@ -49,10 +51,10 @@ public class GroupRepository extends AbstractRepository
     {
         return getQueryBuilder()
             .resultQuery(
-                "WITH RECURSIVE rec(id, name, type_id, company_id, parent_id, depth, path) AS ("
-                    + "     SELECT S.id, S.name, S.type_id, S.company_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
+                "WITH RECURSIVE rec(id, name, type_id, company_id, address_id, parent_id, depth, path) AS ("
+                    + "     SELECT S.id, S.name, S.type_id, S.company_id, S.address_id, S.parent_id, 1::INT AS depth, S.id::TEXT AS path FROM \"group\" AS S WHERE S.company_id IN ({0}) AND parent_id IS NULL"
                     + "     UNION ALL"
-                    + "     SELECT SR.id, SR.name, SR.type_id, SR.company_id, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) AS path FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
+                    + "     SELECT SR.id, SR.name, SR.type_id, SR.company_id, SR.address_id, SR.parent_id, R.depth + 1 AS depth, (R.path || '>' || SR.id::TEXT) AS path FROM rec AS R, \"group\" AS SR WHERE SR.parent_id = R.id"
                     + " )"
                     + " SELECT * FROM rec"
                     + " ORDER BY path;",

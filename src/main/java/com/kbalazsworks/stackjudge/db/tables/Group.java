@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Group extends TableImpl<GroupRecord> {
 
-    private static final long serialVersionUID = -279324952;
+    private static final long serialVersionUID = 1218364376;
 
     /**
      * The reference instance of <code>public.group</code>
@@ -62,6 +62,11 @@ public class Group extends TableImpl<GroupRecord> {
      * The column <code>public.group.company_id</code>.
      */
     public final TableField<GroupRecord, Long> COMPANY_ID = createField(DSL.name("company_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
+     * The column <code>public.group.address_id</code>.
+     */
+    public final TableField<GroupRecord, Long> ADDRESS_ID = createField(DSL.name("address_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.group.name</code>.
@@ -143,7 +148,7 @@ public class Group extends TableImpl<GroupRecord> {
 
     @Override
     public List<ForeignKey<GroupRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<GroupRecord, ?>>asList(Keys.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE);
+        return Arrays.<ForeignKey<GroupRecord, ?>>asList(Keys.GROUP__FK__GROUP_PARENT_ID__GROUP_ID__ON_DELETE_CASCADE, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE, Keys.GROUP__FK__GROUP_ADDRESS_ID__ADDRESS_ID__ON_DELETE_CASCADE);
     }
 
     public Group group() {
@@ -152,6 +157,10 @@ public class Group extends TableImpl<GroupRecord> {
 
     public Company company() {
         return new Company(this, Keys.GROUP__FK__GROUP_COMPANY_ID__COMPANY_ID__ON_DELETE_CASCADE);
+    }
+
+    public Address address() {
+        return new Address(this, Keys.GROUP__FK__GROUP_ADDRESS_ID__ADDRESS_ID__ON_DELETE_CASCADE);
     }
 
     @Override
@@ -181,11 +190,11 @@ public class Group extends TableImpl<GroupRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Long, Long, String, Short, Short, LocalDateTime, Long> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, Long, Long, Long, String, Short, Short, LocalDateTime, Long> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

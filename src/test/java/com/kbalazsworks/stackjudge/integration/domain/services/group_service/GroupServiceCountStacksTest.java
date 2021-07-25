@@ -48,6 +48,7 @@ public class GroupServiceCountStacksTest extends AbstractIntegrationTest
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_3_companies.sql",
+                    "classpath:test/sqls/preset_add_10_address.sql",
                     "classpath:test/sqls/preset_add_10_groups.sql"
                 }
             ),

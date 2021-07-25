@@ -21,6 +21,6 @@ public class FacebookCallbackController
         @RequestParam("state") String state
     )
     {
-        return new RedirectView(facebookCallbackService.getJwtLoginUrl(code));
+        return new RedirectView(facebookCallbackService.getJwtLoginUrl(code, state));
     }
 }

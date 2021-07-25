@@ -44,9 +44,9 @@ public class SearchServiceGetCompanyGroupsTest extends AbstractTest
     {
         if (repetition == 1)
         {
-            RecursiveGroup rg1 = new RecursiveGroup(1L, "name1", (short) 11, 111L, 12L, 13, "path1");
-            RecursiveGroup rg2 = new RecursiveGroup(2L, "name2", (short) 22, 333L, 22L, 23, "path1");
-            RecursiveGroup rg3 = new RecursiveGroup(3L, "name3", (short) 33, 333L, 32L, 33, "path3");
+            RecursiveGroup rg1 = new RecursiveGroup(1L, "name1", (short) 11, 111L, 1111L, 12L, 13, "path1");
+            RecursiveGroup rg2 = new RecursiveGroup(2L, "name2", (short) 22, 333L, 2222L, 22L, 23, "path1");
+            RecursiveGroup rg3 = new RecursiveGroup(3L, "name3", (short) 33, 333L, 3333L, 32L, 33, "path3");
 
             return new TestData(
                 List.of(1L, 3L),

@@ -39,6 +39,7 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql"
                 }
@@ -120,6 +121,7 @@ public class ReviewServiceSearchTest extends AbstractIntegrationTest
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_3_companies.sql",
+                    "classpath:test/sqls/preset_add_10_address.sql",
                     "classpath:test/sqls/preset_add_10_groups.sql",
                     "classpath:test/sqls/preset_add_10_reviews.sql"
                 }

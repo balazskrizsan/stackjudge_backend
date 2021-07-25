@@ -7,6 +7,7 @@ public record RecursiveGroup(
     @JsonProperty String name,
     @JsonProperty short typeId,
     @JsonProperty Long companyId,
+    @JsonProperty Long addressId,
     @JsonProperty Long parentId,
     @JsonProperty int depth,
     @JsonProperty String path

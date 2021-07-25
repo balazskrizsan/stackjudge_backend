@@ -29,6 +29,7 @@ public class ReviewServiceDeleteTest extends AbstractIntegrationTest
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql"
                 }
