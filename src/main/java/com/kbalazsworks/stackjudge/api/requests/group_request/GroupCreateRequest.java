@@ -11,7 +11,7 @@ public record GroupCreateRequest(
     long companyId,
 
     @Positive
-    long addressId,
+    Long addressId,
 
     @Min(1)
     @Max(4)

@@ -51,7 +51,7 @@ public class V000001__init extends AbstractBaseJooqMigration
             .column("id", BIGINT.nullable(false).identity(true))
             .column("parent_id", BIGINT.nullable(true))
             .column("company_id", BIGINT.nullable(false))
-            .column("address_id", BIGINT.nullable(false))
+            .column("address_id", BIGINT.nullable(true))
             .column("name", VARCHAR.nullable(true).length(255))
             .column("type_id", TINYINTUNSIGNED.nullable(false))
             .column("members_on_group_id", TINYINTUNSIGNED.nullable(false))
