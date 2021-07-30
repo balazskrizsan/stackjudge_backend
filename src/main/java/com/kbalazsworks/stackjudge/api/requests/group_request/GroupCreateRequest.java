@@ -17,7 +17,7 @@ public record GroupCreateRequest(
     @Max(4)
     short typeId,
 
-    @Size(min = 2, max = 255)
+    @Size(min = 1, max = 255)
     String name,
 
     @Min(1)
