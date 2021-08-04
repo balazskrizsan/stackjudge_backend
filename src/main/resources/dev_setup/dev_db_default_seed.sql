@@ -6,11 +6,11 @@ TRUNCATE TABLE
     "company" RESTART IDENTITY;
 
 INSERT INTO company(id, name, company_size_id, it_size_id, logo_path, created_at, created_by)
-VALUES (default, 'Apple', 1, 5, 'company-logos/1.png', '2021-01-01 00:00:00', 1),
+VALUES (default, 'Google', 1, 5, 'company-logos/1.png', '2021-01-01 00:00:00', 1),
        (default, 'Samsung Electronics', 3, 4, 'company-logos/2.png', '2021-01-02 00:00:00', 2),
        (default, 'Samsung Electronics with a very very very very very long name', 4, 3, 'company-logos/3.png', '2021-01-03 00:00:00', 3),
        (default, 'Foxconn', 5, 2, 'company-logos/4.png', '2021-01-04 00:00:00', 4),
-       (default, 'Alphabet', 4, 1, 'company-logos/5.png', '2021-01-05 00:00:00', 5),
+       (default, 'Apple', 4, 1, 'company-logos/5.png', '2021-01-05 00:00:00', 5),
        (default, 'Microsoft', 3, 2, 'company-logos/6.png', '2021-01-06 00:00:00', 6),
        (default, 'Huawei', 2, 3, 'company-logos/7.png', '2021-01-07 00:00:00', 7),
        (default, 'Dell Technologies', 1, 4, 'company-logos/8.png', '2021-01-08 00:00:00', 8),
@@ -30,18 +30,14 @@ VALUES (default, 'Apple', 1, 5, 'company-logos/1.png', '2021-01-01 00:00:00', 1)
 INSERT INTO address(id, company_id, full_address, marker_lat, marker_lng, manual_marker_lat, manual_marker_lng,
                     created_at, created_by)
 -- company: 1
-VALUES (default, 1, 'Deák Ferenc tér 1, Budapest, 1052', 47.5167111, 19.0521111, 47.5167111, 19.0528111, '2020-11-01 11:22:33', 1),
-       (default, 1, 'Deák Ferenc tér 2, Budapest, 1052', 47.5167222, 19.0528222, 47.5167112, 19.0528112, '2020-11-02 11:22:33', 2),
-       (default, 1, 'Deák Ferenc tér 3, Budapest, 1052', 47.5167333, 19.0528333, 47.5167113, 19.0528113, '2020-11-03 11:22:33', 3),
-       (default, 1, 'Deák Ferenc tér 4, Budapest, 1052', 47.5167444, 19.0528444, NULL, NULL, '2020-11-04 11:22:33', 4),
+VALUES (default, 1, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', 37.4220452, -122.0846619, NULL, NULL, '2020-11-01 11:22:33', 1),
+       (default, 1, '6 Pancras Square, London N1C 4AG, UK', 51.5332642,-0.1281919, NULL, NULL, '2020-11-02 11:22:33', 2),
+       (default, 1, 'Tucholskystraße 2, 10117 Berlin, Germany', 52.5232521, 13.3901892, NULL, NULL, '2020-11-03 11:22:33', 3),
 -- company: 2
-       (default, 2, 'Deák Ferenc tér 5, Budapest, 1052', 47.5167555, 19.0528555, 47.5167115, 19.0528115, '2020-11-05 11:22:33', 5),
-       (default, 2, 'Deák Ferenc tér 6, Budapest, 1052', 47.5167666, 19.0528666, 47.5167116, 19.0528116, '2020-11-06 11:22:33', 6),
-       (default, 2, 'Deák Ferenc tér 7, Budapest, 1052', 47.5167777, 19.0528777, NULL, NULL, '2020-11-07 11:22:33', 7),
+       (default, 2, '129 Samseong-ro, Taejang-dong, Yeongtong-gu, Suwon-si, Gyeonggi-do, South Korea', 37.2570082, 127.0501493, NULL, NULL, '2020-11-01 11:22:33', 1),
 -- company: 3
-       (default, 3, 'Deák Ferenc tér 8, Budapest, 1052', 47.5167888, 19.0528888, NULL, NULL, '2020-11-08 11:22:33', 8),
-       (default, 3, 'Deák Ferenc tér 9, Budapest, 1052', 47.5167989, 19.0528999, NULL, NULL, '2020-11-09 11:22:33', 9),
-       (default, 4, 'Deák Ferenc tér 10, Budapest, 1052', 47.5167999, 19.0528989, NULL, NULL, '2020-11-10 11:22:33', 10);
+       (default, 3, '6 Pancras Square, London N1C 4AG, UK', 51.5332642,-0.1281919, NULL, NULL, '2020-11-02 11:22:33', 2),
+       (default, 3, 'Tucholskystraße 2, 10117 Berlin, Germany', 52.5232521, 13.3901892, NULL, NULL, '2020-11-03 11:22:33', 3);
 
 INSERT INTO "group" (id, company_id, address_id, parent_id, type_id, name, members_on_group_id, created_at, created_by)
 -- company: 1
