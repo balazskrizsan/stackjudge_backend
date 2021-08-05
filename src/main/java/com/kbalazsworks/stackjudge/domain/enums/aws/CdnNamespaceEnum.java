@@ -7,7 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum CdnNamespaceEnum
 {
     STATIC("static"),
-    COMPANY_LOGOS("company-logos");
+    COMPANY_LOGOS("company-logos"),
+    STATIC_MAPS("static-maps");
 
     final private        String                        value;
     private static final Map<String, CdnNamespaceEnum> ENUM_MAP;

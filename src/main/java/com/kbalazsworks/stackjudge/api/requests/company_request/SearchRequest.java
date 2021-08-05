@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.requests.company_request;
 
-import com.kbalazsworks.stackjudge.api.enums.CompanySearchLimitEnum;
+import com.kbalazsworks.stackjudge.api.request_enums.CompanySearchLimitEnum;
 
 import java.util.List;
 

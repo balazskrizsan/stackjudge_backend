@@ -6,6 +6,7 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
+import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
@@ -29,7 +30,7 @@ public class CdnServicePutTest extends AbstractIntegrationTest
     ArgumentCaptor<PutObjectRequest> insertValidPutObjectRequest_perfect_captor;
 
     @Test
-    public void insertValidPutObjectRequest_perfect()
+    public void insertValidPutObjectRequest_perfect() throws ContentReadException
     {
         // Arrange
         String            testMockTime           = "2021-01-01 00:01:02";

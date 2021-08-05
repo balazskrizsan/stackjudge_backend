@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountConfig;
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.controllers.group_controller.GroupConfig;
+import com.kbalazsworks.stackjudge.api.controllers.maps_controller.MapsConfig;
 import com.kbalazsworks.stackjudge.api.controllers.test_controller.TestConfig;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthenticationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
@@ -23,6 +24,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.SIGN_UP_URL;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @EnableWebSecurity
 @Configuration
@@ -51,17 +54,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
             .authorizeRequests()
 
-            .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+            .antMatchers(POST, SIGN_UP_URL).permitAll()
 
-            .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.GET_SECURITY_PATH).permitAll()
-            .antMatchers(HttpMethod.GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.SEARCH_SECURITY_PATH).permitAll()
+            .antMatchers(GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.GET_SECURITY_PATH).permitAll()
+            .antMatchers(GET, CompanyConfig.CONTROLLER_URI + CompanyConfig.SEARCH_SECURITY_PATH).permitAll()
 
-            .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_AND_LOGIN_SECURITY_PATH).permitAll()
-            .antMatchers(HttpMethod.GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
+            .antMatchers(GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_AND_LOGIN_SECURITY_PATH).permitAll()
+            .antMatchers(GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
 
-            .antMatchers(HttpMethod.POST, GroupConfig.CONTROLLER_URI + GroupConfig.POST_SECURITY_PATH).permitAll()
+            .antMatchers(POST, GroupConfig.CONTROLLER_URI + GroupConfig.POST_SECURITY_PATH).permitAll()
 
-            .antMatchers(HttpMethod.GET, TestConfig.CONTROLLER_URI + TestConfig.NOT_PROTECTED_SECURITY_PATH).permitAll()
+            .antMatchers(POST, MapsConfig.CONTROLLER_URI + MapsConfig.POST_SECURITY_PATH).permitAll()
+
+            .antMatchers(GET, TestConfig.CONTROLLER_URI + TestConfig.NOT_PROTECTED_SECURITY_PATH).permitAll()
 
             .anyRequest().authenticated()
 

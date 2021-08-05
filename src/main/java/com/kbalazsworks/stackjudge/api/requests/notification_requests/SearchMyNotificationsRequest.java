@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.requests.notification_requests;
 
-import com.kbalazsworks.stackjudge.api.enums.NotificationSearchLimitEnum;
+import com.kbalazsworks.stackjudge.api.request_enums.NotificationSearchLimitEnum;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.enums;
+package com.kbalazsworks.stackjudge.api.request_enums;
 
 import java.util.Collections;
 import java.util.Map;

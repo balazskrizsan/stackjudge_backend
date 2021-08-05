@@ -1,13 +1,12 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.kbalazsworks.stackjudge.api.enums.CompanyRequestRelationsEnum;
+import com.kbalazsworks.stackjudge.api.request_enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.enums.review_table.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
