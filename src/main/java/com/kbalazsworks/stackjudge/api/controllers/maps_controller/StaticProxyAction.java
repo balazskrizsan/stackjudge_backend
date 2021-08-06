@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController("MapsProxyAction")
 @RequestMapping(MapsConfig.CONTROLLER_URI)
 @RequiredArgsConstructor
 public class StaticProxyAction
 {
-    private final MapsService mapsService;
+    private final MapsService  mapsService;
     private final StateService stateService;
 
     @PostMapping(path = MapsConfig.POST_STATIC_PROXY_PATH, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -44,10 +45,12 @@ public class StaticProxyAction
         markersRequests.forEach(new JavaxValidatorService<MarkerRequest>()::validate);
 
         return new ResponseEntityBuilder<StaticProxyResponse>()
-            .data(mapsService.staticProxy(
-                RequestMapperService.mapToRecord(googleStaticMapsRequest, stateService.getState()),
-                markersRequests
-            ))
+            .data(
+                mapsService.staticProxy(
+                    RequestMapperService.mapToRecord(googleStaticMapsRequest),
+                    markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList())
+                )
+            )
             .build();
     }
 }

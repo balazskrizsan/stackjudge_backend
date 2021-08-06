@@ -4,8 +4,10 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateReq
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapsRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.MarkerRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.*;
+import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleMapsMarker;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 
@@ -67,7 +69,7 @@ public class RequestMapperService
         );
     }
 
-    public static GoogleStaticMaps mapToRecord(@NonNull GoogleStaticMapsRequest request, @NonNull State state)
+    public static GoogleStaticMaps mapToRecord(@NonNull GoogleStaticMapsRequest request)
     {
         return new GoogleStaticMaps(
             null,
@@ -77,9 +79,19 @@ public class RequestMapperService
             request.zoom(),
             request.mapType(),
             request.centerLat(),
-            request.centerLng(),
-            state.now(),
-            state.currentUser().getId()
+            request.centerLng()
+        );
+    }
+
+    public static GoogleMapsMarker mapToRecord(@NonNull MarkerRequest request)
+    {
+        return new GoogleMapsMarker(
+            null,
+            request.getSize(),
+            request.getColor(),
+            request.getLabel(),
+            request.getCenterLat(),
+            request.getCenterLng()
         );
     }
 }

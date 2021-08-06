@@ -12,9 +12,7 @@ public record GoogleStaticMaps(
     short zoom,
     short mapType,
     double centerLat,
-    double centerLng,
-    @NonNull LocalDateTime createdAt,
-    Long createdBy
+    double centerLng
 )
 {
 }

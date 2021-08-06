@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.services.company_services;
+package com.kbalazsworks.stackjudge.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;

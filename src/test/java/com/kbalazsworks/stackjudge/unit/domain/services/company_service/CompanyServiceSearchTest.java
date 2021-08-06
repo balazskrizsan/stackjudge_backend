@@ -12,7 +12,7 @@ import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
-import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;

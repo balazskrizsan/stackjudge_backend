@@ -11,7 +11,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.services.*;
-import com.kbalazsworks.stackjudge.domain.services.company_services.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;
