@@ -4,14 +4,19 @@ import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMaps;
 import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleMapsMarker;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StaticProxyService
 {
+    public final ApplicationProperties applicationProperties;
+
     // @todo: test
     public String generateMapUrl(GoogleStaticMaps googleStaticMap, List<GoogleMapsMarker> markers)
     {
@@ -24,7 +29,7 @@ public class StaticProxyService
             .queryParam("zoom", googleStaticMap.zoom())
             .queryParam("center", googleStaticMap.centerLat() + "," + googleStaticMap.centerLng())
             .queryParam("size", googleStaticMap.sizeX() + "x" + googleStaticMap.sizeY())
-            .queryParam("key", "AIzaSyDBB7-jkE4MbAbC76s9abgdyk-UnD5gG6c");
+            .queryParam("key", applicationProperties.getGoogleMapsKey());
 
         for (GoogleMapsMarker m : markers)
         {

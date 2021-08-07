@@ -146,4 +146,12 @@ public class ApplicationProperties
     {
         return jwtSecret;
     }
+
+    @Value("${google.maps.key}")
+    private String googleMapsKey;
+
+    public String getGoogleMapsKey()
+    {
+        return googleMapsKey;
+    }
 }
