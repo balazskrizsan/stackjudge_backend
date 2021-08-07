@@ -134,5 +134,14 @@ public class V000001__init extends AbstractBaseJooqMigration
                     .onDeleteCascade()
             )
             .execute();
+
+        qB.createTable("google_static_maps_cache")
+            .column("hash", VARCHAR.nullable(false).length(32))
+            .column("file_name", VARCHAR.nullable(false).length(4096))
+            .column("updated_at", TIMESTAMP.nullable(false))
+            .constraints(
+                constraint("google_static_maps_cache_pk").primaryKey("hash")
+            )
+            .execute();
     }
 }

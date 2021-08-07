@@ -5,9 +5,6 @@ import com.kbalazsworks.stackjudge.api.value_objects.responses.maps_controller.I
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public record StaticProxyResponse(
-    @JsonProperty String path,
-    @JsonProperty String fileName
-) implements IStaticProxy
+public record StaticProxyResponse(@JsonProperty String location) implements IStaticProxy
 {
 }

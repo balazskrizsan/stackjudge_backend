@@ -7,6 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
+import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Notification;
 import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
@@ -27,7 +28,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -343284811;
+    private static final long serialVersionUID = 1763151252;
 
     /**
      * The reference instance of <code>public</code>
@@ -48,6 +49,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.flyway_schema_history</code>.
      */
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
+    /**
+     * The table <code>public.google_static_maps_cache</code>.
+     */
+    public final GoogleStaticMapsCache GOOGLE_STATIC_MAPS_CACHE = GoogleStaticMapsCache.GOOGLE_STATIC_MAPS_CACHE;
 
     /**
      * The table <code>public.group</code>.
@@ -93,6 +99,7 @@ public class Public extends SchemaImpl {
             Address.ADDRESS,
             Company.COMPANY,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+            GoogleStaticMapsCache.GOOGLE_STATIC_MAPS_CACHE,
             Group.GROUP,
             Notification.NOTIFICATION,
             ProtectedReviewLog.PROTECTED_REVIEW_LOG,

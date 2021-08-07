@@ -7,6 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
+import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Notification;
 import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
@@ -34,6 +35,11 @@ public class Tables {
      * The table <code>public.flyway_schema_history</code>.
      */
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
+    /**
+     * The table <code>public.google_static_maps_cache</code>.
+     */
+    public static final GoogleStaticMapsCache GOOGLE_STATIC_MAPS_CACHE = GoogleStaticMapsCache.GOOGLE_STATIC_MAPS_CACHE;
 
     /**
      * The table <code>public.group</code>.

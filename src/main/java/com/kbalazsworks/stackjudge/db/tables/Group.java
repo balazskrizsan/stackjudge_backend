@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Group extends TableImpl<GroupRecord> {
 
-    private static final long serialVersionUID = 1218364376;
+    private static final long serialVersionUID = 2045782777;
 
     /**
      * The reference instance of <code>public.group</code>
@@ -66,7 +66,7 @@ public class Group extends TableImpl<GroupRecord> {
     /**
      * The column <code>public.group.address_id</code>.
      */
-    public final TableField<GroupRecord, Long> ADDRESS_ID = createField(DSL.name("address_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<GroupRecord, Long> ADDRESS_ID = createField(DSL.name("address_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>public.group.name</code>.

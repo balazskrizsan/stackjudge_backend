@@ -48,7 +48,8 @@ public class StaticProxyAction
             .data(
                 mapsService.staticProxy(
                     RequestMapperService.mapToRecord(googleStaticMapsRequest),
-                    markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList())
+                    markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList()),
+                    stateService.getState().now()
                 )
             )
             .build();

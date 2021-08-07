@@ -2,7 +2,5 @@ package com.kbalazsworks.stackjudge.api.value_objects.responses.maps_controller;
 
 public interface IStaticProxy
 {
-    String path();
-
-    String fileName();
+    String location();
 }
