@@ -39,6 +39,7 @@ public class ServiceFactory
     private final JooqService              jooqService;
     private final CdnService               cdnService;
     private final AccountService           accountService;
+    private final MapsService              mapsService;
 
     private final CompanyRepository companyRepository;
     private final ReviewRepository  reviewRepository;
@@ -48,7 +49,7 @@ public class ServiceFactory
 
     public CompanyService getCompanyService()
     {
-        return getCompanyService(null, null, null, null, null, null, null, null);
+        return getCompanyService(null, null, null, null, null, null, null, null, null);
     }
 
     public CompanyService getCompanyService(
@@ -59,6 +60,7 @@ public class ServiceFactory
         JooqService jooqServiceReplacer,
         CdnService cdnServiceReplacer,
         AccountService accountServiceReplaces,
+        MapsService mapsServiceReplacer,
         CompanyRepository companyRepositoryReplacer
     )
     {
@@ -70,6 +72,7 @@ public class ServiceFactory
             Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
             Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
+            Optional.ofNullable(mapsServiceReplacer).orElse(mapsService),
             Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
         );
     }

@@ -98,12 +98,14 @@ public class CompanyServiceSearchTest extends AbstractTest
                     new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>(),
+                    new HashMap<>(),
                     new HashMap<>()
                 )
             );
         }
         if (repetition == 2)
         {
+            // @todo: add map test
             return new TestData(
                 // tested
                 1L,
@@ -128,6 +130,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     CompanyFakeBuilder.defaultId1,
                     Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                     Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
+                    new HashMap<>(),
                     Map.of(
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
@@ -173,6 +176,7 @@ public class CompanyServiceSearchTest extends AbstractTest
             searchServiceMock,
             reviewServiceMock,
             paginatorServiceMock,
+            null,
             null,
             null,
             null,

@@ -61,12 +61,14 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     null,
                     null,
                     null,
+                    null,
                     new HashMap<>()
                 )
             );
         }
         if (repetition == 2)
         {
+            // @todo: add map test
             return new TestData(
                 testedCompanyId,
                 List.of((short) 1, (short) 2, (short) 3, (short) 5),
@@ -75,6 +77,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
+                    null,
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
                     new HashMap<>()
                 )

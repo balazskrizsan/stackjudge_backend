@@ -108,7 +108,17 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         // Arrange
         CdnService cdnServiceMock = mock(CdnService.class);
         TestData   testData       = provider(repetitionInfo.getCurrentRepetition(), cdnServiceMock);
-        companyService = serviceFactory.getCompanyService(null, null, null, null, null, cdnServiceMock, null, null);
+        companyService = serviceFactory.getCompanyService(
+            null,
+            null,
+            null,
+            null,
+            null,
+            cdnServiceMock,
+            null,
+            null,
+            null
+        );
 
         // Act
         companyService.create(testData.testedCompany, testData.testedAddress, testData.testedFile);
@@ -139,7 +149,17 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         AddressService addressServiceMock = mock(AddressService.class);
         doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
 
-        companyService = serviceFactory.getCompanyService(addressServiceMock, null, null, null, null, null, null, null);
+        companyService = serviceFactory.getCompanyService(
+            addressServiceMock,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
 
         // Act - Assert
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();

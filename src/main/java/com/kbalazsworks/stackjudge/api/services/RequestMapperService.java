@@ -7,7 +7,7 @@ import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapsRe
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.MarkerRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.*;
-import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleMapsMarker;
+import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 
@@ -69,9 +69,9 @@ public class RequestMapperService
         );
     }
 
-    public static GoogleStaticMaps mapToRecord(@NonNull GoogleStaticMapsRequest request)
+    public static GoogleStaticMap mapToRecord(@NonNull GoogleStaticMapsRequest request)
     {
-        return new GoogleStaticMaps(
+        return new GoogleStaticMap(
             null,
             request.sizeX(),
             request.sizeY(),
@@ -83,9 +83,9 @@ public class RequestMapperService
         );
     }
 
-    public static GoogleMapsMarker mapToRecord(@NonNull MarkerRequest request)
+    public static GoogleStaticMapMarker mapToRecord(@NonNull MarkerRequest request)
     {
-        return new GoogleMapsMarker(
+        return new GoogleStaticMapMarker(
             null,
             request.getSize(),
             request.getColor(),

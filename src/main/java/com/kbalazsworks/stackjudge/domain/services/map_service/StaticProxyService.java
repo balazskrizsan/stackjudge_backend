@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services.map_service;
 
-import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMaps;
-import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleMapsMarker;
+import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
@@ -18,7 +18,7 @@ public class StaticProxyService
     public final ApplicationProperties applicationProperties;
 
     // @todo: test
-    public String generateMapUrl(GoogleStaticMaps googleStaticMap, List<GoogleMapsMarker> markers)
+    public String generateMapUrl(GoogleStaticMap googleStaticMap, List<GoogleStaticMapMarker> markers)
     {
         UriComponentsBuilder mapsUrlBuilder = UriComponentsBuilder.newInstance()
             .scheme("https")
@@ -29,9 +29,10 @@ public class StaticProxyService
             .queryParam("zoom", googleStaticMap.zoom())
             .queryParam("center", googleStaticMap.centerLat() + "," + googleStaticMap.centerLng())
             .queryParam("size", googleStaticMap.sizeX() + "x" + googleStaticMap.sizeY())
+            // @todo: remove key from hash: send back the url and hash from this method
             .queryParam("key", applicationProperties.getGoogleMapsKey());
 
-        for (GoogleMapsMarker m : markers)
+        for (GoogleStaticMapMarker m : markers)
         {
             String markerValue = "";
 

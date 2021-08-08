@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class GoogleMapsMarker
+public class GoogleStaticMapMarker
 {
     private Long   id;
     private Short  size;

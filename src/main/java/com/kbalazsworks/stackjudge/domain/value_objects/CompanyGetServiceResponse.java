@@ -14,6 +14,7 @@ public record CompanyGetServiceResponse(
     @JsonProperty CompanyStatistic companyStatistic,
     @JsonProperty List<RecursiveGroupTree> companyGroups,
     @JsonProperty List<Address> companyAddresses,
+    @JsonProperty Map<Long, String> companyAddressMaps,
     @JsonProperty Map<Long, List<Review>> companyReviews,
     @JsonProperty Map<Long, User> companyUsers
 )

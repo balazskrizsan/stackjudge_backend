@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum MarkerSizeEnum
 {
     TINY((short) 1),
-    MID((short) 2),
+    BIG((short) 2),
     SMALL((short) 3);
 
     final private        short                      value;
