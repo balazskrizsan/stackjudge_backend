@@ -72,7 +72,6 @@ public class RequestMapperService
     public static GoogleStaticMap mapToRecord(@NonNull GoogleStaticMapsRequest request)
     {
         return new GoogleStaticMap(
-            null,
             request.sizeX(),
             request.sizeY(),
             request.scale(),
@@ -86,7 +85,6 @@ public class RequestMapperService
     public static GoogleStaticMapMarker mapToRecord(@NonNull MarkerRequest request)
     {
         return new GoogleStaticMapMarker(
-            null,
             request.getSize(),
             request.getColor(),
             request.getLabel(),

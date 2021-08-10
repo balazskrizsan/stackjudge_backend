@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GoogleStaticMapMarker
 {
-    private Long   id;
     private Short  size;
     private Short  color;
     private String label;

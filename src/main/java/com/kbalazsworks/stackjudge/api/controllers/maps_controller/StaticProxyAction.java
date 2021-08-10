@@ -7,7 +7,7 @@ import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.services.MapsService;
-import com.kbalazsworks.stackjudge.domain.value_objects.service_responses.maps_service.StaticProxyResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.service_responses.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -31,7 +31,7 @@ public class StaticProxyAction
     private final StateService stateService;
 
     @PostMapping(path = MapsConfig.POST_STATIC_PROXY_PATH, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseData<StaticProxyResponse>> action(
+    public ResponseEntity<ResponseData<StaticMapResponse>> action(
         GoogleStaticMapsRequest googleStaticMapsRequest,
         @RequestParam("marker") List<String> marker
     ) throws Exception
@@ -44,7 +44,7 @@ public class StaticProxyAction
         ));
         markersRequests.forEach(new JavaxValidatorService<MarkerRequest>()::validate);
 
-        return new ResponseEntityBuilder<StaticProxyResponse>()
+        return new ResponseEntityBuilder<StaticMapResponse>()
             .data(
                 mapsService.staticProxy(
                     RequestMapperService.mapToRecord(googleStaticMapsRequest),
