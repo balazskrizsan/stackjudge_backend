@@ -38,11 +38,11 @@ public class StaticProxyService
 
             if (null != m.getSize())
             {
-                markerValue += "size:" + MarkerSizeEnum.getByValue(m.getSize()).toString().toLowerCase();
+                markerValue += "size:" + m.getSize().toString().toLowerCase();
             }
             if (null != m.getColor())
             {
-                markerValue += "%7Ccolor:" + MarkerColorEnum.getByValue(m.getColor()).toString().toLowerCase();
+                markerValue += "%7Ccolor:" + m.getColor().toString().toLowerCase();
             }
             if (null != m.getLabel())
             {

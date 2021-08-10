@@ -55,8 +55,7 @@ public class MapsService
     ) throws ContentReadException
     {
         String mapsUrl = staticProxyService.generateMapUrl(googleStaticMap, markers);
-
-        String hash = DigestUtils.md5DigestAsHex(mapsUrl.getBytes());
+        String hash    = DigestUtils.md5DigestAsHex(mapsUrl.getBytes());
 
         try
         {
@@ -142,8 +141,8 @@ public class MapsService
     private GoogleStaticMapMarker mapAddressToGoogleStaticMapMarker(Address address)
     {
         return new GoogleStaticMapMarker(
-            MarkerSizeEnum.BIG.getValue(),
-            MarkerColorEnum.RED.getValue(),
+            MarkerSizeEnum.BIG,
+            MarkerColorEnum.RED,
             "",
             address.markerLat(),
             address.markerLng()

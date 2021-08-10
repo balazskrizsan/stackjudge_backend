@@ -9,6 +9,8 @@ import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequ
 import com.kbalazsworks.stackjudge.domain.entities.*;
 import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
+import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
+import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 
@@ -86,8 +88,8 @@ public class RequestMapperService
     public static GoogleStaticMapMarker mapToRecord(@NonNull GoogleStaticMapMarkerRequest request)
     {
         return new GoogleStaticMapMarker(
-            request.getSize(),
-            request.getColor(),
+            MarkerSizeEnum.getByValue(request.getSize()),
+            MarkerColorEnum.getByValue(request.getColor()),
             request.getLabel(),
             request.getCenterLat(),
             request.getCenterLng()
