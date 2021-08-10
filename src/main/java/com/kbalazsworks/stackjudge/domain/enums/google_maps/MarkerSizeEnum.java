@@ -10,8 +10,9 @@ public enum MarkerSizeEnum
     BIG((short) 2),
     SMALL((short) 3);
 
-    final private        short                      value;
     private static final Map<Short, MarkerSizeEnum> ENUM_MAP;
+
+    final private short value;
 
     MarkerSizeEnum(short value)
     {
@@ -26,8 +27,7 @@ public enum MarkerSizeEnum
     static
     {
         Map<Short, MarkerSizeEnum> map = new ConcurrentHashMap<>();
-        for (MarkerSizeEnum instance : MarkerSizeEnum
-            .values())
+        for (MarkerSizeEnum instance : MarkerSizeEnum.values())
         {
             map.put(instance.getValue(), instance);
         }

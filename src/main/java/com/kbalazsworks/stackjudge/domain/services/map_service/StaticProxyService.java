@@ -24,7 +24,7 @@ public class StaticProxyService
             .scheme("https")
             .host("maps.googleapis.com")
             .path("/maps/api/staticmap")
-            .queryParam("maptype", googleStaticMap.mapType())
+            .queryParam("maptype", googleStaticMap.mapType().toString().toLowerCase())
             .queryParam("scale", googleStaticMap.scale())
             .queryParam("zoom", googleStaticMap.zoom())
             .queryParam("center", googleStaticMap.centerLat() + "," + googleStaticMap.centerLng())

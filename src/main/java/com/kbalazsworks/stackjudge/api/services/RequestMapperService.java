@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMar
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.*;
 import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 
@@ -76,7 +77,7 @@ public class RequestMapperService
             request.sizeY(),
             request.scale(),
             request.zoom(),
-            request.mapType(),
+            MapTypeEnum.getByValue(request.mapType()),
             request.centerLat(),
             request.centerLng()
         );
