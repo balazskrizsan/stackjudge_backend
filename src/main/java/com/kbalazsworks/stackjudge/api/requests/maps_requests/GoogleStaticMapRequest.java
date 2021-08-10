@@ -5,7 +5,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-public record GoogleStaticMapsRequest(
+public record GoogleStaticMapRequest(
     @Min(50)
     @Max(2000)
     int sizeX,

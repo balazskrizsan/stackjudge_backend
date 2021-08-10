@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 // @todo: try with record or immutable class
 @Setter
 @Getter
-public class MarkerRequest
+public class GoogleStaticMapMarkerRequest
 {
     @Min(1)
     @Max(3)

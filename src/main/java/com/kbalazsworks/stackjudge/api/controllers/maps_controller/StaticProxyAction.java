@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.api.controllers.maps_controller;
 
 import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
-import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapsRequest;
-import com.kbalazsworks.stackjudge.api.requests.maps_requests.MarkerRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
@@ -32,22 +32,22 @@ public class StaticProxyAction
 
     @PostMapping(path = MapsConfig.POST_STATIC_PROXY_PATH, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseData<StaticMapResponse>> action(
-        GoogleStaticMapsRequest googleStaticMapsRequest,
+        GoogleStaticMapRequest googleStaticMapRequest,
         @RequestParam("marker") List<String> marker
     ) throws Exception
     {
-        new JavaxValidatorService<GoogleStaticMapsRequest>().validate(googleStaticMapsRequest);
+        new JavaxValidatorService<GoogleStaticMapRequest>().validate(googleStaticMapRequest);
 
-        List<MarkerRequest> markersRequests = Arrays.asList(new ObjectMapper().readValue(
+        List<GoogleStaticMapMarkerRequest> markersRequests = Arrays.asList(new ObjectMapper().readValue(
             marker.toString(),
-            MarkerRequest[].class
+            GoogleStaticMapMarkerRequest[].class
         ));
-        markersRequests.forEach(new JavaxValidatorService<MarkerRequest>()::validate);
+        markersRequests.forEach(new JavaxValidatorService<GoogleStaticMapMarkerRequest>()::validate);
 
         return new ResponseEntityBuilder<StaticMapResponse>()
             .data(
                 mapsService.staticProxy(
-                    RequestMapperService.mapToRecord(googleStaticMapsRequest),
+                    RequestMapperService.mapToRecord(googleStaticMapRequest),
                     markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList()),
                     stateService.getState().now()
                 )

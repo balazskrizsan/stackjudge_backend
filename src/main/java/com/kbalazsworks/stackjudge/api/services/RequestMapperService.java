@@ -3,8 +3,8 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
-import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapsRequest;
-import com.kbalazsworks.stackjudge.api.requests.maps_requests.MarkerRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.*;
 import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
@@ -69,7 +69,7 @@ public class RequestMapperService
         );
     }
 
-    public static GoogleStaticMap mapToRecord(@NonNull GoogleStaticMapsRequest request)
+    public static GoogleStaticMap mapToRecord(@NonNull GoogleStaticMapRequest request)
     {
         return new GoogleStaticMap(
             request.sizeX(),
@@ -82,7 +82,7 @@ public class RequestMapperService
         );
     }
 
-    public static GoogleStaticMapMarker mapToRecord(@NonNull MarkerRequest request)
+    public static GoogleStaticMapMarker mapToRecord(@NonNull GoogleStaticMapMarkerRequest request)
     {
         return new GoogleStaticMapMarker(
             request.getSize(),
