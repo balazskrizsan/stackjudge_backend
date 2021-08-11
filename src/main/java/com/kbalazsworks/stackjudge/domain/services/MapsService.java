@@ -1,9 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMapsCache;
-import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum;
@@ -13,11 +11,13 @@ import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
-import com.kbalazsworks.stackjudge.domain.value_objects.service_responses.maps_service.StaticMapResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,8 +54,8 @@ public class MapsService
         LocalDateTime now
     ) throws ContentReadException
     {
-        String mapsUrl = staticProxyService.generateMapUrl(googleStaticMap, markers);
-        String hash    = DigestUtils.md5DigestAsHex(mapsUrl.getBytes());
+        GoogleMapsUrlWithHash mapWithHash = staticProxyService.generateMapUrl(googleStaticMap, markers);
+        String                hash        = mapWithHash.hash();
 
         try
         {
@@ -70,7 +70,7 @@ public class MapsService
         URL image;
         try
         {
-            image = new URL(mapsUrl);
+            image = new URL(mapWithHash.url());
         }
         catch (MalformedURLException e)
         {
@@ -141,7 +141,7 @@ public class MapsService
     private GoogleStaticMapMarker mapAddressToGoogleStaticMapMarker(Address address)
     {
         return new GoogleStaticMapMarker(
-            MarkerSizeEnum.BIG,
+            MarkerSizeEnum.MID,
             MarkerColorEnum.RED,
             "",
             address.markerLat(),

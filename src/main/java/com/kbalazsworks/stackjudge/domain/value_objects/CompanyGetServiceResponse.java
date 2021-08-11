@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.service_responses.maps_service.StaticMapResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.entities.User;
 
 import java.util.List;

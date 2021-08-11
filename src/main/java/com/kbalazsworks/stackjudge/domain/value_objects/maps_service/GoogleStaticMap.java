@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.entities;
+package com.kbalazsworks.stackjudge.domain.value_objects.maps_service;
 
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
 

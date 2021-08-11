@@ -7,10 +7,11 @@ import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapReq
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
 import com.kbalazsworks.stackjudge.domain.entities.*;
-import com.kbalazsworks.stackjudge.domain.entities.google_static_maps.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 

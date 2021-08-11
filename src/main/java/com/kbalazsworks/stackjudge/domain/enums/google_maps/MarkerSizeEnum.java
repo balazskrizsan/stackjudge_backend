@@ -6,8 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public enum MarkerSizeEnum
 {
+    // @todo: check size order
     TINY((short) 1),
-    BIG((short) 2),
+    MID((short) 2),
     SMALL((short) 3);
 
     private static final Map<Short, MarkerSizeEnum> ENUM_MAP;

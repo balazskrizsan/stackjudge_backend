@@ -12,6 +12,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -160,6 +161,18 @@ public class ServiceFactory
             Optional.ofNullable(localDateTimeFactoryReplacer).orElse(localDateTimeFactory),
             Optional.ofNullable(dateTimeFormatterServiceReplacer).orElse(dateTimeFormatterService),
             Optional.ofNullable(s3RepositoryReplacer).orElse(s3Repository)
+        );
+    }
+
+    public StaticProxyService getStaticProxyService()
+    {
+        return new StaticProxyService(applicationProperties);
+    }
+
+    public StaticProxyService getStaticProxyService(ApplicationProperties applicationPropertiesReplacer)
+    {
+        return new StaticProxyService(
+            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties)
         );
     }
 }
