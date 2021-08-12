@@ -6,7 +6,6 @@ import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.exceptions.HttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import javax.validation.ValidationException;
 public class RestResponseExceptionService extends ResponseEntityExceptionHandler
 {
     @Override
-    protected @NotNull ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+    protected @NonNull ResponseEntity<Object> handleHttpRequestMethodNotSupported(
         HttpRequestMethodNotSupportedException e,
         @NonNull HttpHeaders headers,
         @NonNull HttpStatus status,
@@ -64,7 +63,7 @@ public class RestResponseExceptionService extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(value = {RuntimeException.class})
     protected ResponseEntity<ResponseData<String>> handleConflict(RuntimeException e, WebRequest request)
-    throws Exception
+        throws Exception
     {
         return exceptionHandler(e);
     }

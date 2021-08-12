@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 public class StaticProxyAction
 {
     private final MapsService  mapsService;
-    private final StateService stateService;
 
     @PostMapping(path = MapsConfig.POST_STATIC_PROXY_PATH, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseData<StaticMapResponse>> action(
@@ -48,8 +47,7 @@ public class StaticProxyAction
             .data(
                 mapsService.staticProxy(
                     RequestMapperService.mapToRecord(googleStaticMapRequest),
-                    markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList()),
-                    stateService.getState().now()
+                    markersRequests.stream().map(RequestMapperService::mapToRecord).collect(Collectors.toList())
                 )
             )
             .build();

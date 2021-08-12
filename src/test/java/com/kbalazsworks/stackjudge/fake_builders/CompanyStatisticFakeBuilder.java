@@ -12,11 +12,11 @@ import java.util.List;
 @Setter
 public class CompanyStatisticFakeBuilder
 {
-    private long companyId         = CompanyFakeBuilder.defaultId1;
-    private int  stackCount        = 222;
-    private int  teamsCount        = 333;
-    private int  reviewCount       = 444;
-    private int  technologiesCount = 555;
+    public static final long companyId         = CompanyFakeBuilder.defaultId1;
+    public static final int  stackCount        = 222;
+    public static final int  teamsCount        = 333;
+    public static final int  reviewCount       = 444;
+    public static final int  technologiesCount = 555;
 
     public List<CompanyStatistic> buildAsList()
     {

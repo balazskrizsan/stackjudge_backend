@@ -12,9 +12,11 @@ import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +32,20 @@ public class ServiceFactory
     private final JwtFactory            jwtFactory;
     private final LocalDateTimeFactory  localDateTimeFactory;
 
-    private final AddressService           addressService;
-    private final SearchService            searchService;
-    private final GroupService             groupService;
-    private final ReviewService            reviewService;
-    private final PaginatorService         paginatorService;
-    private final JwtSubService            jwtSubService;
-    private final DateTimeFormatterService dateTimeFormatterService;
-    private final JooqService              jooqService;
-    private final CdnService               cdnService;
-    private final AccountService           accountService;
-    private final MapsService              mapsService;
+    private final AddressService               addressService;
+    private final SearchService                searchService;
+    private final GroupService                 groupService;
+    private final ReviewService                reviewService;
+    private final PaginatorService             paginatorService;
+    private final JwtSubService                jwtSubService;
+    private final DateTimeFormatterService     dateTimeFormatterService;
+    private final JooqService                  jooqService;
+    private final CdnService                   cdnService;
+    private final AccountService               accountService;
+    private final MapsService                  mapsService;
+    private final StaticProxyService           staticProxyService;
+    private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
+    private final MapMapperService             mapMapperService;
 
     private final CompanyRepository companyRepository;
     private final ReviewRepository  reviewRepository;
@@ -100,7 +105,7 @@ public class ServiceFactory
 
     public JwtSubService getJwtSubService()
     {
-        return new JwtSubService(applicationProperties, jwtFactory);
+        return getJwtSubService(null, null);
     }
 
     public JwtSubService getJwtSubService(
@@ -116,7 +121,7 @@ public class ServiceFactory
 
     public ReviewService getReviewService()
     {
-        return new ReviewService(reviewRepository);
+        return getReviewService(null);
     }
 
     public ReviewService getReviewService(ReviewRepository reviewRepositoryReplacer)
@@ -126,7 +131,7 @@ public class ServiceFactory
 
     public GroupService getGroupService()
     {
-        return new GroupService(groupRepository);
+        return getGroupService(null);
     }
 
     public GroupService getGroupService(GroupRepository groupRepositoryReplacer)
@@ -136,7 +141,7 @@ public class ServiceFactory
 
     public SearchService getSearchService()
     {
-        return new SearchService(getGroupService());
+        return getSearchService(null);
     }
 
     public SearchService getSearchService(GroupService groupServiceReplacer)
@@ -146,7 +151,7 @@ public class ServiceFactory
 
     public CdnService getCdnService()
     {
-        return new CdnService(applicationProperties, localDateTimeFactory, dateTimeFormatterService, s3Repository);
+        return getCdnService(null, null, null, null);
     }
 
     public CdnService getCdnService(
@@ -166,13 +171,35 @@ public class ServiceFactory
 
     public StaticProxyService getStaticProxyService()
     {
-        return new StaticProxyService(applicationProperties);
+        return getStaticProxyService(null);
     }
 
     public StaticProxyService getStaticProxyService(ApplicationProperties applicationPropertiesReplacer)
     {
         return new StaticProxyService(
             Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties)
+        );
+    }
+
+    public MapsService getMapsService()
+    {
+        return getMapsService(null, null, null, null, null);
+    }
+
+    public MapsService getMapsService(
+        StateService stateServiceReplacer,
+        CdnService cdnServiceReplacer,
+        StaticProxyService staticProxyServiceReplacer,
+        GoogleStaticMapsCacheService staticMapsCacheServiceReplacer,
+        MapMapperService mapMapperServiceReplacer
+    )
+    {
+        return new MapsService(
+            Optional.ofNullable(stateServiceReplacer).orElse(MockFactory.getTestStateMock()),
+            Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
+            Optional.ofNullable(staticProxyServiceReplacer).orElse(staticProxyService),
+            Optional.ofNullable(staticMapsCacheServiceReplacer).orElse(googleStaticMapsCacheService),
+            Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService)
         );
     }
 }

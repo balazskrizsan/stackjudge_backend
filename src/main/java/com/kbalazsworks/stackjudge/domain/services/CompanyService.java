@@ -102,15 +102,15 @@ public class CompanyService
     {
         List<Company> companies = search(seekId, limit, navigation);
 
-        Map<Long, CompanyStatistic>                                  companyStatistics  = new HashMap<>();
-        Map<Long, List<RecursiveGroupTree>>                          companyGroups      = new HashMap<>();
-        List<PaginatorItem>                                          paginator          = new ArrayList<>();
-        Long                                                         newSeekId          = null;
-        Map<Long, List<Address>>                                     companyAddresses   = new HashMap<>();
+        Map<Long, CompanyStatistic>                                   companyStatistics  = new HashMap<>();
+        Map<Long, List<RecursiveGroupTree>>                           companyGroups      = new HashMap<>();
+        List<PaginatorItem>                                           paginator          = new ArrayList<>();
+        Long                                                          newSeekId          = null;
+        Map<Long, List<Address>>                                      companyAddresses   = new HashMap<>();
         Map<Long, Map<Long, List<Review>>>                            companyReviews     = new HashMap<>();
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps = new HashMap<>();
         Map<Long, User>                                               companyUsers       = new HashMap<>();
-        List<Long>                                                   affectedUserIds    = new ArrayList<>();
+        List<Long>                                                    affectedUserIds    = new ArrayList<>();
 
         if (requestRelationIds != null)
         {

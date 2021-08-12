@@ -8,7 +8,6 @@ import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +29,12 @@ public class AccountService
         return usersRepository.save(user);
     }
 
-    public @NotNull List<User> findByUserIds(List<Long> ids)
+    public @NonNull List<User> findByUserIds(List<Long> ids)
     {
         return usersRepository.findAllById(ids);
     }
 
-    public @NotNull Map<Long, User> findByUserIdsWithIdMap(List<Long> ids)
+    public @NonNull Map<Long, User> findByUserIdsWithIdMap(List<Long> ids)
     {
         return findByUserIds(ids)
             .stream()
@@ -43,7 +42,7 @@ public class AccountService
             .collect(Collectors.toMap(User::getId, Function.identity()));
     }
 
-    public @NotNull User findByUserId(Long id)
+    public @NonNull User findByUserId(Long id)
     {
         Optional<User> user = usersRepository.findById(id);
         if (user.isPresent())

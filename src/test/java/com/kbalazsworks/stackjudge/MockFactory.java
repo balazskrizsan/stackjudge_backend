@@ -29,7 +29,8 @@ public class MockFactory
     private final ServiceFactory serviceFactory;
 
     public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
-    public static final User          userMock          = new User(
+
+    public static final User userMock = new User(
         123L,
         true,
         false,
@@ -39,7 +40,17 @@ public class MockFactory
         "fn_token",
         123L
     );
-    public static final State         STATE_MOCK        = new State(localDateTimeMock, userMock);
+
+    public static final State TEST_STATE = new State(localDateTimeMock, userMock);
+
+    public static StateService getTestStateMock()
+    {
+        StateService mock = mock(StateService.class);
+        when(mock.getState()).thenReturn(new State(TEST_STATE.now(), TEST_STATE.currentUser()));
+
+        return mock;
+    }
+
     /***
      * {
      *   "alg": "HS512"
@@ -52,8 +63,8 @@ public class MockFactory
      * }
      * test jwt secret: 12345678901234567890123456789012
      */
-    public static final String        JWT_FOR_DEFAULT_TEST_METHOD
-                                                        = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjMsTW9ja1VzZXIgTmFtZSxodHRwOi8vbG9nby5jb20vMS5qcGciLCJpc3MiOiJkZXYuc3RhY2tqdWRnZS5jb20iLCJpYXQiOjE2MDk1ODI5NTMsImV4cCI6MTYxMDE4Nzc1M30.XEG9ojmJnDPQmUVrjSkMKAFArzWBVrCj_OXckGxXTmn3ARW5xFCS8KOaahFlJNYUAxn45JWV7UHfpafcZaKt8g";
+    public static final String JWT_FOR_DEFAULT_TEST_METHOD
+        = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjMsTW9ja1VzZXIgTmFtZSxodHRwOi8vbG9nby5jb20vMS5qcGciLCJpc3MiOiJkZXYuc3RhY2tqdWRnZS5jb20iLCJpYXQiOjE2MDk1ODI5NTMsImV4cCI6MTYxMDE4Nzc1M30.XEG9ojmJnDPQmUVrjSkMKAFArzWBVrCj_OXckGxXTmn3ARW5xFCS8KOaahFlJNYUAxn45JWV7UHfpafcZaKt8g";
 
     /*******************************************************************************************************************
      *
@@ -119,6 +130,6 @@ public class MockFactory
 
     public static void SessionService_getStateMock(StateService stateService)
     {
-        when(stateService.getState()).thenReturn(STATE_MOCK);
+        when(stateService.getState()).thenReturn(TEST_STATE);
     }
 }

@@ -5,10 +5,9 @@ import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
+import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,27 +29,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MapsService
 {
+    private final StateService                 stateService;
     private final CdnService                   cdnService;
     private final StaticProxyService           staticProxyService;
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
-    private final StateService                 stateService; // @todo: get it out
+    private final MapMapperService             mapMapperService;
 
     // @todo: test
     public StaticMapResponse staticProxy(
         GoogleStaticMap googleStaticMap,
-        List<GoogleStaticMapMarker> markers,
-        LocalDateTime now
+        List<GoogleStaticMapMarker> markers
     ) throws ContentReadException
     {
-        return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT, now);
+        return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT);
     }
 
     // @todo: test
     public StaticMapResponse staticProxy(
         GoogleStaticMap googleStaticMap,
         List<GoogleStaticMapMarker> markers,
-        MapPositionEnum mapPositionEnum,
-        LocalDateTime now
+        MapPositionEnum mapPositionEnum
     ) throws ContentReadException
     {
         GoogleMapsUrlWithHash mapWithHash = staticProxyService.generateMapUrl(googleStaticMap, markers);
@@ -67,21 +64,29 @@ public class MapsService
         {
         }
 
-        URL image;
+        URL image = getImageUrl(mapWithHash.url());
+
+        CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
+
+        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
+            hash,
+            s3Response.path(),
+            stateService.getState().now()
+        ));
+
+        return new StaticMapResponse(s3Response.path(), mapPositionEnum);
+    }
+
+    private URL getImageUrl(String url) throws ContentReadException
+    {
         try
         {
-            image = new URL(mapWithHash.url());
+            return new URL(url);
         }
         catch (MalformedURLException e)
         {
             throw new ContentReadException("Google maps content read error: " + e.getMessage());
         }
-
-        CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
-
-        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(hash, s3Response.path(), now));
-
-        return new StaticMapResponse(s3Response.path(), mapPositionEnum);
     }
 
     // @todo: test
@@ -122,13 +127,12 @@ public class MapsService
         try
         {
             return staticProxy(
-                mapAddressToGoogleStaticMap(address, mapSizeEnum),
+                mapMapperService.mapAddressToGoogleStaticMap(address, mapSizeEnum),
                 new LinkedList<>()
                 {{
-                    add(mapAddressToGoogleStaticMapMarker(address));
+                    add(mapMapperService.mapAddressToGoogleStaticMapMarker(address));
                 }},
-                mapPositionEnum,
-                stateService.getState().now()
+                mapPositionEnum
             );
         }
         catch (ContentReadException e)
@@ -136,29 +140,5 @@ public class MapsService
             // @todo: add log
             return null;
         }
-    }
-
-    private GoogleStaticMapMarker mapAddressToGoogleStaticMapMarker(Address address)
-    {
-        return new GoogleStaticMapMarker(
-            MarkerSizeEnum.MID,
-            MarkerColorEnum.RED,
-            "",
-            address.markerLat(),
-            address.markerLng()
-        );
-    }
-
-    private static GoogleStaticMap mapAddressToGoogleStaticMap(Address address, MapSizeEnum mapSizeEnum)
-    {
-        return new GoogleStaticMap(
-            mapSizeEnum.getX(),
-            mapSizeEnum.getY(),
-            mapSizeEnum.getScale(),
-            mapSizeEnum.getZoom(),
-            mapSizeEnum.getMapType(),
-            address.markerLat(),
-            address.markerLng()
-        );
     }
 }

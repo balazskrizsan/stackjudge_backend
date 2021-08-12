@@ -5,5 +5,6 @@ TRUNCATE TABLE
     "review",
     "company",
     "notification",
-    "protected_review_log"
+    "protected_review_log",
+    "google_static_maps_cache"
     RESTART IDENTITY;
