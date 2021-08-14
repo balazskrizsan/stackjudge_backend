@@ -6,6 +6,7 @@ import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
+import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
@@ -31,6 +32,7 @@ public class ServiceFactory
     private final SystemFactory         systemFactory;
     private final JwtFactory            jwtFactory;
     private final LocalDateTimeFactory  localDateTimeFactory;
+    private final UrlFactory            urlFactory;
 
     private final AddressService               addressService;
     private final SearchService                searchService;
@@ -183,7 +185,7 @@ public class ServiceFactory
 
     public MapsService getMapsService()
     {
-        return getMapsService(null, null, null, null, null);
+        return getMapsService(null, null, null, null, null, null);
     }
 
     public MapsService getMapsService(
@@ -191,7 +193,8 @@ public class ServiceFactory
         CdnService cdnServiceReplacer,
         StaticProxyService staticProxyServiceReplacer,
         GoogleStaticMapsCacheService staticMapsCacheServiceReplacer,
-        MapMapperService mapMapperServiceReplacer
+        MapMapperService mapMapperServiceReplacer,
+        UrlFactory urlFactoryReplacer
     )
     {
         return new MapsService(
@@ -199,7 +202,8 @@ public class ServiceFactory
             Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
             Optional.ofNullable(staticProxyServiceReplacer).orElse(staticProxyService),
             Optional.ofNullable(staticMapsCacheServiceReplacer).orElse(googleStaticMapsCacheService),
-            Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService)
+            Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService),
+            Optional.ofNullable(urlFactoryReplacer).orElse(urlFactory)
         );
     }
 }

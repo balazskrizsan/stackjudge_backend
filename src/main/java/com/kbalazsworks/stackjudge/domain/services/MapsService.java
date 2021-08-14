@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
+import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
@@ -18,7 +19,6 @@ import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -34,6 +34,7 @@ public class MapsService
     private final StaticProxyService           staticProxyService;
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
+    private final UrlFactory                   urlFactory;
 
     // @todo: test
     public StaticMapResponse staticProxy(
@@ -64,7 +65,7 @@ public class MapsService
         {
         }
 
-        URL image = getImageUrl(mapWithHash.url());
+        URL image = urlFactory.create(mapWithHash.url());
 
         CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
 
@@ -75,18 +76,6 @@ public class MapsService
         ));
 
         return new StaticMapResponse(s3Response.path(), mapPositionEnum);
-    }
-
-    private URL getImageUrl(String url) throws ContentReadException
-    {
-        try
-        {
-            return new URL(url);
-        }
-        catch (MalformedURLException e)
-        {
-            throw new ContentReadException("Google maps content read error: " + e.getMessage());
-        }
     }
 
     // @todo: test
