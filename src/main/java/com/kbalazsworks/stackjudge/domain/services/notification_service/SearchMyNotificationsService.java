@@ -60,7 +60,6 @@ public class SearchMyNotificationsService
         }
     }
 
-    // @todo: test
     public boolean hasNew(List<ITypedNotification> typedNotifications)
     {
         return null != typedNotifications
