@@ -36,11 +36,8 @@ public class MapsService
     private final MapMapperService             mapMapperService;
     private final UrlFactory                   urlFactory;
 
-    // @todo: test
-    public StaticMapResponse staticProxy(
-        GoogleStaticMap googleStaticMap,
-        List<GoogleStaticMapMarker> markers
-    ) throws ContentReadException
+    public StaticMapResponse staticProxy(GoogleStaticMap googleStaticMap, List<GoogleStaticMapMarker> markers)
+        throws ContentReadException
     {
         return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT);
     }
