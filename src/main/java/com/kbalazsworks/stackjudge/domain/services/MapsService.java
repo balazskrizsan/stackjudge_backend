@@ -78,7 +78,9 @@ public class MapsService
     }
 
     // @todo: test
-    public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(Map<Long, List<Address>> companyAddresses)
+    public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(
+        Map<Long, List<Address>> companyAddresses
+    )
     {
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mapsWithCompany = new HashMap<>();
 

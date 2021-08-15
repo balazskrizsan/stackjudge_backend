@@ -22,6 +22,7 @@ import java.util.List;
 
 import static com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum.STATIC_MAPS;
 import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum.COMPANY_LEFT;
+import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum.DEFAULT;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeGoogleMapsUrl;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeUrlHash;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapsCacheFakeBuilder.fileName;
@@ -115,6 +116,47 @@ public class StaticProxyTest extends AbstractIntegrationTest
             UrlFactoryMocks.create_returns_URL(fakeGoogleMapsUrl)
         )
             .staticProxy(testedMap, testedMapMarker, testedMapPositionEnum);
+
+        // Assert
+        assertThat(actual).isEqualTo(expectedStaticMapResponse);
+    }
+
+    @Test
+    @SqlGroup(
+        {
+            @Sql(
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {
+                    "classpath:test/sqls/_truncate_tables.sql",
+                }
+            ),
+            @Sql(
+                executionPhase = AFTER_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED),
+                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
+            )
+        }
+    )
+    @SneakyThrows
+    public void overLoadTest_selectingNonExistingCachedMapInfo_loadGoogleMapSaveToS3AndResponseWithS3Url()
+    {
+        // Arrange
+        GoogleStaticMap             testedMap             = GoogleStaticMapFakeBuilder.build();
+        List<GoogleStaticMapMarker> testedMapMarker       = GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems();
+
+        StaticMapResponse expectedStaticMapResponse = new StaticMapResponse(fakeGoogleMapsUrl, DEFAULT);
+
+        // Act
+        StaticMapResponse actual = serviceFactory.getMapsService(
+            null,
+            CdnServiceMocks.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
+            StaticProxyServiceMocks.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+            null,
+            null,
+            UrlFactoryMocks.create_returns_URL(fakeGoogleMapsUrl)
+        )
+            .staticProxy(testedMap, testedMapMarker);
 
         // Assert
         assertThat(actual).isEqualTo(expectedStaticMapResponse);
