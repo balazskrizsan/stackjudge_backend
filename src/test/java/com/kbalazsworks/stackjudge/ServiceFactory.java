@@ -15,6 +15,7 @@ import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.domain.services.notification_service.SearchMyNotificationsService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
@@ -205,5 +206,10 @@ public class ServiceFactory
             Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService),
             Optional.ofNullable(urlFactoryReplacer).orElse(urlFactory)
         );
+    }
+
+    public SearchMyNotificationsService getSearchMyNotificationsService()
+    {
+        return new SearchMyNotificationsService();
     }
 }

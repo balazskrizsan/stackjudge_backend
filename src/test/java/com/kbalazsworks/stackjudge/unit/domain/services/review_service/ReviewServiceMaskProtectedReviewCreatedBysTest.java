@@ -20,7 +20,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ReviewServiceMaskProtectedReviewCreatedBys extends AbstractTest
+public class ReviewServiceMaskProtectedReviewCreatedBysTest extends AbstractTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
