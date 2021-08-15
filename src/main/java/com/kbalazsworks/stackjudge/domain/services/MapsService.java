@@ -45,7 +45,6 @@ public class MapsService
         return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT);
     }
 
-    // @todo: test
     public StaticMapResponse staticProxy(
         GoogleStaticMap googleStaticMap,
         List<GoogleStaticMapMarker> markers,
