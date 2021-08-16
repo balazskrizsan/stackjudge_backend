@@ -16,34 +16,27 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SearchMyNotificationsService
 {
-    // @todo: test
     public List<ITypedNotification> convertToTypedNotification(List<RawNotification> rawNotifications)
     {
-        return rawNotifications
-            .stream()
-            .map(r -> {
-                if (r.getType() == NotificationTypeEnum.PROTECTED_VIEW.getValue())
-                {
-                    return new TypedNotification<>(
-                        r.getId(),
-                        r.getUserId(),
-                        r.getType(),
-                        getDataProtectedReview(r.getData()),
-                        r.getCreatedAt(),
-                        r.getViewedAt()
-                    );
-                }
+        return rawNotifications.stream().map(this::dataMapper).collect(Collectors.toList());
+    }
 
-                return new TypedNotification<>(
-                    r.getId(),
-                    r.getUserId(),
-                    r.getType(),
-                    r.getData(),
-                    r.getCreatedAt(),
-                    r.getViewedAt()
-                );
-            })
-            .collect(Collectors.toList());
+    private TypedNotification<Object> dataMapper(RawNotification notification)
+    {
+        Object data = notification.getData();
+        if (notification.getType() == NotificationTypeEnum.PROTECTED_VIEW.getValue())
+        {
+            data = getDataProtectedReview(notification.getData());
+        }
+
+        return new TypedNotification<>(
+            notification.getId(),
+            notification.getUserId(),
+            notification.getType(),
+            data,
+            notification.getCreatedAt(),
+            notification.getViewedAt()
+        );
     }
 
     private DataProtectedReview getDataProtectedReview(String data)
