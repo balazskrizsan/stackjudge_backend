@@ -69,8 +69,7 @@ public class SearchMyNotificationsService
             .orElse(null);
     }
 
-    // @todo: test
-    public List<Long> getTypedNotifications(List<ITypedNotification> typedNotifications)
+    public List<Long> getUserIdsFromDataProtectedReviewType(List<ITypedNotification> typedNotifications)
     {
         return typedNotifications
             .stream()

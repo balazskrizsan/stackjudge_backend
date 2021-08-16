@@ -25,7 +25,7 @@ public class NotificationService
             crudNotificationService.searchMyNotifications(limit, state.currentUser().getId())
         );
 
-        List<Long> affectedUsersIds = searchMyNotificationsService.getTypedNotifications(typedNotifications);
+        List<Long> affectedUsersIds = searchMyNotificationsService.getUserIdsFromDataProtectedReviewType(typedNotifications);
 
         affectedUsersIds.add(accountService.getCurrentUser().getId());
 

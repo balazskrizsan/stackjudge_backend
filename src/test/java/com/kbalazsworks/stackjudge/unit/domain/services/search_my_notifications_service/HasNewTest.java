@@ -36,8 +36,8 @@ public class HasNewTest extends AbstractTest
             return new TestData(
                 new ArrayList<>()
                 {{
-                    add(new TypedNotificationFakeBuilder().build());
-                    add(new TypedNotificationFakeBuilder().viewedAt(null).build());
+                    add(new TypedNotificationFakeBuilder<>().build());
+                    add(new TypedNotificationFakeBuilder<>().viewedAt(null).build());
                 }},
                 true
             );
@@ -48,8 +48,8 @@ public class HasNewTest extends AbstractTest
             return new TestData(
                 new ArrayList<>()
                 {{
-                    add(new TypedNotificationFakeBuilder().build());
-                    add(new TypedNotificationFakeBuilder().build());
+                    add(new TypedNotificationFakeBuilder<>().build());
+                    add(new TypedNotificationFakeBuilder<>().build());
                 }},
                 false
             );
