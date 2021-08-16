@@ -4,6 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.ITypedNotification;
 import com.kbalazsworks.stackjudge.fake_builders.TypedNotificationFakeBuilder;
+import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,12 @@ public class HasNewTest extends AbstractTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
+
+    @Test
+    public void VintageHack()
+    {
+        assertThat(true).isTrue();
+    }
 
     private record TestData(List<ITypedNotification> testedNotifications, boolean expectedResult)
     {
