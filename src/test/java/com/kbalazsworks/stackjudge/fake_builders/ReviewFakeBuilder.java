@@ -30,7 +30,7 @@ public class ReviewFakeBuilder
     private short         rate       = 2;
     private String        review     = "long review text";
     private LocalDateTime createdAt  = LocalDateTime.of(2021, 1, 16, 1, 50, 1);
-    private Long          createdBy  = 123L;
+    private Long          createdBy  = UserFakeBuilder.defaultId1;
 
     public List<Review> buildAsList()
     {

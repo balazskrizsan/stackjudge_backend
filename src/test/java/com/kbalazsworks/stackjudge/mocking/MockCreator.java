@@ -6,6 +6,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.state.services.AccountService;
 
 import static org.mockito.Mockito.mock;
 
@@ -59,5 +60,10 @@ public class MockCreator
     public static MapsService getMapsServiceMock()
     {
         return mock(MapsService.class);
+    }
+
+    public static AccountService getAccountServiceMock()
+    {
+        return mock(AccountService.class);
     }
 }

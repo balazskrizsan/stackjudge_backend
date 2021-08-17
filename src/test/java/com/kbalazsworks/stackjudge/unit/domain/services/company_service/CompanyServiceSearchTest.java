@@ -16,10 +16,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.fake_builders.*;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.AddressServiceMocks;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.MapsServiceMocker;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.PaginatorServiceMocks;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.SearchServiceMocks;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.*;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -34,7 +31,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class CompanyServiceSearchTest extends AbstractTest
@@ -59,13 +55,12 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, List<Address>> mockForSearchAddresses,
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mockForAddressMaps,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
-        List<User> mockForUsers,
+        Map<Long, User> mockForUsers,
         CompanySearchServiceResponse expectedResponse
     )
     {
     }
 
-    //@todo: add user mock test
     private TestData provider(int repetition)
     {
         if (repetition == 1)
@@ -83,7 +78,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new HashMap<>(),
                 new HashMap<>(),
                 new HashMap<>(),
-                new ArrayList<>(),
+                new HashMap<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().buildAsList(),
@@ -116,7 +111,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     CompanyFakeBuilder.defaultId1,
                     Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                 ),
-                new ArrayList<>(),
+                Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build()),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().id(CompanyFakeBuilder.defaultId1).buildAsList(),
@@ -130,7 +125,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                     ),
-                    new HashMap<>()
+                    Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build())
                 )
             );
         }
@@ -164,13 +159,13 @@ public class CompanyServiceSearchTest extends AbstractTest
             PaginatorServiceMocks.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
             null,
             null,
-            null,
+            AccountServiceMocker.findByUserIdsWithIdMap_(List.of(UserFakeBuilder.defaultId1), td.mockForUsers),
             MapsServiceMocker.searchByAddresses_returns_addressMaps(td.mockForSearchAddresses, td.mockForAddressMaps),
             companyRepositoryMock
         )
             .search(td.testedSeekId, td.testedLimit, td.testedRequestRelationIds, td.testedNavigation);
 
         // Assert
-        assertThat(actualResponse).isEqualTo(td.expectedResponse);
+        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(td.expectedResponse);
     }
 }
