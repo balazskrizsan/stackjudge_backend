@@ -5,22 +5,23 @@ import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
-import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
-import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.fake_builders.*;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.AddressServiceMocks;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.MapsServiceMocker;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.PaginatorServiceMocks;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.SearchServiceMocks;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
@@ -40,14 +41,6 @@ public class CompanyServiceSearchTest extends AbstractTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
-    private CompanyService companyService;
-
-    @BeforeEach
-    @AfterEach
-    public void clean()
-    {
-        companyService = serviceFactory.getCompanyService();
-    }
 
     @Test
     public void VintageHack()
@@ -64,6 +57,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, CompanyStatistic> mockForGetStatistic,
         List<PaginatorItem> mockForGenerate,
         Map<Long, List<Address>> mockForSearchAddresses,
+        Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mockForAddressMaps,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
         List<User> mockForUsers,
         CompanySearchServiceResponse expectedResponse
@@ -88,6 +82,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new ArrayList<>(),
                 new HashMap<>(),
                 new HashMap<>(),
+                new HashMap<>(),
                 new ArrayList<>(),
                 // expected
                 new CompanySearchServiceResponse(
@@ -105,7 +100,6 @@ public class CompanyServiceSearchTest extends AbstractTest
         }
         if (repetition == 2)
         {
-            // @todo: add map test
             return new TestData(
                 // tested
                 1L,
@@ -117,6 +111,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                 Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
+                Map.of(CompanyFakeBuilder.defaultId1, Map.of(AddressFakeBuilder.defaultId1, new HashMap<>())),
                 Map.of(
                     CompanyFakeBuilder.defaultId1,
                     Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
@@ -130,7 +125,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     CompanyFakeBuilder.defaultId1,
                     Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                     Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
-                    new HashMap<>(),
+                    Map.of(CompanyFakeBuilder.defaultId1, Map.of(AddressFakeBuilder.defaultId1, new HashMap<>())),
                     Map.of(
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
@@ -147,51 +142,35 @@ public class CompanyServiceSearchTest extends AbstractTest
     public void allCallableCalled_byTheProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange
-        TestData   testData           = provider(repetitionInfo.getCurrentRepetition());
-        List<Long> mockedCompaniesIds = testData.mockedCompanies.stream().map(Company::id).collect(Collectors.toList());
+        TestData   td                 = provider(repetitionInfo.getCurrentRepetition());
+        List<Long> mockedCompaniesIds = td.mockedCompanies.stream().map(Company::id).collect(Collectors.toList());
 
-        CompanyRepository companyRepositoryMock = mock(CompanyRepository.class);
-        when(companyRepositoryMock.search(testData.testedSeekId, testData.testedNavigation, testData.testedLimit))
-            .thenReturn(testData.mockedCompanies);
+        CompanyRepository companyRepositoryMock = MockCreator.getCompanyRepositoryMock();
+        when(companyRepositoryMock.search(td.testedSeekId, td.testedNavigation, td.testedLimit))
+            .thenReturn(td.mockedCompanies);
         when(companyRepositoryMock.countRecordsBeforeId(mockedCompaniesIds.get(0))).thenReturn(1L);
         when(companyRepositoryMock.countRecords()).thenReturn(2L);
 
-        SearchService searchServiceMock = mock(SearchService.class);
-        when(searchServiceMock.getStatistic(mockedCompaniesIds)).thenReturn(testData.mockForGetStatistic);
-
-        PaginatorService paginatorServiceMock = mock(PaginatorService.class);
-        when(paginatorServiceMock.generate(1L, 2L, testData.testedLimit))
-            .thenReturn(testData.mockForGenerate);
-
-        AddressService addressServiceMock = mock(AddressService.class);
-        when(addressServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForSearchAddresses);
-
-        ReviewService reviewServiceMock = mock(ReviewService.class);
-        when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(testData.mockForReviews);
-        when(reviewServiceMock.maskProtectedReviewCreatedBys(testData.mockForReviews))
-            .thenReturn(testData.mockForReviews);
-
-        companyService = serviceFactory.getCompanyService(
-            addressServiceMock,
-            searchServiceMock,
-            reviewServiceMock,
-            paginatorServiceMock,
-            null,
-            null,
-            null,
-            null,
-            companyRepositoryMock
-        );
+        ReviewService reviewServiceMock = MockCreator.getReviewServiceMock();
+        when(reviewServiceMock.search(mockedCompaniesIds)).thenReturn(td.mockForReviews);
+        when(reviewServiceMock.maskProtectedReviewCreatedBys(td.mockForReviews))
+            .thenReturn(td.mockForReviews);
 
         // Act
-        CompanySearchServiceResponse actualResponse = companyService.search(
-            testData.testedSeekId,
-            testData.testedLimit,
-            testData.testedRequestRelationIds,
-            testData.testedNavigation
-        );
+        CompanySearchServiceResponse actualResponse = serviceFactory.getCompanyService(
+            AddressServiceMocks.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
+            SearchServiceMocks.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
+            reviewServiceMock,
+            PaginatorServiceMocks.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
+            null,
+            null,
+            null,
+            MapsServiceMocker.searchByAddresses_returns_addressMaps(td.mockForSearchAddresses, td.mockForAddressMaps),
+            companyRepositoryMock
+        )
+            .search(td.testedSeekId, td.testedLimit, td.testedRequestRelationIds, td.testedNavigation);
 
         // Assert
-        assertThat(actualResponse).isEqualTo(testData.expectedResponse);
+        assertThat(actualResponse).isEqualTo(td.expectedResponse);
     }
 }

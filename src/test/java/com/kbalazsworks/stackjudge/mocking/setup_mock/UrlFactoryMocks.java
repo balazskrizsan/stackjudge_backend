@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.mocking.MockCreation;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -9,7 +9,7 @@ import java.net.URL;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeGoogleMapsUrl;
 import static org.mockito.Mockito.when;
 
-public class UrlFactoryMocks extends MockCreation
+public class UrlFactoryMocks extends MockCreator
 {
     public static UrlFactory create_returns_URL(String whenUrl)
     {
