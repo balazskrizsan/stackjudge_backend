@@ -22,7 +22,7 @@ public class FacebookService
     // @todo: test
     public String registrationAndLogin()
     {
-        String currentStateId = "secret_" + secureRandomService.get(32);
+        String currentStateId = "secret_" + secureRandomService.getUrlEncoded(32);
         FacebookService.stateStore.add(currentStateId);
 
         OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
