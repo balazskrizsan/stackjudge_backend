@@ -11,7 +11,7 @@ import java.net.URL;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeGoogleMapsUrl;
 import static org.mockito.Mockito.when;
 
-public class CdnServiceMocks extends MockCreator
+public class CdnServiceMocker extends MockCreator
 {
     @SneakyThrows
     public static CdnService put_returns_CdnServicePutResponse(
@@ -21,10 +21,10 @@ public class CdnServiceMocks extends MockCreator
         String thanFileName
     )
     {
-        CdnService cdnServiceMock = getCdnServiceMock();
-        when(cdnServiceMock.put(whenCdnNamespaceEnum, whenFileName, whenFileExtension, new URL(fakeGoogleMapsUrl)))
+        CdnService mock = getCdnServiceMock();
+        when(mock.put(whenCdnNamespaceEnum, whenFileName, whenFileExtension, new URL(fakeGoogleMapsUrl)))
             .thenReturn(new CdnServicePutResponse(getPutObjectResultMock(), fakeGoogleMapsUrl, thanFileName));
 
-        return cdnServiceMock;
+        return mock;
     }
 }

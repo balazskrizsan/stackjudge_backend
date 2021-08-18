@@ -8,9 +8,9 @@ import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStati
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.CdnServiceMocks;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.StaticProxyServiceMocks;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.UrlFactoryMocks;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.CdnServiceMocker;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.StaticProxyServiceMocker;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.UrlFactoryMocker;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class StaticProxyTest extends AbstractIntegrationTest
         StaticMapResponse actual = serviceFactory.getMapsService(
             null,
             null,
-            StaticProxyServiceMocks.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
             null,
             null,
             null
@@ -109,11 +109,11 @@ public class StaticProxyTest extends AbstractIntegrationTest
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
             null,
-            CdnServiceMocks.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
-            StaticProxyServiceMocks.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+            CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
+            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
             null,
             null,
-            UrlFactoryMocks.create_returns_URL(fakeGoogleMapsUrl)
+            UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
         )
             .staticProxy(testedMap, testedMapMarker, testedMapPositionEnum);
 
@@ -150,11 +150,11 @@ public class StaticProxyTest extends AbstractIntegrationTest
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
             null,
-            CdnServiceMocks.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
-            StaticProxyServiceMocks.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+            CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
+            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
             null,
             null,
-            UrlFactoryMocks.create_returns_URL(fakeGoogleMapsUrl)
+            UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
         )
             .staticProxy(testedMap, testedMapMarker);
 

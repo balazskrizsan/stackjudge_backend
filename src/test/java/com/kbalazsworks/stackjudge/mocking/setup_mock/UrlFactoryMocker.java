@@ -9,7 +9,7 @@ import java.net.URL;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeGoogleMapsUrl;
 import static org.mockito.Mockito.when;
 
-public class UrlFactoryMocks extends MockCreator
+public class UrlFactoryMocker extends MockCreator
 {
     public static UrlFactory create_returns_URL(String whenUrl)
     {
@@ -19,9 +19,9 @@ public class UrlFactoryMocks extends MockCreator
     @SneakyThrows
     public static UrlFactory create_returns_URL(String whenUrl, String thanUrl)
     {
-        UrlFactory urlFactoryMock = getUrlFactoryMock();
-        when(urlFactoryMock.create(whenUrl)).thenReturn(new URL(thanUrl));
+        UrlFactory mock = getUrlFactoryMock();
+        when(mock.create(whenUrl)).thenReturn(new URL(thanUrl));
 
-        return urlFactoryMock;
+        return mock;
     }
 }

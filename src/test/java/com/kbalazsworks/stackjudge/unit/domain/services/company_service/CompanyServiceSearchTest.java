@@ -154,9 +154,9 @@ public class CompanyServiceSearchTest extends AbstractTest
         // Act
         CompanySearchServiceResponse actualResponse = serviceFactory.getCompanyService(
             AddressServiceMocker.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
-            SearchServiceMocks.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
+            SearchServiceMocker.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
             reviewServiceMock,
-            PaginatorServiceMocks.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
+            PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
             null,
             null,
             AccountServiceMocker.findByUserIdsWithIdMap_(List.of(UserFakeBuilder.defaultId1), td.mockForUsers),

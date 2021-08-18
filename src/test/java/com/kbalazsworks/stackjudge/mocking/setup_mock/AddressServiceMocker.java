@@ -18,17 +18,17 @@ public class AddressServiceMocker extends MockCreator
         Map<Long, List<Address>> thanForSearchAddresses
     )
     {
-        AddressService addressServiceMock = getAddressServiceMock();
-        when(addressServiceMock.search(whenCompaniesIds)).thenReturn(thanForSearchAddresses);
+        AddressService mock = getAddressServiceMock();
+        when(mock.search(whenCompaniesIds)).thenReturn(thanForSearchAddresses);
 
-        return addressServiceMock;
+        return mock;
     }
 
     public static AddressService create_throws_AddressHttpException()
     {
-        AddressService addressServiceMock = mock(AddressService.class);
-        doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
+        AddressService mock = mock(AddressService.class);
+        doThrow(AddressHttpException.class).when(mock).create(Mockito.any());
 
-        return addressServiceMock;
+        return mock;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PaginatorServiceMocks extends MockCreator
+public class PaginatorServiceMocker extends MockCreator
 {
     public static PaginatorService generate_(
         long whenElementsBeforeSeekId,
@@ -18,10 +18,9 @@ public class PaginatorServiceMocks extends MockCreator
         List<PaginatorItem> thanPaginatorItems
     )
     {
-        PaginatorService paginatorServiceMock = mock(PaginatorService.class);
-        when(paginatorServiceMock.generate(whenElementsBeforeSeekId, whenItemCount, whenLimit))
-            .thenReturn(thanPaginatorItems);
+        PaginatorService mock = mock(PaginatorService.class);
+        when(mock.generate(whenElementsBeforeSeekId, whenItemCount, whenLimit)).thenReturn(thanPaginatorItems);
 
-        return paginatorServiceMock;
+        return mock;
     }
 }

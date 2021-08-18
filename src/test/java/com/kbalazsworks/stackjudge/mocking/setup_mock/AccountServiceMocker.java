@@ -13,9 +13,9 @@ public class AccountServiceMocker extends MockCreator
 {
     public static AccountService findByUserIdsWithIdMap_(List<Long> whenUsersIds, Map<Long, User> thanUsersMap)
     {
-        AccountService accountServiceMock = getAccountServiceMock();
-        when(accountServiceMock.findByUserIdsWithIdMap(whenUsersIds)).thenReturn(thanUsersMap);
+        AccountService mock = getAccountServiceMock();
+        when(mock.findByUserIdsWithIdMap(whenUsersIds)).thenReturn(thanUsersMap);
 
-        return accountServiceMock;
+        return mock;
     }
 }

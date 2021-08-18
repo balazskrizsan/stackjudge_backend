@@ -18,9 +18,9 @@ public class MapsServiceMocker extends MockCreator
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> thanAddressMaps
     )
     {
-        MapsService mapsServiceMock = getMapsServiceMock();
-        when(mapsServiceMock.searchByAddresses(whenSearchAddresses)).thenReturn(thanAddressMaps);
+        MapsService mock = getMapsServiceMock();
+        when(mock.searchByAddresses(whenSearchAddresses)).thenReturn(thanAddressMaps);
 
-        return mapsServiceMock;
+        return mock;
     }
 }

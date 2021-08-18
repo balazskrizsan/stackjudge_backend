@@ -10,17 +10,17 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-public class StaticProxyServiceMocks extends MockCreator
+public class StaticProxyServiceMocker extends MockCreator
 {
     public static StaticProxyService generateMapUrl_returns_GoogleMapsUrlWithHash(
         GoogleStaticMap whenGoogleStaticMap,
         List<GoogleStaticMapMarker> whenMarkers
     )
     {
-        StaticProxyService staticProxyServiceMock = getStaticProxyServiceMock();
-        when(staticProxyServiceMock.generateMapUrl(whenGoogleStaticMap, whenMarkers))
+        StaticProxyService mock = getStaticProxyServiceMock();
+        when(mock.generateMapUrl(whenGoogleStaticMap, whenMarkers))
             .thenReturn(GoogleMapsUrlWithHashFakeBuilder.build());
 
-        return staticProxyServiceMock;
+        return mock;
     }
 }
