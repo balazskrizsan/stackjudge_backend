@@ -1,13 +1,13 @@
 package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
-import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
-import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -25,7 +25,7 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
 public class AddressServiceCreateTest extends AbstractIntegrationTest
 {
     @Autowired
-    private AddressService addressService;
+    private ServiceFactory serviceFactory;
 
     private Address provider(int repetition) throws Exception
     {
@@ -69,7 +69,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
         Address expectedAddress = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        addressService.create(testedAddress);
+        serviceFactory.getAddressService().create(testedAddress);
 
         // Assert
         AddressRecord actualAddress = getQueryBuilder()
@@ -89,7 +89,7 @@ public class AddressServiceCreateTest extends AbstractIntegrationTest
         Address testedAddress = new AddressFakeBuilder().build();
 
         // Act - Assert
-        assertThatThrownBy(() -> addressService.create(testedAddress))
+        assertThatThrownBy(() -> serviceFactory.getAddressService().create(testedAddress))
             .isInstanceOf((CompanyHttpException.class))
             .hasMessage("Company not found.");
     }

@@ -8,15 +8,14 @@ import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.repositories.GroupRepository;
-import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
-import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
+import com.kbalazsworks.stackjudge.domain.repositories.*;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.services.notification_service.SearchMyNotificationsService;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
@@ -24,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,7 @@ public class ServiceFactory
     private final ReviewRepository  reviewRepository;
     private final GroupRepository   groupRepository;
     private final S3Repository      s3Repository;
+    private final AddressRepository addressRepository;
 
 
     public CompanyService getCompanyService()
@@ -105,6 +108,31 @@ public class ServiceFactory
             Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory),
             Optional.ofNullable(jwtSubServiceReplacer).orElse(jwtSubService)
         );
+    }
+
+    public JwtService getJwtMockedService(
+        ApplicationProperties applicationPropertiesMock,
+        DateFactory dateFactoryMock,
+        SystemFactory systemFactoryMock,
+        JwtSubService jwtSubServiceMock
+    )
+    {
+        if (null == applicationPropertiesMock)
+        {
+            applicationPropertiesMock = ApplicationPropertiesMocker.getDefaultMock();
+        }
+
+        if (null == dateFactoryMock)
+        {
+            String testedTime            = "2021-01-02 11:22:33";
+            String testedTimePlusOneWeek = "2021-01-09 11:22:33";
+            dateFactoryMock = MockCreator.getDateFactoryMock();
+            when(dateFactoryMock.create()).thenReturn(MockFactory.getJavaDateFromDateTime(testedTime));
+            when(dateFactoryMock.create(anyLong()))
+                .thenReturn(MockFactory.getJavaDateFromDateTime(testedTimePlusOneWeek));
+        }
+
+        return getJwtService(applicationPropertiesMock, dateFactoryMock, systemFactoryMock, jwtSubServiceMock);
     }
 
     public JwtSubService getJwtSubService()
@@ -217,5 +245,15 @@ public class ServiceFactory
     public SecureRandomService getSecureRandomService()
     {
         return new SecureRandomService();
+    }
+
+    public AddressService getAddressService()
+    {
+        return new AddressService(addressRepository);
+    }
+
+    public PaginatorService getPaginatorService()
+    {
+        return new PaginatorService();
     }
 }

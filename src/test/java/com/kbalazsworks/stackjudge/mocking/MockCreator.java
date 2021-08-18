@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
+import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
@@ -94,5 +95,10 @@ public class MockCreator
     public static GroupService getGroupServiceMock()
     {
         return mock(GroupService.class);
+    }
+
+    public static DateFactory getDateFactoryMock()
+    {
+        return mock(DateFactory.class);
     }
 }

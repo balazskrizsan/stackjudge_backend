@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.unit.domain.services.paginator_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PaginatorServiceGenerateTest extends AbstractTest
 {
     @Autowired
-    private PaginatorService paginatorService;
+    private ServiceFactory serviceFactory;
 
     private record TestData(
         long testedElementsBeforeSeekId,
@@ -149,7 +150,7 @@ public class PaginatorServiceGenerateTest extends AbstractTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        List<PaginatorItem> actualList = paginatorService.generate(
+        List<PaginatorItem> actualList = serviceFactory.getPaginatorService().generate(
             testData.testedElementsBeforeSeekId(),
             testData.testedFullLength(),
             testData.testedLimit()
