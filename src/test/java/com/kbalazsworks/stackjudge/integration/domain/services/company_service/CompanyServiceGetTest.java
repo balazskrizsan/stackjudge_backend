@@ -1,15 +1,15 @@
 package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
+import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.fake_builders.*;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
-import org.junit.platform.commons.JUnitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -27,7 +27,7 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
 public class CompanyServiceGetTest extends AbstractIntegrationTest
 {
     @Autowired
-    private CompanyService companyService;
+    private ServiceFactory serviceFactory;
 
     private record TestData(
         Long testedCompanyId,
@@ -46,9 +46,9 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
     // @todo: add user list test
     private TestData provider(int repetition)
     {
-        long    testedCompanyId = CompanyFakeBuilder.defaultId1;
+        long testedCompanyId    = CompanyFakeBuilder.defaultId1;
         Company expectedCompany = new CompanyFakeBuilder().build();
-        long    expectedGroupId = GroupFakeBuilder.defaultId1;
+        long expectedGroupId    = GroupFakeBuilder.defaultId1;
 
         if (repetition == 1)
         {
@@ -68,7 +68,6 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         }
         if (repetition == 2)
         {
-            // @todo: add map test
             return new TestData(
                 testedCompanyId,
                 List.of((short) 1, (short) 2, (short) 3, (short) 5),
@@ -77,14 +76,19 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
-                    null,
+                    Map.of(
+                        AddressFakeBuilder.defaultId1,
+                        Map.of(MapPositionEnum.COMPANY_HEADER, new StaticMapResponseFakeBuilder().build(),
+                            MapPositionEnum.COMPANY_LEFT, new StaticMapResponseFakeBuilder().build1_2()
+                        )
+                    ),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
                     new HashMap<>()
                 )
             );
         }
 
-        throw new JUnitException("Missing test data on repetition#" + repetition);
+        throw getRepeatException(repetition);
     }
 
     @RepeatedTest(2)
@@ -99,6 +103,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql",
+                    "classpath:test/sqls/preset_add_1plus1_googole_static_map_cache.sql"
                 }
             ),
             @Sql(
@@ -111,15 +116,15 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
     public void findTheInsertedCompanyAndRelatedInfo_byProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange - In preset
-        TestData testData = provider(repetitionInfo.getCurrentRepetition());
+        TestData tD = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        CompanyGetServiceResponse actualResponse = companyService.get(
-            testData.testedCompanyId,
-            testData.testedRequestRelationIds
+        CompanyGetServiceResponse actualResponse = serviceFactory.getCompanyService().get(
+            tD.testedCompanyId,
+            tD.testedRequestRelationIds
         );
 
         // Assert
-        assertThat(actualResponse).isEqualTo(testData.expectedResponse);
+        assertThat(actualResponse).isEqualTo(tD.expectedResponse);
     }
 }

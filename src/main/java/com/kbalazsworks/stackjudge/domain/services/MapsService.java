@@ -89,17 +89,24 @@ public class MapsService
                 Map<MapPositionEnum, StaticMapResponse> mapsForAddress = new HashMap<>();
                 if (isFirst[0])
                 {
-                    mapsForAddress.put(
-                        MapPositionEnum.COMPANY_HEADER,
-                        getMap(address, MapSizeEnum.COMPANY_HEADER, MapPositionEnum.COMPANY_HEADER)
+                    StaticMapResponse headerMap = getMap(
+                        address,
+                        MapSizeEnum.COMPANY_HEADER,
+                        MapPositionEnum.COMPANY_HEADER
                     );
+                    if (null != headerMap)
+                    {
+                        mapsForAddress.put(MapPositionEnum.COMPANY_HEADER, headerMap);
+                    }
                     isFirst[0] = false;
                 }
 
-                mapsForAddress.put(
-                    MapPositionEnum.COMPANY_LEFT,
-                    getMap(address, MapSizeEnum.COMPANY_LEFT, MapPositionEnum.COMPANY_LEFT)
-                );
+                StaticMapResponse leftMap = getMap(address, MapSizeEnum.COMPANY_LEFT, MapPositionEnum.COMPANY_LEFT);
+                if (null != leftMap)
+                {
+                    mapsForAddress.put(MapPositionEnum.COMPANY_LEFT, leftMap);
+                }
+
                 maps.put(address.id(), mapsForAddress);
             });
 
