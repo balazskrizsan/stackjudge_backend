@@ -17,9 +17,8 @@ import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.function.Executable;
@@ -38,14 +37,6 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
-    private CompanyService companyService;
-
-    @BeforeEach
-    @AfterEach
-    public void clean()
-    {
-        companyService = serviceFactory.getCompanyService();
-    }
 
     private record TestData(
         Company testedCompany,
@@ -62,15 +53,14 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     {
         if (repetition == 1)
         {
-            //  @todo
-//            return new TestData(
-//                new CompanyFakeBuilder().build(),
-//                new AddressFakeBuilder().build(),
-//                null,
-//                new CompanyFakeBuilder().build(),
-//                new AddressFakeBuilder().build(),
-//                () -> verify(cdnServiceMock, never()).put(any(), any(), any(), any())
-//            );
+            return new TestData(
+                new CompanyFakeBuilder().build(),
+                new AddressFakeBuilder().build(),
+                null,
+                new CompanyFakeBuilder().build(),
+                new AddressFakeBuilder().build(),
+                () -> verify(cdnServiceMock, never()).put(any(), any(), any(), any(MultipartFile.class))
+            );
         }
 
         if (repetition == 2)
@@ -106,9 +96,11 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
     public void insertOneCompanyWithOneAddress_checkByProvider(RepetitionInfo repetitionInfo) throws ContentReadException
     {
         // Arrange
-        CdnService cdnServiceMock = mock(CdnService.class);
+        CdnService cdnServiceMock = MockCreator.getCdnServiceMock();
         TestData   testData       = provider(repetitionInfo.getCurrentRepetition(), cdnServiceMock);
-        companyService = serviceFactory.getCompanyService(
+
+        // Act
+        serviceFactory.getCompanyService(
             null,
             null,
             null,
@@ -118,10 +110,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
             null,
             null,
             null
-        );
-
-        // Act
-        companyService.create(testData.testedCompany, testData.testedAddress, testData.testedFile);
+        ).create(testData.testedCompany, testData.testedAddress, testData.testedFile);
 
         // Assert
         CompanyRecord actualCompany = getQueryBuilder().selectFrom(companyTable).fetchOne();
@@ -149,7 +138,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         AddressService addressServiceMock = mock(AddressService.class);
         doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
 
-        companyService = serviceFactory.getCompanyService(
+        CompanyService service = serviceFactory.getCompanyService(
             addressServiceMock,
             null,
             null,
@@ -166,12 +155,10 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         AddressRecord actualAddress = getQueryBuilder().selectFrom(addressTable).fetchOne();
 
         assertAll(
-            () -> assertThatThrownBy(() -> companyService.create(testedCompany, testedAddress, null))
+            () -> assertThatThrownBy(() -> service.create(testedCompany, testedAddress, null))
                 .isInstanceOf((AddressHttpException.class)),
             () -> assertThat(actualCompany).isNull(),
             () -> assertThat(actualAddress).isNull()
         );
-
-        clean();
     }
 }
