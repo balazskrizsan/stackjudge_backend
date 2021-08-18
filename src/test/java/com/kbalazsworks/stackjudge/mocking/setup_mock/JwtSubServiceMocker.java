@@ -1,0 +1,20 @@
+package com.kbalazsworks.stackjudge.mocking.setup_mock;
+
+import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
+
+import static org.mockito.Mockito.when;
+
+public class JwtSubServiceMocker extends MockCreator
+{
+    public static JwtSubService getUserDataFormJwtString_returns_profilePictureUrl(
+        String whenToken,
+        int thanPictureUrlIndex
+    )
+    {
+        JwtSubService mock = getJwtSubServiceMock();
+        when(mock.getUserDataFormJwtString(whenToken, thanPictureUrlIndex)).thenReturn("http://logo.com/1.jpg");
+
+        return mock;
+    }
+}

@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking;
 
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
@@ -65,5 +66,10 @@ public class MockCreator
     public static AccountService getAccountServiceMock()
     {
         return mock(AccountService.class);
+    }
+
+    public static JwtSubService getJwtSubServiceMock()
+    {
+        return mock(JwtSubService.class);
     }
 }
