@@ -7,8 +7,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStati
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
-import com.kbalazsworks.stackjudge.mocking.MockCreator;
-import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -17,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker.GOOGLE_MAPS_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 public class GenerateMapUrlTest extends AbstractTest
 {
@@ -47,7 +46,7 @@ public class GenerateMapUrlTest extends AbstractTest
                 GoogleStaticMapFakeBuilder.build(),
                 new ArrayList<>(),
                 new GoogleMapsUrlWithHash(
-                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=123123",
+                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY,
                     "071a4a79f317fd1f6b913842e96703f1"
                 )
             );
@@ -58,7 +57,7 @@ public class GenerateMapUrlTest extends AbstractTest
                 GoogleStaticMapFakeBuilder.build(),
                 GoogleStaticMapMarkerFakeBuilder.buildAsList(),
                 new GoogleMapsUrlWithHash(
-                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=123123&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
+                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY + "&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
                     "071a4a79f317fd1f6b913842e96703f1"
                 )
             );
@@ -69,7 +68,7 @@ public class GenerateMapUrlTest extends AbstractTest
                 GoogleStaticMapFakeBuilder.build(),
                 GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems(),
                 new GoogleMapsUrlWithHash(
-                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=123123&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
+                    "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY + "&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
                     "071a4a79f317fd1f6b913842e96703f1"
                 )
             );
@@ -82,13 +81,11 @@ public class GenerateMapUrlTest extends AbstractTest
     public void getGeneratedUrlWithGeneratedHash_perfect(RepetitionInfo repetitionInfo)
     {
         // Arrange
-        TestData              testData                  = provider(repetitionInfo.getCurrentRepetition());
-        ApplicationProperties applicationPropertiesMock = MockCreator.getApplicationPropertiesMock();
-        when(applicationPropertiesMock.getGoogleMapsKey()).thenReturn("123123");
+        TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
         GoogleMapsUrlWithHash actualUrlWithHash = serviceFactory
-            .getStaticProxyService(applicationPropertiesMock)
+            .getStaticProxyService(ApplicationPropertiesMocker.getDefaultMock())
             .generateMapUrl(testData.googleStaticMap(), testData.markers());
 
         // Assert

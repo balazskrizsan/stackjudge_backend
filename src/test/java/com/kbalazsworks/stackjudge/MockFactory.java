@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
-import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
@@ -84,9 +84,7 @@ public class MockFactory
     {
         if (null == applicationPropertiesMock)
         {
-            applicationPropertiesMock = MockCreator.getApplicationPropertiesMock();
-            when(applicationPropertiesMock.getJwtSecret()).thenReturn("12345678901234567890123456789012");
-            when(applicationPropertiesMock.getSiteDomain()).thenReturn("dev.stackjudge.com");
+            applicationPropertiesMock = ApplicationPropertiesMocker.getDefaultMock();
         }
 
         if (null == dateFactoryMock)
