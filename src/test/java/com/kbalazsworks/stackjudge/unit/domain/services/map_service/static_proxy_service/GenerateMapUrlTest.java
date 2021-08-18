@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStati
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -18,7 +19,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class GenerateMapUrlTest extends AbstractTest
@@ -83,7 +83,7 @@ public class GenerateMapUrlTest extends AbstractTest
     {
         // Arrange
         TestData              testData                  = provider(repetitionInfo.getCurrentRepetition());
-        ApplicationProperties applicationPropertiesMock = mock(ApplicationProperties.class);
+        ApplicationProperties applicationPropertiesMock = MockCreator.getApplicationPropertiesMock();
         when(applicationPropertiesMock.getGoogleMapsKey()).thenReturn("123123");
 
         // Act

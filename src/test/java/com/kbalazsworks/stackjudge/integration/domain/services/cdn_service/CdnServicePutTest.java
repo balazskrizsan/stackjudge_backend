@@ -7,8 +7,9 @@ import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
-import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.S3Repository;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.AmazonS3ClientFactoryMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,8 +19,8 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CdnServicePutTest extends AbstractIntegrationTest
 {
@@ -44,15 +45,12 @@ public class CdnServicePutTest extends AbstractIntegrationTest
         byte[]            expectedInput          = new byte[]{'a', 'b', 'c'};
         int               expectedContentLength  = 3;
 
-        AmazonS3ClientFactory amazonS3ClientFactoryMock = mock(AmazonS3ClientFactory.class);
-
-        AmazonS3 amazonS3Mock = mock(AmazonS3.class);
-        when(amazonS3ClientFactoryMock.create(any())).thenReturn(amazonS3Mock);
-
-        ApplicationProperties applicationPropertiesMock = mock(ApplicationProperties.class);
+        ApplicationProperties applicationPropertiesMock = MockCreator.getApplicationPropertiesMock();
         when(applicationPropertiesMock.getAwsAccessKey()).thenReturn("aaa");
         when(applicationPropertiesMock.getAwsSecretKey()).thenReturn("bbb");
         when(applicationPropertiesMock.getAwsS3CdnBucket()).thenReturn(testedBucket);
+
+        AmazonS3 amazonS3Mock = MockCreator.getAmazonS3Mock();
 
         // Act
         serviceFactory
@@ -60,7 +58,10 @@ public class CdnServicePutTest extends AbstractIntegrationTest
                 applicationPropertiesMock,
                 MockFactory.getLocalDateTimeFactoryMockWithDateTime(testMockTime),
                 null,
-                new S3Repository(applicationPropertiesMock, amazonS3ClientFactoryMock)
+                new S3Repository(
+                    applicationPropertiesMock,
+                    AmazonS3ClientFactoryMocker.create_returns_AmazonS3Mock(amazonS3Mock)
+                )
             )
             .put(testedCdnNamespaceEnum, testedFileName, testedFileExtension, testedFile);
 

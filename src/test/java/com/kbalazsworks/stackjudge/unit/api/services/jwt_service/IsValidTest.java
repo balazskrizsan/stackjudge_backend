@@ -3,14 +3,11 @@ package com.kbalazsworks.stackjudge.unit.api.services.jwt_service;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
-import io.jsonwebtoken.JwtException;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.JwtSubServiceMocker;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class IsValidTest extends AbstractTest
 {
@@ -36,12 +33,14 @@ public class IsValidTest extends AbstractTest
         // Arrange
         String testedToken = "token";
 
-        JwtSubService jwtSubServiceMock = mock(JwtSubService.class);
-        when(jwtSubServiceMock.errorHandledParseClaimsJws("token")).thenThrow(JwtException.class);
-
         // Act
         boolean actualState = serviceFactory
-            .getJwtService(null, null, null, jwtSubServiceMock)
+            .getJwtService(
+                null,
+                null,
+                null,
+                JwtSubServiceMocker.errorHandledParseClaimsJws_throws_JwtException(testedToken)
+            )
             .isValid(testedToken);
 
         // Assert
