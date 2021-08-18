@@ -19,11 +19,22 @@ public class JwtSubServiceMocker extends MockCreator
         return mock;
     }
 
-
     public static JwtSubService errorHandledParseClaimsJws_throws_JwtException(String whenToken)
     {
         JwtSubService mock = getJwtSubServiceMock();
         when(mock.errorHandledParseClaimsJws(whenToken)).thenThrow(JwtException.class);
+
+        return mock;
+    }
+
+    public static JwtSubService getUserDataFormJwtString_returns_userId(
+        String whenToken,
+        int whenUserIdIndex,
+        String thenUserId
+    )
+    {
+        JwtSubService mock = getJwtSubServiceMock();
+        when(mock.getUserDataFormJwtString(whenToken, whenUserIdIndex)).thenReturn(thenUserId);
 
         return mock;
     }

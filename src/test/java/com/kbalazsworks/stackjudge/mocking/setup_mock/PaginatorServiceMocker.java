@@ -6,7 +6,6 @@ import com.kbalazsworks.stackjudge.mocking.MockCreator;
 
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PaginatorServiceMocker extends MockCreator
@@ -18,7 +17,7 @@ public class PaginatorServiceMocker extends MockCreator
         List<PaginatorItem> thanPaginatorItems
     )
     {
-        PaginatorService mock = mock(PaginatorService.class);
+        PaginatorService mock = getPaginatorServiceMock();
         when(mock.generate(whenElementsBeforeSeekId, whenItemCount, whenLimit)).thenReturn(thanPaginatorItems);
 
         return mock;

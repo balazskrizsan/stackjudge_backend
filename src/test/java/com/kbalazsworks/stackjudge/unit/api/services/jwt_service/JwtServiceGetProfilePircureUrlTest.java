@@ -22,8 +22,7 @@ public class JwtServiceGetProfilePircureUrlTest extends AbstractTest
         String expectedProfilePictureUrl = "http://logo.com/1.jpg";
 
         // Act
-        String actualProfilePictureUrl = mockFactory
-            .getMockedJwtService(
+        String actualProfilePictureUrl = mockFactory.getMockedJwtService(
                 null,
                 null,
                 null,

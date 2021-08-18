@@ -7,7 +7,6 @@ import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class SearchServiceMocker extends MockCreator
@@ -17,7 +16,7 @@ public class SearchServiceMocker extends MockCreator
         Map<Long, CompanyStatistic> thanForGetStatistic
     )
     {
-        SearchService mock = mock(SearchService.class);
+        SearchService mock = getSearchServiceMock();
         when(mock.getStatistic(whenCompaniesIds)).thenReturn(thanForGetStatistic);
 
         return mock;

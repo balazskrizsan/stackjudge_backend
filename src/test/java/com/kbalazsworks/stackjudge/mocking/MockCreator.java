@@ -90,4 +90,9 @@ public class MockCreator
     {
         return mock(AmazonS3.class);
     }
+
+    public static GroupService getGroupServiceMock()
+    {
+        return mock(GroupService.class);
+    }
 }

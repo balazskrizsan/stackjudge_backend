@@ -29,8 +29,12 @@ public class JwtServiceGetUsernameTest extends AbstractTest
         String expectedUserId = "MockUser Name";
 
         // Act
-        String token = serviceFactory
-            .getJwtService(applicationPropertiesMock, null, null, null)
+        String token = serviceFactory.getJwtService(
+            applicationPropertiesMock,
+            null,
+            null,
+            null
+        )
             .generateAccessToken(testedUser);
 
         // Act

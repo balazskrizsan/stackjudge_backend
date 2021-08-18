@@ -34,8 +34,7 @@ public class IsValidTest extends AbstractTest
         String testedToken = "token";
 
         // Act
-        boolean actualState = serviceFactory
-            .getJwtService(
+        boolean actualState = serviceFactory.getJwtService(
                 null,
                 null,
                 null,

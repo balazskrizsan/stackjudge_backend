@@ -4,6 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
+import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -78,7 +79,7 @@ public class SearchServiceGetStatisticTest extends AbstractTest
         // Arrange
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
-        GroupService groupServiceMock = mock(GroupService.class);
+        GroupService groupServiceMock = MockCreator.getGroupServiceMock();
         when(groupServiceMock.countStacks(testData.testedCompanyIds)).thenReturn(testData.mockForCountStack);
         when(groupServiceMock.countTeams(testData.testedCompanyIds)).thenReturn(testData.mockForCountTeams);
 
