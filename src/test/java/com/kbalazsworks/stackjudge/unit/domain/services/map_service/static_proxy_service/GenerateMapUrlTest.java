@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStati
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +31,12 @@ public class GenerateMapUrlTest extends AbstractTest
         List<GoogleStaticMapMarker> markers,
         GoogleMapsUrlWithHash expectedUrlWithMap)
     {
+    }
+
+    @Test
+    public void vintageHack()
+    {
+        assertTrue(true);
     }
 
     private TestData provider(int repetition)
