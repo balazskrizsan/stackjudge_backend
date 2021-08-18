@@ -153,7 +153,7 @@ public class CompanyServiceSearchTest extends AbstractTest
 
         // Act
         CompanySearchServiceResponse actualResponse = serviceFactory.getCompanyService(
-            AddressServiceMocks.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
+            AddressServiceMocker.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
             SearchServiceMocks.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
             reviewServiceMock,
             PaginatorServiceMocks.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),

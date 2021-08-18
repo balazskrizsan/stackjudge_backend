@@ -18,6 +18,7 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.mocking.setup_mock.AddressServiceMocker;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -135,11 +136,8 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         Company testedCompany = new CompanyFakeBuilder().build();
         Address testedAddress = new AddressFakeBuilder().build();
 
-        AddressService addressServiceMock = mock(AddressService.class);
-        doThrow(AddressHttpException.class).when(addressServiceMock).create(Mockito.any());
-
         CompanyService service = serviceFactory.getCompanyService(
-            addressServiceMock,
+            AddressServiceMocker.create_throws_AddressHttpException(),
             null,
             null,
             null,
