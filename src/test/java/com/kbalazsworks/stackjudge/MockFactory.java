@@ -26,18 +26,7 @@ public class MockFactory
 
     public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
 
-    public static final User userMock = new User(
-        UserFakeBuilder.defaultId1,
-        true,
-        false,
-        "http://logo.com/1.jpg",
-        "MockUser Name",
-        "Mock Password",
-        "fn_token",
-        123L
-    );
-
-    public static final State TEST_STATE = new State(localDateTimeMock, userMock);
+    public static final State TEST_STATE = new State(localDateTimeMock, new UserFakeBuilder().build());
 
     public static StateService getTestStateMock()
     {

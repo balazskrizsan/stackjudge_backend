@@ -82,8 +82,9 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
         // Arrange
         LogCaptor logCaptor = LogCaptor.forClass(JwtSubService.class);
 
-        String testedRealTimeToken    = serviceFactory.getJwtService().generateAccessToken(MockFactory.userMock);
-        int    testedInvalidDataIndex = 10000;
+        String testedRealTimeToken = serviceFactory.getJwtService()
+            .generateAccessToken(new UserFakeBuilder().build());
+        int testedInvalidDataIndex = 10000;
 
         Class<JwtException> expectedClass   = JwtException.class;
         String              expectedMessage = "Invalid authentication error";
@@ -92,8 +93,11 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
 
         // Act - Assert
         assertAll(
-            () -> assertThatThrownBy(() -> serviceFactory
-                .getJwtSubService().getUserDataFormJwtString(testedRealTimeToken, testedInvalidDataIndex))
+            () -> assertThatThrownBy(
+                () -> serviceFactory
+                    .getJwtSubService()
+                    .getUserDataFormJwtString(testedRealTimeToken, testedInvalidDataIndex)
+            )
                 .isInstanceOf(expectedClass).hasMessage(expectedMessage),
             () -> assertThat(logCaptor.getErrorLogs()).containsExactly(expectedErrorLog)
         );

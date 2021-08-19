@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.unit.api.services.jwt_service;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.JwtSubServiceMocker;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class IsValidTest extends AbstractTest
     public void callWithValidToken_returnsTure()
     {
         // Arrange
-        String testedRealTimeToken = serviceFactory.getJwtService().generateAccessToken(MockFactory.userMock);
+        String testedRealTimeToken = serviceFactory.getJwtService().generateAccessToken(new UserFakeBuilder().build());
 
         // Act
         boolean actualState = serviceFactory.getJwtService().isValid(testedRealTimeToken);

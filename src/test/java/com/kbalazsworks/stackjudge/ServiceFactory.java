@@ -106,7 +106,7 @@ public class ServiceFactory
     )
     {
         return new JwtService(
-            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
+            Optional.ofNullable(applicationPropertiesReplacer).orElse(ApplicationPropertiesMocker.getDefaultMock()),
             Optional.ofNullable(dateFactoryReplacer).orElse(dateFactory),
             Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory),
             Optional.ofNullable(jwtSubServiceReplacer).orElse(jwtSubService)

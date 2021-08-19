@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.DefaultClaims;
 import io.jsonwebtoken.impl.DefaultHeader;
@@ -113,7 +114,7 @@ public class ErrorHandledParseClaimsJwsTest extends AbstractTest
     public void callWithValidToken_returnsTokenClaims()
     {
         // Arrange
-        String testedRealTimeToken = serviceFactory.getJwtService().generateAccessToken(MockFactory.userMock);
+        String testedRealTimeToken = serviceFactory.getJwtService().generateAccessToken(new UserFakeBuilder().build());
 
         Class<DefaultJws> expectedClass = DefaultJws.class;
 
