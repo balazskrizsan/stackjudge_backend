@@ -68,7 +68,6 @@ public class AccountService
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    // @todo: test
     public User getByReviewId(long reviewId, State state)
     {
         User user = usersRepository.getByReviewId(reviewId);
