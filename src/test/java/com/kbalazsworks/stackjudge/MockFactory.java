@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.StateService;
@@ -26,7 +27,7 @@ public class MockFactory
     public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
 
     public static final User userMock = new User(
-        123L,
+        UserFakeBuilder.defaultId1,
         true,
         false,
         "http://logo.com/1.jpg",
@@ -51,15 +52,20 @@ public class MockFactory
      *   "alg": "HS512"
      * }
      * {
-     *   "sub": "123,MockUser Name,http://logo.com/1.jpg",
+     *   "sub": "105001,Db test user name,http://facebook.com/profile.jpg",
      *   "iss": "dev.stackjudge.com",
      *   "iat": 1609582953,
      *   "exp": 1610187753
      * }
-     * test jwt secret: 12345678901234567890123456789012
+     * HMACSHA512(
+     *   base64UrlEncode(header) + "." +
+     *   base64UrlEncode(payload),
+     *   your-256-bit-secret
+     * )
+     * created by ApplicationPropertiesMocker.getDefaultMock() && UserFakeBuilder
      */
-    public static final String JWT_FOR_DEFAULT_TEST_METHOD
-        = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjMsTW9ja1VzZXIgTmFtZSxodHRwOi8vbG9nby5jb20vMS5qcGciLCJpc3MiOiJkZXYuc3RhY2tqdWRnZS5jb20iLCJpYXQiOjE2MDk1ODI5NTMsImV4cCI6MTYxMDE4Nzc1M30.XEG9ojmJnDPQmUVrjSkMKAFArzWBVrCj_OXckGxXTmn3ARW5xFCS8KOaahFlJNYUAxn45JWV7UHfpafcZaKt8g";
+    public static final String JWT_FOR_USER_FAKE_BUILDER
+        = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDUwMDEsRGIgdGVzdCB1c2VyIG5hbWUsaHR0cDovL2ZhY2Vib29rLmNvbS9wcm9maWxlLmpwZyIsImlzcyI6ImRldi5zdGFja2p1ZGdlLmNvbSIsImlhdCI6MTYwOTU4Mjk1MywiZXhwIjoxNjEwMTg3NzUzfQ.tv4Tx1iuFHkHhruVqWj6FH_6OlOXJMHlDe4wURuJRLz2_READaQQll_W6Sp8uuWIO58LdX3uO1ClcZuKz8mFQg";
 
     /*******************************************************************************************************************
      *

@@ -35,8 +35,8 @@ public interface UsersRepository extends JpaRepository<User, Long>
     );
 
     @Query(
-        value = "SELECT * FROM stackjudge.public.users" +
-            "    LEFT JOIN stackjudge.public.review" +
+        value = "SELECT * FROM users" +
+            "    LEFT JOIN review" +
             "          ON review.created_by = users.id" +
             "    WHERE review.id = :reviewId",
         nativeQuery = true

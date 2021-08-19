@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.e2e.api.security;
 
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -45,8 +46,8 @@ public class LoginTest extends AbstractE2eTest
         String testedUri = "/login";
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
         {{
-            add("username", "Aaa");
-            add("password", "asd");
+            add("username", UserFakeBuilder.defaultUsername);
+            add("password", UserFakeBuilder.defaultRawPassword);
         }};
         ResultMatcher expectedStatusCode = status().isOk();
         String expectedBearer = "Bearer.*";

@@ -4,12 +4,12 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import io.jsonwebtoken.JwtException;
 import nl.altindag.log.LogCaptor;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
-import org.junit.platform.commons.JUnitException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,28 +29,29 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
     {
         if (1 == repetition)
         {
-            return new TestData(0, "123");
+            return new TestData(0, UserFakeBuilder.defaultId1.toString());
         }
 
         if (2 == repetition)
         {
-            return new TestData(1, "MockUser Name");
+            return new TestData(1, UserFakeBuilder.defaultUsername);
         }
 
         if (3 == repetition)
         {
-            return new TestData(2, "http://logo.com/1.jpg");
+            return new TestData(2, UserFakeBuilder.defaultProfilePictureUrl);
         }
 
-        throw new JUnitException("TestData not found with repetition#" + repetition);
+        throw getRepeatException(repetition);
     }
 
     @RepeatedTest(3)
     public void calledWitValidToken_perfect(RepetitionInfo repetitionInfo)
     {
         // Arrange
-        TestData testData            = providerFor_calledWitValidToken_perfect(repetitionInfo.getCurrentRepetition());
-        String   testedRealTimeToken = serviceFactory.getJwtService().generateAccessToken(MockFactory.userMock);
+        TestData testData = providerFor_calledWitValidToken_perfect(repetitionInfo.getCurrentRepetition());
+        String testedRealTimeToken = serviceFactory.getJwtService()
+            .generateAccessToken(new UserFakeBuilder().build());
 
         // Act
         String actualJwtData = serviceFactory
@@ -65,7 +66,7 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
     public void callerWithInvalidOldToken_returnWithReturnedJwtException()
     {
         // Arrange
-        String testedOldToken = MockFactory.JWT_FOR_DEFAULT_TEST_METHOD;
+        String testedOldToken = MockFactory.JWT_FOR_USER_FAKE_BUILDER;
 
         // Act - Assert
         assertThatThrownBy(() -> serviceFactory

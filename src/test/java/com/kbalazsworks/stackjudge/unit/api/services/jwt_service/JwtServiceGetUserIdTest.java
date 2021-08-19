@@ -19,7 +19,7 @@ public class JwtServiceGetUserIdTest extends AbstractTest
     {
         // Arrange
         int    userIdIndex      = 0;
-        String testedToken      = MockFactory.JWT_FOR_DEFAULT_TEST_METHOD;
+        String testedToken      = MockFactory.JWT_FOR_USER_FAKE_BUILDER;
         String mockReturnUserId = "123";
         long   expectedUserId   = 123;
 

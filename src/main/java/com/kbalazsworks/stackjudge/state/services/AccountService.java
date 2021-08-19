@@ -50,7 +50,6 @@ public class AccountService
             return user.get();
         }
 
-        // @todo: add HTTP exception
         throw new UserNotFoundException("User not found with id#" + id);
     }
 
@@ -74,15 +73,7 @@ public class AccountService
     {
         User user = usersRepository.getByReviewId(reviewId);
 
-        protectedReviewLogService.create(
-            new ProtectedReviewLog(
-                null,
-                user.getId(),
-                reviewId,
-                state.now()
-            ),
-            state
-        );
+        protectedReviewLogService.create(new ProtectedReviewLog(null, user.getId(), reviewId, state.now()), state);
 
         return user;
     }

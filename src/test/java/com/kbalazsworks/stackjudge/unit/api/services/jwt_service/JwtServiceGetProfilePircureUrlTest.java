@@ -19,7 +19,7 @@ public class JwtServiceGetProfilePircureUrlTest extends AbstractTest
     {
         // Arrange
         int    profilePictureUrlIndex    = 2;
-        String testedToken               = MockFactory.JWT_FOR_DEFAULT_TEST_METHOD;
+        String testedToken               = MockFactory.JWT_FOR_USER_FAKE_BUILDER;
         String expectedProfilePictureUrl = "http://logo.com/1.jpg";
 
         // Act

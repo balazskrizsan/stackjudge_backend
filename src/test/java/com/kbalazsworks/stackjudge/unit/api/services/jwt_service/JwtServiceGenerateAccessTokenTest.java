@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.unit.api.services.jwt_service;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class JwtServiceGenerateAccessTokenTest extends AbstractTest
     public void createToken_returnsValidToken()
     {
         // Arrange
-        User   testedUser    = MockFactory.userMock;
-        String expectedToken = MockFactory.JWT_FOR_DEFAULT_TEST_METHOD;
+        User   testedUser    = new UserFakeBuilder().build();
+        String expectedToken = MockFactory.JWT_FOR_USER_FAKE_BUILDER;
 
         // Act
         String token = serviceFactory.getJwtMockedService(

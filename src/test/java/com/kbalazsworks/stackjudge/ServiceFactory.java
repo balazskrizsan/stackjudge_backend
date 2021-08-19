@@ -17,6 +17,7 @@ import com.kbalazsworks.stackjudge.domain.services.notification_service.SearchMy
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
@@ -52,12 +53,14 @@ public class ServiceFactory
     private final StaticProxyService           staticProxyService;
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
+    private final ProtectedReviewLogService    protectedReviewLogService;
 
     private final CompanyRepository companyRepository;
     private final ReviewRepository  reviewRepository;
     private final GroupRepository   groupRepository;
     private final S3Repository      s3Repository;
     private final AddressRepository addressRepository;
+    private final UsersRepository   usersRepository;
 
 
     public CompanyService getCompanyService()
@@ -255,5 +258,10 @@ public class ServiceFactory
     public PaginatorService getPaginatorService()
     {
         return new PaginatorService();
+    }
+
+    public AccountService getAccountService()
+    {
+        return new AccountService(usersRepository, protectedReviewLogService);
     }
 }
