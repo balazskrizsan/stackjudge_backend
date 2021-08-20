@@ -29,14 +29,14 @@ public class AccountService
         return usersRepository.save(user);
     }
 
-    public @NonNull List<User> findByUserIds(List<Long> ids)
+    public @NonNull List<User> findByIds(List<Long> ids)
     {
         return usersRepository.findAllById(ids);
     }
 
     public @NonNull Map<Long, User> findByUserIdsWithIdMap(List<Long> ids)
     {
-        return findByUserIds(ids)
+        return findByIds(ids)
             .stream()
             .distinct()
             .collect(Collectors.toMap(User::getId, Function.identity()));
