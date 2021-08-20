@@ -19,7 +19,7 @@ public class JwtServiceGetUsernameTest extends AbstractTest
     {
         // Arrange
         User   testedUser       = new UserFakeBuilder().build();
-        String expectedUserName = UserFakeBuilder.defaultUsername;
+        String expectedUserName = UserFakeBuilder.defaultUsername1;
 
         // Act
         String token = serviceFactory.getJwtService().generateAccessToken(testedUser);

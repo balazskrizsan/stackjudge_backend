@@ -15,7 +15,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
-public class FindByFacebookIdTest extends AbstractIntegrationTest
+public class FindByIdTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
@@ -28,7 +28,7 @@ public class FindByFacebookIdTest extends AbstractIntegrationTest
                 config = @SqlConfig(transactionMode = ISOLATED),
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_1_user.sql"
+                    "classpath:test/sqls/preset_add_1_user.sql",
                 }
             ),
             @Sql(
@@ -38,14 +38,14 @@ public class FindByFacebookIdTest extends AbstractIntegrationTest
             )
         }
     )
-    public void selectingFromFilledDb_returnsUser()
+    public void selectingFromFilledDb_returnsUserAndCallLogger()
     {
         // Arrange
-        long testedFacebookId = UserFakeBuilder.defaultFacebookId1;
-        User expectedUser     = new UserFakeBuilder().build();
+        long testedUserId = UserFakeBuilder.defaultId1;
+        User expectedUser = new UserFakeBuilder().build();
 
         // Act
-        User actualUser = serviceFactory.getAccountService().findByFacebookId(testedFacebookId);
+        User actualUser = serviceFactory.getAccountService().findById(testedUserId);
 
         // Assert
         assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);

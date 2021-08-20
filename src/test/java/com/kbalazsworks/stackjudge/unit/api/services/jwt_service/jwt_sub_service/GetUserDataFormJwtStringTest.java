@@ -34,12 +34,12 @@ public class GetUserDataFormJwtStringTest extends AbstractTest
 
         if (2 == repetition)
         {
-            return new TestData(1, UserFakeBuilder.defaultUsername);
+            return new TestData(1, UserFakeBuilder.defaultUsername1);
         }
 
         if (3 == repetition)
         {
-            return new TestData(2, UserFakeBuilder.defaultProfilePictureUrl);
+            return new TestData(2, UserFakeBuilder.defaultProfilePictureUrl1);
         }
 
         throw getRepeatException(repetition);

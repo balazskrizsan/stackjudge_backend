@@ -42,7 +42,7 @@ public class AccountService
             .collect(Collectors.toMap(User::getId, Function.identity()));
     }
 
-    public @NonNull User findByUserId(Long id)
+    public @NonNull User findById(Long id)
     {
         Optional<User> user = usersRepository.findById(id);
         if (user.isPresent())

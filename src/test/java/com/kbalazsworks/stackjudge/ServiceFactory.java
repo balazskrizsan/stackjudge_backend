@@ -262,7 +262,7 @@ public class ServiceFactory
 
     public AccountService getAccountService()
     {
-        return new AccountService(null, null);
+        return getAccountService(null, null);
     }
 
     public AccountService getAccountService(
