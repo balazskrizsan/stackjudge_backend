@@ -46,8 +46,8 @@ public class LoginTest extends AbstractE2eTest
         String testedUri = "/login";
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
         {{
-            add("username", UserFakeBuilder.defaultUsername);
-            add("password", UserFakeBuilder.defaultRawPassword);
+            add("username", UserFakeBuilder.defaultUsername1);
+            add("password", UserFakeBuilder.defaultRawPassword1);
         }};
         ResultMatcher expectedStatusCode = status().isOk();
         String expectedBearer = "Bearer.*";
