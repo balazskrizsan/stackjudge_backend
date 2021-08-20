@@ -262,6 +262,17 @@ public class ServiceFactory
 
     public AccountService getAccountService()
     {
-        return new AccountService(usersRepository, protectedReviewLogService);
+        return new AccountService(null, null);
+    }
+
+    public AccountService getAccountService(
+        UsersRepository usersRepositoryReplacer,
+        ProtectedReviewLogService protectedReviewLogServiceReplacer
+    )
+    {
+        return new AccountService(
+            Optional.ofNullable(usersRepositoryReplacer).orElse(usersRepository),
+            Optional.ofNullable(protectedReviewLogServiceReplacer).orElse(protectedReviewLogService)
+        );
     }
 }

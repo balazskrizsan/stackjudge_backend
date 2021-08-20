@@ -101,4 +101,9 @@ public class MockCreator
     {
         return mock(DateFactory.class);
     }
+
+    public static ProtectedReviewLogService getProtectedReviewLogServiceMock()
+    {
+        return mock(ProtectedReviewLogService.class);
+    }
 }
