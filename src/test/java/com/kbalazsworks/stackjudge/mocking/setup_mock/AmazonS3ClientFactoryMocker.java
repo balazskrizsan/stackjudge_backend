@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 public class AmazonS3ClientFactoryMocker extends MockCreator
 {
-
     public static AmazonS3ClientFactory create_returns_AmazonS3Mock(AmazonS3 amazonS3Mock)
     {
         AmazonS3ClientFactory amazonS3ClientFactoryMock = getAmazonS3ClientFactoryMock();
