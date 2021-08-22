@@ -53,22 +53,24 @@ public class AccountService
         throw new UserNotFoundException("User not found with id#" + id);
     }
 
-    public User findByFacebookId(long facebookId) // OK
+    public User findByFacebookId(long facebookId)
     {
         return usersRepository.findByFacebookId(facebookId);
     }
 
+    // @todo: test after JPA commit problem solved in this.create
     public void updateFacebookAccessToken(String token, Long facebookUserId)
     {
         usersRepository.updateFacebookAccessToken(token, facebookUserId);
     }
 
+    // @todo: test
     public User getCurrentUser()
     {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public User getByReviewId(long reviewId, State state) // OK
+    public User getByReviewId(long reviewId, State state)
     {
         User user = usersRepository.getByReviewId(reviewId);
 
