@@ -11,10 +11,13 @@ import static org.mockito.Mockito.when;
 
 public class AccountServiceMocker extends MockCreator
 {
-    public static AccountService findByUserIdsWithIdMap_(List<Long> whenUsersIds, Map<Long, User> thanUsersMap)
+    public static AccountService findByUserIdsWithIdMap_returns_mappedUsers(
+        List<Long> whenUsersIds,
+        Map<Long, User> thanUsersMap
+    )
     {
         AccountService mock = getAccountServiceMock();
-        when(mock.findByUserIdsWithIdMap(whenUsersIds)).thenReturn(thanUsersMap);
+        when(mock.findByIdsWithIdMap(whenUsersIds)).thenReturn(thanUsersMap);
 
         return mock;
     }

@@ -156,7 +156,7 @@ public class CompanyService
 
             if (!affectedUserIds.isEmpty())
             {
-                companyUsers = accountService.findByUserIdsWithIdMap(affectedUserIds);
+                companyUsers = accountService.findByIdsWithIdMap(affectedUserIds);
             }
         }
 

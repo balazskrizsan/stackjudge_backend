@@ -153,16 +153,19 @@ public class CompanyServiceSearchTest extends AbstractTest
 
         // Act
         CompanySearchServiceResponse actualResponse = serviceFactory.getCompanyService(
-            AddressServiceMocker.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
-            SearchServiceMocker.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
-            reviewServiceMock,
-            PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
-            null,
-            null,
-            AccountServiceMocker.findByUserIdsWithIdMap_(List.of(UserFakeBuilder.defaultId1), td.mockForUsers),
-            MapsServiceMocker.searchByAddresses_returns_addressMaps(td.mockForSearchAddresses, td.mockForAddressMaps),
-            companyRepositoryMock
-        )
+                AddressServiceMocker.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
+                SearchServiceMocker.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
+                reviewServiceMock,
+                PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
+                null,
+                null,
+                AccountServiceMocker.findByUserIdsWithIdMap_returns_mappedUsers(
+                    List.of(UserFakeBuilder.defaultId1),
+                    td.mockForUsers
+                ),
+                MapsServiceMocker.searchByAddresses_returns_addressMaps(td.mockForSearchAddresses, td.mockForAddressMaps),
+                companyRepositoryMock
+            )
             .search(td.testedSeekId, td.testedLimit, td.testedRequestRelationIds, td.testedNavigation);
 
         // Assert

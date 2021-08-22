@@ -34,7 +34,7 @@ public class AccountService
         return usersRepository.findAllById(ids);
     }
 
-    public @NonNull Map<Long, User> findByUserIdsWithIdMap(List<Long> ids)
+    public @NonNull Map<Long, User> findByIdsWithIdMap(List<Long> ids)
     {
         return findByIds(ids)
             .stream()
@@ -53,7 +53,7 @@ public class AccountService
         throw new UserNotFoundException("User not found with id#" + id);
     }
 
-    public User findByFacebookId(long facebookId)
+    public User findByFacebookId(long facebookId) // OK
     {
         return usersRepository.findByFacebookId(facebookId);
     }
@@ -68,7 +68,7 @@ public class AccountService
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public User getByReviewId(long reviewId, State state)
+    public User getByReviewId(long reviewId, State state) // OK
     {
         User user = usersRepository.getByReviewId(reviewId);
 
