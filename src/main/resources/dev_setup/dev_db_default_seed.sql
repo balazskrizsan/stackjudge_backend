@@ -1,8 +1,10 @@
 TRUNCATE TABLE
+    "users",
     "address",
     "group",
     "review",
     "protected_review_log",
+    "notification",
     "company" RESTART IDENTITY;
 
 INSERT INTO company(id, name, company_size_id, it_size_id, logo_path, created_at, created_by)

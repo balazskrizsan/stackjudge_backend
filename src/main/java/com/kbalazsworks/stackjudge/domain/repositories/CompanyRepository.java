@@ -38,6 +38,7 @@ public class CompanyRepository extends AbstractRepository
             .insertInto(
                 companyTable,
                 companyTable.NAME,
+                companyTable.DOMAIN,
                 companyTable.COMPANY_SIZE_ID,
                 companyTable.IT_SIZE_ID,
                 companyTable.LOGO_PATH,
@@ -46,6 +47,7 @@ public class CompanyRepository extends AbstractRepository
             )
             .values(
                 company.name(),
+                company.domain(),
                 company.companySizeId(),
                 company.itSizeId(),
                 company.logoPath(),

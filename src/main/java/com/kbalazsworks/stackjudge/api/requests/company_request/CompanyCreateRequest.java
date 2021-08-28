@@ -11,6 +11,10 @@ public record CompanyCreateRequest(
     @Size(min = 2, max = 255, groups = ICompanyRequestValidationGroup.class)
     String  name,
 
+    @JsonProperty("domain")
+    @Size(min = 3, max = 255, groups = ICompanyRequestValidationGroup.class)
+    String  domain,
+
     @JsonProperty("companySizeId")
     @Min( value = 1, groups = ICompanyRequestValidationGroup.class)
     @Max( value = 5, groups = ICompanyRequestValidationGroup.class)

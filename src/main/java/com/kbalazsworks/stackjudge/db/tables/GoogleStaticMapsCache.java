@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GoogleStaticMapsCache extends TableImpl<GoogleStaticMapsCacheRecord> {
 
-    private static final long serialVersionUID = 1804434646;
+    private static final long serialVersionUID = -1163613040;
 
     /**
      * The reference instance of <code>public.google_static_maps_cache</code>
@@ -55,7 +55,7 @@ public class GoogleStaticMapsCache extends TableImpl<GoogleStaticMapsCacheRecord
     /**
      * The column <code>public.google_static_maps_cache.file_name</code>.
      */
-    public final TableField<GoogleStaticMapsCacheRecord, String> FILE_NAME = createField(DSL.name("file_name"), org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
+    public final TableField<GoogleStaticMapsCacheRecord, String> FILE_NAME = createField(DSL.name("file_name"), org.jooq.impl.SQLDataType.VARCHAR(4096).nullable(false), this, "");
 
     /**
      * The column <code>public.google_static_maps_cache.updated_at</code>.

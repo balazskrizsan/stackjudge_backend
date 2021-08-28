@@ -27,6 +27,7 @@ public class CompanyFakeBuilder
 
     private Long          id            = defaultId1;
     private String        name          = "a company";
+    private String        domain        = "test-company.com";
     private short         companySizeId = 2;
     private short         itSizeId      = 3;
     private String        logoPath      = "folder/file.jpg";
@@ -43,6 +44,7 @@ public class CompanyFakeBuilder
         return new Company(
             id,
             name,
+            domain,
             companySizeId,
             itSizeId,
             logoPath,

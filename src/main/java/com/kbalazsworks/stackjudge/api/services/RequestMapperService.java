@@ -37,6 +37,7 @@ public class RequestMapperService
         return new Company(
             null,
             request.name(),
+            request.domain(),
             request.companySizeId(),
             request.itSizeId(),
             "",

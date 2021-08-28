@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 public record Company(
     @JsonProperty Long id,
     @JsonProperty String name,
+    @JsonProperty String domain,
     @JsonProperty short companySizeId,
     @JsonProperty short itSizeId,
     @JsonProperty String logoPath,

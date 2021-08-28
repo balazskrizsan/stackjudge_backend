@@ -20,6 +20,7 @@ public class V000001__init extends AbstractBaseJooqMigration
         qB.createTable("company")
             .column("id", BIGINT.nullable(false).identity(true))
             .column("name", VARCHAR.nullable(false))
+            .column("domain", VARCHAR.nullable(false))
             .column("company_size_id", TINYINTUNSIGNED.nullable(false))
             .column("it_size_id", TINYINTUNSIGNED.nullable(false))
             .column("logo_path", VARCHAR.nullable(true).length(255))
