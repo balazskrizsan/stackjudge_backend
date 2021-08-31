@@ -307,6 +307,12 @@
             <version>2.6.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.pebbletemplates/pebble-spring-boot-2-starter -->
+        <dependency>
+            <groupId>io.pebbletemplates</groupId>
+            <artifactId>pebble-spring-boot-2-starter</artifactId>
+            <version>3.0.10</version>
+        </dependency>
     </dependencies>
 
     <build>

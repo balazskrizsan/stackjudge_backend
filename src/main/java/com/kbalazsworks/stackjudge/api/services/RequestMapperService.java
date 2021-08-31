@@ -2,16 +2,21 @@ package com.kbalazsworks.stackjudge.api.services;
 
 import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
+import com.kbalazsworks.stackjudge.api.requests.company_request.PostOwnRequestRequest;
 import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
-import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapRequest;
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
+import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
-import com.kbalazsworks.stackjudge.domain.entities.*;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.domain.value_objects.company_service.OwnRequest;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 
@@ -96,5 +101,10 @@ public class RequestMapperService
             request.getCenterLat(),
             request.getCenterLng()
         );
+    }
+
+    public static OwnRequest mapToRecord(@NonNull PostOwnRequestRequest request)
+    {
+        return new OwnRequest(request.companyId(), request.emailPart());
     }
 }

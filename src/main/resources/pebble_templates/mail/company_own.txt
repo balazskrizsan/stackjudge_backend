@@ -1,0 +1,12 @@
+Dear {{name}},
+
+To own the company please click the following link: <a href="{{ownUrl}}" title="Own link">Own company</a>.
+
+
+If you can't click the link, please copy the following URL to your browser: {{ownUrl}}
+
+
+
+
+Thank you,
+StackJudge.com<br/>

@@ -6,10 +6,12 @@ package com.kbalazsworks.stackjudge.db;
 
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
+import com.kbalazsworks.stackjudge.db.tables.CompanyOwnRequest;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Notification;
+import com.kbalazsworks.stackjudge.db.tables.PersistenceLog;
 import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
@@ -28,7 +30,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 1763151252;
+    private static final long serialVersionUID = 1118104660;
 
     /**
      * The reference instance of <code>public</code>
@@ -44,6 +46,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.company</code>.
      */
     public final Company COMPANY = Company.COMPANY;
+
+    /**
+     * The table <code>public.company_own_request</code>.
+     */
+    public final CompanyOwnRequest COMPANY_OWN_REQUEST = CompanyOwnRequest.COMPANY_OWN_REQUEST;
 
     /**
      * The table <code>public.flyway_schema_history</code>.
@@ -64,6 +71,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.notification</code>.
      */
     public final Notification NOTIFICATION = Notification.NOTIFICATION;
+
+    /**
+     * The table <code>public.persistence_log</code>.
+     */
+    public final PersistenceLog PERSISTENCE_LOG = PersistenceLog.PERSISTENCE_LOG;
 
     /**
      * The table <code>public.protected_review_log</code>.
@@ -98,10 +110,12 @@ public class Public extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Address.ADDRESS,
             Company.COMPANY,
+            CompanyOwnRequest.COMPANY_OWN_REQUEST,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             GoogleStaticMapsCache.GOOGLE_STATIC_MAPS_CACHE,
             Group.GROUP,
             Notification.NOTIFICATION,
+            PersistenceLog.PERSISTENCE_LOG,
             ProtectedReviewLog.PROTECTED_REVIEW_LOG,
             Review.REVIEW,
             Users.USERS);

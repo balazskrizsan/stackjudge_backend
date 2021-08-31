@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.unit.api.services.secure_random_service;
+package com.kbalazsworks.stackjudge.unit.common.services.secure_random_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
@@ -7,10 +7,12 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Base64;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GetTest extends AbstractTest
+public class GetUrlEncodedTest extends AbstractTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
@@ -52,7 +54,8 @@ public class GetTest extends AbstractTest
         TestData testData = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        String actualRandom = serviceFactory.getSecureRandomService().get(testData.testedLength);
+        String actualEncodedRandom = serviceFactory.getSecureRandomService().getUrlEncoded(testData.testedLength);
+        String actualRandom = new String(Base64.getDecoder().decode(actualEncodedRandom.getBytes()));
 
         // Assert
         assertThat(actualRandom).hasSize(testData.expectedLength);

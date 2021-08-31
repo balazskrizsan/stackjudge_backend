@@ -6,10 +6,12 @@ package com.kbalazsworks.stackjudge.db;
 
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
+import com.kbalazsworks.stackjudge.db.tables.CompanyOwnRequest;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.Notification;
+import com.kbalazsworks.stackjudge.db.tables.PersistenceLog;
 import com.kbalazsworks.stackjudge.db.tables.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
@@ -32,6 +34,11 @@ public class Tables {
     public static final Company COMPANY = Company.COMPANY;
 
     /**
+     * The table <code>public.company_own_request</code>.
+     */
+    public static final CompanyOwnRequest COMPANY_OWN_REQUEST = CompanyOwnRequest.COMPANY_OWN_REQUEST;
+
+    /**
      * The table <code>public.flyway_schema_history</code>.
      */
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
@@ -50,6 +57,11 @@ public class Tables {
      * The table <code>public.notification</code>.
      */
     public static final Notification NOTIFICATION = Notification.NOTIFICATION;
+
+    /**
+     * The table <code>public.persistence_log</code>.
+     */
+    public static final PersistenceLog PERSISTENCE_LOG = PersistenceLog.PERSISTENCE_LOG;
 
     /**
      * The table <code>public.protected_review_log</code>.

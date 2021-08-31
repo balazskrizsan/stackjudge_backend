@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.services;
+package com.kbalazsworks.stackjudge.common.services;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;

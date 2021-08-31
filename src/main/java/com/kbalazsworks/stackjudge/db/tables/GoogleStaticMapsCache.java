@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GoogleStaticMapsCache extends TableImpl<GoogleStaticMapsCacheRecord> {
 
-    private static final long serialVersionUID = -1163613040;
+    private static final long serialVersionUID = -1886748592;
 
     /**
      * The reference instance of <code>public.google_static_maps_cache</code>
@@ -102,12 +102,12 @@ public class GoogleStaticMapsCache extends TableImpl<GoogleStaticMapsCacheRecord
 
     @Override
     public UniqueKey<GoogleStaticMapsCacheRecord> getPrimaryKey() {
-        return Keys.GOOGLE_STATIC_MAPS_CACHE_PK;
+        return Keys.GOOGLE_STATIC_MAPS_CACHE___PK;
     }
 
     @Override
     public List<UniqueKey<GoogleStaticMapsCacheRecord>> getKeys() {
-        return Arrays.<UniqueKey<GoogleStaticMapsCacheRecord>>asList(Keys.GOOGLE_STATIC_MAPS_CACHE_PK);
+        return Arrays.<UniqueKey<GoogleStaticMapsCacheRecord>>asList(Keys.GOOGLE_STATIC_MAPS_CACHE___PK);
     }
 
     @Override

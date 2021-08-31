@@ -11,6 +11,7 @@ import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class GetJwtLoginUrlService
         throw new AuthException();
     }
 
-    public OAuth2AccessToken getAccessToken(OAuth20Service service, String code) throws AuthException
+    public OAuth2AccessToken getAccessToken(@NonNull OAuth20Service service, @NonNull String code) throws AuthException
     {
         try
         {
@@ -78,10 +79,9 @@ public class GetJwtLoginUrlService
         throw new AuthException();
     }
 
-    public String generateLoginUrl(User user)
+    public String generateLoginUrl(@NonNull User user)
     {
-        return applicationProperties.getSiteFrontendHost().concat(
-            frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user))
-        );
+        return applicationProperties.getSiteFrontendHost() + "/"
+            + frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user));
     }
 }

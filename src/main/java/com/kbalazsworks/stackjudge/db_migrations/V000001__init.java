@@ -136,12 +136,37 @@ public class V000001__init extends AbstractBaseJooqMigration
             )
             .execute();
 
+        qB.createTable("persistence_log")
+            .column("id", BIGINT.nullable(false).identity(true))
+            .column("type", TINYINTUNSIGNED.nullable(false))
+            .column("data", JSONB.nullable(false))
+            .column("created_at", TIMESTAMP.nullable(false))
+            .constraints(
+                constraint("persistence_log___pk").primaryKey("id")
+            )
+            .execute();
+
+        qB.createTable("company_own_request")
+            .column("requester_user_id", BIGINT.nullable(false))
+            .column("requested_company_id", BIGINT.nullable(false))
+            .column("secret", VARCHAR.nullable(true).length(60))
+            .column("created_at", TIMESTAMP.nullable(false))
+            .constraints(
+                constraint("requester_user_id___pk")
+                    .primaryKey("requester_user_id", "requested_company_id"),
+                constraint("fk___company_own_request__id___users__id___on_delete_cascade")
+                    .foreignKey("requester_user_id")
+                    .references("users", "id")
+                    .onDeleteCascade()
+            )
+            .execute();
+
         qB.createTable("google_static_maps_cache")
             .column("hash", VARCHAR.nullable(false).length(32))
             .column("file_name", VARCHAR.nullable(false).length(4096))
             .column("updated_at", TIMESTAMP.nullable(false))
             .constraints(
-                constraint("google_static_maps_cache_pk").primaryKey("hash")
+                constraint("google_static_maps_cache___pk").primaryKey("hash")
             )
             .execute();
     }
