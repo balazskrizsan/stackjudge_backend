@@ -51,6 +51,12 @@ public class CompanyService
         companyRepository.delete(companyId);
     }
 
+    // @todo: add test
+    public Company get(long companyId)
+    {
+        return get(companyId, new ArrayList<>()).company();
+    }
+
     public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
         throws RepositoryNotFoundException
     {

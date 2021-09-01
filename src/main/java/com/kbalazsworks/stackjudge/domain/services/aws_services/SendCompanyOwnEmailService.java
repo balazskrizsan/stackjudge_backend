@@ -16,13 +16,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendCompanyOwnEmailService
 {
-    private final SesService            sesService;
+    private final SesService sesService;
     private final PebbleTemplateService pebbleTemplateService;
 
     private final static String SUBJECT = "";
 
     // @todo: test
-    @SneakyThrows public void sendCompanyOwnEmail(@NonNull String name, @NonNull String ownUrl) throws PebbleException
+    @SneakyThrows public void sendCompanyOwnEmail(
+        @NonNull String toAddress,
+        @NonNull String name,
+        @NonNull String ownUrl
+    ) throws PebbleException
     {
         Map<String, Object> context = new HashMap<>();
         context.put("name", name);
@@ -31,6 +35,6 @@ public class SendCompanyOwnEmailService
         String companyOwnHtml = pebbleTemplateService.render("mail/company_own.html", context);
         String companyOwnText = pebbleTemplateService.render("mail/company_own.txt", context);
 
-        sesService.sendMail("krizsan.balazs@gmail.com", SUBJECT, companyOwnHtml, companyOwnText);
+        sesService.sendMail(toAddress, SUBJECT, companyOwnHtml, companyOwnText);
     }
 }
