@@ -10,7 +10,7 @@ TRUNCATE TABLE
     "company" RESTART IDENTITY;
 
 INSERT INTO company(id, name, domain, company_size_id, it_size_id, logo_path, created_at, created_by)
-VALUES (default, 'Google', 'http://google.com', 1, 5, 'company-logos/1.png', '2021-01-01 00:00:00', 1),
+VALUES (default, 'Google', 'http://gmail.com', 1, 5, 'company-logos/1.png', '2021-01-01 00:00:00', 1),
        (default, 'Samsung Electronics', 'http://samsung.com', 3, 4, 'company-logos/2.png', '2021-01-02 00:00:00', 2),
        (default, 'Samsung Electronics with a very very very very very long name', 'http://samsung.com', 4, 3, 'company-logos/3.png', '2021-01-03 00:00:00', 3),
        (default, 'Foxconn', 'http://foxconn.com', 5, 2, 'company-logos/4.png', '2021-01-04 00:00:00', 4),
