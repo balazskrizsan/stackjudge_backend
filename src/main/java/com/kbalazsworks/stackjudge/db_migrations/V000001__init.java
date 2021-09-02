@@ -152,7 +152,7 @@ public class V000001__init extends AbstractBaseJooqMigration
             .column("secret", VARCHAR.nullable(true).length(60))
             .column("created_at", TIMESTAMP.nullable(false))
             .constraints(
-                constraint("requester_user_id___pk")
+                constraint(DbConstants.COMPANY_OWN_REQUEST_PK)
                     .primaryKey("requester_user_id", "requested_company_id"),
                 constraint("fk___company_own_request__id___users__id___on_delete_cascade")
                     .foreignKey("requester_user_id")
