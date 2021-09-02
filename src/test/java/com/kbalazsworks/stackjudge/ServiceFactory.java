@@ -275,4 +275,9 @@ public class ServiceFactory
             Optional.ofNullable(protectedReviewLogServiceReplacer).orElse(protectedReviewLogService)
         );
     }
+
+    public HttpExceptionService getHttpExceptionService()
+    {
+        return new HttpExceptionService();
+    }
 }

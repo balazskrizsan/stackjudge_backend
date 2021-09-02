@@ -4,7 +4,6 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-// @test
 @Service
 public class HttpExceptionService
 {
