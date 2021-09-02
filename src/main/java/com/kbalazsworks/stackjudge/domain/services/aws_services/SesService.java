@@ -18,7 +18,6 @@ public class SesService
 
     private final static String FROM_EMAIL = "krizsan.balazs@gmail.com";
 
-    // @todo: test
     public void sendMail(@NonNull String to, @NonNull String subject, @NonNull String html, @NonNull String text)
     {
         try
@@ -43,6 +42,7 @@ public class SesService
         {
             log.error("Email send error.", e);
 
+            // @todo3: test
             throw new EmailHttpException("E-mail send error.");
         }
     }

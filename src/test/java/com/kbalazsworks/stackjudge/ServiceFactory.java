@@ -2,14 +2,12 @@ package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
-import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
-import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
-import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
-import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
-import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
+import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
+import com.kbalazsworks.stackjudge.domain.factories.*;
 import com.kbalazsworks.stackjudge.domain.repositories.*;
 import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
@@ -32,12 +30,13 @@ import static org.mockito.Mockito.when;
 @RequiredArgsConstructor
 public class ServiceFactory
 {
-    private final ApplicationProperties applicationProperties;
-    private final DateFactory           dateFactory;
-    private final SystemFactory         systemFactory;
-    private final JwtFactory            jwtFactory;
-    private final LocalDateTimeFactory  localDateTimeFactory;
-    private final UrlFactory            urlFactory;
+    private final ApplicationProperties           applicationProperties;
+    private final DateFactory                     dateFactory;
+    private final SystemFactory                   systemFactory;
+    private final JwtFactory                      jwtFactory;
+    private final LocalDateTimeFactory            localDateTimeFactory;
+    private final UrlFactory                      urlFactory;
+    private final AmazonSimpleEmailServiceFactory amazonSimpleEmailServiceFactory;
 
     private final AddressService               addressService;
     private final SearchService                searchService;
@@ -279,5 +278,17 @@ public class ServiceFactory
     public HttpExceptionService getHttpExceptionService()
     {
         return new HttpExceptionService();
+    }
+
+    public SesService getSesService()
+    {
+        return getSesService(null);
+    }
+
+    public SesService getSesService(AmazonSimpleEmailServiceFactory amazonSimpleEmailServiceFactoryReplacer)
+    {
+        return new SesService(
+            Optional.ofNullable(amazonSimpleEmailServiceFactoryReplacer).orElse(amazonSimpleEmailServiceFactory)
+        );
     }
 }

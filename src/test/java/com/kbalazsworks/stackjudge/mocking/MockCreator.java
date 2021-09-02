@@ -2,8 +2,10 @@ package com.kbalazsworks.stackjudge.mocking;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
+import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
@@ -105,5 +107,15 @@ public class MockCreator
     public static ProtectedReviewLogService getProtectedReviewLogServiceMock()
     {
         return mock(ProtectedReviewLogService.class);
+    }
+
+    public static AmazonSimpleEmailServiceFactory getAmazonSimpleEmailServiceFactory()
+    {
+        return mock(AmazonSimpleEmailServiceFactory.class);
+    }
+
+    public static AmazonSimpleEmailService getAmazonSimpleEmailService()
+    {
+        return mock(AmazonSimpleEmailService.class);
     }
 }
