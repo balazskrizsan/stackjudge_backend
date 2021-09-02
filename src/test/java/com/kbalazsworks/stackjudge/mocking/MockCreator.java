@@ -10,6 +10,7 @@ import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
@@ -117,5 +118,15 @@ public class MockCreator
     public static AmazonSimpleEmailService getAmazonSimpleEmailService()
     {
         return mock(AmazonSimpleEmailService.class);
+    }
+
+    public static PebbleTemplateService getPebbleTemplateService()
+    {
+        return mock(PebbleTemplateService.class);
+    }
+
+    public static SesService getSesService()
+    {
+        return mock(SesService.class);
     }
 }

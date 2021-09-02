@@ -4,7 +4,6 @@ import com.kbalazsworks.stackjudge.domain.exceptions.PebbleException;
 import com.kbalazsworks.stackjudge.domain.services.PebbleTemplateService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +15,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendCompanyOwnEmailService
 {
-    private final SesService sesService;
+    private final SesService            sesService;
     private final PebbleTemplateService pebbleTemplateService;
 
-    private final static String SUBJECT = "";
+    private final static String SUBJECT = "StackJudge - Company Own Request";
 
-    // @todo: test
-    @SneakyThrows public void sendCompanyOwnEmail(
+    public void sendCompanyOwnEmail(
         @NonNull String toAddress,
         @NonNull String name,
         @NonNull String ownUrl
     ) throws PebbleException
     {
-        Map<String, Object> context = new HashMap<>();
-        context.put("name", name);
-        context.put("ownUrl", ownUrl);
+        Map<String, Object> context = new HashMap<>()
+        {{
+            put("name", name);
+            put("ownUrl", ownUrl);
+        }};
 
         String companyOwnHtml = pebbleTemplateService.render("mail/company_own.html", context);
         String companyOwnText = pebbleTemplateService.render("mail/company_own.txt", context);

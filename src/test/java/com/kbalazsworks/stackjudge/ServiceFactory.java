@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.factories.*;
 import com.kbalazsworks.stackjudge.domain.repositories.*;
 import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
@@ -53,6 +54,8 @@ public class ServiceFactory
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
     private final ProtectedReviewLogService    protectedReviewLogService;
+    private final SesService                   sesService;
+    private final PebbleTemplateService        pebbleTemplateService;
 
     private final CompanyRepository companyRepository;
     private final ReviewRepository  reviewRepository;
@@ -289,6 +292,22 @@ public class ServiceFactory
     {
         return new SesService(
             Optional.ofNullable(amazonSimpleEmailServiceFactoryReplacer).orElse(amazonSimpleEmailServiceFactory)
+        );
+    }
+
+    public SendCompanyOwnEmailService getSendCompanyOwnEmailService()
+    {
+        return getSendCompanyOwnEmailService(null, null);
+    }
+
+    public SendCompanyOwnEmailService getSendCompanyOwnEmailService(
+        SesService sesServiceReplacer,
+        PebbleTemplateService pebbleTemplateServiceReplacer
+    )
+    {
+        return new SendCompanyOwnEmailService(
+            Optional.ofNullable(sesServiceReplacer).orElse(sesService),
+            Optional.ofNullable(pebbleTemplateServiceReplacer).orElse(pebbleTemplateService)
         );
     }
 }
