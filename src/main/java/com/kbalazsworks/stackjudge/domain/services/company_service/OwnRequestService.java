@@ -15,10 +15,12 @@ import com.kbalazsworks.stackjudge.domain.value_objects.company_service.OwnReque
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class OwnRequestService
 {
@@ -87,6 +89,8 @@ public class OwnRequestService
         }
         catch (PebbleException e)
         {
+            log.error("Pebble email generation error: " + e.getMessage());
+
             return false;
         }
 
