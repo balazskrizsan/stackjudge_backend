@@ -16,7 +16,11 @@ import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStati
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.services.StateService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -26,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MapsService
 {
@@ -116,7 +121,11 @@ public class MapsService
         return mapsWithCompany;
     }
 
-    private StaticMapResponse getMap(Address address, MapSizeEnum mapSizeEnum, MapPositionEnum mapPositionEnum)
+    private @Nullable StaticMapResponse getMap(
+        @NonNull Address address,
+        @NotNull MapSizeEnum mapSizeEnum,
+        @NonNull MapPositionEnum mapPositionEnum
+    )
     {
         try
         {
@@ -131,7 +140,8 @@ public class MapsService
         }
         catch (ContentReadException e)
         {
-            // @todo: add log
+            log.error("Google map error: " + e.getMessage());
+
             return null;
         }
     }
