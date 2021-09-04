@@ -4,12 +4,14 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
+import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
@@ -128,5 +130,25 @@ public class MockCreator
     public static SesService getSesService()
     {
         return mock(SesService.class);
+    }
+
+    public static SecureRandomService getSecureRandomService()
+    {
+        return mock(SecureRandomService.class);
+    }
+
+    public static UrlService getUrlService()
+    {
+        return mock(UrlService.class);
+    }
+
+    public static SendCompanyOwnEmailService getSendCompanyOwnEmailService()
+    {
+        return mock(SendCompanyOwnEmailService.class);
+    }
+
+    public static PersistenceLogService getPersistenceLogService()
+    {
+        return mock(PersistenceLogService.class);
     }
 }

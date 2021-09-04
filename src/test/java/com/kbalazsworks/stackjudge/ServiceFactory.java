@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.domain.repositories.*;
 import com.kbalazsworks.stackjudge.domain.services.*;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
+import com.kbalazsworks.stackjudge.domain.services.company.OwnRequestService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
@@ -56,14 +57,20 @@ public class ServiceFactory
     private final ProtectedReviewLogService    protectedReviewLogService;
     private final SesService                   sesService;
     private final PebbleTemplateService        pebbleTemplateService;
+    private final PersistenceLogService        persistenceLogService;
+    private final SecureRandomService          secureRandomService;
+    private final SendCompanyOwnEmailService   sendCompanyOwnEmailService;
+    private final UrlService                   urlService;
+    private final CompanyService               companyService;
+    private final HttpExceptionService         httpExceptionService;
 
-    private final CompanyRepository companyRepository;
-    private final ReviewRepository  reviewRepository;
-    private final GroupRepository   groupRepository;
-    private final S3Repository      s3Repository;
-    private final AddressRepository addressRepository;
-    private final UsersRepository   usersRepository;
-
+    private final CompanyRepository           companyRepository;
+    private final ReviewRepository            reviewRepository;
+    private final GroupRepository             groupRepository;
+    private final S3Repository                s3Repository;
+    private final AddressRepository           addressRepository;
+    private final UsersRepository             usersRepository;
+    private final CompanyOwnRequestRepository companyOwnRequestRepository;
 
     public CompanyService getCompanyService()
     {
@@ -308,6 +315,34 @@ public class ServiceFactory
         return new SendCompanyOwnEmailService(
             Optional.ofNullable(sesServiceReplacer).orElse(sesService),
             Optional.ofNullable(pebbleTemplateServiceReplacer).orElse(pebbleTemplateService)
+        );
+    }
+
+    public OwnRequestService getOwnRequestService()
+    {
+        return getOwnRequestService(null, null, null, null, null, null, null, null);
+    }
+
+    public OwnRequestService getOwnRequestService(
+        PersistenceLogService persistenceLogServiceReplacer,
+        SecureRandomService secureRandomServiceReplacer,
+        SendCompanyOwnEmailService sendCompanyOwnEmailServiceReplacer,
+        CompanyService companyServiceReplacer,
+        UrlService urlServiceReplacer,
+        HttpExceptionService httpExceptionServiceReplacer,
+        JooqService jooqServiceReplacer,
+        CompanyOwnRequestRepository companyOwnRequestRepositoryReplacer
+    )
+    {
+        return new OwnRequestService(
+            Optional.ofNullable(persistenceLogServiceReplacer).orElse(persistenceLogService),
+            Optional.ofNullable(secureRandomServiceReplacer).orElse(secureRandomService),
+            Optional.ofNullable(sendCompanyOwnEmailServiceReplacer).orElse(sendCompanyOwnEmailService),
+            Optional.ofNullable(companyServiceReplacer).orElse(companyService),
+            Optional.ofNullable(urlServiceReplacer).orElse(urlService),
+            Optional.ofNullable(httpExceptionServiceReplacer).orElse(httpExceptionService),
+            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
+            Optional.ofNullable(companyOwnRequestRepositoryReplacer).orElse(companyOwnRequestRepository)
         );
     }
 }

@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.PostOwnRequestRe
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.company_service.OwnRequestService;
+import com.kbalazsworks.stackjudge.domain.services.company.OwnRequestService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

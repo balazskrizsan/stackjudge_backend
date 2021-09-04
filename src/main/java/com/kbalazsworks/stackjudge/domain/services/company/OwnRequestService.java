@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.services.company_service;
+package com.kbalazsworks.stackjudge.domain.services.company;
 
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.db_migrations.DbConstants;
@@ -9,7 +9,11 @@ import com.kbalazsworks.stackjudge.domain.entities.persistence_log.DataOwnReques
 import com.kbalazsworks.stackjudge.domain.enums.PersistenceLogTypeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.PebbleException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyOwnRequestRepository;
-import com.kbalazsworks.stackjudge.domain.services.*;
+import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.services.HttpExceptionService;
+import com.kbalazsworks.stackjudge.domain.services.JooqService;
+import com.kbalazsworks.stackjudge.domain.services.PersistenceLogService;
+import com.kbalazsworks.stackjudge.domain.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.value_objects.company_service.OwnRequest;
 import com.kbalazsworks.stackjudge.state.entities.State;
@@ -33,20 +37,20 @@ public class OwnRequestService
     private final JooqService                 jooqService;
     private final CompanyOwnRequestRepository companyOwnRequestRepository;
 
-    // @todo: test
-    public void own(OwnRequest ownRequest, State state)
+    public void own(@NonNull OwnRequest ownRequest, @NonNull State state)
     {
         boolean success = jooqService.getDbContext().transactionResult(
             (Configuration config) -> transactionalOwn(ownRequest, state)
         );
 
-        if (!success) //@todo: test
+        // @todo3: test
+        if (!success)
         {
             httpExceptionService.throwCompanyOwnRequestFailed();
         }
     }
 
-    private boolean transactionalOwn(OwnRequest ownRequest, State state)
+    private boolean transactionalOwn(@NonNull OwnRequest ownRequest, @NonNull State state)
     {
         String  secret             = secureRandomService.getUrlEncoded(32);
         long    requesterUserId    = state.currentUser().getId();
@@ -62,6 +66,7 @@ public class OwnRequestService
                 state.now()
             ));
         }
+        // @todo3: test
         catch (Exception e)
         {
             if (e.getCause().toString().contains(DbConstants.COMPANY_OWN_REQUEST_PK))
@@ -87,6 +92,7 @@ public class OwnRequestService
                 urlService.generateCompanyOwnUrl(secret)
             );
         }
+        // @todo3: test
         catch (PebbleException e)
         {
             log.error("Pebble email generation error: " + e.getMessage());
@@ -97,7 +103,7 @@ public class OwnRequestService
         return true;
     }
 
-    private String generateEmailAddress(@NonNull Company company, @NonNull String emailPart)
+    private @NonNull String generateEmailAddress(@NonNull Company company, @NonNull String emailPart)
     {
         return emailPart + "@" + company.domain().toLowerCase().replaceAll("^https?://", "");
     }
