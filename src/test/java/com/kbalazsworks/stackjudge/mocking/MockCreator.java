@@ -8,6 +8,7 @@ import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
+import com.kbalazsworks.stackjudge.domain.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
@@ -17,6 +18,7 @@ import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService
 import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 
 import static org.mockito.Mockito.mock;
 
@@ -150,5 +152,15 @@ public class MockCreator
     public static PersistenceLogService getPersistenceLogService()
     {
         return mock(PersistenceLogService.class);
+    }
+
+    public static PebbleTemplateFactory getPebbleTemplateFactoryMock()
+    {
+        return mock(PebbleTemplateFactory.class);
+    }
+
+    public static PebbleTemplate getPebbleTemplateMock()
+    {
+        return mock(PebbleTemplate.class);
     }
 }
