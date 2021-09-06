@@ -13,6 +13,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.domain.value_objects.*;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.entities.User;

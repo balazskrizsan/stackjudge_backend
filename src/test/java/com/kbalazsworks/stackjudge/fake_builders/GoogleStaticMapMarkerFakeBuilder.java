@@ -15,7 +15,7 @@ public class GoogleStaticMapMarkerFakeBuilder
     private static final double          centerLat = 1;
     private static final double          centerLng = 2;
 
-    public static List<GoogleStaticMapMarker> buildAsList()
+    public List<GoogleStaticMapMarker> buildAsList()
     {
         return new ArrayList<>()
         {{
@@ -23,7 +23,7 @@ public class GoogleStaticMapMarkerFakeBuilder
         }};
     }
 
-    public static List<GoogleStaticMapMarker> buildAsListWithTwoItems()
+    public List<GoogleStaticMapMarker> buildAsListWithTwoItems()
     {
         return new ArrayList<>()
         {{
@@ -32,7 +32,7 @@ public class GoogleStaticMapMarkerFakeBuilder
         }};
     }
 
-    public static GoogleStaticMapMarker build()
+    public GoogleStaticMapMarker build()
     {
         return new GoogleStaticMapMarker(size, color, label, centerLat, centerLng);
     }

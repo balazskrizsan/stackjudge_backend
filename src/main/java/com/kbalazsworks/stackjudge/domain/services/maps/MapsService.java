@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.services;
+package com.kbalazsworks.stackjudge.domain.services.maps;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.GoogleStaticMapsCache;
@@ -8,8 +8,9 @@ import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.domain.services.map_service.MapMapperService;
-import com.kbalazsworks.stackjudge.domain.services.map_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.domain.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.services.GoogleStaticMapsCacheService;
+import com.kbalazsworks.stackjudge.domain.services.maps.marp_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -131,10 +131,7 @@ public class MapsService
         {
             return staticProxy(
                 mapMapperService.mapAddressToGoogleStaticMap(address, mapSizeEnum),
-                new LinkedList<>()
-                {{
-                    add(mapMapperService.mapAddressToGoogleStaticMapMarker(address));
-                }},
+                List.of(mapMapperService.mapAddressToGoogleStaticMapMarker(address)),
                 mapPositionEnum
             );
         }

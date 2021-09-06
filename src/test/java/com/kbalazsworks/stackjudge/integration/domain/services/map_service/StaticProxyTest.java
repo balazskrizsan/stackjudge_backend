@@ -58,21 +58,22 @@ public class StaticProxyTest extends AbstractIntegrationTest
     public void selectingWithAlreadyCachedMapInfo_returnsTheSqlCachedS3Ul()
     {
         // Arrange
-        GoogleStaticMap             testedMap             = GoogleStaticMapFakeBuilder.build();
-        List<GoogleStaticMapMarker> testedMapMarker       = GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems();
-        MapPositionEnum             testedMapPositionEnum = COMPANY_LEFT;
+        GoogleStaticMap testedMap = new GoogleStaticMapFakeBuilder().build();
+        List<GoogleStaticMapMarker> testedMapMarker = new GoogleStaticMapMarkerFakeBuilder()
+            .buildAsListWithTwoItems();
+        MapPositionEnum testedMapPositionEnum = COMPANY_LEFT;
 
         StaticMapResponse expectedStaticMapResponse = new StaticMapResponse(fileName, COMPANY_LEFT);
 
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
-            null,
-            null,
-            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
-            null,
-            null,
-            null
-        )
+                null,
+                null,
+                StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+                null,
+                null,
+                null
+            )
             .staticProxy(testedMap, testedMapMarker, testedMapPositionEnum);
 
         // Assert
@@ -100,21 +101,22 @@ public class StaticProxyTest extends AbstractIntegrationTest
     public void selectingNonExistingCachedMapInfo_loadGoogleMapSaveToS3AndResponseWithS3Url()
     {
         // Arrange
-        GoogleStaticMap             testedMap             = GoogleStaticMapFakeBuilder.build();
-        List<GoogleStaticMapMarker> testedMapMarker       = GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems();
-        MapPositionEnum             testedMapPositionEnum = COMPANY_LEFT;
+        GoogleStaticMap testedMap = new GoogleStaticMapFakeBuilder().build();
+        List<GoogleStaticMapMarker> testedMapMarker = new GoogleStaticMapMarkerFakeBuilder()
+            .buildAsListWithTwoItems();
+        MapPositionEnum testedMapPositionEnum = COMPANY_LEFT;
 
         StaticMapResponse expectedStaticMapResponse = new StaticMapResponse(fakeGoogleMapsUrl, COMPANY_LEFT);
 
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
-            null,
-            CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
-            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
-            null,
-            null,
-            UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
-        )
+                null,
+                CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
+                StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+                null,
+                null,
+                UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
+            )
             .staticProxy(testedMap, testedMapMarker, testedMapPositionEnum);
 
         // Assert
@@ -142,20 +144,21 @@ public class StaticProxyTest extends AbstractIntegrationTest
     public void overLoadTest_selectingNonExistingCachedMapInfo_loadGoogleMapSaveToS3AndResponseWithS3Url()
     {
         // Arrange
-        GoogleStaticMap             testedMap             = GoogleStaticMapFakeBuilder.build();
-        List<GoogleStaticMapMarker> testedMapMarker       = GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems();
+        GoogleStaticMap testedMap = new GoogleStaticMapFakeBuilder().build();
+        List<GoogleStaticMapMarker> testedMapMarker = new GoogleStaticMapMarkerFakeBuilder()
+            .buildAsListWithTwoItems();
 
         StaticMapResponse expectedStaticMapResponse = new StaticMapResponse(fakeGoogleMapsUrl, DEFAULT);
 
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
-            null,
-            CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
-            StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
-            null,
-            null,
-            UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
-        )
+                null,
+                CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
+                StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
+                null,
+                null,
+                UrlFactoryMocker.create_returns_URL(fakeGoogleMapsUrl)
+            )
             .staticProxy(testedMap, testedMapMarker);
 
         // Assert

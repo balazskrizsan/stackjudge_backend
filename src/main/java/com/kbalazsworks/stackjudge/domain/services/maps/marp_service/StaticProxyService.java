@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.services.map_service;
+package com.kbalazsworks.stackjudge.domain.services.maps.marp_service;
 
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;

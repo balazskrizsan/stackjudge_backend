@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.unit.domain.services.map_service.static_proxy_service;
+package com.kbalazsworks.stackjudge.unit.domain.services.maps.map_service.static_proxy_service;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
@@ -43,7 +43,7 @@ public class GenerateMapUrlTest extends AbstractTest
         if (1 == repetition)
         {
             return new TestData(
-                GoogleStaticMapFakeBuilder.build(),
+                new GoogleStaticMapFakeBuilder().build(),
                 new ArrayList<>(),
                 new GoogleMapsUrlWithHash(
                     "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY,
@@ -54,8 +54,8 @@ public class GenerateMapUrlTest extends AbstractTest
         if (2 == repetition)
         {
             return new TestData(
-                GoogleStaticMapFakeBuilder.build(),
-                GoogleStaticMapMarkerFakeBuilder.buildAsList(),
+                new GoogleStaticMapFakeBuilder().build(),
+                new GoogleStaticMapMarkerFakeBuilder().buildAsList(),
                 new GoogleMapsUrlWithHash(
                     "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY + "&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
                     "071a4a79f317fd1f6b913842e96703f1"
@@ -65,8 +65,8 @@ public class GenerateMapUrlTest extends AbstractTest
         if (3 == repetition)
         {
             return new TestData(
-                GoogleStaticMapFakeBuilder.build(),
-                GoogleStaticMapMarkerFakeBuilder.buildAsListWithTwoItems(),
+                new GoogleStaticMapFakeBuilder().build(),
+                new GoogleStaticMapMarkerFakeBuilder().buildAsListWithTwoItems(),
                 new GoogleMapsUrlWithHash(
                     "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&scale=3&zoom=4&center=5.0,6.0&size=1x2&key=" + GOOGLE_MAPS_KEY + "&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0&markers=size:mid%7Ccolor:brown%7Clabel:A%7C1.0,2.0",
                     "071a4a79f317fd1f6b913842e96703f1"

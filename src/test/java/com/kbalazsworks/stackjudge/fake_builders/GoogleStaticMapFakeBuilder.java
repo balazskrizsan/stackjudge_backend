@@ -13,7 +13,7 @@ public class GoogleStaticMapFakeBuilder
     public static final double      centerLat = 5;
     public static final double      centerLng = 6;
 
-    public static GoogleStaticMap build()
+    public GoogleStaticMap build()
     {
         return new GoogleStaticMap(sizeX, sizeY, scale, zoom, mapType, centerLat, centerLng);
     }
