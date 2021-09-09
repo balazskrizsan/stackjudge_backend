@@ -1,17 +1,23 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapTypeEnum;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Accessors(fluent = true)
+@Getter
+@Setter
 public class GoogleStaticMapFakeBuilder
 {
-    public static final int         sizeX     = 1;
-    public static final int         sizeY     = 2;
-    public static final short       scale     = 3;
-    public static final short       zoom      = 4;
-    public static final MapTypeEnum mapType   = MapTypeEnum.ROADMAP;
-    public static final double      centerLat = 5;
-    public static final double      centerLng = 6;
+    private int         sizeX     = 1;
+    private int         sizeY     = 2;
+    private short       scale     = 3;
+    private short       zoom      = 4;
+    private MapTypeEnum mapType   = MapTypeEnum.ROADMAP;
+    private double      centerLat = 5;
+    private double      centerLng = 6;
 
     public GoogleStaticMap build()
     {

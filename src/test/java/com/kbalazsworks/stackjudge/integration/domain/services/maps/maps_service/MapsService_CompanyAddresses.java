@@ -12,6 +12,7 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
+import com.kbalazsworks.stackjudge.helpers.ObjectComparatorService;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,8 @@ public class MapsService_CompanyAddresses extends AbstractIntegrationTest
             return false;
         }
 
-        return g.sizeX() == GoogleStaticMapFakeBuilder.sizeX
-            && g.sizeY() == GoogleStaticMapFakeBuilder.sizeY
-            && g.scale() == GoogleStaticMapFakeBuilder.scale
-            && g.zoom() == GoogleStaticMapFakeBuilder.zoom
-            && g.mapType() == GoogleStaticMapFakeBuilder.mapType
-            && g.centerLat() == GoogleStaticMapFakeBuilder.centerLat
-            && g.centerLng() == GoogleStaticMapFakeBuilder.centerLng;
+        return new ObjectComparatorService().byValues(g, new GoogleStaticMapFakeBuilder().build());
     }
-
 
     @Test
     @SneakyThrows
