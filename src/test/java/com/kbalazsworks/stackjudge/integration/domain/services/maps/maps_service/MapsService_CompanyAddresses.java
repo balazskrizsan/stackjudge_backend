@@ -49,15 +49,6 @@ public class MapsService_CompanyAddresses extends AbstractIntegrationTest
             CompanyFakeBuilder.defaultId1,
             List.of(new AddressFakeBuilder().build())
         );
-        StaticMapResponse mockStaticProxyResponse1 = new StaticMapResponse(
-            "test/location1",
-            MapPositionEnum.COMPANY_HEADER
-        );
-        StaticMapResponse mockStaticProxyResponse2 = new StaticMapResponse(
-            "test/location2",
-            MapPositionEnum.COMPANY_LEFT
-        );
-
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> expectedResponse = Map.of(
             CompanyFakeBuilder.defaultId1, Map.of(AddressFakeBuilder.defaultId1, Map.of(
                     MapPositionEnum.COMPANY_LEFT, new StaticMapResponse("test/location1", MapPositionEnum.COMPANY_HEADER),
@@ -82,14 +73,14 @@ public class MapsService_CompanyAddresses extends AbstractIntegrationTest
             mapMapperService,
             null
         ));
-        doReturn(mockStaticProxyResponse1)
+        doReturn(new StaticMapResponse("test/location1", MapPositionEnum.COMPANY_HEADER))
             .when(mapsServicePartialMock)
             .staticProxy(
                 argThat(MapsService_CompanyAddresses::compareGoogleStaticMaps),
                 any(), // @todo: add check
                 eq(MapPositionEnum.COMPANY_LEFT)
             );
-        doReturn(mockStaticProxyResponse2)
+        doReturn(new StaticMapResponse("test/location2", MapPositionEnum.COMPANY_LEFT))
             .when(mapsServicePartialMock)
             .staticProxy(
                 argThat(MapsService_CompanyAddresses::compareGoogleStaticMaps),
