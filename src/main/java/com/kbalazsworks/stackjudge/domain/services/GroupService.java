@@ -30,7 +30,6 @@ public class GroupService
         return groupRepository.recursiveSearch(companyId);
     }
 
-    //@todo: mock test
     public List<RecursiveGroup> recursiveSearch(long companyId)
     {
         return recursiveSearch(List.of(companyId));

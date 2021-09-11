@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Accessors(fluent = true)
 @Getter
 @Setter
 public class RecursiveGroupFakeBuilder
 {
-    private Long   id        = 101001L;
+    public static final long defaultId = 101001L;
+
+    private Long   id        = defaultId;
     private String name      = "group name";
     private short  typeId    = (short) 2; // teams
     private Long   companyId = 100001L;
@@ -22,5 +26,10 @@ public class RecursiveGroupFakeBuilder
     public RecursiveGroup build()
     {
         return new RecursiveGroup(id, name, typeId, companyId, addressId, parentId, depth, path);
+    }
+
+    public List<RecursiveGroup> buildAsList()
+    {
+        return List.of(build());
     }
 }
