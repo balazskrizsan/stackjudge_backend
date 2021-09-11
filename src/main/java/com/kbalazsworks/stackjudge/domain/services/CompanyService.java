@@ -222,7 +222,7 @@ public class CompanyService
                         );
                         updateLogoPath(newId, cdnServicePutResponse.path());
                     }
-                    catch (AmazonS3Exception e) //@todo: test
+                    catch (AmazonS3Exception e) //@todo3: test
                     {
                         log.error("Amazon S3 upload failed.", e);
                     }
@@ -232,7 +232,7 @@ public class CompanyService
             }
         );
 
-        if (!success) //@todo: test
+        if (!success) //@todo3: test
         {
             throw new CompanyHttpException(ExceptionResponseInfo.CompanyCreationFailedMsg)
                 .withErrorCode(ExceptionResponseInfo.CompanyCreationFailedErrorCode)

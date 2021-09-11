@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor // @todo: do I need it?
+@NoArgsConstructor // @todo3: do I need it?
 @AllArgsConstructor
 @Getter
 public class GoogleStaticMapMarker

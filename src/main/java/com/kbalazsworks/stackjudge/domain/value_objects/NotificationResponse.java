@@ -11,7 +11,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Getter
-// @todo: convert to record, but JOOQ-JSONP has same problem with that
+// @todo3: convert to record, but JOOQ-JSONP has same problem with that
 public class NotificationResponse
 {
     @JsonProperty List<ITypedNotification> notifications;
