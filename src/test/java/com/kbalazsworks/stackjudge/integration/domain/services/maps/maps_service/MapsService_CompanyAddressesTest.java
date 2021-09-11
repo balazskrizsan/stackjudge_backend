@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.services.maps.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
@@ -25,10 +26,12 @@ import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum.C
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class MapsService_CompanyAddresses extends AbstractIntegrationTest
+public class MapsService_CompanyAddressesTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
+
+    private static final ObjectComparatorService objectComparatorService =  new ObjectComparatorService();
 
     private static boolean compareGoogleStaticMaps(GoogleStaticMap g)
     {
@@ -37,7 +40,17 @@ public class MapsService_CompanyAddresses extends AbstractIntegrationTest
             return false;
         }
 
-        return new ObjectComparatorService().byValues(g, new GoogleStaticMapFakeBuilder().build());
+        return objectComparatorService.byValues(g, new GoogleStaticMapFakeBuilder().build());
+    }
+
+    private static boolean compareGoogleStaticMapMarker(List<GoogleStaticMapMarker> g)
+    {
+        if (null == g || g.isEmpty())
+        {
+            return false;
+        }
+
+        return objectComparatorService.byValues(g.get(0), new GoogleStaticMapMarkerFakeBuilder().build());
     }
 
     @Test
@@ -76,15 +89,15 @@ public class MapsService_CompanyAddresses extends AbstractIntegrationTest
         doReturn(new StaticMapResponse("test/location1", MapPositionEnum.COMPANY_HEADER))
             .when(mapsServicePartialMock)
             .staticProxy(
-                argThat(MapsService_CompanyAddresses::compareGoogleStaticMaps),
-                any(), // @todo: add check
+                argThat(MapsService_CompanyAddressesTest::compareGoogleStaticMaps),
+                argThat(MapsService_CompanyAddressesTest::compareGoogleStaticMapMarker),
                 eq(MapPositionEnum.COMPANY_LEFT)
             );
         doReturn(new StaticMapResponse("test/location2", MapPositionEnum.COMPANY_LEFT))
             .when(mapsServicePartialMock)
             .staticProxy(
-                argThat(MapsService_CompanyAddresses::compareGoogleStaticMaps),
-                any(), // @todo: add check
+                argThat(MapsService_CompanyAddressesTest::compareGoogleStaticMaps),
+                argThat(MapsService_CompanyAddressesTest::compareGoogleStaticMapMarker),
                 eq(MapPositionEnum.COMPANY_HEADER)
             );
 

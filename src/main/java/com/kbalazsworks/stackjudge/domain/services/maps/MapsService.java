@@ -79,7 +79,6 @@ public class MapsService
         return new StaticMapResponse(s3Response.path(), mapPositionEnum);
     }
 
-    // @todo: test
     public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(
         Map<Long, List<Address>> companyAddresses
     )
