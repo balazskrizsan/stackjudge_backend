@@ -8,10 +8,14 @@ import static org.mockito.Mockito.when;
 
 public class UrlServiceMocker extends MockCreator
 {
-    public static UrlService generateCompanyOwnUrl_return_url(@NonNull String thanSecret, String returnUrl)
+    public static UrlService generateCompanyOwnUrl_return_url(
+        @NonNull String thanSecret,
+        long thanCompanyId,
+        String returnUrl
+    )
     {
         UrlService mock = getUrlService();
-        when(mock.generateCompanyOwnUrl(thanSecret)).thenReturn(returnUrl);
+        when(mock.generateCompanyOwnUrl(thanSecret, thanCompanyId)).thenReturn(returnUrl);
 
         return mock;
     }

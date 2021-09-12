@@ -89,7 +89,7 @@ public class OwnRequestService
             sendCompanyOwnEmailService.sendCompanyOwnEmail(
                 generateEmailAddress(company, ownRequest.emailPart()),
                 state.currentUser().getUsername(),
-                urlService.generateCompanyOwnUrl(secret)
+                urlService.generateCompanyOwnUrl(secret, ownRequest.companyId())
             );
         }
         // @todo3: test

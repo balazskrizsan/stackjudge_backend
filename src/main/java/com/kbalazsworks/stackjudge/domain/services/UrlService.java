@@ -12,11 +12,12 @@ public class UrlService
 {
     private final ApplicationProperties applicationProperties;
 
-    public String generateCompanyOwnUrl(@NonNull String secret)
+    public String generateCompanyOwnUrl(@NonNull String secret, long companyId)
     {
         return applicationProperties.getSiteFrontendHost()
             + CompanyConfig.CONTROLLER_URI
-            + CompanyConfig.POST_OWN_REQUEST_PATH
+            + "/" + companyId
+            + CompanyConfig.GET_OWN_COMPLETE_PATH
             + "/code/"
             + secret;
     }

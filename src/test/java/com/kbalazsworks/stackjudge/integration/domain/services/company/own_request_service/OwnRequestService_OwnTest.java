@@ -71,6 +71,7 @@ public class OwnRequestService_OwnTest extends AbstractIntegrationTest
         String expectedToAddress = "admin@test-company.com";
         String expectedName      = new UserFakeBuilder().username();
         String expectedOwnUrl    = "mocked_callback_url";
+        long   mockedCompanyId   = CompanyFakeBuilder.defaultId1;
 
         CompanyOwnRequest expectedCompanyOwnRequest = new CompanyOwnRequest(
             UserFakeBuilder.defaultId1,
@@ -96,7 +97,7 @@ public class OwnRequestService_OwnTest extends AbstractIntegrationTest
                 SecureRandomServiceMocker.getUrlEncoded_returns_string(mockedRandomLength, mockedRandomResponse),
                 sendCompanyOwnEmailServiceMock,
                 null,
-                UrlServiceMocker.generateCompanyOwnUrl_return_url(mockedString, mockerReturnUrl),
+                UrlServiceMocker.generateCompanyOwnUrl_return_url(mockedString, mockedCompanyId, mockerReturnUrl),
                 null,
                 null,
                 null
