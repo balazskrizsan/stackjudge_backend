@@ -1,7 +1,9 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import com.kbalazsworks.stackjudge.api.requests.OwnComplete;
 import com.kbalazsworks.stackjudge.api.requests.company_request.AddressCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateRequest;
+import com.kbalazsworks.stackjudge.api.requests.company_request.GetOwnCompleteRequest;
 import com.kbalazsworks.stackjudge.api.requests.company_request.PostOwnRequestRequest;
 import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest;
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
@@ -106,5 +108,10 @@ public class RequestMapperService
     public static OwnRequest mapToRecord(@NonNull PostOwnRequestRequest request)
     {
         return new OwnRequest(request.companyId(), request.emailPart());
+    }
+
+    public static OwnComplete mapToRecord(@NonNull GetOwnCompleteRequest request)
+    {
+        return new OwnComplete(request.getCode());
     }
 }

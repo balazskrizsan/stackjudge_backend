@@ -169,5 +169,22 @@ public class V000001__init extends AbstractBaseJooqMigration
                 constraint("google_static_maps_cache___pk").primaryKey("hash")
             )
             .execute();
+
+        qB.createTable("company_owner")
+            .column("company_id", BIGINT.nullable(false).length(32))
+            .column("user_id", BIGINT.nullable(false).length(4096))
+            .column("created_at", TIMESTAMP.nullable(false))
+            .constraints(
+                constraint("user_id___company_id___pk").primaryKey("company_id", "user_id"),
+                constraint("fk___company_owners__user_id___users__id___on_delete_cascade")
+                    .foreignKey("user_id")
+                    .references("users", "id")
+                    .onDeleteCascade(),
+                constraint("fk___company_owners__company_id___company__id___on_delete_cascade")
+                    .foreignKey("company_id")
+                    .references("company", "id")
+                    .onDeleteCascade()
+            )
+            .execute();
     }
 }

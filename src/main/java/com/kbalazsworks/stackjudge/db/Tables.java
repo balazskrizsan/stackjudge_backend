@@ -7,6 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.CompanyOwnRequest;
+import com.kbalazsworks.stackjudge.db.tables.CompanyOwner;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
@@ -37,6 +38,11 @@ public class Tables {
      * The table <code>public.company_own_request</code>.
      */
     public static final CompanyOwnRequest COMPANY_OWN_REQUEST = CompanyOwnRequest.COMPANY_OWN_REQUEST;
+
+    /**
+     * The table <code>public.company_owner</code>.
+     */
+    public static final CompanyOwner COMPANY_OWNER = CompanyOwner.COMPANY_OWNER;
 
     /**
      * The table <code>public.flyway_schema_history</code>.

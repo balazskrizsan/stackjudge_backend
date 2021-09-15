@@ -30,4 +30,20 @@ public class CompanyOwnRequestRepository extends AbstractRepository
             )
             .execute();
     }
+
+    public CompanyOwnRequest getByCode(@NonNull String code)
+    {
+        return getQueryBuilder()
+            .selectFrom(companyOwnRequestTable)
+            .where(companyOwnRequestTable.SECRET.eq(code))
+            .fetchOneInto(CompanyOwnRequest.class);
+    }
+
+    public void deleteByCode(@NonNull String code)
+    {
+        getQueryBuilder()
+            .deleteFrom(companyOwnRequestTable)
+            .where(companyOwnRequestTable.SECRET.eq(code))
+            .execute();
+    }
 }

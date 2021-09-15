@@ -97,6 +97,7 @@ public class OwnRequestService_OwnTest extends AbstractIntegrationTest
                 SecureRandomServiceMocker.getUrlEncoded_returns_string(mockedRandomLength, mockedRandomResponse),
                 sendCompanyOwnEmailServiceMock,
                 null,
+                null,
                 UrlServiceMocker.generateCompanyOwnUrl_return_url(mockedString, mockedCompanyId, mockerReturnUrl),
                 null,
                 null,

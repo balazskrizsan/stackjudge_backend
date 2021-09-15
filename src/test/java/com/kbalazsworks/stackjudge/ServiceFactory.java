@@ -24,6 +24,7 @@ import com.kbalazsworks.stackjudge.domain.services.GoogleStaticMapsCacheService;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.domain.services.JooqService;
+import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersService;
 import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.services.PebbleTemplateService;
@@ -88,6 +89,7 @@ public class ServiceFactory
     private final UrlService                   urlService;
     private final CompanyService               companyService;
     private final HttpExceptionService         httpExceptionService;
+    private final CompanyOwnersService         companyOwnersService;
 
     private final CompanyRepository           companyRepository;
     private final ReviewRepository            reviewRepository;
@@ -345,13 +347,14 @@ public class ServiceFactory
 
     public OwnRequestService getOwnRequestService()
     {
-        return getOwnRequestService(null, null, null, null, null, null, null, null);
+        return getOwnRequestService(null, null, null, null, null, null, null, null, null);
     }
 
     public OwnRequestService getOwnRequestService(
         PersistenceLogService persistenceLogServiceReplacer,
         SecureRandomService secureRandomServiceReplacer,
         SendCompanyOwnEmailService sendCompanyOwnEmailServiceReplacer,
+        CompanyOwnersService companyOwnersServiceReplacer,
         CompanyService companyServiceReplacer,
         UrlService urlServiceReplacer,
         HttpExceptionService httpExceptionServiceReplacer,
@@ -363,6 +366,7 @@ public class ServiceFactory
             Optional.ofNullable(persistenceLogServiceReplacer).orElse(persistenceLogService),
             Optional.ofNullable(secureRandomServiceReplacer).orElse(secureRandomService),
             Optional.ofNullable(sendCompanyOwnEmailServiceReplacer).orElse(sendCompanyOwnEmailService),
+            Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
             Optional.ofNullable(companyServiceReplacer).orElse(companyService),
             Optional.ofNullable(urlServiceReplacer).orElse(urlService),
             Optional.ofNullable(httpExceptionServiceReplacer).orElse(httpExceptionService),

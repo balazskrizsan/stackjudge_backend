@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
 
-    private static final long serialVersionUID = -1994308993;
+    private static final long serialVersionUID = 1226538159;
 
     /**
      * The reference instance of <code>public.company_own_request</code>
@@ -107,12 +107,12 @@ public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
 
     @Override
     public UniqueKey<CompanyOwnRequestRecord> getPrimaryKey() {
-        return Keys.REQUESTER_USER_ID___PK;
+        return Keys.REQUESTER_USER_ID___REQUESTED_COMPANY_ID___PK;
     }
 
     @Override
     public List<UniqueKey<CompanyOwnRequestRecord>> getKeys() {
-        return Arrays.<UniqueKey<CompanyOwnRequestRecord>>asList(Keys.REQUESTER_USER_ID___PK);
+        return Arrays.<UniqueKey<CompanyOwnRequestRecord>>asList(Keys.REQUESTER_USER_ID___REQUESTED_COMPANY_ID___PK);
     }
 
     @Override

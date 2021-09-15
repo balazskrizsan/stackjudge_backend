@@ -31,6 +31,7 @@ public class OwnRequestService
     private final PersistenceLogService       persistenceLogService;
     private final SecureRandomService         secureRandomService;
     private final SendCompanyOwnEmailService  sendCompanyOwnEmailService;
+    private final CompanyOwnersService        companyOwnersService;
     private final CompanyService              companyService;
     private final UrlService                  urlService;
     private final HttpExceptionService        httpExceptionService;
@@ -106,5 +107,13 @@ public class OwnRequestService
     private @NonNull String generateEmailAddress(@NonNull Company company, @NonNull String emailPart)
     {
         return emailPart + "@" + company.domain().toLowerCase().replaceAll("^https?://", "");
+    }
+
+    public CompanyOwnRequest getAndDeleteByCode(@NonNull String code)
+    {
+        CompanyOwnRequest companyOwnRequest = companyOwnRequestRepository.getByCode(code);
+        companyOwnRequestRepository.deleteByCode(code);
+
+        return companyOwnRequest;
     }
 }

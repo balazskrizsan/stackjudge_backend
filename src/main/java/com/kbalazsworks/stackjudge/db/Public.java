@@ -7,6 +7,7 @@ package com.kbalazsworks.stackjudge.db;
 import com.kbalazsworks.stackjudge.db.tables.Address;
 import com.kbalazsworks.stackjudge.db.tables.Company;
 import com.kbalazsworks.stackjudge.db.tables.CompanyOwnRequest;
+import com.kbalazsworks.stackjudge.db.tables.CompanyOwner;
 import com.kbalazsworks.stackjudge.db.tables.FlywaySchemaHistory;
 import com.kbalazsworks.stackjudge.db.tables.GoogleStaticMapsCache;
 import com.kbalazsworks.stackjudge.db.tables.Group;
@@ -30,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 1118104660;
+    private static final long serialVersionUID = -2010588969;
 
     /**
      * The reference instance of <code>public</code>
@@ -51,6 +52,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.company_own_request</code>.
      */
     public final CompanyOwnRequest COMPANY_OWN_REQUEST = CompanyOwnRequest.COMPANY_OWN_REQUEST;
+
+    /**
+     * The table <code>public.company_owner</code>.
+     */
+    public final CompanyOwner COMPANY_OWNER = CompanyOwner.COMPANY_OWNER;
 
     /**
      * The table <code>public.flyway_schema_history</code>.
@@ -111,6 +117,7 @@ public class Public extends SchemaImpl {
             Address.ADDRESS,
             Company.COMPANY,
             CompanyOwnRequest.COMPANY_OWN_REQUEST,
+            CompanyOwner.COMPANY_OWNER,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             GoogleStaticMapsCache.GOOGLE_STATIC_MAPS_CACHE,
             Group.GROUP,
