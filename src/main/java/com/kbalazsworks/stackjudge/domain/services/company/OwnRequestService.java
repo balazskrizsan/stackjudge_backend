@@ -40,6 +40,12 @@ public class OwnRequestService
 
     public void own(@NonNull OwnRequest ownRequest, @NonNull State state)
     {
+        // @todo2: test condition
+        if (companyOwnersService.isUserOwnerOnCompany(state.currentUser().getId(), ownRequest.companyId()))
+        {
+            httpExceptionService.throwCompanyAlreadyOwnedByTheUser();
+        }
+
         boolean success = jooqService.getDbContext().transactionResult(
             (Configuration config) -> transactionalOwn(ownRequest, state)
         );
