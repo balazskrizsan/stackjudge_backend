@@ -12,9 +12,15 @@ import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
-import com.kbalazsworks.stackjudge.domain.value_objects.*;
+import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
+import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
+import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
@@ -27,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +44,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CompanyService
 {
-    private final AddressService    addressService;
-    private final SearchService     searchService;
-    private final ReviewService     reviewService;
-    private final PaginatorService  paginatorService;
-    private final JooqService       jooqService;
-    private final CdnService        cdnService;
-    private final AccountService    accountService;
-    private final MapsService       mapsService;
-    private final CompanyRepository companyRepository;
+    private final AddressService       addressService;
+    private final SearchService        searchService;
+    private final ReviewService        reviewService;
+    private final PaginatorService     paginatorService;
+    private final JooqService          jooqService;
+    private final CdnService           cdnService;
+    private final AccountService       accountService;
+    private final MapsService          mapsService;
+    private final CompanyOwnersService companyOwnersService;
+    private final CompanyRepository    companyRepository;
 
     public void delete(long companyId)
     {
@@ -75,6 +83,7 @@ public class CompanyService
             searchResponse.companyAddresses().get(companyId),
             searchResponse.companyAddressMaps().get(companyId),
             searchResponse.companyReviews().get(companyId),
+            searchResponse.companyOwners().get(companyId),
             searchResponse.companyUsers()
         );
     }
@@ -117,6 +126,7 @@ public class CompanyService
         Map<Long, Map<Long, List<Review>>>                            companyReviews     = new HashMap<>();
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps = new HashMap<>();
         Map<Long, User>                                               companyUsers       = new HashMap<>();
+        Map<Long, List<Long>>                                         companyOwners      = new HashMap<>();
         List<Long>                                                    affectedUserIds    = new ArrayList<>();
 
         if (requestRelationIds != null)
@@ -161,6 +171,15 @@ public class CompanyService
                 );
             }
 
+            if (requestRelationIds.contains(CompanyRequestRelationsEnum.OWNER.getValue()))
+            {
+                companyOwners = companyOwnersService.searchWithCompanyIdMapByCompany(companyIds);
+
+                affectedUserIds.addAll(
+                    companyOwners.values().stream().flatMap(Collection::stream).collect(Collectors.toList())
+                );
+            }
+
             if (!affectedUserIds.isEmpty())
             {
                 companyUsers = accountService.findByIdsWithIdMap(affectedUserIds);
@@ -176,6 +195,7 @@ public class CompanyService
             companyAddresses,
             companyAddressMaps,
             companyReviews,
+            companyOwners,
             companyUsers
         );
     }

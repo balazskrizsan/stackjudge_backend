@@ -6,6 +6,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class CompanyOwnersService
@@ -22,5 +25,11 @@ public class CompanyOwnersService
     public boolean isUserOwnerOnCompany(long userId, long companyId)
     {
         return companyOwnersRepository.isUserOwnerOnCompany(userId, companyId);
+    }
+
+    // @todo2: test
+    public Map<Long, List<Long>> searchWithCompanyIdMapByCompany(List<Long> companyId)
+    {
+        return companyOwnersRepository.searchByCompanyId(companyId);
     }
 }

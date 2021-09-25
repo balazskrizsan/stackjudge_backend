@@ -20,6 +20,7 @@ public record CompanySearchServiceResponse(
     @JsonProperty Map<Long, List<Address>> companyAddresses,
     @JsonProperty Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps,
     @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews,
+    @JsonProperty Map<Long, List<Long>> companyOwners,
     @JsonProperty Map<Long, User> companyUsers
 )
 {

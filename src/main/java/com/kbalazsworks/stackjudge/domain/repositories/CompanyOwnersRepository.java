@@ -4,6 +4,9 @@ import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class CompanyOwnersRepository extends AbstractRepository
 {
@@ -38,5 +41,13 @@ public class CompanyOwnersRepository extends AbstractRepository
                         .and(companyOwnerTable.COMPANY_ID.eq(companyId))
                 )
         );
+    }
+
+    public Map<Long, List<Long>> searchByCompanyId(List<Long> companyId)
+    {
+        return getQueryBuilder()
+            .selectFrom(companyOwnerTable)
+            .where(companyOwnerTable.COMPANY_ID.in(companyId))
+            .fetchGroups(companyOwnerTable.COMPANY_ID, companyOwnerTable.USER_ID);
     }
 }

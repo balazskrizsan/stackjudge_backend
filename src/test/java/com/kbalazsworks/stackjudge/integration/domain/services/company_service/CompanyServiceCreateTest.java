@@ -110,6 +110,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
             cdnServiceMock,
             null,
             null,
+            null,
             null
         ).create(testData.testedCompany, testData.testedAddress, testData.testedFile);
 
@@ -138,6 +139,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
 
         CompanyService service = serviceFactory.getCompanyService(
             AddressServiceMocker.create_throws_AddressHttpException(),
+            null,
             null,
             null,
             null,

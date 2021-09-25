@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     null,
                     null,
                     null,
+                    null,
                     new HashMap<>()
                 )
             );
@@ -83,6 +85,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                         )
                     ),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
+                    new ArrayList<>(),
                     new HashMap<>()
                 )
             );

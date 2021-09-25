@@ -24,8 +24,6 @@ import com.kbalazsworks.stackjudge.domain.services.GoogleStaticMapsCacheService;
 import com.kbalazsworks.stackjudge.domain.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.domain.services.JooqService;
-import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersService;
-import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.services.PebbleTemplateService;
 import com.kbalazsworks.stackjudge.domain.services.PersistenceLogService;
@@ -34,9 +32,11 @@ import com.kbalazsworks.stackjudge.domain.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
+import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersService;
 import com.kbalazsworks.stackjudge.domain.services.company.OwnRequestService;
 import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.services.maps.MapMapperService;
+import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.domain.services.maps.marp_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.services.notification_service.SearchMyNotificationsService;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
@@ -101,7 +101,7 @@ public class ServiceFactory
 
     public CompanyService getCompanyService()
     {
-        return getCompanyService(null, null, null, null, null, null, null, null, null);
+        return getCompanyService(null, null, null, null, null, null, null, null, null, null);
     }
 
     public CompanyService getCompanyService(
@@ -113,6 +113,7 @@ public class ServiceFactory
         CdnService cdnServiceReplacer,
         AccountService accountServiceReplaces,
         MapsService mapsServiceReplacer,
+        CompanyOwnersService companyOwnersServiceReplacer,
         CompanyRepository companyRepositoryReplacer
     )
     {
@@ -125,6 +126,7 @@ public class ServiceFactory
             Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
             Optional.ofNullable(mapsServiceReplacer).orElse(mapsService),
+            Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
             Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
         );
     }

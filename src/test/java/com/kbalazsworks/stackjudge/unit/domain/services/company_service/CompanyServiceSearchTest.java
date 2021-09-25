@@ -56,6 +56,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mockForAddressMaps,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
         Map<Long, User> mockForUsers,
+        Map<Long, List<Long>> mockForOwners,
         CompanySearchServiceResponse expectedResponse
     )
     {
@@ -79,12 +80,14 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new HashMap<>(),
                 new HashMap<>(),
                 new HashMap<>(),
+                new HashMap<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().buildAsList(),
                     new HashMap<>(),
                     new ArrayList<>(),
                     null,
+                    new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>(),
                     new HashMap<>(),
@@ -112,6 +115,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                 ),
                 Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build()),
+                new HashMap<>(),
                 // expected
                 new CompanySearchServiceResponse(
                     new CompanyFakeBuilder().id(CompanyFakeBuilder.defaultId1).buildAsList(),
@@ -125,6 +129,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                         CompanyFakeBuilder.defaultId1,
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                     ),
+                    new HashMap<>(),
                     Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build())
                 )
             );
@@ -164,6 +169,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                     td.mockForUsers
                 ),
                 MapsServiceMocker.searchByAddresses_returns_addressMaps(td.mockForSearchAddresses, td.mockForAddressMaps),
+                null,
                 companyRepositoryMock
             )
             .search(td.testedSeekId, td.testedLimit, td.testedRequestRelationIds, td.testedNavigation);
