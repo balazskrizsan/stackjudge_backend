@@ -8,4 +8,5 @@ TRUNCATE TABLE
     "notification",
     "persistence_log",
     "company_own_request",
+    "company_owner",
     "company" RESTART IDENTITY;

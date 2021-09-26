@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.Map;
 
 @Accessors(fluent = true)
 @Getter
@@ -38,6 +39,11 @@ public class UserFakeBuilder
     public List<User> buildAsList()
     {
         return List.of(build());
+    }
+
+    public Map<Long, User> buildAsMap()
+    {
+        return Map.of(defaultId1, build());
     }
 
     public User build()

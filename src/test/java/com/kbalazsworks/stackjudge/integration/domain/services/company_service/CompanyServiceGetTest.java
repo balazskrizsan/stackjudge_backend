@@ -44,7 +44,6 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         assertThat(true).isTrue();
     }
 
-    // @todo: add user list test
     private TestData provider(int repetition)
     {
         long testedCompanyId    = CompanyFakeBuilder.defaultId1;
@@ -72,7 +71,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         {
             return new TestData(
                 testedCompanyId,
-                List.of((short) 1, (short) 2, (short) 3, (short) 5),
+                List.of((short) 1, (short) 2, (short) 3, (short) 5, (short) 6),
                 new CompanyGetServiceResponse(
                     expectedCompany,
                     new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
@@ -85,8 +84,8 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                         )
                     ),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    List.of(UserFakeBuilder.defaultId1),
+                    new UserFakeBuilder().buildAsMap()
                 )
             );
         }
@@ -103,10 +102,12 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                 scripts = {
                     "classpath:test/sqls/_truncate_tables.sql",
                     "classpath:test/sqls/preset_add_1_company.sql",
+                    "classpath:test/sqls/preset_add_2_user.sql",
                     "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql",
-                    "classpath:test/sqls/preset_add_1plus1_googole_static_map_cache.sql"
+                    "classpath:test/sqls/preset_add_1_company_owner.sql",
+                    "classpath:test/sqls/preset_add_1plus1_google_static_map_cache.sql"
                 }
             ),
             @Sql(
@@ -128,6 +129,6 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
         );
 
         // Assert
-        assertThat(actualResponse).isEqualTo(tD.expectedResponse);
+        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(tD.expectedResponse);
     }
 }
