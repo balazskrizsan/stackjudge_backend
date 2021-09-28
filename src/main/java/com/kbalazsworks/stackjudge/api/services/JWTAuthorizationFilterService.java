@@ -54,8 +54,9 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         UsernamePasswordAuthenticationToken authentication = getAuthentication(
             authorizationHeader.replace(TOKEN_PREFIX, "")
         );
-        //@todo: authentication check null
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // This would save the user state to redis/session
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
 
