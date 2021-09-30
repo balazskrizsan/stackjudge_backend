@@ -55,8 +55,9 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
             authorizationHeader.replace(TOKEN_PREFIX, "")
         );
 
-        // This would save the user state to redis/session
-        // SecurityContextHolder.getContext().setAuthentication(authentication);
+        // WebSecurityConfig/SessionCreationPolicy.NEVER to disable the redis save
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         chain.doFilter(req, res);
     }
 

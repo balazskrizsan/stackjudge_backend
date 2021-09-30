@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.session.SessionManagementFilter;
 
@@ -75,6 +76,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .addFilter(new JWTAuthorizationFilterService(authenticationManager(), accountService, jwtService))
 
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+
+        http
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.NEVER);
         // @formatter:on
     }
 
