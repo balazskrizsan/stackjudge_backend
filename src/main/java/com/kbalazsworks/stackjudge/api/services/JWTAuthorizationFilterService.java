@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.api.services;
 
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +26,9 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
     private final JwtService     jwtService;
 
     public JWTAuthorizationFilterService(
-        AuthenticationManager authManager,
-        AccountService accountService,
-        JwtService jwtService
+        @NonNull AuthenticationManager authManager,
+        @NonNull AccountService accountService,
+        @NonNull JwtService jwtService
     )
     {
         super(authManager);
@@ -37,9 +38,9 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 
     @Override
     protected void doFilterInternal(
-        HttpServletRequest req,
-        HttpServletResponse res,
-        FilterChain chain
+        @NonNull HttpServletRequest req,
+        @NonNull HttpServletResponse res,
+        @NonNull FilterChain chain
     ) throws IOException, ServletException
     {
         String authorizationHeader = req.getHeader(HEADER_STRING);
@@ -61,7 +62,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         chain.doFilter(req, res);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(String token)
+    private UsernamePasswordAuthenticationToken getAuthentication(@NonNull String token)
     {
         if (jwtService.isValid(token))
         {

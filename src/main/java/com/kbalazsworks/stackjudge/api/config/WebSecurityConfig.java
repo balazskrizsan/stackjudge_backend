@@ -11,6 +11,7 @@ import com.kbalazsworks.stackjudge.api.services.JWTAuthorizationFilterService;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
+    protected void configure(@NonNull HttpSecurity http) throws Exception
     {
         // @formatter:off
         http

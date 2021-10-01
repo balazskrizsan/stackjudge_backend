@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.api.services;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,13 +24,13 @@ public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticati
 {
     private final AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilterService(AuthenticationManager authenticationManager)
+    public JWTAuthenticationFilterService(@NonNull AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
+    public Authentication attemptAuthentication(@NonNull HttpServletRequest req, @NonNull HttpServletResponse res)
         throws AuthenticationException
     {
         String username = req.getParameter("username");
@@ -42,10 +43,10 @@ public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticati
 
     @Override
     protected void successfulAuthentication(
-        HttpServletRequest req,
-        HttpServletResponse res,
-        FilterChain chain,
-        Authentication auth
+        @NonNull HttpServletRequest req,
+        @NonNull HttpServletResponse res,
+        @NonNull FilterChain chain,
+        @NonNull Authentication auth
     )
     {
         String token = Jwts
