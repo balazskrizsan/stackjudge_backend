@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
+import com.kbalazsworks.stackjudge.domain.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FacebookService
 {
-    // @todo: hello redis
-    public static List<String> stateStore = new ArrayList<>();
-
-    private final ApplicationProperties applicationProperties;
-    private final SecureRandomService   secureRandomService;
+    private final ApplicationProperties    applicationProperties;
+    private final SecureRandomService      secureRandomService;
+    private final RegistrationStateService registrationStateService;
 
     // @todo: test
     public String registrationAndLogin()
     {
-        String currentStateId = "secret_" + secureRandomService.getUrlEncoded(32);
-        FacebookService.stateStore.add(currentStateId);
+        String currentState = "secret_" + secureRandomService.getUrlEncoded(32);
+
+        registrationStateService.add(currentState);
 
         OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
             .apiSecret(applicationProperties.getFacebookClientSecret())
@@ -32,7 +32,7 @@ public class FacebookService
             .build(FacebookLatestApiService.instance());
 
         return service.createAuthorizationUrlBuilder()
-            .state(currentStateId)
+            .state(currentState)
             .build();
     }
 }

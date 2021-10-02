@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
 import com.kbalazsworks.stackjudge.api.services.facebook_callback_service.GetJwtLoginUrlService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
+import com.kbalazsworks.stackjudge.domain.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class FacebookCallbackService
 {
     private final AccountService              accountService;
     private final GetJwtLoginUrlService       getJwtLoginUrlService;
+    private final RegistrationStateService    registrationStateService;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
@@ -33,13 +35,13 @@ public class FacebookCallbackService
     @Transactional
     public String getJwtLoginUrl(String code, String state) throws AuthException
     {
-        if (!FacebookService.stateStore.contains(state))
+        if (!registrationStateService.exists(state))
         {
             log.error("Facebook authentication error with state: " + state);
             throw new AuthException();
         }
 
-        FacebookService.stateStore.remove(state);
+        registrationStateService.delete(state);
 
         OAuth20Service    service     = oAuthFacebookServiceBuilder.create();
         OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(service, code);

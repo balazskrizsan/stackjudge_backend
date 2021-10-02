@@ -59,6 +59,31 @@ public class ApplicationProperties
         return dataSourcePassword;
     }
 
+
+    @Value("${spring.redis.host}")
+    private String redisHost;
+
+    public String getRedisHost()
+    {
+        return redisHost;
+    }
+
+    @Value("${spring.redis.password}")
+    private String redisPassword;
+
+    public String getRedisPassword()
+    {
+        return redisPassword;
+    }
+
+    @Value("${spring.redis.port}")
+    private int redisPort;
+
+    public int getRedisPort()
+    {
+        return redisPort;
+    }
+
     @Value("${health_check.env_var_test}")
     private String healthCheckEnvVarTest;
 
