@@ -74,7 +74,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                 List.of((short) 1, (short) 2, (short) 3, (short) 5, (short) 6),
                 new CompanyGetServiceResponse(
                     expectedCompany,
-                    new CompanyStatistic(expectedCompany.id(), 0, 1, 0, 0),
+                    new CompanyStatistic(expectedCompany.getId(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new AddressFakeBuilder().buildAsList(),
                     Map.of(

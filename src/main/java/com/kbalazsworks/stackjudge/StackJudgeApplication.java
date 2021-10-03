@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
+@EnableCaching
 //@EnableSwagger2
 //@EnableOpenApi
 public class StackJudgeApplication
@@ -53,14 +55,16 @@ public class StackJudgeApplication
         return dataSource;
     }
 
-    @Bean(name="transactionManager")
+    @Bean(name = "transactionManager")
     @Primary
-    DataSourceTransactionManager getDataSourceTransactionManager() {
+    DataSourceTransactionManager getDataSourceTransactionManager()
+    {
         return new DataSourceTransactionManager(dataSource());
     }
 
-    @Bean(name="transactionAwareDataSource")
-    TransactionAwareDataSourceProxy getTransactionAwareDataSourceProxy() {
+    @Bean(name = "transactionAwareDataSource")
+    TransactionAwareDataSourceProxy getTransactionAwareDataSourceProxy()
+    {
         return new TransactionAwareDataSourceProxy(dataSource());
     }
 }

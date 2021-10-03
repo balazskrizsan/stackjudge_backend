@@ -143,7 +143,7 @@ public class CompanyServiceSearchTest extends AbstractTest
     {
         // Arrange
         TestData   td                 = provider(repetitionInfo.getCurrentRepetition());
-        List<Long> mockedCompaniesIds = td.mockedCompanies.stream().map(Company::id).collect(Collectors.toList());
+        List<Long> mockedCompaniesIds = td.mockedCompanies.stream().map(Company::getId).collect(Collectors.toList());
 
         CompanyRepository companyRepositoryMock = MockCreator.getCompanyRepositoryMock();
         when(companyRepositoryMock.search(td.testedSeekId, td.testedNavigation, td.testedLimit))

@@ -112,7 +112,7 @@ public class OwnRequestService
 
     private @NonNull String generateEmailAddress(@NonNull Company company, @NonNull String emailPart)
     {
-        return emailPart + "@" + company.domain().toLowerCase().replaceAll("^https?://", "");
+        return emailPart + "@" + company.getDomain().toLowerCase().replaceAll("^https?://", "");
     }
 
     public CompanyOwnRequest getAndDeleteByCode(@NonNull String code)

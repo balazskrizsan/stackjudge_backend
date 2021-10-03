@@ -22,7 +22,7 @@ public class FacebookService
     // @todo: test
     public String registrationAndLogin()
     {
-        String currentState = "secret_" + secureRandomService.getUrlEncoded(32);
+        String currentState = secureRandomService.getUrlEncoded(32);
 
         registrationStateService.add(currentState);
 

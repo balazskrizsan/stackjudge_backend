@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.exceptions.RepositoryNotFoundException;
 import lombok.NonNull;
 import org.jooq.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -46,19 +47,20 @@ public class CompanyRepository extends AbstractRepository
                 companyTable.CREATED_BY
             )
             .values(
-                company.name(),
-                company.domain(),
-                company.companySizeId(),
-                company.itSizeId(),
-                company.logoPath(),
-                company.createdAt(),
-                company.createdBy()
+                company.getName(),
+                company.getDomain(),
+                company.getCompanySizeId(),
+                company.getItSizeId(),
+                company.getLogoPath(),
+                company.getCreatedAt(),
+                company.getCreatedBy()
             )
             .returningResult(companyTable.ID)
             .fetchOne()
             .getValue(companyTable.ID);
     }
 
+    @Cacheable("companies")
     public List<Company> search(long seekId, int limit)
     {
         return getQueryBuilder()
@@ -69,6 +71,7 @@ public class CompanyRepository extends AbstractRepository
             .fetchInto(Company.class);
     }
 
+    @Cacheable("companies")
     public List<Company> search(NavigationEnum navigation, int limit)
     {
         return getQueryBuilder()

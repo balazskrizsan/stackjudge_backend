@@ -131,7 +131,7 @@ public class CompanyService
 
         if (requestRelationIds != null)
         {
-            List<Long> companyIds = companies.stream().map(Company::id).collect(Collectors.toList());
+            List<Long> companyIds = companies.stream().map(Company::getId).collect(Collectors.toList());
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.STATISTIC.getValue()))
             {
@@ -146,7 +146,7 @@ public class CompanyService
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.PAGINATOR.getValue()))
             {
                 // @todo: test the condition
-                newSeekId = companies.isEmpty() ? 0 : companies.get(0).id();
+                newSeekId = companies.isEmpty() ? 0 : companies.get(0).getId();
                 paginator = paginatorService.generate(countRecordsBeforeId(newSeekId), countRecords(), limit);
             }
 

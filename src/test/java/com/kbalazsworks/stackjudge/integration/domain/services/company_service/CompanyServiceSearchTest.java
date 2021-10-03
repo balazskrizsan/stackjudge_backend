@@ -206,7 +206,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
             testData.testedNavigation
         )
             .stream()
-            .map(Company::id)
+            .map(Company::getId)
             .collect(Collectors.toList());
 
         // Assert
