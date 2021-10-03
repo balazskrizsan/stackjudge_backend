@@ -20,7 +20,7 @@ public class RegistrationStateService
     // @todo2: test
     public boolean exists(String state)
     {
-        return registrationSecretRepository.findById(state).isPresent();
+        return registrationSecretRepository.existsById(state);
     }
 
     // @todo2: test
