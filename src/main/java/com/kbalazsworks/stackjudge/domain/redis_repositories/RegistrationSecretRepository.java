@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.repositories;
+package com.kbalazsworks.stackjudge.domain.redis_repositories;
 
 import com.kbalazsworks.stackjudge.domain.entities.RegistrationSecret;
 import org.springframework.data.repository.CrudRepository;

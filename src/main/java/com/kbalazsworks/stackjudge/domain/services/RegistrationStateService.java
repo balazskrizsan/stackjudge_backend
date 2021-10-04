@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
 import com.kbalazsworks.stackjudge.domain.entities.RegistrationSecret;
-import com.kbalazsworks.stackjudge.domain.repositories.RegistrationSecretRepository;
+import com.kbalazsworks.stackjudge.domain.redis_repositories.RegistrationSecretRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
