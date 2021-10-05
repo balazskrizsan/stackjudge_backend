@@ -9,23 +9,23 @@ abstract public class AbstractAspectService
     {
     }
 
-    @Pointcut("findAllDomainClasses() && inServices() && inRepositories() && inRedisRepositories()")
+    @Pointcut("findAllDomainClasses() && inDomainServices() && inDomainRepositories() && inDomainRedisRepositories()")
     protected void findDomainBusinessLogicAndRepositoryClasses()
     {
     }
 
     @Pointcut("within(com.kbalazsworks.stackjudge.domain.services..*)")
-    protected void inServices()
+    protected void inDomainServices()
     {
     }
 
     @Pointcut("!within(com.kbalazsworks.stackjudge.domain.repositories..*)")
-    protected void inRepositories()
+    protected void inDomainRepositories()
     {
     }
 
     @Pointcut("!within(com.kbalazsworks.stackjudge.domain.redis_repositories..*)")
-    protected void inRedisRepositories()
+    protected void inDomainRedisRepositories()
     {
     }
 }
