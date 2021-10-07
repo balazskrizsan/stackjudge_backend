@@ -29,22 +29,24 @@ public class SlowServiceLoggerAspectService extends AbstractAspectService
 
         if (diff > SLOW_METHOD_RUN_LENGTH)
         {
-            logging(diff, joinPont.getSignature().toString());
+            writeLog(diff, joinPont.getSignature().toString());
         }
 
         return retVal;
     }
 
-    private void logging(long diff, String slowMethod)
+    private void writeLog(long diff, String slowMethod)
     {
-        if (diff > SLOW_METHOD_RUN_LENGTH)
-        {
-            log.warn(String.format("Slow method run: %dms | %s ", diff, slowMethod));
-        }
-
         if (diff > CRITICAL_SLOW_METHOD_RUN_LENGTH)
         {
             log.error(String.format("Critical slow method run: %dms | %s ", diff, slowMethod));
+
+            return;
+        }
+
+        if (diff > SLOW_METHOD_RUN_LENGTH)
+        {
+            log.warn(String.format("Slow method run: %dms | %s ", diff, slowMethod));
         }
     }
 }
