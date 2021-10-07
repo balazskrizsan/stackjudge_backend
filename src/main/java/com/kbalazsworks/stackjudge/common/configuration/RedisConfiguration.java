@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.config;
+package com.kbalazsworks.stackjudge.common.configuration;
 
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;

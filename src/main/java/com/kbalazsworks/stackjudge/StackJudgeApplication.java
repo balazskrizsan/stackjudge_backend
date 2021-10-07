@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 @EnableScheduling
 @EnableTransactionManagement
 @EnableCaching
-@EnableAspectJAutoProxy
 //@EnableSwagger2
 //@EnableOpenApi
 public class StackJudgeApplication
