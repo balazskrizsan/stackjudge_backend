@@ -20,7 +20,7 @@ public class SlowServiceLoggerAspectService extends AbstractAspectService
     private static final int CRITICAL_SLOW_METHOD_RUN_LENGTH = 5000;
 
     @Around("findDomainBusinessLogicAndRepositoryClasses()")
-    public Object log(ProceedingJoinPoint joinPont) throws Throwable
+    public Object checkRunTime(ProceedingJoinPoint joinPont) throws Throwable
     {
         long   startTime = systemFactory.getCurrentTimeMillis();
         Object retVal    = joinPont.proceed(joinPont.getArgs());
