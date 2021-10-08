@@ -11,6 +11,7 @@ public class ApplicationProperties
     {
         return siteDomain;
     }
+
     @Value("${site.frontend.host}")
     private String siteFrontendHost;
 
@@ -178,5 +179,13 @@ public class ApplicationProperties
     public String getGoogleMapsKey()
     {
         return googleMapsKey;
+    }
+
+    @Value("${REDIS_ASPECT_CACHE_ENABLED}")
+    private String redisSspectCacheEnabled;
+
+    public boolean getRedisSspectCacheEnabled()
+    {
+        return redisSspectCacheEnabled.equals("true");
     }
 }

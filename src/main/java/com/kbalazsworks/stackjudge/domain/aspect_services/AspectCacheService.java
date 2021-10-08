@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.aspect_services;
 import com.google.common.collect.ImmutableList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.redis_repositories.AddressRedisRepository;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -23,10 +24,16 @@ import java.util.stream.Collectors;
 public class AspectCacheService
 {
     private final AddressRedisRepository addressRedisRepository;
+    private final ApplicationProperties  applicationProperties;
 
     @Around("execution(* com.kbalazsworks.stackjudge.domain..*(..)) && @annotation(RedisCachedCompanyIdList)")
     public Object caching(ProceedingJoinPoint joinPont) throws Throwable
     {
+        if (!applicationProperties.getRedisSspectCacheEnabled())
+        {
+            return joinPont.proceed();
+        }
+
         try
         {
             return cacheLogic(joinPont);
