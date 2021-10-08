@@ -101,7 +101,7 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
         throw new JUnitException("TestData not found with repetition#" + repetition);
     }
 
-    @RepeatedTest(value = 3)
+    @RepeatedTest(value = 1)
     @SqlGroup(
         {
             @Sql(
@@ -133,6 +133,6 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
         );
 
         // Assert
-        assertThat(actualIds).isEqualTo(testData.expectedFoundList);
+        assertThat(actualIds).usingRecursiveComparison().isEqualTo(testData.expectedFoundList);
     }
 }

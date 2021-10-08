@@ -10,7 +10,6 @@ import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ContentReadException;
-import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.platform.commons.JUnitException;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -123,8 +121,12 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         actualAddress.setCompanyId(testData.expectedAddress.companyId());
 
         assertAll(
-            () -> assertThat(actualCompany.into(Company.class)).isEqualTo(testData.expectedCompany),
-            () -> assertThat(actualAddress.into(Address.class)).isEqualTo(testData.expectedAddress),
+            () -> assertThat(actualCompany.into(Company.class))
+                .usingRecursiveComparison()
+                .isEqualTo(testData.expectedCompany),
+            () -> assertThat(actualAddress.into(Address.class))
+                .usingRecursiveComparison()
+                .isEqualTo(testData.expectedAddress),
             testData::cdnCallVerification
         );
     }

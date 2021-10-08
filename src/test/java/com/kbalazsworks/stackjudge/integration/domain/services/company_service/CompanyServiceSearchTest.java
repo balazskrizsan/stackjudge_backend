@@ -62,7 +62,7 @@ public class CompanyServiceSearchTest extends AbstractIntegrationTest
         List<Company> actualList = companyService.search(0, 1, NavigationEnum.FIRST);
 
         // Assert
-        assertThat(expectedCompany).isEqualTo(actualList);
+        assertThat(expectedCompany).usingRecursiveComparison().isEqualTo(actualList);
     }
 
     private TestData provider(int iteration)
