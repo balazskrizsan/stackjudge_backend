@@ -1,12 +1,10 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
-import com.google.common.collect.Lists;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.review_table.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.repositories.ReviewRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -39,7 +37,7 @@ public class ReviewService
                         List<Review> list = groups.get(review.groupId());
                         if (null == list)
                         {
-                            groups.put(review.groupId(), Lists.newArrayList(review));
+                            groups.put(review.groupId(), List.of(review));
 
                             return;
                         }
