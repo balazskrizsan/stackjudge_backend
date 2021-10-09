@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class ReviewService
                         List<Review> list = groups.get(review.groupId());
                         if (null == list)
                         {
-                            groups.put(review.groupId(), List.of(review));
+                            groups.put(review.groupId(), new ArrayList<>(List.of(review)));
 
                             return;
                         }
