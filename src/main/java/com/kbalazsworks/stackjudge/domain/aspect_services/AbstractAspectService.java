@@ -9,6 +9,11 @@ abstract public class AbstractAspectService
     {
     }
 
+    @Pointcut("@annotation(RedisCacheByCompanyIdList) && findAllDomainClasses()")
+    protected void findRedisCacheByCompanyIdList()
+    {
+    }
+
     @Pointcut("findAllDomainClasses() && inDomainServices() && inDomainRepositories() && inDomainRedisRepositories()")
     protected void findDomainBusinessLogicAndRepositoryClasses()
     {

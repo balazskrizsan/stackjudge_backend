@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
-import com.kbalazsworks.stackjudge.domain.aspect_services.RedisCachedCompanyIdList;
+import com.kbalazsworks.stackjudge.domain.aspect_services.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -40,7 +40,7 @@ public class AddressRepository extends AbstractRepository
             .execute();
     }
 
-    @RedisCachedCompanyIdList(entity = Address.class)
+    @RedisCacheByCompanyIdList(entity = Address.class)
     public List<Address> search(List<Long> companyIds)
     {
         return getQueryBuilder()

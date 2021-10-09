@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 @Component
 @Log4j2
 @RequiredArgsConstructor
-public class AspectCacheService
+public class AspectCacheService extends AbstractAspectService
 {
     private final AddressRedisRepository addressRedisRepository;
     private final ApplicationProperties  applicationProperties;
 
-    @Around("execution(* com.kbalazsworks.stackjudge.domain..*(..)) && @annotation(RedisCachedCompanyIdList)")
+    @Around("findRedisCacheByCompanyIdList()")
     public Object caching(ProceedingJoinPoint joinPont) throws Throwable
     {
         if (!applicationProperties.getRedisSspectCacheEnabled())
@@ -50,9 +50,9 @@ public class AspectCacheService
     {
         Object[] args = joinPont.getArgs();
 
-        MethodSignature          signature                = (MethodSignature) joinPont.getSignature();
-        Method                   method                   = signature.getMethod();
-        RedisCachedCompanyIdList redisCachedCompanyIdList = method.getAnnotation(RedisCachedCompanyIdList.class);
+        MethodSignature           signature                = (MethodSignature) joinPont.getSignature();
+        Method                    method                   = signature.getMethod();
+        RedisCacheByCompanyIdList redisCachedCompanyIdList = method.getAnnotation(RedisCacheByCompanyIdList.class);
 //        Class<IRedisCacheable>   cacheableClass           = (Class<IRedisCacheable>) redisCachedCompanyIdList.entity();
 //        System.out.println(redisCachedCompanyIdList.entity());
 
