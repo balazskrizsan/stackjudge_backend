@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.aspect_services;
+package com.kbalazsworks.stackjudge.domain.aspects;
 
 import com.google.common.collect.ImmutableList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;

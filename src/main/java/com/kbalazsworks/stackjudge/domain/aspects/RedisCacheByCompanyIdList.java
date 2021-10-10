@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.aspect_services;
+package com.kbalazsworks.stackjudge.domain.aspects;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.aspect_services;
+package com.kbalazsworks.stackjudge.domain.aspects;
 
 import org.aspectj.lang.annotation.Pointcut;
 
