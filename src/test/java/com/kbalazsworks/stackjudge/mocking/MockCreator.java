@@ -9,6 +9,7 @@ import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.PebbleTemplateFactory;
+import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.services.*;
@@ -20,6 +21,7 @@ import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
+import org.aspectj.lang.ProceedingJoinPoint;
 
 import static org.mockito.Mockito.mock;
 
@@ -163,5 +165,15 @@ public class MockCreator
     public static PebbleTemplate getPebbleTemplateMock()
     {
         return mock(PebbleTemplate.class);
+    }
+
+    public static SystemFactory getSystemFactoryMock()
+    {
+        return mock(SystemFactory.class);
+    }
+
+    public static ProceedingJoinPoint getProceedingJoinPointMock()
+    {
+        return mock(ProceedingJoinPoint.class);
     }
 }

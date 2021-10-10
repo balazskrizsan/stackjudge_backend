@@ -30,6 +30,7 @@ import com.kbalazsworks.stackjudge.domain.services.PersistenceLogService;
 import com.kbalazsworks.stackjudge.domain.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.domain.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain.services.UrlService;
+import com.kbalazsworks.stackjudge.domain.aspect_services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.services.aws_services.SesService;
 import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersService;
@@ -386,6 +387,18 @@ public class ServiceFactory
     {
         return new PebbleTemplateService(
             Optional.ofNullable(pebbleTemplateFactoryReplacer).orElse(pebbleTemplateFactory)
+        );
+    }
+
+    public SlowServiceLoggerAspectService getSlowServiceLoggerAspectService()
+    {
+        return getSlowServiceLoggerAspectService(null);
+    }
+
+    public SlowServiceLoggerAspectService getSlowServiceLoggerAspectService(SystemFactory systemFactoryReplacer)
+    {
+        return new SlowServiceLoggerAspectService(
+            Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory)
         );
     }
 }
