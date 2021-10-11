@@ -12,7 +12,6 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class AspectAssignTest extends AbstractTest
 {
@@ -39,12 +38,14 @@ public class AspectAssignTest extends AbstractTest
     {
         // Arrange
         // Act
+        boolean[] actualProxyStatuses = {
+            AopUtils.isAopProxy(cdnService),
+            AopUtils.isAopProxy(addressRepository),
+            AopUtils.isAopProxy(addressRedisRepository)
+        };
+
         // Assert
-        assertAll(
-            () -> assertThat(AopUtils.isAopProxy(cdnService)).isTrue(),
-            () -> assertThat(AopUtils.isAopProxy(addressRepository)).isTrue(),
-            () -> assertThat(AopUtils.isAopProxy(addressRedisRepository)).isTrue()
-        );
+        assertThat(actualProxyStatuses).containsOnly(true);
     }
 
     @Test
@@ -52,12 +53,14 @@ public class AspectAssignTest extends AbstractTest
     {
         // Arrange
         // Act
+        boolean[] actualProxyStatuses = {
+            AopUtils.isAopProxy(slowServiceLoggerAspectService),
+            AopUtils.isAopProxy(systemFactory),
+            AopUtils.isAopProxy(systemFactory),
+            AopUtils.isAopProxy(slowServiceLoggerAspect)
+        };
+
         // Assert
-        assertAll(
-            () -> assertThat(AopUtils.isAopProxy(slowServiceLoggerAspectService)).isFalse(),
-            () -> assertThat(AopUtils.isAopProxy(systemFactory)).isFalse(),
-            () -> assertThat(AopUtils.isAopProxy(systemFactory)).isFalse(),
-            () -> assertThat(AopUtils.isAopProxy(slowServiceLoggerAspect)).isFalse()
-        );
+        assertThat(actualProxyStatuses).containsOnly(false);
     }
 }
