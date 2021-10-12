@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.aspect_services.SlowServiceLoggerAspectService;
+import com.kbalazsworks.stackjudge.domain.aspects.SlowServiceLoggerAspect;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
@@ -67,30 +68,31 @@ public class ServiceFactory
     private final AmazonSimpleEmailServiceFactory amazonSimpleEmailServiceFactory;
     private final PebbleTemplateFactory           pebbleTemplateFactory;
 
-    private final AddressService               addressService;
-    private final SearchService                searchService;
-    private final GroupService                 groupService;
-    private final ReviewService                reviewService;
-    private final PaginatorService             paginatorService;
-    private final JwtSubService                jwtSubService;
-    private final DateTimeFormatterService     dateTimeFormatterService;
-    private final JooqService                  jooqService;
-    private final CdnService                   cdnService;
-    private final AccountService               accountService;
-    private final MapsService                  mapsService;
-    private final StaticProxyService           staticProxyService;
-    private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
-    private final MapMapperService             mapMapperService;
-    private final ProtectedReviewLogService    protectedReviewLogService;
-    private final SesService                   sesService;
-    private final PebbleTemplateService        pebbleTemplateService;
-    private final PersistenceLogService        persistenceLogService;
-    private final SecureRandomService          secureRandomService;
-    private final SendCompanyOwnEmailService   sendCompanyOwnEmailService;
-    private final UrlService                   urlService;
-    private final CompanyService               companyService;
-    private final HttpExceptionService         httpExceptionService;
-    private final CompanyOwnersService         companyOwnersService;
+    private final AddressService                 addressService;
+    private final SearchService                  searchService;
+    private final GroupService                   groupService;
+    private final ReviewService                  reviewService;
+    private final PaginatorService               paginatorService;
+    private final JwtSubService                  jwtSubService;
+    private final DateTimeFormatterService       dateTimeFormatterService;
+    private final JooqService                    jooqService;
+    private final CdnService                     cdnService;
+    private final AccountService                 accountService;
+    private final MapsService                    mapsService;
+    private final StaticProxyService             staticProxyService;
+    private final GoogleStaticMapsCacheService   googleStaticMapsCacheService;
+    private final MapMapperService               mapMapperService;
+    private final ProtectedReviewLogService      protectedReviewLogService;
+    private final SesService                     sesService;
+    private final PebbleTemplateService          pebbleTemplateService;
+    private final PersistenceLogService          persistenceLogService;
+    private final SecureRandomService            secureRandomService;
+    private final SendCompanyOwnEmailService     sendCompanyOwnEmailService;
+    private final UrlService                     urlService;
+    private final CompanyService                 companyService;
+    private final HttpExceptionService           httpExceptionService;
+    private final CompanyOwnersService           companyOwnersService;
+    private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
 
     private final CompanyRepository           companyRepository;
     private final ReviewRepository            reviewRepository;
@@ -399,6 +401,20 @@ public class ServiceFactory
     {
         return new SlowServiceLoggerAspectService(
             Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory)
+        );
+    }
+
+    public SlowServiceLoggerAspect getSlowServiceLoggerAspect()
+    {
+        return getSlowServiceLoggerAspect(null);
+    }
+
+    public SlowServiceLoggerAspect getSlowServiceLoggerAspect(
+        SlowServiceLoggerAspectService slowServiceLoggerAspectServiceReplacer
+    )
+    {
+        return new SlowServiceLoggerAspect(
+            Optional.ofNullable(slowServiceLoggerAspectServiceReplacer).orElse(slowServiceLoggerAspectService)
         );
     }
 }

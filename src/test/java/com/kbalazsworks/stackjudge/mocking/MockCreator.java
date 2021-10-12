@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
+import com.kbalazsworks.stackjudge.domain.aspect_services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.factories.AmazonSimpleEmailServiceFactory;
 import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
@@ -175,5 +176,10 @@ public class MockCreator
     public static ProceedingJoinPoint getProceedingJoinPointMock()
     {
         return mock(ProceedingJoinPoint.class);
+    }
+
+    public static SlowServiceLoggerAspectService getSlowServiceLoggerAspectService()
+    {
+        return mock(SlowServiceLoggerAspectService.class);
     }
 }
