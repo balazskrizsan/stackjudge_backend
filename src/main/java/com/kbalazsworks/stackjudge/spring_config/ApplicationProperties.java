@@ -181,11 +181,11 @@ public class ApplicationProperties
         return googleMapsKey;
     }
 
-    @Value("${REDIS_ASPECT_CACHE_ENABLED}")
-    private String redisSspectCacheEnabled;
+    @Value("${redis.aspect.cache.enabled}")
+    private String redisAspectCacheEnabled;
 
-    public boolean getRedisSspectCacheEnabled()
+    public boolean getRedisAspectCacheEnabled()
     {
-        return redisSspectCacheEnabled.equals("true");
+        return redisAspectCacheEnabled.trim().equals("true");
     }
 }
