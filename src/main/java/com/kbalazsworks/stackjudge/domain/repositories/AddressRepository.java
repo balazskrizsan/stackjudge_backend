@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
+import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
 import com.kbalazsworks.stackjudge.domain.aspects.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import lombok.NonNull;
@@ -40,7 +41,7 @@ public class AddressRepository extends AbstractRepository
             .execute();
     }
 
-    @RedisCacheByCompanyIdList(entity = Address.class)
+    @RedisCacheByCompanyIdList(repository = RedisCacheRepositorieEnum.ADDRESS)
     public List<Address> search(List<Long> companyIds)
     {
         return getQueryBuilder()

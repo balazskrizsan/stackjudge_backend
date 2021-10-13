@@ -1,9 +1,14 @@
 package com.kbalazsworks.stackjudge.domain.aspects;
 
 import com.google.common.collect.ImmutableList;
+import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.IRedisCacheable;
 import com.kbalazsworks.stackjudge.domain.redis_repositories.AddressRedisRepository;
+import com.kbalazsworks.stackjudge.domain.services.AddressRedisService;
+import com.kbalazsworks.stackjudge.domain.services.IRedisService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,11 +30,12 @@ public class AspectCacheService extends AbstractAspectService
 {
     private final AddressRedisRepository addressRedisRepository;
     private final ApplicationProperties  applicationProperties;
+    private final AddressRedisService    addressRedisService;
 
     @Around("findRedisCacheByCompanyIdList()")
     public Object caching(ProceedingJoinPoint joinPont) throws Throwable
     {
-        if (!applicationProperties.getRedisSspectCacheEnabled())
+        if (!applicationProperties.getRedisAspectCacheEnabled())
         {
             return joinPont.proceed();
         }
@@ -48,31 +54,49 @@ public class AspectCacheService extends AbstractAspectService
 
     private Object cacheLogic(ProceedingJoinPoint joinPont) throws Throwable
     {
+        MethodSignature           signature  = (MethodSignature) joinPont.getSignature();
+        Method                    method     = signature.getMethod();
+        RedisCacheByCompanyIdList annotation = method.getAnnotation(RedisCacheByCompanyIdList.class);
+
+        IRedisService<IRedisCacheable> genericRedisService = (IRedisService<IRedisCacheable>)getRedisService(annotation.repository());
+
+        if (null == genericRedisService)
+        {
+            log.error("Missing repository: " + annotation.repository().toString());
+
+            return joinPont.proceed();
+        }
+
         Object[] args = joinPont.getArgs();
 
-        MethodSignature           signature                = (MethodSignature) joinPont.getSignature();
-        Method                    method                   = signature.getMethod();
-        RedisCacheByCompanyIdList redisCachedCompanyIdList = method.getAnnotation(RedisCacheByCompanyIdList.class);
-//        Class<IRedisCacheable>   cacheableClass           = (Class<IRedisCacheable>) redisCachedCompanyIdList.entity();
-//        System.out.println(redisCachedCompanyIdList.entity());
-
+        // @todo: type check needed
         List<Long>   requestedIds         = (List<Long>) args[0];
         List<String> requestedIdsAsString = requestedIds.stream().map(Object::toString).collect(Collectors.toList());
 
-        List<Address> cachedAddresses = ImmutableList.copyOf(addressRedisRepository.findAllById(requestedIdsAsString));
+        List<Address> cachedEntities = ImmutableList.copyOf(genericRedisService.findAllById(requestedIdsAsString));
 
-        List<Long> cachedIds  = cachedAddresses.stream().map(Address::companyId).collect(Collectors.toList());
+        List<Long> cachedIds  = cachedEntities.stream().map(Address::companyId).collect(Collectors.toList());
         List<Long> missingIds = new ArrayList<>(requestedIds);
         missingIds.removeAll(cachedIds);
 
         args[0] = missingIds;
 
-        List<Address> sqlAddresses = (List<Address>) joinPont.proceed(args);
+        List<IRedisCacheable> sqlEntities = (List<IRedisCacheable>) joinPont.proceed(args);
 
-        addressRedisRepository.saveAll(sqlAddresses);
+        genericRedisService.saveAll(sqlEntities);
 
-        sqlAddresses.addAll(cachedAddresses);
+        sqlEntities.addAll(cachedEntities);
 
-        return sqlAddresses;
+        return sqlEntities;
+    }
+
+    private IRedisService<?> getRedisService(@NonNull RedisCacheRepositorieEnum redisCacheRepositorieEnum)
+    {
+        if (redisCacheRepositorieEnum.getValue().equals(RedisCacheRepositorieEnum.ADDRESS.getValue()))
+        {
+            return addressRedisService;
+        }
+
+        return null;
     }
 }

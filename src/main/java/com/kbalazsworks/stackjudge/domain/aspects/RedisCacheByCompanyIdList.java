@@ -1,5 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.aspects;
 
+import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -13,5 +15,5 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface RedisCacheByCompanyIdList
 {
-    Class<?> entity();
+    RedisCacheRepositorieEnum repository();
 }
