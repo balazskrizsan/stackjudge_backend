@@ -7,6 +7,7 @@ TRUNCATE TABLE
     "notification",
     "persistence_log",
     "company_own_request",
+    "company_owner",
     "company" RESTART IDENTITY;
 
 INSERT INTO company(id, name, domain, company_size_id, it_size_id, logo_path, created_at, created_by)
@@ -74,3 +75,12 @@ VALUES (default, 1, 1, 1, 'Review 1, Group 1, Review text test, short 111', '202
 INSERT INTO stackjudge.public."users" (id, is_email_user, is_facebook_user, profile_picture_url, username, password, facebook_access_token, facebook_id)
 VALUES (default, false, true, 'http://logo.com/image.jpg', 'Default User 1', 'QWEqwe123123', 'qwe123', '1'),
        (default, false, true, 'http://logo.com/image.jpg', 'Default User 2', 'asdASD123123', 'asd123', '2');
+
+INSERT INTO company_owner (company_id, user_id, created_at)
+VALUES (1, 1, '2020-11-03 11:22:33'),
+       (1, 2, '2020-11-03 11:22:33'),
+       (2, 1, '2020-11-03 11:22:33'),
+       (3, 2, '2020-11-03 11:22:33'),
+       (4, 1, '2020-11-03 11:22:33'),
+       (5, 1, '2020-11-03 11:22:33'),
+       (5, 2, '2020-11-03 11:22:33');
