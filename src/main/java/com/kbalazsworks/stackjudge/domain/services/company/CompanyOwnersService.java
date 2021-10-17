@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services.company;
 
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyOwnersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class CompanyOwnersService
     }
 
     // @todo2: test
-    public Map<Long, List<Long>> searchWithCompanyIdMapByCompany(List<Long> companyId)
+    public Map<Long, CompanyOwners> searchWithCompanyIdMapByCompany(List<Long> companyId)
     {
         return companyOwnersRepository.searchByCompanyId(companyId);
     }

@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.request_enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
@@ -33,7 +34,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +126,7 @@ public class CompanyService
         Map<Long, Map<Long, List<Review>>>                            companyReviews     = new HashMap<>();
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps = new HashMap<>();
         Map<Long, User>                                               companyUsers       = new HashMap<>();
-        Map<Long, List<Long>>                                         companyOwners      = new HashMap<>();
+        Map<Long, CompanyOwners>                                      companyOwners      = new HashMap<>();
         List<Long>                                                    affectedUserIds    = new ArrayList<>();
 
         if (requestRelationIds != null)
@@ -176,7 +176,7 @@ public class CompanyService
                 companyOwners = companyOwnersService.searchWithCompanyIdMapByCompany(companyIds);
 
                 affectedUserIds.addAll(
-                    companyOwners.values().stream().flatMap(Collection::stream).collect(Collectors.toList())
+                    companyOwners.values().stream().flatMap(r -> r.owners().stream()).collect(Collectors.toList())
                 );
             }
 

@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
@@ -84,7 +85,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                         )
                     ),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
-                    List.of(UserFakeBuilder.defaultId1),
+                    new CompanyOwners(CompanyFakeBuilder.defaultId1, List.of(UserFakeBuilder.defaultId1)),
                     new UserFakeBuilder().buildAsMap()
                 )
             );

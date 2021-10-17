@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IRedisService<T>
 {
-    Iterable<Address> findAllById(@NonNull Iterable<String> ids);
+    Iterable<T> findAllById(@NonNull Iterable<String> ids);
 
     void saveAll(@NonNull List<T> ids);
 }

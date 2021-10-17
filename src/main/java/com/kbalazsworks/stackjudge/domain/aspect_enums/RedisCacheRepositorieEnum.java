@@ -6,7 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public enum RedisCacheRepositorieEnum
 {
-    ADDRESS(1);
+    ADDRESS(1),
+    COMPANY_OWNER(2);
 
     final private Integer value;
 

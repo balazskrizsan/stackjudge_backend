@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.domain.value_objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
@@ -20,7 +21,7 @@ public record CompanySearchServiceResponse(
     @JsonProperty Map<Long, List<Address>> companyAddresses,
     @JsonProperty Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps,
     @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews,
-    @JsonProperty Map<Long, List<Long>> companyOwners,
+    @JsonProperty Map<Long, CompanyOwners> companyOwners,
     @JsonProperty Map<Long, User> companyUsers
 )
 {

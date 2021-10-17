@@ -1,7 +1,8 @@
-package com.kbalazsworks.stackjudge.domain.services;
+package com.kbalazsworks.stackjudge.domain.services.address;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.redis_repositories.AddressRedisRepository;
+import com.kbalazsworks.stackjudge.domain.services.IRedisService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
