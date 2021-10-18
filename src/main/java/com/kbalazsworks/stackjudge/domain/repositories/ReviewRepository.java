@@ -49,10 +49,7 @@ public class ReviewRepository extends AbstractRepository
             .on(groupTable.ID.eq(reviewTable.GROUP_ID))
             .where(groupTable.COMPANY_ID.in(companiesIds))
             .orderBy(reviewTable.CREATED_AT.desc())
-            .fetchGroups(
-                r -> r.get(groupTable.COMPANY_ID),
-                r -> r.into(reviewTable.fields()).into(Review.class)
-            );
+            .fetchGroups(groupTable.COMPANY_ID, r -> r.into(reviewTable.fields()).into(Review.class));
     }
 
     public void delete(long companyId)
