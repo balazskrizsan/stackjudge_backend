@@ -47,6 +47,7 @@ public class CompanyOwnersRepository extends AbstractRepository
         );
     }
 
+    // @todo: CompanyOwners conversion should be in the service
     @RedisCacheByCompanyIdList(repository = RedisCacheRepositorieEnum.COMPANY_OWNER)
     public Map<Long, CompanyOwners> searchByCompanyId(List<Long> companyId)
     {
