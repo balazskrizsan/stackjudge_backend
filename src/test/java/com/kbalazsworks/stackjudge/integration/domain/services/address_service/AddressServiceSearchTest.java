@@ -2,6 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
@@ -14,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,9 +57,9 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
     {
         // Arrange
         List<Long> testedCompanyId = List.of(CompanyFakeBuilder.defaultId1);
-        Map<Long, List<Address>> expectedAddresses = Map.of(
+        Map<Long, CompanyAddresses> expectedAddresses = Map.of(
             CompanyFakeBuilder.defaultId1,
-            new AddressFakeBuilder().buildAsList()
+            new CompanyAddresses(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList())
         );
 
         // Act
@@ -129,7 +129,7 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
         Map<Long, List<Long>> actualIds = new HashMap<>();
         addressService.search(testData.testedCompanyIds).forEach(
             (companyId, addresses) ->
-                actualIds.put(companyId, addresses.stream().map(Address::id).collect(Collectors.toList()))
+                actualIds.put(companyId, addresses.stream().map(Address::redisCacheId).collect(Collectors.toList()))
         );
 
         // Assert

@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.services.company;
 
+import com.google.common.collect.ImmutableList;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.redis_repositories.CompanyOwnerRedisRepository;
 import com.kbalazsworks.stackjudge.domain.services.IRedisService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +18,11 @@ public class CompanyOwnersRedisService implements IRedisService<CompanyOwners>
     private final CompanyOwnerRedisRepository companyOwnerRedisRepository;
 
     @Override
-    public Iterable<CompanyOwners> findAllById(@NonNull Iterable<String> ids)
+    public List<CompanyOwners> findAllById(@NonNull List<Long> ids)
     {
-        return companyOwnerRedisRepository.findAllById(ids);
+        List<String> stringIds = ids.stream().map(Object::toString).collect(Collectors.toList());
+
+        return ImmutableList.copyOf(companyOwnerRedisRepository.findAllById(stringIds));
     }
 
     @Override

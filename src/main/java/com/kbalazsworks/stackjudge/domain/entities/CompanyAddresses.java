@@ -6,14 +6,14 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.util.List;
 
-@RedisHash("CompanyOwners")
-public record CompanyOwners(
+@RedisHash("CompanyAddresses")
+public record CompanyAddresses(
     @Id
     @JsonProperty
     Long companyId,
 
     @JsonProperty
-    List<Long> owners
+    List<Address> addresses
 ) implements IRedisCacheable
 {
     @Override

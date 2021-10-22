@@ -1,10 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.aspect_services;
 
-import com.google.common.collect.ImmutableList;
 import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
 import com.kbalazsworks.stackjudge.domain.aspects.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.IRedisCacheable;
-import com.kbalazsworks.stackjudge.domain.redis_repositories.AddressRedisRepository;
 import com.kbalazsworks.stackjudge.domain.services.IRedisService;
 import com.kbalazsworks.stackjudge.domain.services.address.AddressRedisService;
 import com.kbalazsworks.stackjudge.domain.services.company.CompanyOwnersRedisService;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,75 +26,65 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RedisCacheService
 {
-    private final AddressRedisRepository    addressRedisRepository;
     private final AddressRedisService       addressRedisService;
     private final CompanyOwnersRedisService companyOwnersRedisService;
 
     public Object cache(@NonNull ProceedingJoinPoint joinPont) throws Throwable
     {
+        Object[] args = joinPont.getArgs();
+
+        List<Long> requestedIds = validateArgsAngGetRequestedIds(args);
+
         MethodSignature           signature  = (MethodSignature) joinPont.getSignature();
         Method                    method     = signature.getMethod();
         RedisCacheByCompanyIdList annotation = method.getAnnotation(RedisCacheByCompanyIdList.class);
 
-        IRedisService<IRedisCacheable> genericRedisService
-            = (IRedisService<IRedisCacheable>) getRedisService(annotation.repository());
+        IRedisService<IRedisCacheable> genericRedisService = (IRedisService<IRedisCacheable>) getGenericRedisService(
+            annotation.repository()
+        );
 
-        if (null == genericRedisService)
+        List<IRedisCacheable> cachedEntities = genericRedisService.findAllById(requestedIds);
+        List<Long>            missingIds     = getMissingIds(cachedEntities, requestedIds);
+
+        Map<Long, IRedisCacheable> sqlEntities = new HashMap<>();
+        if (!missingIds.isEmpty())
         {
-            log.error("Missing repository: " + annotation.repository().toString());
+            args[0] = missingIds;
 
-            return joinPont.proceed();
+            sqlEntities = callOriginal(joinPont, genericRedisService, args, cachedEntities);
         }
 
-        Object[]     args                 = joinPont.getArgs();
-        List<Long>   requestedIds         = (List<Long>) args[0];
-        List<String> requestedIdsAsString = requestedIds.stream().map(Object::toString).collect(Collectors.toList());
-        List<IRedisCacheable> cachedEntities = ImmutableList.copyOf(
-            genericRedisService.findAllById(requestedIdsAsString)
-        );
-        List<Long> cachedIds  = cachedEntities.stream().map(IRedisCacheable::id).collect(Collectors.toList());
+        if (sqlEntities.size() > 0)
+        {
+            genericRedisService.saveAll(new ArrayList<>(sqlEntities.values()));
+        }
+
+        if (cachedEntities.size() > 0)
+        {
+            sqlEntities.putAll(
+                cachedEntities.stream().collect(Collectors.toMap(IRedisCacheable::redisCacheId, Function.identity()))
+            );
+        }
+        // @todo3: if (args[0].size > 0 ) { reorder result map with original id order }
+
+        return sqlEntities;
+    }
+
+    private @NonNull List<Long> getMissingIds(
+        @NonNull List<IRedisCacheable> cachedEntities,
+        @NonNull List<Long> requestedIds
+    )
+    {
+        List<Long> cachedIds = cachedEntities.stream().map(IRedisCacheable::redisCacheId).collect(Collectors.toList());
+
         List<Long> missingIds = new ArrayList<>(requestedIds);
         missingIds.removeAll(cachedIds);
 
-        args[0] = missingIds;
-
-        if (annotation.repository().getValue().equals(RedisCacheRepositorieEnum.ADDRESS.getValue()))
-        {
-            return listLogic(joinPont, genericRedisService, args, cachedEntities);
-        }
-
-        return mapLogic(joinPont, genericRedisService, args, cachedEntities);
+        return missingIds;
     }
 
-    private Map<Long, IRedisCacheable> mapLogic(
-        @NonNull ProceedingJoinPoint joinPont,
-        @NonNull IRedisService<IRedisCacheable> genericRedisService,
-        Object[] args,
-        @NonNull List<IRedisCacheable> cachedEntities
-    ) throws Throwable
-    {
-        Map<Long, IRedisCacheable> sqlEntities = (Map<Long, IRedisCacheable>) joinPont.proceed(args);
-        genericRedisService.saveAll(new ArrayList<>(sqlEntities.values()));
-        sqlEntities.putAll(cachedEntities.stream().collect(Collectors.toMap(IRedisCacheable::id, Function.identity())));
-
-        return sqlEntities;
-    }
-
-    private @NonNull List<IRedisCacheable> listLogic(
-        @NonNull ProceedingJoinPoint joinPont,
-        @NonNull IRedisService<IRedisCacheable> genericRedisService,
-        Object[] args,
-        @NonNull List<IRedisCacheable> cachedEntities
-    ) throws Throwable
-    {
-        List<IRedisCacheable> sqlEntities = (List<IRedisCacheable>) joinPont.proceed(args);
-        genericRedisService.saveAll(sqlEntities);
-        sqlEntities.addAll(cachedEntities);
-
-        return sqlEntities;
-    }
-
-    private IRedisService<?> getRedisService(@NonNull RedisCacheRepositorieEnum redisCacheRepositorieEnum)
+    private IRedisService<?> getGenericRedisService(@NonNull RedisCacheRepositorieEnum redisCacheRepositorieEnum)
+    throws Exception
     {
         if (redisCacheRepositorieEnum.getValue().equals(RedisCacheRepositorieEnum.ADDRESS.getValue()))
         {
@@ -107,6 +96,39 @@ public class RedisCacheService
             return companyOwnersRedisService;
         }
 
-        return null;
+        throw new Exception();
+    }
+
+    private @NonNull Map<Long, IRedisCacheable> callOriginal( /// COMPANY OWNERS
+        @NonNull ProceedingJoinPoint joinPont,
+        @NonNull IRedisService<IRedisCacheable> genericRedisService,
+        Object[] args,
+        @NonNull List<IRedisCacheable> cachedEntities
+    ) throws Throwable
+    {
+        Map<Long, IRedisCacheable> sqlEntities = (Map<Long, IRedisCacheable>) joinPont.proceed(args);
+
+        return sqlEntities;
+    }
+
+    private @NonNull List<Long> validateArgsAngGetRequestedIds(Object[] args) throws Exception
+    {
+        Object arg0 = args[0];
+        if (!((arg0 instanceof List<?> arg0List)))
+        {
+            throw new Exception();
+        }
+
+        if (arg0List.isEmpty())
+        {
+            throw new Exception();
+        }
+
+        if (!(arg0List.get(0) instanceof Long))
+        {
+            throw new Exception();
+        }
+
+        return (List<Long>) arg0List;
     }
 }

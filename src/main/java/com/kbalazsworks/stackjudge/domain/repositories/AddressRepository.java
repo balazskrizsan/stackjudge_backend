@@ -1,12 +1,11 @@
 package com.kbalazsworks.stackjudge.domain.repositories;
 
-import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
-import com.kbalazsworks.stackjudge.domain.aspects.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AddressRepository extends AbstractRepository
@@ -41,12 +40,11 @@ public class AddressRepository extends AbstractRepository
             .execute();
     }
 
-    @RedisCacheByCompanyIdList(repository = RedisCacheRepositorieEnum.ADDRESS)
-    public List<Address> search(List<Long> companyIds)
+    public Map<Long, List<Address>> search(List<Long> companyIds)
     {
         return getQueryBuilder()
             .selectFrom(addressTable)
             .where(addressTable.COMPANY_ID.in(companyIds))
-            .fetchInto(Address.class);
+            .fetchGroups(addressTable.COMPANY_ID, r -> r.into(addressTable.fields()).into(Address.class));
     }
 }

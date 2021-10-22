@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.request_enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
 import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
@@ -67,7 +68,7 @@ public class CompanyService
     }
 
     public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
-        throws RepositoryNotFoundException
+    throws RepositoryNotFoundException
     {
         CompanySearchServiceResponse searchResponse = search(
             companyId,
@@ -122,7 +123,7 @@ public class CompanyService
         Map<Long, List<RecursiveGroupTree>>                           companyGroups      = new HashMap<>();
         List<PaginatorItem>                                           paginator          = new ArrayList<>();
         Long                                                          newSeekId          = null;
-        Map<Long, List<Address>>                                      companyAddresses   = new HashMap<>();
+        Map<Long, CompanyAddresses>                                   companyAddresses   = new HashMap<>();
         Map<Long, Map<Long, List<Review>>>                            companyReviews     = new HashMap<>();
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps = new HashMap<>();
         Map<Long, User>                                               companyUsers       = new HashMap<>();
@@ -152,12 +153,17 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.ADDRESS.getValue()))
             {
-                companyAddresses = addressService.search(companyIds);
+                companyAddresses = addressService.searchWithCompanyAddresses(companyIds);
             }
 
             if (!companyAddresses.isEmpty())
             {
-                companyAddressMaps = mapsService.searchByAddresses(companyAddresses);
+                companyAddressMaps = mapsService.searchByAddresses(
+                    companyAddresses.entrySet().stream().collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        r -> r.getValue().addresses()
+                    ))
+                );
             }
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.REVIEW.getValue()))

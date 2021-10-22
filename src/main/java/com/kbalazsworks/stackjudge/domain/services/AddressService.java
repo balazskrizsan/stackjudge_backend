@@ -1,6 +1,9 @@
 package com.kbalazsworks.stackjudge.domain.services;
 
+import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
+import com.kbalazsworks.stackjudge.domain.aspects.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.repositories.AddressRepository;
@@ -12,11 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,23 +54,16 @@ public class AddressService
 
     public Map<Long, List<Address>> search(List<Long> companyIds)
     {
-        Map<Long, List<Address>> addressesForResponse = new HashMap<>();
-        addressRepository.search(companyIds).forEach(
-            address ->
-            {
-                long companyId = address.companyId();
+        return addressRepository.search(companyIds);
+    }
 
-                List<Address> addresses = addressesForResponse.get(companyId);
-                if (null == addresses)
-                {
-                    addressesForResponse.put(companyId, new ArrayList<>(List.of(address)));
-
-                    return;
-                }
-
-                addresses.add(address);
-            });
-
-        return addressesForResponse;
+    @RedisCacheByCompanyIdList(repository = RedisCacheRepositorieEnum.ADDRESS)
+    public Map<Long, CompanyAddresses> searchWithCompanyAddresses(List<Long> companyIds)
+    {
+        return addressRepository
+            .search(companyIds)
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, r -> new CompanyAddresses(r.getKey(), r.getValue())));
     }
 }

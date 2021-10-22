@@ -111,7 +111,7 @@ public class MapsService
                     mapsForAddress.put(MapPositionEnum.COMPANY_LEFT, leftMap);
                 }
 
-                maps.put(address.id(), mapsForAddress);
+                maps.put(address.redisCacheId(), mapsForAddress);
             });
 
             mapsWithCompany.put(companyId, maps);

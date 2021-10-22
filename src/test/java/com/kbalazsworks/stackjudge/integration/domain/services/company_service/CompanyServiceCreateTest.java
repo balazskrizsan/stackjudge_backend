@@ -117,7 +117,7 @@ public class CompanyServiceCreateTest extends AbstractIntegrationTest
         actualCompany.setId(testData.expectedCompany.getId());
 
         AddressRecord actualAddress = getQueryBuilder().selectFrom(addressTable).fetchOne();
-        actualAddress.setId(testData.expectedAddress.id());
+        actualAddress.setId(testData.expectedAddress.redisCacheId());
         actualAddress.setCompanyId(testData.expectedAddress.companyId());
 
         assertAll(

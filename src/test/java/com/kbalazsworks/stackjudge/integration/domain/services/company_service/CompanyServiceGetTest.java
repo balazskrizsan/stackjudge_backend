@@ -3,6 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
@@ -16,7 +17,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     expectedCompany,
                     new CompanyStatistic(expectedCompany.getId(), 0, 1, 0, 0),
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
-                    new AddressFakeBuilder().buildAsList(),
+                    new CompanyAddresses(testedCompanyId, new AddressFakeBuilder().buildAsList()),
                     Map.of(
                         AddressFakeBuilder.defaultId1,
                         Map.of(MapPositionEnum.COMPANY_HEADER, new StaticMapResponseFakeBuilder().build(),

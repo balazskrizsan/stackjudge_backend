@@ -5,9 +5,10 @@ import lombok.NonNull;
 
 import java.util.List;
 
+// @todo3: abstract helpers
 public interface IRedisService<T>
 {
-    Iterable<T> findAllById(@NonNull Iterable<String> ids);
+    List<T> findAllById(@NonNull List<Long> ids);
 
     void saveAll(@NonNull List<T> ids);
 }

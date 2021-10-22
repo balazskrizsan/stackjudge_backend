@@ -18,4 +18,9 @@ public record Address (
     @JsonProperty Long createdBy
 ) implements IRedisCacheable
 {
+    @Override
+    public Long redisCacheId()
+    {
+        return companyId;
+    }
 }
