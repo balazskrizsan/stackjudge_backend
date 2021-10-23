@@ -34,6 +34,7 @@ public class CompanyOwnersRepository extends AbstractRepository
     {
         // @formatter:off
         DSLContext qB = getQueryBuilder();
+
         return qB.fetchExists(
             qB
                 .selectFrom(companyOwnerTable)
