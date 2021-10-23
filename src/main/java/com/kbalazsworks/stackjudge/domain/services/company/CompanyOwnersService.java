@@ -1,5 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.services.company;
 
+import com.kbalazsworks.stackjudge.domain.aspect_enums.RedisCacheRepositorieEnum;
+import com.kbalazsworks.stackjudge.domain.aspects.RedisCacheByCompanyIdList;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.repositories.CompanyOwnersRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +32,18 @@ public class CompanyOwnersService
     }
 
     // @todo2: test
-    public Map<Long, CompanyOwners> searchWithCompanyIdMapByCompany(List<Long> companyId)
+    public Map<Long, List<Long>> searchByCompanyId(List<Long> companyId)
     {
         return companyOwnersRepository.searchByCompanyId(companyId);
+    }
+
+    // @todo2: test
+    @RedisCacheByCompanyIdList(repository = RedisCacheRepositorieEnum.COMPANY_OWNER)
+    public Map<Long, CompanyOwners> searchWithCompanyIdGroupByCompany(List<Long> companyId)
+    {
+        return searchByCompanyId(companyId)
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, r -> new CompanyOwners(r.getKey(), r.getValue())));
     }
 }

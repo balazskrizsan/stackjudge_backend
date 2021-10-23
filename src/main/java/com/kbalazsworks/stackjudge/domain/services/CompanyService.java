@@ -179,7 +179,7 @@ public class CompanyService
 
             if (requestRelationIds.contains(CompanyRequestRelationsEnum.OWNER.getValue()))
             {
-                companyOwners = companyOwnersService.searchWithCompanyIdMapByCompany(companyIds);
+                companyOwners = companyOwnersService.searchWithCompanyIdGroupByCompany(companyIds);
 
                 affectedUserIds.addAll(
                     companyOwners.values().stream().flatMap(r -> r.owners().stream()).collect(Collectors.toList())
