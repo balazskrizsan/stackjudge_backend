@@ -57,9 +57,9 @@ public class AddressServiceSearchTest extends AbstractIntegrationTest
     {
         // Arrange
         List<Long> testedCompanyId = List.of(CompanyFakeBuilder.defaultId1);
-        Map<Long, CompanyAddresses> expectedAddresses = Map.of(
+        Map<Long, List<Address>> expectedAddresses = Map.of(
             CompanyFakeBuilder.defaultId1,
-            new CompanyAddresses(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList())
+            new AddressFakeBuilder().buildAsList()
         );
 
         // Act
