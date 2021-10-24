@@ -1,6 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.services.AddressService;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
@@ -21,6 +22,17 @@ public class AddressServiceMocker extends MockCreator
     {
         AddressService mock = getAddressServiceMock();
         when(mock.search(whenCompaniesIds)).thenReturn(thanForSearchAddresses);
+
+        return mock;
+    }
+
+    public static AddressService searchWithCompanyAddresses_returns_addressesMap(
+        List<Long> whenCompaniesIds,
+        Map<Long, CompanyAddresses> thanForSearchAddresses
+    )
+    {
+        AddressService mock = getAddressServiceMock();
+        when(mock.searchWithCompanyAddresses(whenCompaniesIds)).thenReturn(thanForSearchAddresses);
 
         return mock;
     }

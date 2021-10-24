@@ -63,6 +63,7 @@ public class CompanyServiceSearchTest extends AbstractTest
         Map<Long, CompanyStatistic> mockForGetStatistic,
         List<PaginatorItem> mockForGenerate,
         Map<Long, List<Address>> mockForSearchAddresses,
+        Map<Long, CompanyAddresses> mockForSearchAddressesAsCompanyAddresses,
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mockForAddressMaps,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
         Map<Long, User> mockForUsers,
@@ -86,6 +87,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 new CompanyFakeBuilder().buildAsList(),
                 new HashMap<>(),
                 new ArrayList<>(),
+                new HashMap<>(),
                 new HashMap<>(),
                 new HashMap<>(),
                 new HashMap<>(),
@@ -119,6 +121,7 @@ public class CompanyServiceSearchTest extends AbstractTest
                 Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                 Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
+                Map.of(CompanyFakeBuilder.defaultId1, new CompanyAddresses(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList())),
                 Map.of(CompanyFakeBuilder.defaultId1, Map.of(AddressFakeBuilder.defaultId1, new HashMap<>())),
                 Map.of(
                     CompanyFakeBuilder.defaultId1,
@@ -172,7 +175,10 @@ public class CompanyServiceSearchTest extends AbstractTest
         // Act
         CompanySearchServiceResponse actualResponse = serviceFactory
             .getCompanyService(
-                AddressServiceMocker.search_returns_addressesMap(mockedCompaniesIds, td.mockForSearchAddresses),
+                AddressServiceMocker.searchWithCompanyAddresses_returns_addressesMap(
+                    mockedCompaniesIds,
+                    td.mockForSearchAddressesAsCompanyAddresses
+                ),
                 SearchServiceMocker.getStatistic_returns_statisticMap(mockedCompaniesIds, td.mockForGetStatistic),
                 reviewServiceMock,
                 PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
