@@ -79,7 +79,7 @@ public class CompanyServiceGetTest extends AbstractIntegrationTest
                     new RecursiveGroupTreeFakeBuilder().buildAsList(),
                     new CompanyAddresses(testedCompanyId, new AddressFakeBuilder().buildAsList()),
                     Map.of(
-                        AddressFakeBuilder.defaultId1,
+                        testedCompanyId,
                         Map.of(MapPositionEnum.COMPANY_HEADER, new StaticMapResponseFakeBuilder().build(),
                             MapPositionEnum.COMPANY_LEFT, new StaticMapResponseFakeBuilder().build1_2()
                         )
