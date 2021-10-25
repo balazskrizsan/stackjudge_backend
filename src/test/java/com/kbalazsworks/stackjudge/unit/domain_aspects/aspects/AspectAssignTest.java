@@ -42,6 +42,7 @@ public class AspectAssignTest extends AbstractTest
     {
         // Arrange
         // Act
+        // @todo3: looks like we have some false positive testcases, only cdnService false without matching aspect
         boolean[] actualProxyStatuses = {
             AopUtils.isAopProxy(cdnService),
             AopUtils.isAopProxy(addressRepository),
