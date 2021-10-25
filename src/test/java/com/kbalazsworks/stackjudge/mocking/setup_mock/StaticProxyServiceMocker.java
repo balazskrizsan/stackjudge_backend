@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.services.maps.marp_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.domain.maps_module.services.maps_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder;

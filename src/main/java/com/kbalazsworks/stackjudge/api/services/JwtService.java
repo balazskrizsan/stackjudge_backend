@@ -1,11 +1,10 @@
 package com.kbalazsworks.stackjudge.api.services;
 
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
-import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
-import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.NonNull;

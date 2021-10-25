@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.review_service;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.db.tables.records.ReviewRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
-import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

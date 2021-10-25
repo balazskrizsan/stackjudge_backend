@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.requests.company_request.GetStackRecursiveByCompanyIdRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.GroupService;
+import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

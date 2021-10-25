@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.services.PaginatorService;
+import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 

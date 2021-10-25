@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.kbalazsworks.stackjudge.domain.entities.TypedPersistenceLog;
-import com.kbalazsworks.stackjudge.domain.enums.PersistenceLogTypeEnum;
-import com.kbalazsworks.stackjudge.domain.services.PersistenceLogService;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.enums.PersistenceLogTypeEnum;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
 import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;

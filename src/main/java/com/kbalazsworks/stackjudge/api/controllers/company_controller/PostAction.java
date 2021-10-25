@@ -9,7 +9,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.CompanyCreateReq
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

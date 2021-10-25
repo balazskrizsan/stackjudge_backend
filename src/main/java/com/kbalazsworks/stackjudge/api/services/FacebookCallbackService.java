@@ -9,7 +9,6 @@ import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.AuthException;
 import com.kbalazsworks.stackjudge.api.services.facebook_callback_service.GetJwtLoginUrlService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
-import com.kbalazsworks.stackjudge.domain.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;

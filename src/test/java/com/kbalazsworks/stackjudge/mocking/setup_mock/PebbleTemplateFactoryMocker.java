@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.factories.PebbleTemplateFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.SneakyThrows;

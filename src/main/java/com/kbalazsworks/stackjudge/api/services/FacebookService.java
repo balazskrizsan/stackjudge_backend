@@ -3,13 +3,9 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
-import com.kbalazsworks.stackjudge.domain.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

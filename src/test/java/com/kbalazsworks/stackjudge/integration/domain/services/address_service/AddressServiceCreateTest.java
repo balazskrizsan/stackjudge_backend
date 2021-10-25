@@ -4,7 +4,7 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.db.tables.records.AddressRecord;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.exceptions.CompanyHttpException;
+import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;

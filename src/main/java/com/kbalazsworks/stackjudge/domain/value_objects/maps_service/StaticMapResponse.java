@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.domain.value_objects.maps_service;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.kbalazsworks.stackjudge.api.value_objects.maps.IStaticProxy;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

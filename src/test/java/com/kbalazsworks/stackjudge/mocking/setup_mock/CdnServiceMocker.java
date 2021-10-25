@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum;
-import com.kbalazsworks.stackjudge.domain.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import lombok.SneakyThrows;

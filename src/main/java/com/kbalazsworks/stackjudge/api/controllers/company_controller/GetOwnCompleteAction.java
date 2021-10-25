@@ -6,7 +6,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.GetOwnCompleteRe
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.services.RequestMapperService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.company.OwnCompleteService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.OwnCompleteService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

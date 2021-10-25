@@ -4,9 +4,9 @@ import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwnRequest;
 import com.kbalazsworks.stackjudge.domain.entities.persistence_log.DataOwnRequestSent;
-import com.kbalazsworks.stackjudge.domain.enums.PersistenceLogTypeEnum;
-import com.kbalazsworks.stackjudge.domain.services.PersistenceLogService;
-import com.kbalazsworks.stackjudge.domain.services.aws_services.SendCompanyOwnEmailService;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.enums.PersistenceLogTypeEnum;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
+import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.value_objects.company_service.OwnRequest;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
@@ -88,14 +88,14 @@ public class OwnRequestService_OwnTest extends AbstractIntegrationTest
         );
         LocalDateTime expectedLogNow = TEST_STATE.now();
 
-        SendCompanyOwnEmailService sendCompanyOwnEmailServiceMock = MockCreator.getSendCompanyOwnEmailService();
-        PersistenceLogService      persistenceLogServiceMock      = MockCreator.getPersistenceLogService();
+        CompanyOwnEmailService companyOwnEmailServiceMock = MockCreator.getSendCompanyOwnEmailService();
+        PersistenceLogService  persistenceLogServiceMock  = MockCreator.getPersistenceLogService();
 
         // Act
         serviceFactory.getOwnRequestService(
                 persistenceLogServiceMock,
                 SecureRandomServiceMocker.getUrlEncoded_returns_string(mockedRandomLength, mockedRandomResponse),
-                sendCompanyOwnEmailServiceMock,
+                          companyOwnEmailServiceMock,
                 null,
                 null,
                 UrlServiceMocker.generateCompanyOwnUrl_return_url(mockedString, mockedCompanyId, mockerReturnUrl),
@@ -109,8 +109,8 @@ public class OwnRequestService_OwnTest extends AbstractIntegrationTest
         assertAll(
             () -> assertThat(getQueryBuilder().selectFrom(companyOwnRequestTable).fetchOneInto(CompanyOwnRequest.class))
                 .isEqualTo(expectedCompanyOwnRequest),
-            () -> verify(sendCompanyOwnEmailServiceMock, only())
-                .sendCompanyOwnEmail(eq(expectedToAddress), eq(expectedName), eq(expectedOwnUrl)),
+            () -> verify(companyOwnEmailServiceMock, only())
+                .send(eq(expectedToAddress), eq(expectedName), eq(expectedOwnUrl)),
             () -> PersistenceLogServiceMocker.create_verifier(
                 persistenceLogServiceMock,
                 expectedLogId,

@@ -2,8 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.address_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
-import com.kbalazsworks.stackjudge.domain.services.AddressService;
+import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;

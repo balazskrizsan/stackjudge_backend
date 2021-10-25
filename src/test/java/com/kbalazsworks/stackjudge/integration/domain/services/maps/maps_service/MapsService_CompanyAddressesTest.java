@@ -3,9 +3,9 @@ package com.kbalazsworks.stackjudge.integration.domain.services.maps.maps_servic
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.services.maps.MapMapperService;
-import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.services.MapMapperService;
+import com.kbalazsworks.stackjudge.domain.maps_module.services.MapsService;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
@@ -21,8 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
-import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum.COMPANY_HEADER;
-import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapSizeEnum.COMPANY_LEFT;
+import static com.kbalazsworks.stackjudge.domain.maps_module.enums.MapSizeEnum.COMPANY_HEADER;
+import static com.kbalazsworks.stackjudge.domain.maps_module.enums.MapSizeEnum.COMPANY_LEFT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 

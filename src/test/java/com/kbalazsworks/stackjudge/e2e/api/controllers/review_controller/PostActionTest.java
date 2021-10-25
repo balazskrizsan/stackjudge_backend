@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.e2e.api.controllers.review_controller;
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
-import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;

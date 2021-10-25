@@ -1,10 +1,9 @@
 package com.kbalazsworks.stackjudge;
 
-import com.kbalazsworks.stackjudge.domain.factories.DateFactory;
-import com.kbalazsworks.stackjudge.domain.factories.LocalDateTimeFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.state.entities.State;
-import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

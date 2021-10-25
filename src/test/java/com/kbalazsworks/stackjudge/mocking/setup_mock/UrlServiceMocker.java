@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.services.UrlService;
+import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import lombok.NonNull;
 

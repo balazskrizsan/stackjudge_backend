@@ -4,7 +4,7 @@ import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.requests.notification_requests.DeleteRequest;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.domain.services.CrudNotificationService;
+import com.kbalazsworks.stackjudge.domain.notification_module.services.CrudNotificationService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

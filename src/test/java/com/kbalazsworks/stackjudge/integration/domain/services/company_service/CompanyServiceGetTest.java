@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.fake_builders.*;

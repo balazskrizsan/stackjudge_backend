@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.value_objects.maps_service;
 
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerColorEnum;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerColorEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerSizeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

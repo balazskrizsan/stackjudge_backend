@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.company_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

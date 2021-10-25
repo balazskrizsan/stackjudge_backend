@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
-import com.kbalazsworks.stackjudge.domain.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;

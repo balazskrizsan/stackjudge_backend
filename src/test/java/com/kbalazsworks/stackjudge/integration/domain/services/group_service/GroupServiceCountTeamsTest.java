@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.integration.domain.services.group_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
-import com.kbalazsworks.stackjudge.domain.services.GroupService;
+import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.junit.Test;

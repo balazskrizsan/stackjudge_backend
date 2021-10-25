@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.services.maps.MapsService;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.services.MapsService;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 

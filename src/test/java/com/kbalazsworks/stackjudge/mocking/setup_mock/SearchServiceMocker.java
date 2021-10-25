@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
 import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 

@@ -7,7 +7,7 @@ import com.kbalazsworks.stackjudge.db.tables.Group;
 import com.kbalazsworks.stackjudge.db.tables.PersistenceLog;
 import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
-import com.kbalazsworks.stackjudge.domain.services.JooqService;
+import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 

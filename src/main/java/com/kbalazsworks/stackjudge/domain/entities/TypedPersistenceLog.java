@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.entities;
 
-import com.kbalazsworks.stackjudge.domain.enums.PersistenceLogTypeEnum;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.enums.PersistenceLogTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.codehaus.jackson.annotate.JsonProperty;

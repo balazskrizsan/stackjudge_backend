@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.map_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
@@ -20,9 +20,9 @@ import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.List;
 
-import static com.kbalazsworks.stackjudge.domain.enums.aws.CdnNamespaceEnum.STATIC_MAPS;
-import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum.COMPANY_LEFT;
-import static com.kbalazsworks.stackjudge.domain.enums.google_maps.MapPositionEnum.DEFAULT;
+import static com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum.STATIC_MAPS;
+import static com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum.COMPANY_LEFT;
+import static com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum.DEFAULT;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeGoogleMapsUrl;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleMapsUrlWithHashFakeBuilder.fakeUrlHash;
 import static com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapsCacheFakeBuilder.fileName;

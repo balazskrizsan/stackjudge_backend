@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.integration.domain.services.review_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.entities.Review;
-import com.kbalazsworks.stackjudge.domain.services.ReviewService;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;

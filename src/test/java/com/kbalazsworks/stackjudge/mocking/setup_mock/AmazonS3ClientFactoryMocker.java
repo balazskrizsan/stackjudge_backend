@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.kbalazsworks.stackjudge.domain.factories.AmazonS3ClientFactory;
+import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 
 import static org.mockito.ArgumentMatchers.any;

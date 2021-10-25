@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.state.services;
 
 import com.amazonaws.services.connect.model.UserNotFoundException;
 import com.kbalazsworks.stackjudge.domain.entities.ProtectedReviewLog;
-import com.kbalazsworks.stackjudge.domain.services.ProtectedReviewLogService;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;

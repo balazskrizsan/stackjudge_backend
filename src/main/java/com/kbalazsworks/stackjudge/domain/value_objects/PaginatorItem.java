@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.value_objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kbalazsworks.stackjudge.domain.enums.paginator.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.enums.paginator.ItemTypeEnum;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.ItemTypeEnum;
 
 public record PaginatorItem(
     @JsonProperty ItemTypeEnum typeId,

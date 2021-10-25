@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.factories.SystemFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 
 import static org.mockito.Mockito.when;
