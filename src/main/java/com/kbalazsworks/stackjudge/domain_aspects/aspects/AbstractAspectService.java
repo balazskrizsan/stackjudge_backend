@@ -19,17 +19,17 @@ abstract public class AbstractAspectService
     {
     }
 
-    @Pointcut("within(com.kbalazsworks.stackjudge.domain.services..*)")
+    @Pointcut("within(com.kbalazsworks.stackjudge.domain..*module.services..*)")
     protected void inDomainServices()
     {
     }
 
-    @Pointcut("!within(com.kbalazsworks.stackjudge.domain.repositories..*)")
+    @Pointcut("!within(com.kbalazsworks.stackjudge.domain..*module.repositories..*)")
     protected void inDomainRepositories()
     {
     }
 
-    @Pointcut("!within(com.kbalazsworks.stackjudge.domain.redis_repositories..*)")
+    @Pointcut("!within(com.kbalazsworks.stackjudge.domain..*module.redis_repositories..*)")
     protected void inDomainRedisRepositories()
     {
     }

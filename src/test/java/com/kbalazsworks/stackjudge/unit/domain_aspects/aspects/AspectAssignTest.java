@@ -1,16 +1,16 @@
 package com.kbalazsworks.stackjudge.unit.domain_aspects.aspects;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
-import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
-import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
-import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRedisRepository;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
+import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
+import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
+import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import org.junit.Test;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.util.AopTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +24,9 @@ public class AspectAssignTest extends AbstractTest
 
     @Autowired
     private AddressRedisRepository addressRedisRepository;
+
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     private SlowServiceLoggerAspectService slowServiceLoggerAspectService;
@@ -42,7 +45,8 @@ public class AspectAssignTest extends AbstractTest
         boolean[] actualProxyStatuses = {
             AopUtils.isAopProxy(cdnService),
             AopUtils.isAopProxy(addressRepository),
-            AopUtils.isAopProxy(addressRedisRepository)
+            AopUtils.isAopProxy(addressRedisRepository),
+            AopUtils.isAopProxy(addressService)
         };
 
         // Assert
