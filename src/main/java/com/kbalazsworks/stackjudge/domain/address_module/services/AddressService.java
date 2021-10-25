@@ -1,17 +1,16 @@
 package com.kbalazsworks.stackjudge.domain.address_module.services;
 
-import com.kbalazsworks.stackjudge.domain_aspects.enums.RedisCacheRepositorieEnum;
-import com.kbalazsworks.stackjudge.domain_aspects.aspects.RedisCacheByCompanyIdList;
+import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
+import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
+import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyHttpException;
 import com.kbalazsworks.stackjudge.domain.entities.Address;
 import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
-import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyHttpException;
-import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
-import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
+import com.kbalazsworks.stackjudge.domain_aspects.aspects.RedisCacheByCompanyIdList;
+import com.kbalazsworks.stackjudge.domain_aspects.enums.RedisCacheRepositorieEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.exception.DataAccessException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +19,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AddressService
 {
-    private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
-
     private final AddressRepository addressRepository;
 
     public void create(@NonNull Address address)
@@ -37,7 +35,7 @@ public class AddressService
         {
             if (e.getCause().toString().contains("fk__address_company_id__company_id__on_delete_cascade"))
             {
-                logger.error(
+                log.error(
                     ExceptionResponseInfo.CompanyNotFoundMsg
                         .concat(" id%")
                         .concat(address.companyId().toString())
