@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.entities.notification.DataProtectedReview;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.DataProtectedReview;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

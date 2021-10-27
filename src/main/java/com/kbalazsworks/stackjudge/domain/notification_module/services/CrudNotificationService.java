@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.notification_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
-import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.RawNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.TypedNotification;
 import com.kbalazsworks.stackjudge.domain.notification_module.repositories.NotificationRepository;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.maps_module.services.MapsService;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.StaticMapResponse;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwner;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

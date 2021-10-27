@@ -2,8 +2,8 @@ package com.kbalazsworks.stackjudge.domain.group_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
 import com.kbalazsworks.stackjudge.domain.group_module.enums.TypeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
-import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroup;
+import com.kbalazsworks.stackjudge.domain.group_module.entities.Group;
 import lombok.NonNull;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;

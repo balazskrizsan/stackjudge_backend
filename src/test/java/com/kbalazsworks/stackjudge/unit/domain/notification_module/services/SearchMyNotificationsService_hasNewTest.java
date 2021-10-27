@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.unit.domain.notification_module.services;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.domain.entities.ITypedNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.ITypedNotification;
 import com.kbalazsworks.stackjudge.fake_builders.TypedNotificationFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;

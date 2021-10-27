@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.domain_aspects.services;
 
 import com.kbalazsworks.stackjudge.domain_aspects.enums.RedisCacheRepositorieEnum;
 import com.kbalazsworks.stackjudge.domain_aspects.aspects.RedisCacheByCompanyIdList;
-import com.kbalazsworks.stackjudge.domain.entities.IRedisCacheable;
+import com.kbalazsworks.stackjudge.domain.common_module.entities.IRedisCacheable;
 import com.kbalazsworks.stackjudge.domain.common_module.services.IRedisService;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressRedisService;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyOwnersRedisService;

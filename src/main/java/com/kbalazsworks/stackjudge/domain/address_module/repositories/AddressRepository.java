@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.address_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 

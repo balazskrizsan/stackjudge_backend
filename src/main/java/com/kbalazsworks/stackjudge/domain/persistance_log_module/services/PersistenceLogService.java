@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.persistance_log_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.TypedPersistenceLog;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.TypedPersistenceLog;
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.repositories.PersistenceLogRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

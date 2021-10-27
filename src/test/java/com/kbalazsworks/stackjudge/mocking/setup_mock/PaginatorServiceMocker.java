@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
-import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 
 import java.util.List;

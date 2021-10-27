@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.company_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.Company;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyException;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;

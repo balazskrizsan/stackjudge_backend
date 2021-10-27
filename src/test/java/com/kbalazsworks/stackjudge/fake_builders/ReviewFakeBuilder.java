@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

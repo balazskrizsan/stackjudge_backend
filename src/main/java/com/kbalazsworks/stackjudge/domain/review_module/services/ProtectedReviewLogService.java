@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.review_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.ProtectedReviewLog;
-import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
-import com.kbalazsworks.stackjudge.domain.entities.notification.DataProtectedReview;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.TypedNotification;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.DataProtectedReview;
 import com.kbalazsworks.stackjudge.domain.notification_module.enums.NotificationTypeEnum;
 import com.kbalazsworks.stackjudge.domain.notification_module.services.CrudNotificationService;
 import com.kbalazsworks.stackjudge.domain.review_module.repositories.ProtectedReviewLogRepository;

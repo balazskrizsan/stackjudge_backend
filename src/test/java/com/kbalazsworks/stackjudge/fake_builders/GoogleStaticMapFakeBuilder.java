@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapTypeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapTypeEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

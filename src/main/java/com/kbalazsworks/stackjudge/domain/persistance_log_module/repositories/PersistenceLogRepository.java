@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.persistance_log_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.TypedPersistenceLog;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.TypedPersistenceLog;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.codehaus.jackson.map.ObjectMapper;

@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.company_module.services;
 
 import com.google.common.collect.ImmutableList;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyOwnerRedisRepository;
 import com.kbalazsworks.stackjudge.domain.common_module.services.IRedisService;
 import lombok.NonNull;

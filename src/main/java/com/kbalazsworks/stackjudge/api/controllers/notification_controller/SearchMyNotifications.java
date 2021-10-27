@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.api.controllers.notification_controller;
 import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import com.kbalazsworks.stackjudge.api.exceptions.ApiException;
 import com.kbalazsworks.stackjudge.api.requests.notification_requests.SearchMyNotificationsRequest;
-import com.kbalazsworks.stackjudge.domain.value_objects.NotificationResponse;
+import com.kbalazsworks.stackjudge.domain.notification_module.value_objects.NotificationResponse;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.notification_module.services.NotificationService;
 import com.kbalazsworks.stackjudge.state.services.StateService;

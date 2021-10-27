@@ -9,16 +9,16 @@ import com.kbalazsworks.stackjudge.api.requests.group_request.GroupCreateRequest
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapMarkerRequest;
 import com.kbalazsworks.stackjudge.api.requests.maps_requests.GoogleStaticMapRequest;
 import com.kbalazsworks.stackjudge.api.requests.review_requests.ReviewCreateRequest;
-import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.entities.Company;
-import com.kbalazsworks.stackjudge.domain.entities.Group;
-import com.kbalazsworks.stackjudge.domain.entities.Review;
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MapTypeEnum;
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerColorEnum;
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerSizeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.company_service.OwnRequest;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
+import com.kbalazsworks.stackjudge.domain.group_module.entities.Group;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapTypeEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MarkerColorEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.domain.company_module.value_objects.OwnRequest;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 

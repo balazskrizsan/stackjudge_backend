@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.address_module.services;
 
 import com.google.common.collect.ImmutableList;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRedisRepository;
 import com.kbalazsworks.stackjudge.domain.common_module.services.IRedisService;
 import lombok.NonNull;

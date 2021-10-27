@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.notification_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.ITypedNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.ITypedNotification;
 import com.kbalazsworks.stackjudge.domain.notification_module.services.notification_service.SearchMyNotificationsService;
-import com.kbalazsworks.stackjudge.domain.value_objects.NotificationResponse;
+import com.kbalazsworks.stackjudge.domain.notification_module.value_objects.NotificationResponse;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.RequiredArgsConstructor;

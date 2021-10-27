@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleMapsUrlWithHash;
 
 public class GoogleMapsUrlWithHashFakeBuilder
 {

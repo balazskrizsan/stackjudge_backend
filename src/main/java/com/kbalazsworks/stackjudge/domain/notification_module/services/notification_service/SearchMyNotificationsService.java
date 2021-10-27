@@ -1,10 +1,10 @@
 package com.kbalazsworks.stackjudge.domain.notification_module.services.notification_service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kbalazsworks.stackjudge.domain.entities.ITypedNotification;
-import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
-import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
-import com.kbalazsworks.stackjudge.domain.entities.notification.DataProtectedReview;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.ITypedNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.RawNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.TypedNotification;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.DataProtectedReview;
 import com.kbalazsworks.stackjudge.domain.notification_module.enums.NotificationTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

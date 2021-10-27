@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.GetRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
-import com.kbalazsworks.stackjudge.domain.value_objects.CompanyGetServiceResponse;
+import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyGetServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

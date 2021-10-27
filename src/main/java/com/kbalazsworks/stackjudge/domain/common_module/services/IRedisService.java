@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.domain.common_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.Address;
 import lombok.NonNull;
 
 import java.util.List;

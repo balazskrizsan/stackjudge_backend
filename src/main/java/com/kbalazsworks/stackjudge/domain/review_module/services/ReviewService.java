@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.review_module.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.VisibilityEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.repositories.ReviewRepository;
 import lombok.NonNull;

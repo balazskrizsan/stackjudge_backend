@@ -2,8 +2,8 @@ package com.kbalazsworks.stackjudge.domain.company_module.services;
 
 import com.kbalazsworks.stackjudge.domain_aspects.enums.RedisCacheRepositorieEnum;
 import com.kbalazsworks.stackjudge.domain_aspects.aspects.RedisCacheByCompanyIdList;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwners;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwner;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.CompanyOwnersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.common_module.repositories;
 
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwner;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 

@@ -4,9 +4,10 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.platform.commons.JUnitException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PaginatorService_generateTest extends AbstractTest
 {
@@ -33,10 +35,10 @@ public class PaginatorService_generateTest extends AbstractTest
     @Test
     public void vintageHack()
     {
-        Assert.assertTrue(true);
+        assertTrue(true);
     }
 
-    private TestData provider(int repetition) throws Exception
+    private TestData provider(int repetition)
     {
         if (repetition == 1)
         {

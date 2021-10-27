@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroup;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroupTree;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

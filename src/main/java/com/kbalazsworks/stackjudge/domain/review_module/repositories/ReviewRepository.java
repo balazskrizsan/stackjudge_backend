@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.review_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.Review;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 

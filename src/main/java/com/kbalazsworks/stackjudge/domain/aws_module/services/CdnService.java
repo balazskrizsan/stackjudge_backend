@@ -9,7 +9,7 @@ import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.aws_module.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.aws_module.repositories.S3Repository;
-import com.kbalazsworks.stackjudge.domain.value_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge.domain.aws_module.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

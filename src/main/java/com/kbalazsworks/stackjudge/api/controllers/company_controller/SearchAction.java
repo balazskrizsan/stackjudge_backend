@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.api.requests.company_request.SearchRequest;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
-import com.kbalazsworks.stackjudge.domain.value_objects.CompanySearchServiceResponse;
+import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanySearchServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

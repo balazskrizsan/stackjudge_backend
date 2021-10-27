@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.domain.entities.ProtectedReviewLog;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;

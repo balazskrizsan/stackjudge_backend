@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.address_module.repositories;
 
-import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

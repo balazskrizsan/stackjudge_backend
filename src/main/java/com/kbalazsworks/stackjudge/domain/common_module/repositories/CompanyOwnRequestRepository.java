@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.common_module.repositories;
 
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwnRequest;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwnRequest;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;

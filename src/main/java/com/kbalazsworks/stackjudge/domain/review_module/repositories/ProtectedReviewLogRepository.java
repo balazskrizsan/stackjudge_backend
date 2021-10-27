@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.domain.review_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.ProtectedReviewLog;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import org.springframework.stereotype.Repository;
 
 @Repository

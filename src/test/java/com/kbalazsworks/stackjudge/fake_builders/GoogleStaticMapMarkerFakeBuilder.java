@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerColorEnum;
-import com.kbalazsworks.stackjudge.domain.maps_module.enums.MarkerSizeEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MarkerColorEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MarkerSizeEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 
 import java.util.ArrayList;
 import java.util.List;

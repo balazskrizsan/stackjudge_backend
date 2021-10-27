@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.RawNotification;
 import com.kbalazsworks.stackjudge.domain.notification_module.enums.NotificationTypeEnum;
 import lombok.Getter;
 import lombok.Setter;

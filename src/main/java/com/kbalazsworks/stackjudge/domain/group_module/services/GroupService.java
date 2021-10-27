@@ -1,10 +1,10 @@
 package com.kbalazsworks.stackjudge.domain.group_module.services;
 
 import com.google.common.collect.Lists;
-import com.kbalazsworks.stackjudge.domain.entities.Group;
+import com.kbalazsworks.stackjudge.domain.group_module.entities.Group;
 import com.kbalazsworks.stackjudge.domain.group_module.repositories.GroupRepository;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroup;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroupTree;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

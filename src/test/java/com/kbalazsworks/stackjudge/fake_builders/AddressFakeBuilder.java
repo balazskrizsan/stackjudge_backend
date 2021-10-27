@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
-import com.kbalazsworks.stackjudge.domain.entities.Address;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

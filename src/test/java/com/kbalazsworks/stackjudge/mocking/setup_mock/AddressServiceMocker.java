@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.mocking.setup_mock;
 
-import com.kbalazsworks.stackjudge.domain.entities.Address;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyAddresses;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
+import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.address_module.exceptions.AddressHttpException;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;

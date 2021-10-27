@@ -2,9 +2,9 @@ package com.kbalazsworks.stackjudge.unit.domain.map_module.services;
 
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleMapsUrlWithHash;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMap;
-import com.kbalazsworks.stackjudge.domain.value_objects.maps_service.GoogleStaticMapMarker;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleMapsUrlWithHash;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
+import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;

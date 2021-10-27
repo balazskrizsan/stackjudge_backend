@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.services;
 
-import com.kbalazsworks.stackjudge.domain.entities.RegistrationSecret;
+import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
 import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

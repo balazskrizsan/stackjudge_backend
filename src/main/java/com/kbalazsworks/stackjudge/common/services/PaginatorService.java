@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge.common.services;
 
 import com.kbalazsworks.stackjudge.domain.review_module.enums.ItemTypeEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

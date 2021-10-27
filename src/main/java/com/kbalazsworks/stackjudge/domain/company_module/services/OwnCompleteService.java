@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.company_module.services;
 
 import com.kbalazsworks.stackjudge.api.requests.OwnComplete;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwnRequest;
-import com.kbalazsworks.stackjudge.domain.entities.CompanyOwner;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwnRequest;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwner;
 import com.kbalazsworks.stackjudge.domain.common_module.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;

@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.unit.domain.group_module.services;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroup;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroup;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupFakeBuilder;
 import org.junit.Test;

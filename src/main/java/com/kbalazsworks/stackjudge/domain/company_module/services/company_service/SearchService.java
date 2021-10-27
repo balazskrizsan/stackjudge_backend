@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.company_module.services.company_service;
 
 import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
-import com.kbalazsworks.stackjudge.domain.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.domain.value_objects.RecursiveGroupTree;
+import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyStatistic;
+import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroupTree;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,7 @@ public class SearchService
 {
     private final GroupService groupService;
 
+    // @todo: test
     public Map<Long, List<RecursiveGroupTree>> getCompanyGroups(List<Long> companyIds)
     {
         Map<Long, List<RecursiveGroupTree>> companyGroups = new HashMap<>();
@@ -41,6 +42,7 @@ public class SearchService
         return companyGroups;
     }
 
+    // @todo: test
     public Map<Long, CompanyStatistic> getStatistic(List<Long> companyIds)
     {
         Map<Long, CompanyStatistic> companyStatistics = new HashMap<>();

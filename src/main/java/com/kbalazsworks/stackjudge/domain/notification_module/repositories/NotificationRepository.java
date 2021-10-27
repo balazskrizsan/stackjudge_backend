@@ -1,8 +1,8 @@
 package com.kbalazsworks.stackjudge.domain.notification_module.repositories;
 
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.entities.RawNotification;
-import com.kbalazsworks.stackjudge.domain.entities.TypedNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.RawNotification;
+import com.kbalazsworks.stackjudge.domain.notification_module.entities.TypedNotification;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jooq.JSONB;
