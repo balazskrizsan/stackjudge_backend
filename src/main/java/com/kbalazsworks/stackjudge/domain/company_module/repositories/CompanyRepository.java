@@ -1,22 +1,29 @@
 package com.kbalazsworks.stackjudge.domain.company_module.repositories;
 
-import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
-import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
-import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyException;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
+import com.kbalazsworks.stackjudge.domain.common_module.repositories.AbstractRepository;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
+import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyException;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import lombok.NonNull;
-import org.jooq.*;
+import lombok.extern.log4j.Log4j2;
+import org.jooq.Condition;
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.SortField;
+import org.jooq.Table;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.jooq.impl.DSL.field;
 
 @Repository
+@Log4j2
 public class CompanyRepository extends AbstractRepository
 {
     private final com.kbalazsworks.stackjudge.db.tables.Company companyTable
@@ -34,9 +41,9 @@ public class CompanyRepository extends AbstractRepository
             .execute();
     }
 
-    public Long create(@NonNull Company company)
+    public long create(@NonNull Company company)
     {
-        return getQueryBuilder()
+        Record1<Long> newIdRecord = getQueryBuilder()
             .insertInto(
                 companyTable,
                 companyTable.NAME,
@@ -57,8 +64,16 @@ public class CompanyRepository extends AbstractRepository
                 company.getCreatedBy()
             )
             .returningResult(companyTable.ID)
-            .fetchOne()
-            .getValue(companyTable.ID);
+            .fetchOne();
+
+        if (null == newIdRecord)
+        {
+            log.error("Company creation failed: {}", company);
+
+            throw new CompanyException("Company creation failed.");
+        }
+
+        return newIdRecord.getValue(companyTable.ID);
     }
 
     @Cacheable("companies")
@@ -212,19 +227,23 @@ public class CompanyRepository extends AbstractRepository
 
     public long countRecords()
     {
-        return getQueryBuilder()
+        Long count = getQueryBuilder()
             .selectCount()
             .from(companyTable)
             .fetchOneInto(Long.class);
+
+        return Optional.ofNullable(count).orElse(0L);
     }
 
     public long countRecordsBeforeId(long id)
     {
-        return getQueryBuilder()
+        Long count = getQueryBuilder()
             .selectCount()
             .from(companyTable)
             .where(companyTable.ID.lessThan(id))
             .fetchOneInto(Long.class);
+
+        return Optional.ofNullable(count).orElse(0L);
     }
 
     public void updateLogoPath(long companyId, String logoPath)

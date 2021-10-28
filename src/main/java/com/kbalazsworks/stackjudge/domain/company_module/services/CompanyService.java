@@ -2,32 +2,32 @@ package com.kbalazsworks.stackjudge.domain.company_module.services;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.request_enums.CompanyRequestRelationsEnum;
+import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
-import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
-import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
-import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
+import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
-import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
-import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyHttpException;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.aws_module.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
-import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
-import com.kbalazsworks.stackjudge.common.services.PaginatorService;
-import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
+import com.kbalazsworks.stackjudge.domain.company_module.exceptions.CompanyHttpException;
+import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
-import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
-import com.kbalazsworks.stackjudge.domain.aws_module.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGroupTree;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
+import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import lombok.NonNull;
@@ -225,7 +225,7 @@ public class CompanyService
         boolean success = jooqService.getDbContext().transactionResult(
             (Configuration config) ->
             {
-                Long newId = companyRepository.create(company);
+                long newId = companyRepository.create(company);
                 addressService.create(
                     new Address(
                         null,
@@ -246,7 +246,7 @@ public class CompanyService
                     {
                         CdnServicePutResponse cdnServicePutResponse = cdnService.put(
                             CdnNamespaceEnum.COMPANY_LOGOS,
-                            newId.toString(),
+                            String.valueOf(newId),
                             "jpg",
                             companyLogo
                         );
