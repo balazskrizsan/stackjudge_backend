@@ -27,8 +27,6 @@ public class FacebookService
             .callback(applicationProperties.getFacebookCallbackUrl())
             .build(FacebookLatestApiService.instance());
 
-        return service.createAuthorizationUrlBuilder()
-            .state(currentState)
-            .build();
+        return service.createAuthorizationUrlBuilder().state(currentState).build();
     }
 }
