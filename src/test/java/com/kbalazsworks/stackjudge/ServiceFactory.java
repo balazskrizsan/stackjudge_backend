@@ -3,47 +3,48 @@ package com.kbalazsworks.stackjudge;
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
+import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
-import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
-import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
+import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
+import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonSimpleEmailServiceFactory;
+import com.kbalazsworks.stackjudge.domain.aws_module.repositories.S3Repository;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.CompanyOwnRequestRepository;
-import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.group_module.repositories.GroupRepository;
-import com.kbalazsworks.stackjudge.domain.review_module.repositories.ReviewRepository;
-import com.kbalazsworks.stackjudge.domain.aws_module.repositories.S3Repository;
-import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.DateTimeFormatterService;
-import com.kbalazsworks.stackjudge.domain.map_module.services.GoogleStaticMapsCacheService;
-import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
-import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
-import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
-import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
-import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
+import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyOwnersService;
+import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.company_module.services.OwnRequestService;
 import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
+import com.kbalazsworks.stackjudge.domain.group_module.repositories.GroupRepository;
+import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
+import com.kbalazsworks.stackjudge.domain.map_module.services.GoogleStaticMapsCacheService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.notification_module.services.notification_service.SearchMyNotificationsService;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
+import com.kbalazsworks.stackjudge.domain.review_module.repositories.ReviewRepository;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
+import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
+import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
@@ -86,17 +87,17 @@ public class ServiceFactory
     private final SesService                     sesService;
     private final PebbleTemplateService          pebbleTemplateService;
     private final PersistenceLogService          persistenceLogService;
-    private final SecureRandomService    secureRandomService;
-    private final CompanyOwnEmailService companyOwnEmailService;
-    private final UrlService             urlService;
+    private final SecureRandomService            secureRandomService;
+    private final CompanyOwnEmailService         companyOwnEmailService;
+    private final UrlService                     urlService;
     private final CompanyService                 companyService;
     private final HttpExceptionService           httpExceptionService;
     private final CompanyOwnersService           companyOwnersService;
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
+    private final UserJooqRepository             userJooqRepository;
 
     private final CompanyRepository           companyRepository;
     private final ReviewRepository            reviewRepository;
-    private final GroupRepository             groupRepository;
     private final S3Repository                s3Repository;
     private final AddressRepository           addressRepository;
     private final UsersRepository             usersRepository;
@@ -303,16 +304,18 @@ public class ServiceFactory
 
     public AccountService getAccountService()
     {
-        return getAccountService(null, null);
+        return getAccountService(null, null, null);
     }
 
     public AccountService getAccountService(
         UsersRepository usersRepositoryReplacer,
+        UserJooqRepository userJooqRepositoryReplaced,
         ProtectedReviewLogService protectedReviewLogServiceReplacer
     )
     {
         return new AccountService(
             Optional.ofNullable(usersRepositoryReplacer).orElse(usersRepository),
+            Optional.ofNullable(userJooqRepositoryReplaced).orElse(userJooqRepository),
             Optional.ofNullable(protectedReviewLogServiceReplacer).orElse(protectedReviewLogService)
         );
     }

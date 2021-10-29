@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.Protec
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class AccountService
 {
     private final UsersRepository           usersRepository;
+    private final UserJooqRepository        userJooqRepository;
     private final ProtectedReviewLogService protectedReviewLogService;
 
     public @NonNull User create(User user)
@@ -61,7 +63,7 @@ public class AccountService
     // @todo: test after JPA commit problem solved in this.create
     public void updateFacebookAccessToken(String token, Long facebookUserId)
     {
-        usersRepository.updateFacebookAccessToken(token, facebookUserId);
+        userJooqRepository.updateFacebookAccessToken(token, facebookUserId);
     }
 
     // @todo: test

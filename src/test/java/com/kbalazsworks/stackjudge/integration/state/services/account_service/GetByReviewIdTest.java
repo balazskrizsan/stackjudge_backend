@@ -69,6 +69,7 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
         // Act
         User actualUser = serviceFactory.getAccountService(
             null,
+            null,
             protectedReviewLogServiceMock
         )
             .getByReviewId(testedReviewId, TEST_STATE);
