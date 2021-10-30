@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 public class CompanyOwnerFakeBuilder
 {
+    public static final long defaultId = 100001;
 
-    private final long          companyId = 100001;
-    private final long          userId    = 105001;
-    private final LocalDateTime createdAt = LocalDateTime.of(2021, 1, 17, 2, 30, 0);
+    private long          companyId = defaultId;
+    private long          userId    = 105001;
+    private LocalDateTime createdAt = LocalDateTime.of(2021, 1, 17, 2, 30, 0);
 
     public CompanyOwner build()
     {
