@@ -82,6 +82,12 @@ public class GetJwtLoginUrlService
     public String generateLoginUrl(@NonNull User user)
     {
         return applicationProperties.getSiteFrontendHost() + "/"
-            + frontendUriService.getAccountLoginJwt(jwtService.generateAccessToken(user));
+            + frontendUriService.getAccountLoginJwtUrl(jwtService.generateAccessToken(user));
+    }
+
+    public String generateLoginErrorUrl()
+    {
+        return applicationProperties.getSiteFrontendHost() + "/"
+            + frontendUriService.getAccountLoginErrorUrl();
     }
 }

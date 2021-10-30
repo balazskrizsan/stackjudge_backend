@@ -33,19 +33,27 @@ public class FacebookCallbackService
     // @todo: test: callWithValidCodeWithExistingUser_returnsValidRedirectUrlAndUpdateTheFacebookAccessToken
     // @todo: test: callWithValidCodeWithNotExistingUser_returnsValidRedirectUrlAndCreateNewUser
     // @todo: test: callWithValidCodeGenerateLoginUrlThrowsException_logTheErrorAndRollbackTheDatabase
-    // @todo: catch all exceptions and send back error url
-    public String getJwtLoginUrl(String code, String state) throws AuthException
+    public String getJwtLoginUrl(String code, String state)
     {
         if (!registrationStateService.exists(state))
         {
             log.error("Facebook authentication error with state: " + state);
 
-            throw new AuthException();
+            return getJwtLoginUrlService.generateLoginErrorUrl();
         }
 
-        registrationStateService.delete(state);
+        try
+        {
+            registrationStateService.delete(state);
 
-        return jooqService.getDbContext().transactionResult((Configuration config) -> runTransaction(code));
+            return jooqService.getDbContext().transactionResult((Configuration config) -> runTransaction(code));
+        }
+        catch (Exception e)
+        {
+            log.error("Facebook authentication error with state: " + e.getMessage(), e);
+
+            return getJwtLoginUrlService.generateLoginErrorUrl();
+        }
     }
 
     private String runTransaction(String code)
