@@ -31,7 +31,7 @@ public class JwtSubService
         }
         catch (MalformedJwtException e)
         {
-            log.error("InvaliFd JWT token; {}", e.getMessage(), e);
+            log.error("Invalid JWT token; {}", e.getMessage(), e);
         }
         catch (ExpiredJwtException e)
         {
