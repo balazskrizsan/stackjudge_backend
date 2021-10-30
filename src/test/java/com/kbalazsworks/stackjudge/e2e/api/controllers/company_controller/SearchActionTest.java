@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,6 +38,8 @@ public class SearchActionTest extends AbstractE2eTest
                     "classpath:test/sqls/preset_add_1_address.sql",
                     "classpath:test/sqls/preset_add_1_group.sql",
                     "classpath:test/sqls/preset_add_1_review.sql",
+                    "classpath:test/sqls/preset_add_1_user.sql",
+                    "classpath:test/sqls/preset_add_1_company_owner.sql",
                 }
             ),
             @Sql(
@@ -49,6 +52,10 @@ public class SearchActionTest extends AbstractE2eTest
     public void callSearchWithFullyPreparedDb_willReturnAllEntities() throws Exception
     {
         // Arrange
+
+        String companyId1Str = CompanyFakeBuilder.defaultId1.toString();
+        String groupId1str   = GroupFakeBuilder.defaultId1.toString();
+
         String testedUri       = "/company";
         Long   testedCompanyId = CompanyFakeBuilder.defaultId1;
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
@@ -60,37 +67,86 @@ public class SearchActionTest extends AbstractE2eTest
             add("requestRelationIds", "3");
             add("requestRelationIds", "4");
             add("requestRelationIds", "5");
+            add("requestRelationIds", "6");
         }};
-        ResultMatcher expectedStatusCode            = status().isOk();
-        String        expectedCompanyId             = CompanyFakeBuilder.defaultId1.toString();
-        long          expectedCompanyStatisticId    = CompanyFakeBuilder.defaultId1;
-        long          expectedRecursiveGroupId      = GroupFakeBuilder.defaultId1;
-        long          expectedCompanyAddressesId    = AddressFakeBuilder.defaultId1;
-        String        expectedCompanyReviewsGroupId = GroupFakeBuilder.defaultId1.toString();
-        long          expectedCompanyReviewsId      = ReviewFakeBuilder.defaultId1;
+
+        // @formatter:off
+        ResultMatcher expectedStatusCode = status().isOk();
+
+        String path_companies_0_id     = "$.data.companies[0].id";
+        long   expected_companies_0_id = CompanyFakeBuilder.defaultId1;
+
+        String path_companyGroups_companyId1_0_children     = "$.data.companyGroups." + companyId1Str + "[0].children";
+        Object expected_companyGroups_companyId1_0_children = null;
+
+        String path_companyGroups_companyId1_0_recursiveGroup_groupId     = "$.data.companyGroups." + companyId1Str + "[0].recursiveGroup.id";
+        long   expected_companyGroups_companyId1_0_recursiveGroup_groupId = GroupFakeBuilder.defaultId1;
+
+        String path_paginator_0_typeId         = "$.data.paginator[0].typeId";
+        long   expected_paginator_0_typeId     = 1;
+        String path_paginator_0_pageNumber     = "$.data.paginator[0].pageNumber";
+        long   expected_paginator_0_pageNumber = 1;
+        String path_paginator_0_navigation     = "$.data.paginator[0].navigation";
+        long   expected_paginator_0_navigation = 1;
+        String path_paginator_0_active         = "$.data.paginator[0].active";
+        boolean   expected_paginator_0_active  = true;
+
+        String path_newSeekId     = "$.data.newSeekId";
+        long   expected_newSeekId = CompanyFakeBuilder.defaultId1;
+
+        String path_companyStatistics_companyId1_companyId1     = "$.data.companyStatistics." + companyId1Str + ".companyId";
+        long   expected_CompanyStatistics_companyId1_companyId1 = CompanyFakeBuilder.defaultId1;
+        // @todo: add test for: stackCount, teamsCount, reviewCount, technologiesCount
+
+        String path_companyAddresses_companyId1_companyId1                 = "$.data.companyAddresses." + companyId1Str + ".companyId";
+        long   expected_companyAddresses_companyId1_companyId1             = CompanyFakeBuilder.defaultId1;
+        String path_companyAddresses_companyId1_addresses_0_addressId1     = "$.data.companyAddresses." + companyId1Str + ".addresses[0].id";
+        long   expected_companyAddresses_companyId1_addresses_0_addressId1 = AddressFakeBuilder.defaultId1;
+
+        // @todo: add maps to the sql
+
+        String path_companyReviews_companyId1_groupId1_reviewId1     = "$.data.companyReviews." + companyId1Str + "." + groupId1str + ".[0].id";
+        long   expected_companyReviews_companyId1_groupId1_reviewId1 = ReviewFakeBuilder.defaultId1;
+
+        String path_companyOwners_companyId1_companyId1           = "$.data.companyOwners." + companyId1Str + ".companyId";
+        long   expected_companyOwners_companyId1_companyId1       = CompanyFakeBuilder.defaultId1;
+        String path_companyOwners_companyId1_owners_0_userId1     = "$.data.companyOwners." + companyId1Str + ".owners[0]";
+        long   expected_companyOwners_companyId1_owners_0_userId1 = UserFakeBuilder.defaultId1;
+
+        String path_companyUsers_userId1_userId1     = "$.data.companyUsers." + UserFakeBuilder.defaultId1 + ".id";
+        long   expected_companyUsers_userId1_userId1 = UserFakeBuilder.defaultId1;
+        // @formatter:on
 
         // Act
-        ResultActions result = getMockMvc().perform(
-            MockMvcRequestBuilders
-                .get(testedUri)
-                .params(testedParams)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        );
+        ResultActions result = getMockMvc()
+            .perform(
+                MockMvcRequestBuilders
+                    .get(testedUri)
+                    .params(testedParams)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print());
 
         // Assert
-        String companyStatisticsPath = "$.data.companyStatistics." + expectedCompanyId + ".companyId";
-        String companyGroupsPath     = "$.data.companyGroups." + expectedCompanyId + "[0].recursiveGroup.id";
-        String companyAddressesPath  = "$.data.companyAddresses." + expectedCompanyId + "[0].id";
-        String companyReviewsPath = "$.data.companyReviews." + expectedCompanyId + "."
-            + expectedCompanyReviewsGroupId + ".[0].id";
-
+        // @formatter:off
         result
             .andExpect(expectedStatusCode)
-            .andExpect(jsonPath("$.data.companies[0].id").value(expectedCompanyId))
-            .andExpect(jsonPath(companyStatisticsPath).value(expectedCompanyStatisticId))
-            .andExpect(jsonPath(companyGroupsPath).value(expectedRecursiveGroupId))
-            .andExpect(jsonPath(companyAddressesPath).value(expectedCompanyAddressesId))
-            .andExpect(jsonPath(companyReviewsPath).value(expectedCompanyReviewsId));
+            .andExpect(jsonPath(path_companies_0_id).value(expected_companies_0_id))
+            .andExpect(jsonPath(path_companyGroups_companyId1_0_children).value(expected_companyGroups_companyId1_0_children))
+            .andExpect(jsonPath(path_companyGroups_companyId1_0_recursiveGroup_groupId).value(expected_companyGroups_companyId1_0_recursiveGroup_groupId))
+            .andExpect(jsonPath(path_paginator_0_typeId).value(expected_paginator_0_typeId))
+            .andExpect(jsonPath(path_paginator_0_pageNumber).value(expected_paginator_0_pageNumber))
+            .andExpect(jsonPath(path_paginator_0_navigation).value(expected_paginator_0_navigation))
+            .andExpect(jsonPath(path_paginator_0_active).value(expected_paginator_0_active))
+            .andExpect(jsonPath(path_newSeekId).value(expected_newSeekId))
+            .andExpect(jsonPath(path_companyStatistics_companyId1_companyId1).value(expected_CompanyStatistics_companyId1_companyId1))
+            .andExpect(jsonPath(path_companyAddresses_companyId1_companyId1).value(expected_companyAddresses_companyId1_companyId1))
+            .andExpect(jsonPath(path_companyAddresses_companyId1_addresses_0_addressId1).value(expected_companyAddresses_companyId1_addresses_0_addressId1))
+            .andExpect(jsonPath(path_companyReviews_companyId1_groupId1_reviewId1).value(expected_companyReviews_companyId1_groupId1_reviewId1))
+            .andExpect(jsonPath(path_companyOwners_companyId1_companyId1).value(expected_companyOwners_companyId1_companyId1))
+            .andExpect(jsonPath(path_companyOwners_companyId1_owners_0_userId1).value(expected_companyOwners_companyId1_owners_0_userId1))
+            .andExpect(jsonPath(path_companyUsers_userId1_userId1).value(expected_companyUsers_userId1_userId1));
+        // @formatter:on
     }
 }
