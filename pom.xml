@@ -216,6 +216,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <outputDirectory>snapshot</outputDirectory>
+                    <finalName>stackjudge-snapshot</finalName>
                     <arguments>--enable-preview</arguments>
                     <jvmArguments>--enable-preview</jvmArguments>
                 </configuration>
