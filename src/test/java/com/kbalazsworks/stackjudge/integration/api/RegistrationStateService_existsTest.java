@@ -2,7 +2,6 @@ package com.kbalazsworks.stackjudge.integration.api;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,9 +11,6 @@ public class RegistrationStateService_existsTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
-
-    @Autowired
-    private RegistrationSecretRepository registrationSecretRepository;
 
     @Test
     public void withNotExistingToken_returnsFalse()
