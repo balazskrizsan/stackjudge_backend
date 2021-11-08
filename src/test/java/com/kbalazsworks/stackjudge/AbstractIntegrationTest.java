@@ -31,14 +31,6 @@ public abstract class AbstractIntegrationTest extends AbstractTest
     @Autowired
     private JooqService jooqService;
 
-    // @todo2: do it with AOP annotation
-    @Before
-    @After
-    public void flushRedis()
-    {
-        getRedisConnection().flushAll();
-    }
-
     public RedisConnection getRedisConnection()
     {
         return redisConnectionFactory.getConnection();
