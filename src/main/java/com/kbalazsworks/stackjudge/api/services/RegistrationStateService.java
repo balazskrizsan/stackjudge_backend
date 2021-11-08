@@ -15,14 +15,12 @@ public class RegistrationStateService
     private final RegistrationSecretRepository              registrationSecretRepository;
     private final RedisTemplate<String, RegistrationSecret> redisTemplate;
 
-    // @todo: test
     public void add(String state, int timeoutHours)
     {
         registrationSecretRepository.save(new RegistrationSecret(state, state));
         redisTemplate.expire(state, timeoutHours, TimeUnit.HOURS);
     }
 
-    // @todo2: test
     public boolean exists(String state)
     {
         return registrationSecretRepository.existsById(state);
