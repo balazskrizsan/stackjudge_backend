@@ -1,7 +1,10 @@
 package com.kbalazsworks.stackjudge;
 
+import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
+import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
+import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -49,6 +52,7 @@ import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -96,12 +100,14 @@ public class ServiceFactory
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
     private final UserJooqRepository             userJooqRepository;
 
-    private final CompanyRepository           companyRepository;
-    private final ReviewRepository            reviewRepository;
-    private final S3Repository                s3Repository;
-    private final AddressRepository           addressRepository;
-    private final UsersRepository             usersRepository;
-    private final CompanyOwnRequestRepository companyOwnRequestRepository;
+    private final CompanyRepository                         companyRepository;
+    private final ReviewRepository                          reviewRepository;
+    private final S3Repository                              s3Repository;
+    private final AddressRepository                         addressRepository;
+    private final UsersRepository                           usersRepository;
+    private final CompanyOwnRequestRepository               companyOwnRequestRepository;
+    private final RegistrationSecretRepository              registrationSecretRepository;
+    private final RedisTemplate<String, RegistrationSecret> redisTemplateStringRegistrationSecret;
 
     public CompanyService getCompanyService()
     {
@@ -420,4 +426,21 @@ public class ServiceFactory
             Optional.ofNullable(slowServiceLoggerAspectServiceReplacer).orElse(slowServiceLoggerAspectService)
         );
     }
+
+    public RegistrationStateService getRegistrationStateService()
+    {
+        return getRegistrationStateService(null, null);
+    }
+
+    public RegistrationStateService getRegistrationStateService(
+        RegistrationSecretRepository registrationSecretRepositoryReplacer,
+        RedisTemplate<String, RegistrationSecret> redisTemplateReplacer
+    )
+    {
+        return new RegistrationStateService(
+            Optional.ofNullable(registrationSecretRepositoryReplacer).orElse(registrationSecretRepository),
+            Optional.ofNullable(redisTemplateReplacer).orElse(redisTemplateStringRegistrationSecret)
+        );
+    }
+
 }

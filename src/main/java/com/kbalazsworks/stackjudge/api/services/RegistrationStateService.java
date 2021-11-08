@@ -16,10 +16,10 @@ public class RegistrationStateService
     private final RedisTemplate<String, RegistrationSecret> redisTemplate;
 
     // @todo: test
-    public void add(String state)
+    public void add(String state, int timeoutHours)
     {
         registrationSecretRepository.save(new RegistrationSecret(state, state));
-        redisTemplate.expire(state, 24, TimeUnit.HOURS);
+        redisTemplate.expire(state, timeoutHours, TimeUnit.HOURS);
     }
 
     // @todo2: test

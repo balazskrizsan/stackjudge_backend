@@ -20,7 +20,7 @@ public class FacebookService
     {
         String currentState = secureRandomService.getUrlEncoded(32);
 
-        registrationStateService.add(currentState);
+        registrationStateService.add(currentState, 24);
 
         OAuth20Service service = new ServiceBuilder(applicationProperties.getFacebookClientId())
             .apiSecret(applicationProperties.getFacebookClientSecret())

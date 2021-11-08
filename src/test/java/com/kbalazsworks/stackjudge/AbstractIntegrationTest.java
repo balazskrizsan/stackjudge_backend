@@ -9,7 +9,11 @@ import com.kbalazsworks.stackjudge.db.tables.Review;
 import com.kbalazsworks.stackjudge.db.tables.Users;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
 import org.jooq.DSLContext;
+import org.junit.After;
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 public abstract class AbstractIntegrationTest extends AbstractTest
 {
@@ -22,7 +26,23 @@ public abstract class AbstractIntegrationTest extends AbstractTest
     protected final CompanyOwnRequest companyOwnRequestTable = CompanyOwnRequest.COMPANY_OWN_REQUEST;
 
     @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
+    @Autowired
     private JooqService jooqService;
+
+    // @todo2: do it with AOP annotation
+    @Before
+    @After
+    public void flushRedis()
+    {
+        getRedisConnection().flushAll();
+    }
+
+    public RedisConnection getRedisConnection()
+    {
+        return redisConnectionFactory.getConnection();
+    }
 
     protected DSLContext getQueryBuilder()
     {
