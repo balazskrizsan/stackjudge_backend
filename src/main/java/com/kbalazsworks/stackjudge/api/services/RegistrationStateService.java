@@ -26,7 +26,6 @@ public class RegistrationStateService
         return registrationSecretRepository.existsById(state);
     }
 
-    // @todo2: test
     public void delete(String state)
     {
         registrationSecretRepository.deleteById(state);
