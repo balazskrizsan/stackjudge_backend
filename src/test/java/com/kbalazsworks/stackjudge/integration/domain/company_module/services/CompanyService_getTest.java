@@ -2,13 +2,20 @@ package com.kbalazsworks.stackjudge.integration.domain.company_module.services;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
-import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyGetServiceResponse;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.fake_builders.*;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.StaticMapResponseFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -22,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -43,6 +52,32 @@ public class CompanyService_getTest extends AbstractIntegrationTest
     public void VintageHack()
     {
         assertThat(true).isTrue();
+    }
+
+    @Test
+    public void oneParamMethodCallTest_calls2ParamsMethod()
+    {
+        // Arrange
+        CompanyService companyServiceMock = spy(serviceFactory.getCompanyService());
+        CompanyGetServiceResponse returnedFake = new CompanyGetServiceResponse(
+            new CompanyFakeBuilder().build(),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+        Company expectedCompany = new CompanyFakeBuilder().build();
+
+        doReturn(returnedFake).when(companyServiceMock).get(CompanyFakeBuilder.defaultId1, List.of());
+
+        // Act
+        Company actualCompany = companyServiceMock.get(CompanyFakeBuilder.defaultId1);
+
+        // Assert
+        assertThat(actualCompany).usingRecursiveComparison().isEqualTo(expectedCompany);
     }
 
     private TestData provider(int repetition)
