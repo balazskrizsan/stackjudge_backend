@@ -27,7 +27,7 @@ public class GroupService_recursiveSearchTest extends AbstractTest
         long testedCompanyId = CompanyFakeBuilder.defaultId1;
 
         GroupService groupServicePartialMock = spy(serviceFactory.getGroupService());
-        doReturn(List.of(new RecursiveGroupFakeBuilder().build()))
+        doReturn(new RecursiveGroupFakeBuilder().buildAsList())
             .when(groupServicePartialMock)
             .recursiveSearch(List.of(CompanyFakeBuilder.defaultId1));
 

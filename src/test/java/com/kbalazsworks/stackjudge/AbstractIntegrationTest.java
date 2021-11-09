@@ -25,6 +25,8 @@ public abstract class AbstractIntegrationTest extends AbstractTest
     protected final PersistenceLog    persistenceLogTable    = PersistenceLog.PERSISTENCE_LOG;
     protected final CompanyOwnRequest companyOwnRequestTable = CompanyOwnRequest.COMPANY_OWN_REQUEST;
 
+    private RedisConnection redisTestConnection = null;
+
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
@@ -33,7 +35,12 @@ public abstract class AbstractIntegrationTest extends AbstractTest
 
     public RedisConnection getRedisConnection()
     {
-        return redisConnectionFactory.getConnection();
+        if (null == redisTestConnection)
+        {
+            redisTestConnection = redisConnectionFactory.getConnection();
+        }
+
+        return redisTestConnection;
     }
 
     protected DSLContext getQueryBuilder()

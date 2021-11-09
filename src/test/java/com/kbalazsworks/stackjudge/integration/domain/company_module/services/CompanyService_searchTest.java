@@ -2,8 +2,8 @@ package com.kbalazsworks.stackjudge.integration.domain.company_module.services;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
-import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyService;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -196,23 +196,21 @@ public class CompanyService_searchTest extends AbstractIntegrationTest
     )
     public void pagingTest_returnCheckByProvider(RepetitionInfo repetitionInfo)
     {
+        getRedisConnection().flushAll();
         // Arrange
-        TestData testData = provider(repetitionInfo.getCurrentRepetition());
+        TestData tD = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        List<Long> actualList = companyService.search(
-            testData.testedSeekId,
-            testData.testedLimit,
-            testData.testedNavigation
-        )
+        List<Long> actualList = companyService
+            .search(tD.testedSeekId, tD.testedLimit, tD.testedNavigation)
             .stream()
             .map(Company::getId)
             .collect(Collectors.toList());
 
         // Assert
         String assertMessage = "Error with navigation: ".concat(
-            (testData.testedNavigation == null) ? "NULL" : testData.testedNavigation.toString()
+            tD.testedNavigation == null ? "NULL" : tD.testedNavigation.toString()
         );
-        assertThat(testData.expectedIdList).as(assertMessage).isEqualTo(actualList);
+        assertThat(tD.expectedIdList).as(assertMessage).isEqualTo(actualList);
     }
 }

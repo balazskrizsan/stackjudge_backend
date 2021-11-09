@@ -24,7 +24,6 @@ public class GroupService
         groupRepository.create(group);
     }
 
-    //@todo: test
     public List<RecursiveGroup> recursiveSearch(List<Long> companyId)
     {
         return groupRepository.recursiveSearch(companyId);

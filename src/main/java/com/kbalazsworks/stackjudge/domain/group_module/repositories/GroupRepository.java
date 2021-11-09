@@ -48,8 +48,13 @@ public class GroupRepository extends AbstractRepository
             .execute();
     }
 
-    public List<RecursiveGroup> recursiveSearch(List<Long> companyId)
+    public List<RecursiveGroup> recursiveSearch(@NonNull List<Long> companyIds)
     {
+        if (companyIds.isEmpty())
+        {
+            return List.of();
+        }
+
         return getQueryBuilder()
             .resultQuery(
                 "WITH RECURSIVE rec(id, name, type_id, company_id, address_id, parent_id, depth, path) AS ("
@@ -59,7 +64,7 @@ public class GroupRepository extends AbstractRepository
                     + " )"
                     + " SELECT * FROM rec"
                     + " ORDER BY path;",
-                list(companyId.stream().map(DSL::val).collect(Collectors.toList()))
+                list(companyIds.stream().map(DSL::val).collect(Collectors.toList()))
             )
             .fetchInto(RecursiveGroup.class);
     }

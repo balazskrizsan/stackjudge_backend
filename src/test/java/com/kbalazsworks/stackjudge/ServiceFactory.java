@@ -107,6 +107,7 @@ public class ServiceFactory
     private final UsersRepository                           usersRepository;
     private final CompanyOwnRequestRepository               companyOwnRequestRepository;
     private final RegistrationSecretRepository              registrationSecretRepository;
+    private final GroupRepository                           groupRepository;
     private final RedisTemplate<String, RegistrationSecret> redisTemplateStringRegistrationSecret;
 
     public CompanyService getCompanyService()
@@ -219,7 +220,7 @@ public class ServiceFactory
 
     public GroupService getGroupService(GroupRepository groupRepositoryReplacer)
     {
-        return new GroupService(Optional.ofNullable(groupRepositoryReplacer).orElse(groupRepositoryReplacer));
+        return new GroupService(Optional.ofNullable(groupRepositoryReplacer).orElse(groupRepository));
     }
 
     public SearchService getSearchService()
