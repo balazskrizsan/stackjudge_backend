@@ -40,7 +40,7 @@ public class MapsService_CompanyAddressesTest extends AbstractIntegrationTest
             return false;
         }
 
-        return objectComparatorService.byValues(g, new GoogleStaticMapFakeBuilder().build());
+        return argThatObjectStatic(g, new GoogleStaticMapFakeBuilder().build());
     }
 
     private static boolean compareGoogleStaticMapMarker(List<GoogleStaticMapMarker> g)
@@ -50,7 +50,7 @@ public class MapsService_CompanyAddressesTest extends AbstractIntegrationTest
             return false;
         }
 
-        return objectComparatorService.byValues(g.get(0), new GoogleStaticMapMarkerFakeBuilder().build());
+        return argThatObjectStatic(g.get(0), new GoogleStaticMapMarkerFakeBuilder().build());
     }
 
     @Test

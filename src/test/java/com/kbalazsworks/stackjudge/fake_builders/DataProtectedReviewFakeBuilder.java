@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Setter
 public class DataProtectedReviewFakeBuilder
 {
-    public static Long defaultViewerUserId = 123L;
+    public static Long defaultViewerUserId = UserFakeBuilder.defaultId1;
 
     private Long viewerUserId = defaultViewerUserId;
 

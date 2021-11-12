@@ -23,9 +23,10 @@ public class MockFactory
 {
     private final ServiceFactory serviceFactory;
 
-    public static final LocalDateTime localDateTimeMock = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
+    public static final LocalDateTime testLocalDateTimeMock1 = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
+    public static final LocalDateTime testLocalDateTimeMock2 = LocalDateTime.of(2021, 6, 7, 8, 8, 9);
 
-    public static final State TEST_STATE = new State(localDateTimeMock, new UserFakeBuilder().build());
+    public static final State TEST_STATE = new State(testLocalDateTimeMock1, new UserFakeBuilder().build());
 
     public static StateService getTestStateMock()
     {

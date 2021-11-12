@@ -66,6 +66,8 @@ public class ObjectComparatorService
                     continue;
                 }
 
+                System.out.println(leftField);
+                System.out.println(leftField.getClass());
                 if (!byValues(leftField, rightField))
                 {
                     isOk = false;
@@ -97,7 +99,7 @@ public class ObjectComparatorService
             || var instanceof LocalDateTime
             || var instanceof DateTime
             || var instanceof Date
-            ;
+            || var instanceof Enum<?>;
     }
 
     private void printError(String fqn, Throwable e)

@@ -27,6 +27,7 @@ public class CrudNotificationService
         notificationRepository.markAsRead(notificationId, state.currentUser().getId(), state.now());
     }
 
+    // @todo: test
     public <T> void create(TypedNotification<T> rawNotification)
     {
         notificationRepository.create(rawNotification);

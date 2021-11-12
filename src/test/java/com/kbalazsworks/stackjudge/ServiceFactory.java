@@ -37,8 +37,10 @@ import com.kbalazsworks.stackjudge.domain.map_module.services.GoogleStaticMapsCa
 import com.kbalazsworks.stackjudge.domain.map_module.services.MapMapperService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.domain.notification_module.services.CrudNotificationService;
 import com.kbalazsworks.stackjudge.domain.notification_module.services.notification_service.SearchMyNotificationsService;
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
+import com.kbalazsworks.stackjudge.domain.review_module.repositories.ProtectedReviewLogRepository;
 import com.kbalazsworks.stackjudge.domain.review_module.repositories.ReviewRepository;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
@@ -98,7 +100,7 @@ public class ServiceFactory
     private final HttpExceptionService           httpExceptionService;
     private final CompanyOwnersService           companyOwnersService;
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
-    private final UserJooqRepository             userJooqRepository;
+    private final CrudNotificationService        crudNotificationService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -109,6 +111,8 @@ public class ServiceFactory
     private final RegistrationSecretRepository              registrationSecretRepository;
     private final GroupRepository                           groupRepository;
     private final RedisTemplate<String, RegistrationSecret> redisTemplateStringRegistrationSecret;
+    private final UserJooqRepository                        userJooqRepository;
+    private final ProtectedReviewLogRepository              protectedReviewLogRepository;
 
     public CompanyService getCompanyService()
     {
@@ -444,4 +448,19 @@ public class ServiceFactory
         );
     }
 
+    public ProtectedReviewLogService getProtectedReviewLogService()
+    {
+        return getProtectedReviewLogService(null, null);
+    }
+
+    public ProtectedReviewLogService getProtectedReviewLogService(
+        ProtectedReviewLogRepository protectedReviewLogRepositoryReplacer,
+        CrudNotificationService crudNotificationServiceReplacer
+    )
+    {
+        return new ProtectedReviewLogService(
+            Optional.ofNullable(protectedReviewLogRepositoryReplacer).orElse(protectedReviewLogRepository),
+            Optional.ofNullable(crudNotificationServiceReplacer).orElse(crudNotificationService)
+        );
+    }
 }

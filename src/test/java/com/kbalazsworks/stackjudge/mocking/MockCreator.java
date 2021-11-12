@@ -7,26 +7,27 @@ import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
-import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonS3ClientFactory;
 import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonSimpleEmailServiceFactory;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
+import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
+import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
+import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
+import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
+import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
 import com.kbalazsworks.stackjudge.domain.group_module.services.GroupService;
+import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
+import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
+import com.kbalazsworks.stackjudge.domain.notification_module.services.CrudNotificationService;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
-import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
-import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
-import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
-import com.kbalazsworks.stackjudge.domain.map_module.services.MapsService;
+import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
@@ -189,5 +190,10 @@ public class MockCreator
     public static SlowServiceLoggerAspectService getSlowServiceLoggerAspectService()
     {
         return mock(SlowServiceLoggerAspectService.class);
+    }
+
+    public static CrudNotificationService getCrudNotificationService()
+    {
+        return mock(CrudNotificationService.class);
     }
 }
