@@ -17,7 +17,8 @@ public class PebbleTemplateService
 {
     private final PebbleTemplateFactory pebbleTemplateFactory;
 
-    public String render(@NonNull String template, @Nullable Map<String, Object> context) throws PebbleException
+    public String render(@NonNull String template, @Nullable Map<@NonNull String, @NonNull Object> context)
+    throws PebbleException
     {
         try
         {
