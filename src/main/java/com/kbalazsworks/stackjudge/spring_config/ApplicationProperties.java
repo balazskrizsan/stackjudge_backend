@@ -188,4 +188,24 @@ public class ApplicationProperties
     {
         return redisAspectCacheEnabled.trim().equals("true");
     }
+
+    public String getStuckJudgeAwsSdkHost()
+    {
+        return "https://localhost";
+    }
+
+    public String getStuckJudgeAwsSdkPort()
+    {
+        return "83";
+    }
+
+    public String getStackJudgeSdkCertP12KeystoreFilePath()
+    {
+        return "classpath:keystore/v2/sjdev.p12";
+    }
+
+    public String getStackJudgeSdkCertP12KeystoreFilePassword()
+    {
+        return "password";
+    }
 }
