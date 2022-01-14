@@ -1,5 +1,7 @@
 package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.builders.RestTemplateFactory;
@@ -30,6 +32,7 @@ public class StackJudgeAwsSdkService
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         Map<String, String> postDataMap = objectMapper.convertValue(postData, Map.class);
 
         MultiValueMap<String, String> postDataMultiValueMap = new LinkedMultiValueMap<>();
