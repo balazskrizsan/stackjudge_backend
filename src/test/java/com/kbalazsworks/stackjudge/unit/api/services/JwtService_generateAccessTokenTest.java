@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.state.entities.User;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +17,7 @@ public class JwtService_generateAccessTokenTest extends AbstractTest
     private ServiceFactory serviceFactory;
 
     @Test
+    @SneakyThrows
     public void createToken_returnsValidToken()
     {
         // Arrange

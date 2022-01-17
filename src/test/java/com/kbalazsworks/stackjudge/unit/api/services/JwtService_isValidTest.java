@@ -5,6 +5,7 @@ import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.JwtSubServiceMocker;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +17,7 @@ public class JwtService_isValidTest extends AbstractTest
     private ServiceFactory serviceFactory;
 
     @Test
+    @SneakyThrows
     public void callWithValidToken_returnsTure()
     {
         // Arrange

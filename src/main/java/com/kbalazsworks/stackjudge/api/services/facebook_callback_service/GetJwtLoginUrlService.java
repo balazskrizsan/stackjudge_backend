@@ -79,7 +79,7 @@ public class GetJwtLoginUrlService
         throw new AuthException();
     }
 
-    public String generateLoginUrl(@NonNull User user)
+    public String generateLoginUrl(@NonNull User user) throws Exception
     {
         return applicationProperties.getSiteFrontendHost() + "/"
             + frontendUriService.getAccountLoginJwtUrl(jwtService.generateAccessToken(user));

@@ -32,8 +32,15 @@ public class JwtService
 
     private static final long ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
-    public String generateAccessToken(@NonNull User user)
+    public String generateAccessToken(@NonNull User user) throws Exception
     {
+        if (null == user.getId())
+        {
+            log.error("Jwt grant error: missing user id from User");
+
+            throw new Exception("Jwt grant error: missing user id from User");
+        }
+
         return Jwts
             .builder()
             .setSubject(format("%s,%s,%s", user.getId(), user.getUsername(), user.getProfilePictureUrl()))

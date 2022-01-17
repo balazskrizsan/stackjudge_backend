@@ -6,6 +6,7 @@ import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import io.jsonwebtoken.JwtException;
+import lombok.SneakyThrows;
 import nl.altindag.log.LogCaptor;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -46,6 +47,7 @@ public class JwtSubService_getUserDataFormJwtStringTest extends AbstractTest
     }
 
     @RepeatedTest(3)
+    @SneakyThrows
     public void calledWitValidToken_perfect(RepetitionInfo repetitionInfo)
     {
         // Arrange
@@ -77,6 +79,7 @@ public class JwtSubService_getUserDataFormJwtStringTest extends AbstractTest
     }
 
     @Test
+    @SneakyThrows
     public void callerWithInvalidToken_returnWithNewJwtExceptionAndWriteLog()
     {
         // Arrange

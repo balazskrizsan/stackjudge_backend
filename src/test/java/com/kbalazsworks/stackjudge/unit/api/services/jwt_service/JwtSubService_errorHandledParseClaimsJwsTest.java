@@ -15,6 +15,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.impl.DefaultClaims;
 import io.jsonwebtoken.impl.DefaultHeader;
 import io.jsonwebtoken.impl.DefaultJws;
+import lombok.SneakyThrows;
 import nl.altindag.log.LogCaptor;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -116,6 +117,7 @@ public class JwtSubService_errorHandledParseClaimsJwsTest extends AbstractTest
     }
 
     @Test
+    @SneakyThrows
     public void callWithValidToken_returnsTokenClaims()
     {
         // Arrange

@@ -55,7 +55,7 @@ public class FacebookCallbackService
         }
     }
 
-    private String runTransaction(String code)
+    private String runTransaction(String code) throws Exception
     {
         OAuth20Service    service     = oAuthFacebookServiceBuilder.create();
         OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(service, code);
@@ -68,12 +68,15 @@ public class FacebookCallbackService
         FacebookUser facebookUser = getJwtLoginUrlService.getFacebookUser(response);
 
         User user = accountService.findByFacebookId(facebookUser.getId());
+        log.info("Login callback: FacebookId: {}", facebookUser.getId());
         if (null != user)
         {
+            log.info("Login callback: login with UserId: {}", user.getId());
             accountService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
             return getJwtLoginUrlService.generateLoginUrl(user);
         }
+        log.info("Login callback: create new user with Facebook");
 
         user = accountService.create(new User(
             null,
@@ -85,6 +88,8 @@ public class FacebookCallbackService
             accessToken.getAccessToken(),
             facebookUser.getId()
         ));
+
+        log.info("User created {}", user.getId());
 
         return getJwtLoginUrlService.generateLoginUrl(user);
     }
