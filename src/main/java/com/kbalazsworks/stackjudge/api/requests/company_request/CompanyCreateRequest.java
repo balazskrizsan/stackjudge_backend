@@ -9,20 +9,20 @@ import javax.validation.constraints.Size;
 public record CompanyCreateRequest(
     @JsonProperty("name")
     @Size(min = 2, max = 255, groups = ICompanyRequestValidationGroup.class)
-    String  name,
+    String name,
 
     @JsonProperty("domain")
     @Size(min = 3, max = 255, groups = ICompanyRequestValidationGroup.class)
-    String  domain,
+    String domain,
 
     @JsonProperty("companySizeId")
-    @Min( value = 1, groups = ICompanyRequestValidationGroup.class)
-    @Max( value = 5, groups = ICompanyRequestValidationGroup.class)
+    @Min(value = 1, groups = ICompanyRequestValidationGroup.class)
+    @Max(value = 5, groups = ICompanyRequestValidationGroup.class)
     short companySizeId,
 
     @JsonProperty("itSizeId")
-    @Min( value = 1, groups = ICompanyRequestValidationGroup.class)
-    @Max( value = 5, groups = ICompanyRequestValidationGroup.class)
+    @Min(value = 1, groups = ICompanyRequestValidationGroup.class)
+    @Max(value = 5, groups = ICompanyRequestValidationGroup.class)
     short itSizeId
 )
 {
