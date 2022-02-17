@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.builders;
 
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.SdkSslService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.OpenSdkSslService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -15,13 +15,13 @@ import javax.net.ssl.SSLContext;
 @RequiredArgsConstructor
 public class RestTemplateFactory
 {
-    private final SdkSslService sdkSslService;
+    private final OpenSdkSslService openSdkSslService;
 
     public RestTemplate build() throws Exception
     {
         try
         {
-            SSLContext sslContext = sdkSslService.getSslContext();
+            SSLContext sslContext = openSdkSslService.getSslContext();
 
             HttpClient client = HttpClients.custom().setSSLContext(sslContext).build();
 

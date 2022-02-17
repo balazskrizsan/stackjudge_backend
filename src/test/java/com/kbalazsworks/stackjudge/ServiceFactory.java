@@ -49,6 +49,8 @@ import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspe
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
@@ -101,6 +103,8 @@ public class ServiceFactory
     private final CompanyOwnersService           companyOwnersService;
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
     private final CrudNotificationService        crudNotificationService;
+    private final S3UploadApiService             s3UploadApiService;
+    private final OpenSdkFileService             openSdkFileService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -116,7 +120,7 @@ public class ServiceFactory
 
     public CompanyService getCompanyService()
     {
-        return getCompanyService(null, null, null, null, null, null, null, null, null, null);
+        return getCompanyService(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public CompanyService getCompanyService(
@@ -129,6 +133,8 @@ public class ServiceFactory
         AccountService accountServiceReplaces,
         MapsService mapsServiceReplacer,
         CompanyOwnersService companyOwnersServiceReplacer,
+        S3UploadApiService s3UploadApiServiceReplacer,
+        OpenSdkFileService openSdkFileServiceReplacer,
         CompanyRepository companyRepositoryReplacer
     )
     {
@@ -142,6 +148,8 @@ public class ServiceFactory
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
             Optional.ofNullable(mapsServiceReplacer).orElse(mapsService),
             Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
+            Optional.ofNullable(s3UploadApiServiceReplacer).orElse(s3UploadApiService),
+            Optional.ofNullable(openSdkFileServiceReplacer).orElse(openSdkFileService),
             Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
         );
     }

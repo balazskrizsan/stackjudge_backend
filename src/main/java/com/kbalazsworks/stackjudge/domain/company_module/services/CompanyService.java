@@ -28,8 +28,11 @@ import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.Paginat
 import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +61,8 @@ public class CompanyService
     private final AccountService       accountService;
     private final MapsService          mapsService;
     private final CompanyOwnersService companyOwnersService;
+    private final S3UploadApiService   s3UploadApiService;
+    private final OpenSdkFileService   openSdkFileService;
     private final CompanyRepository    companyRepository;
 
     public void delete(long companyId)
@@ -241,6 +246,17 @@ public class CompanyService
 
                 if (companyLogo != null && !companyLogo.isEmpty())
                 {
+                    s3UploadApiService.execute(new PostUploadRequest(
+                        CdnNamespaceEnum.COMPANY_LOGOS.getValue(),
+                        String.valueOf(newId),
+                        "jpg",
+                        openSdkFileService.createByteArrayResourceEntityFromString(
+                            companyLogo.getBytes(),
+                            newId + "jpg"
+                        )
+                    ));
+
+                    // @todo: remove if AWS service logic implemented
                     try
                     {
                         CdnServicePutResponse cdnServicePutResponse = cdnService.put(

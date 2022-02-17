@@ -19,6 +19,13 @@
         <spring-cloud.version>2020.0.4</spring-cloud.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -207,6 +214,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>23.6-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.balazskrizsan</groupId>
+            <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
+            <version>90ac66e132f4dc02a5efea6f3e3001ac6ca19e82</version>
         </dependency>
     </dependencies>
 

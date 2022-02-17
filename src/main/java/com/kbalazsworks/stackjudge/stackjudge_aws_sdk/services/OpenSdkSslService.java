@@ -15,7 +15,7 @@ import java.security.KeyStore;
 
 @Service
 @RequiredArgsConstructor
-public class SdkSslService
+public class OpenSdkSslService
 {
     private final ApplicationProperties applicationProperties;
 

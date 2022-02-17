@@ -193,6 +193,8 @@ public class CompanyService_searchTest extends AbstractTest
                     td.mockForAddressMaps
                 ),
                 null,
+                null,
+                null,
                 companyRepositoryMock
             )
             .search(td.testedSeekId, td.testedLimit, td.testedRequestRelationIds, td.testedNavigation);
