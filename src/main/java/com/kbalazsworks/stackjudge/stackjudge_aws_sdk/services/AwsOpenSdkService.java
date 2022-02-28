@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class AwsOpenSdkService
     private final ApplicationProperties applicationProperties;
     private final RestTemplateFactory   restTemplateFactory;
 
-    public void post(IOpenSdkPostable postData, String apiUri)
+    public ResponseEntity<String> post(IOpenSdkPostable postData, String apiUri)
     {
         HttpHeaders headers = new HttpHeaders()
         {{
@@ -27,7 +28,7 @@ public class AwsOpenSdkService
 
         try
         {
-            restTemplateFactory
+            return restTemplateFactory
                 .build()
                 .postForEntity(
                     applicationProperties.getStuckJudgeAwsSdkHost()
@@ -40,7 +41,9 @@ public class AwsOpenSdkService
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             // @todo: return with named exception
         }
+        return null;
     }
 }

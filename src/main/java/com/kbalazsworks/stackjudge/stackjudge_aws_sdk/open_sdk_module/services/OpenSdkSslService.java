@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services;
+package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services;
 
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;

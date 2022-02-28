@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.domain.company_module.services;
 
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.kbalazsworks.stackjudge.api.request_enums.CompanyRequestRelationsEnum;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
@@ -8,7 +7,6 @@ import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddress
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.aws_module.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
@@ -28,10 +26,13 @@ import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.Paginat
 import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.exceptions.OpenSdkResponseException;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.value_objects.OpenSdkStdResponse;
 import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -246,28 +247,22 @@ public class CompanyService
 
                 if (companyLogo != null && !companyLogo.isEmpty())
                 {
-                    s3UploadApiService.execute(new PostUploadRequest(
-                        CdnNamespaceEnum.COMPANY_LOGOS.getValue(),
-                        String.valueOf(newId),
-                        "jpg",
-                        openSdkFileService.createByteArrayResourceEntityFromString(
-                            companyLogo.getBytes(),
-                            newId + "jpg"
-                        )
-                    ));
-
-                    // @todo: remove if AWS service logic implemented
                     try
                     {
-                        CdnServicePutResponse cdnServicePutResponse = cdnService.put(
-                            CdnNamespaceEnum.COMPANY_LOGOS,
-                            String.valueOf(newId),
-                            "jpg",
-                            companyLogo
-                        );
-                        updateLogoPath(newId, cdnServicePutResponse.path());
+                        OpenSdkStdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService
+                            .execute(new PostUploadRequest(
+                                CdnNamespaceEnum.COMPANY_LOGOS.name(),
+                                "",
+                                String.valueOf(newId),
+                                "jpg",
+                                openSdkFileService.createByteArrayResourceEntityFromString(
+                                    companyLogo.getBytes(),
+                                    newId + "jpg"
+                                )
+                            ));
+                        updateLogoPath(newId, apiResponse.data().path());
                     }
-                    catch (AmazonS3Exception e) //@todo3: test
+                    catch (OpenSdkResponseException e)
                     {
                         log.error("Amazon S3 upload failed.", e);
                     }

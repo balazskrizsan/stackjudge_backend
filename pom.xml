@@ -218,7 +218,7 @@
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
-            <version>90ac66e132f4dc02a5efea6f3e3001ac6ca19e82</version>
+            <version>4c96cfa43c1e428ce293554ce6a3cc0c66a73dc5</version>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services;
+package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
