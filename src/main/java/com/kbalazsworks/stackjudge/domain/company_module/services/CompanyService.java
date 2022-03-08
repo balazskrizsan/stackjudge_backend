@@ -26,12 +26,12 @@ import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.Paginat
 import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.exceptions.OpenSdkResponseException;
 import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.value_objects.OpenSdkStdResponse;
 import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.common.exceptions.ResponseException;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
@@ -249,20 +249,22 @@ public class CompanyService
                 {
                     try
                     {
-                        OpenSdkStdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService
-                            .execute(new PostUploadRequest(
-                                CdnNamespaceEnum.COMPANY_LOGOS.name(),
-                                "",
-                                String.valueOf(newId),
-                                "jpg",
-                                openSdkFileService.createByteArrayResourceEntityFromString(
-                                    companyLogo.getBytes(),
-                                    newId + "jpg"
-                                )
-                            ));
-                        updateLogoPath(newId, apiResponse.data().path());
+                        PostUploadRequest request = new PostUploadRequest(
+                            CdnNamespaceEnum.COMPANY_LOGOS.name(),
+                            "",
+                            String.valueOf(newId),
+                            "jpg",
+                            openSdkFileService.createByteArrayResourceEntityFromString(
+                                companyLogo.getBytes(),
+                                newId + "jpg"
+                            )
+                        );
+
+                        StdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService
+                            .execute(request);
+                        updateLogoPath(newId, apiResponse.data().getPath());
                     }
-                    catch (OpenSdkResponseException e)
+                    catch (ResponseException e)
                     {
                         log.error("Amazon S3 upload failed.", e);
                     }
