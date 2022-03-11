@@ -10,10 +10,6 @@ import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonSimpleEmailServiceFactory;
-import com.kbalazsworks.stackjudge.domain.aws_module.repositories.S3Repository;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
@@ -74,7 +70,6 @@ public class ServiceFactory
     private final JwtFactory                      jwtFactory;
     private final LocalDateTimeFactory            localDateTimeFactory;
     private final UrlFactory                      urlFactory;
-    private final AmazonSimpleEmailServiceFactory amazonSimpleEmailServiceFactory;
     private final PebbleTemplateFactory           pebbleTemplateFactory;
 
     private final AddressService                 addressService;
@@ -85,14 +80,12 @@ public class ServiceFactory
     private final JwtSubService                  jwtSubService;
     private final DateTimeFormatterService       dateTimeFormatterService;
     private final JooqService                    jooqService;
-    private final CdnService                     cdnService;
     private final AccountService                 accountService;
     private final MapsService                    mapsService;
     private final StaticProxyService             staticProxyService;
     private final GoogleStaticMapsCacheService   googleStaticMapsCacheService;
     private final MapMapperService               mapMapperService;
     private final ProtectedReviewLogService      protectedReviewLogService;
-    private final SesService                     sesService;
     private final PebbleTemplateService          pebbleTemplateService;
     private final PersistenceLogService          persistenceLogService;
     private final SecureRandomService            secureRandomService;
@@ -108,7 +101,6 @@ public class ServiceFactory
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
-    private final S3Repository                              s3Repository;
     private final AddressRepository                         addressRepository;
     private final UsersRepository                           usersRepository;
     private final CompanyOwnRequestRepository               companyOwnRequestRepository;
@@ -120,7 +112,7 @@ public class ServiceFactory
 
     public CompanyService getCompanyService()
     {
-        return getCompanyService(null, null, null, null, null, null, null, null, null, null, null, null);
+        return getCompanyService(null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public CompanyService getCompanyService(
@@ -129,7 +121,6 @@ public class ServiceFactory
         ReviewService reviewServiceReplacer,
         PaginatorService paginatorServiceReplacer,
         JooqService jooqServiceReplacer,
-        CdnService cdnServiceReplacer,
         AccountService accountServiceReplaces,
         MapsService mapsServiceReplacer,
         CompanyOwnersService companyOwnersServiceReplacer,
@@ -144,7 +135,6 @@ public class ServiceFactory
             Optional.ofNullable(reviewServiceReplacer).orElse(reviewService),
             Optional.ofNullable(paginatorServiceReplacer).orElse(paginatorService),
             Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
-            Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
             Optional.ofNullable(mapsServiceReplacer).orElse(mapsService),
             Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
@@ -245,26 +235,6 @@ public class ServiceFactory
         return new SearchService(Optional.ofNullable(groupServiceReplacer).orElse(groupService));
     }
 
-    public CdnService getCdnService()
-    {
-        return getCdnService(null, null, null, null);
-    }
-
-    public CdnService getCdnService(
-        ApplicationProperties applicationPropertiesReplacer,
-        LocalDateTimeFactory localDateTimeFactoryReplacer,
-        DateTimeFormatterService dateTimeFormatterServiceReplacer,
-        S3Repository s3RepositoryReplacer
-    )
-    {
-        return new CdnService(
-            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
-            Optional.ofNullable(localDateTimeFactoryReplacer).orElse(localDateTimeFactory),
-            Optional.ofNullable(dateTimeFormatterServiceReplacer).orElse(dateTimeFormatterService),
-            Optional.ofNullable(s3RepositoryReplacer).orElse(s3Repository)
-        );
-    }
-
     public StaticProxyService getStaticProxyService()
     {
         return getStaticProxyService(null);
@@ -279,12 +249,11 @@ public class ServiceFactory
 
     public MapsService getMapsService()
     {
-        return getMapsService(null, null, null, null, null, null);
+        return getMapsService(null, null, null, null, null);
     }
 
     public MapsService getMapsService(
         StateService stateServiceReplacer,
-        CdnService cdnServiceReplacer,
         StaticProxyService staticProxyServiceReplacer,
         GoogleStaticMapsCacheService staticMapsCacheServiceReplacer,
         MapMapperService mapMapperServiceReplacer,
@@ -293,7 +262,6 @@ public class ServiceFactory
     {
         return new MapsService(
             Optional.ofNullable(stateServiceReplacer).orElse(MockFactory.getTestStateMock()),
-            Optional.ofNullable(cdnServiceReplacer).orElse(cdnService),
             Optional.ofNullable(staticProxyServiceReplacer).orElse(staticProxyService),
             Optional.ofNullable(staticMapsCacheServiceReplacer).orElse(googleStaticMapsCacheService),
             Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService),
@@ -344,30 +312,16 @@ public class ServiceFactory
         return new HttpExceptionService();
     }
 
-    public SesService getSesService()
-    {
-        return getSesService(null);
-    }
-
-    public SesService getSesService(AmazonSimpleEmailServiceFactory amazonSimpleEmailServiceFactoryReplacer)
-    {
-        return new SesService(
-            Optional.ofNullable(amazonSimpleEmailServiceFactoryReplacer).orElse(amazonSimpleEmailServiceFactory)
-        );
-    }
-
     public CompanyOwnEmailService getCompanyOwnEmailService()
     {
-        return getCompanyOwnEmailService(null, null);
+        return getCompanyOwnEmailService(null);
     }
 
     public CompanyOwnEmailService getCompanyOwnEmailService(
-        SesService sesServiceReplacer,
         PebbleTemplateService pebbleTemplateServiceReplacer
     )
     {
         return new CompanyOwnEmailService(
-            Optional.ofNullable(sesServiceReplacer).orElse(sesService),
             Optional.ofNullable(pebbleTemplateServiceReplacer).orElse(pebbleTemplateService)
         );
     }

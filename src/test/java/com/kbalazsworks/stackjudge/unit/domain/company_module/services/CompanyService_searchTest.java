@@ -183,7 +183,6 @@ public class CompanyService_searchTest extends AbstractTest
                 reviewServiceMock,
                 PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
                 null,
-                null,
                 AccountServiceMocker.findByUserIdsWithIdMap_returns_mappedUsers(
                     List.of(UserFakeBuilder.defaultId1),
                     td.mockForUsers

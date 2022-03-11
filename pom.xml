@@ -184,12 +184,6 @@
             <artifactId>scribejava-apis</artifactId>
             <version>8.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk</artifactId>
-            <version>1.11.923</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -215,10 +209,22 @@
             <artifactId>guava</artifactId>
             <version>23.6-jre</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.13</version>
+        </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
-            <version>c32b3e2bc4a46d04f961c7b186eaaaf055456365</version>
+            <version>9eff3831dbf0fb5f44a27f5a7a6a2dc9ce9c8223</version>
         </dependency>
     </dependencies>
 

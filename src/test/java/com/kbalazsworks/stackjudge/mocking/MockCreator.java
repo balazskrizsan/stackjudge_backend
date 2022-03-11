@@ -1,16 +1,9 @@
 package com.kbalazsworks.stackjudge.mocking;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectResult;
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonS3ClientFactory;
-import com.kbalazsworks.stackjudge.domain.aws_module.factories.AmazonSimpleEmailServiceFactory;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
@@ -42,11 +35,6 @@ public class MockCreator
         return mock(ApplicationProperties.class);
     }
 
-    public static CdnService getCdnServiceMock()
-    {
-        return mock(CdnService.class);
-    }
-
     public static UrlFactory getUrlFactoryMock()
     {
         return mock(UrlFactory.class);
@@ -55,11 +43,6 @@ public class MockCreator
     public static StaticProxyService getStaticProxyServiceMock()
     {
         return mock(StaticProxyService.class);
-    }
-
-    public static PutObjectResult getPutObjectResultMock()
-    {
-        return mock(PutObjectResult.class);
     }
 
     public static CompanyRepository getCompanyRepositoryMock()
@@ -102,16 +85,6 @@ public class MockCreator
         return mock(JwtSubService.class);
     }
 
-    public static AmazonS3ClientFactory getAmazonS3ClientFactoryMock()
-    {
-        return mock(AmazonS3ClientFactory.class);
-    }
-
-    public static AmazonS3 getAmazonS3Mock()
-    {
-        return mock(AmazonS3.class);
-    }
-
     public static GroupService getGroupServiceMock()
     {
         return mock(GroupService.class);
@@ -127,24 +100,9 @@ public class MockCreator
         return mock(ProtectedReviewLogService.class);
     }
 
-    public static AmazonSimpleEmailServiceFactory getAmazonSimpleEmailServiceFactory()
-    {
-        return mock(AmazonSimpleEmailServiceFactory.class);
-    }
-
-    public static AmazonSimpleEmailService getAmazonSimpleEmailService()
-    {
-        return mock(AmazonSimpleEmailService.class);
-    }
-
     public static PebbleTemplateService getPebbleTemplateService()
     {
         return mock(PebbleTemplateService.class);
-    }
-
-    public static SesService getSesService()
-    {
-        return mock(SesService.class);
     }
 
     public static SecureRandomService getSecureRandomService()

@@ -82,7 +82,6 @@ public class MapsService_CompanyAddressesTest extends AbstractIntegrationTest
             null,
             null,
             null,
-            null,
             mapMapperService,
             null
         ));

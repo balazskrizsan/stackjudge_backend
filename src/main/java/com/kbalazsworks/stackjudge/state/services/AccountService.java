@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.state.services;
 
-import com.amazonaws.services.connect.model.UserNotFoundException;
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.state.entities.State;
@@ -10,6 +9,7 @@ import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class AccountService
             return user.get();
         }
 
-        throw new UserNotFoundException("User not found with id#" + id);
+        throw new UsernameNotFoundException("User not found with id#" + id);
     }
 
     public User findByFacebookId(long facebookId)

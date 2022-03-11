@@ -6,7 +6,6 @@ import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
@@ -58,7 +57,6 @@ public class CompanyService
     private final ReviewService        reviewService;
     private final PaginatorService     paginatorService;
     private final JooqService          jooqService;
-    private final CdnService           cdnService;
     private final AccountService       accountService;
     private final MapsService          mapsService;
     private final CompanyOwnersService companyOwnersService;

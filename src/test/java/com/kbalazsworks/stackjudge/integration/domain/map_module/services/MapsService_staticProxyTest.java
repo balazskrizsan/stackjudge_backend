@@ -8,7 +8,6 @@ import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticM
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.CdnServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.StaticProxyServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.UrlFactoryMocker;
 import lombok.SneakyThrows;
@@ -68,7 +67,6 @@ public class MapsService_staticProxyTest extends AbstractIntegrationTest
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
                 null,
-                null,
                 StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
                 null,
                 null,
@@ -111,7 +109,6 @@ public class MapsService_staticProxyTest extends AbstractIntegrationTest
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
                 null,
-                CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
                 StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
                 null,
                 null,
@@ -153,7 +150,6 @@ public class MapsService_staticProxyTest extends AbstractIntegrationTest
         // Act
         StaticMapResponse actual = serviceFactory.getMapsService(
                 null,
-                CdnServiceMocker.put_returns_CdnServicePutResponse(STATIC_MAPS, fakeUrlHash, "jpg", ""),
                 StaticProxyServiceMocker.generateMapUrl_returns_GoogleMapsUrlWithHash(testedMap, testedMapMarker),
                 null,
                 null,

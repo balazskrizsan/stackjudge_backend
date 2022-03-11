@@ -4,7 +4,6 @@ import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRedisRepository;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
 import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
@@ -16,9 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AspectAssignTest extends AbstractTest
 {
-    @Autowired
-    private CdnService cdnService;
-
     @Autowired
     private AddressRepository addressRepository;
 
@@ -44,7 +40,6 @@ public class AspectAssignTest extends AbstractTest
         // Act
         // @todo3: looks like we have some false positive testcases, only cdnService false without matching aspect
         boolean[] actualProxyStatuses = {
-            AopUtils.isAopProxy(cdnService),
             AopUtils.isAopProxy(addressRepository),
             AopUtils.isAopProxy(addressRedisRepository),
             AopUtils.isAopProxy(addressService)

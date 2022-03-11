@@ -2,15 +2,12 @@ package com.kbalazsworks.stackjudge.domain.map_module.services;
 
 import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
 import com.kbalazsworks.stackjudge.domain.map_module.entities.GoogleStaticMapsCache;
-import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.map_module.enums.MapSizeEnum;
-import com.kbalazsworks.stackjudge.domain.aws_module.exceptions.ContentReadException;
+import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.domain.aws_module.services.CdnService;
 import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
-import com.kbalazsworks.stackjudge.domain.aws_module.value_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleMapsUrlWithHash;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
@@ -18,6 +15,7 @@ import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResp
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +32,6 @@ import java.util.Map;
 public class MapsService
 {
     private final StateService                 stateService;
-    private final CdnService                   cdnService;
     private final StaticProxyService           staticProxyService;
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
@@ -46,7 +43,7 @@ public class MapsService
         return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT);
     }
 
-    public StaticMapResponse staticProxy(
+    @SneakyThrows public StaticMapResponse staticProxy(
         GoogleStaticMap googleStaticMap,
         List<GoogleStaticMapMarker> markers,
         MapPositionEnum mapPositionEnum
@@ -67,15 +64,16 @@ public class MapsService
 
         URL image = urlFactory.create(mapWithHash.url());
 
-        CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
-
-        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
-            hash,
-            s3Response.path(),
-            stateService.getState().now()
-        ));
-
-        return new StaticMapResponse(s3Response.path(), mapPositionEnum);
+        throw new Exception("Implement api call.");
+//        CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
+//
+//        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
+//            hash,
+//            s3Response.path(),
+//            stateService.getState().now()
+//        ));
+//
+//        return new StaticMapResponse(s3Response.path(), mapPositionEnum);
     }
 
     public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(

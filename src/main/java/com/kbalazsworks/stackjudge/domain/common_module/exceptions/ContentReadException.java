@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.domain.aws_module.exceptions;
+package com.kbalazsworks.stackjudge.domain.common_module.exceptions;
 
 public class ContentReadException extends Exception
 {

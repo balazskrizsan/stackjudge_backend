@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.domain.email_module.services;
 
-import com.kbalazsworks.stackjudge.domain.aws_module.services.SesService;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.PebbleException;
 import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
 import lombok.NonNull;
@@ -16,7 +15,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CompanyOwnEmailService
 {
-    private final SesService            sesService;
     private final PebbleTemplateService pebbleTemplateService;
 
     private final static String SUBJECT = "StackJudge - Company Own Request";
@@ -36,6 +34,6 @@ public class CompanyOwnEmailService
         String companyOwnHtml = pebbleTemplateService.render("mail/company_own.html", context);
         String companyOwnText = pebbleTemplateService.render("mail/company_own.txt", context);
 
-        sesService.sendMail(toAddress, SUBJECT, companyOwnHtml, companyOwnText);
+//        sesService.sendMail(toAddress, SUBJECT, companyOwnHtml, companyOwnText);
     }
 }

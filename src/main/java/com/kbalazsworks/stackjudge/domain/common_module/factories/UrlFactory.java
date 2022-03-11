@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.domain.common_module.factories;
 
-import com.kbalazsworks.stackjudge.domain.aws_module.exceptions.ContentReadException;
+import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ContentReadException;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
