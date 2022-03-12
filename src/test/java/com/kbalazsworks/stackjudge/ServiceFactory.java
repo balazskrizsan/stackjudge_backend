@@ -45,8 +45,8 @@ import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspe
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
@@ -64,13 +64,13 @@ import static org.mockito.Mockito.when;
 @RequiredArgsConstructor
 public class ServiceFactory
 {
-    private final ApplicationProperties           applicationProperties;
-    private final DateFactory                     dateFactory;
-    private final SystemFactory                   systemFactory;
-    private final JwtFactory                      jwtFactory;
-    private final LocalDateTimeFactory            localDateTimeFactory;
-    private final UrlFactory                      urlFactory;
-    private final PebbleTemplateFactory           pebbleTemplateFactory;
+    private final ApplicationProperties applicationProperties;
+    private final DateFactory           dateFactory;
+    private final SystemFactory         systemFactory;
+    private final JwtFactory            jwtFactory;
+    private final LocalDateTimeFactory  localDateTimeFactory;
+    private final UrlFactory            urlFactory;
+    private final PebbleTemplateFactory pebbleTemplateFactory;
 
     private final AddressService                 addressService;
     private final SearchService                  searchService;
@@ -249,7 +249,7 @@ public class ServiceFactory
 
     public MapsService getMapsService()
     {
-        return getMapsService(null, null, null, null, null);
+        return getMapsService(null, null, null, null, null, null, null);
     }
 
     public MapsService getMapsService(
@@ -257,6 +257,8 @@ public class ServiceFactory
         StaticProxyService staticProxyServiceReplacer,
         GoogleStaticMapsCacheService staticMapsCacheServiceReplacer,
         MapMapperService mapMapperServiceReplacer,
+        OpenSdkFileService openSdkFileServiceReplacer,
+        S3UploadApiService s3UploadApiServiceReplacer,
         UrlFactory urlFactoryReplacer
     )
     {
@@ -265,6 +267,8 @@ public class ServiceFactory
             Optional.ofNullable(staticProxyServiceReplacer).orElse(staticProxyService),
             Optional.ofNullable(staticMapsCacheServiceReplacer).orElse(googleStaticMapsCacheService),
             Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService),
+            Optional.ofNullable(openSdkFileServiceReplacer).orElse(openSdkFileService),
+            Optional.ofNullable(s3UploadApiServiceReplacer).orElse(s3UploadApiService),
             Optional.ofNullable(urlFactoryReplacer).orElse(urlFactory)
         );
     }

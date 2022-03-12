@@ -1,24 +1,31 @@
 package com.kbalazsworks.stackjudge.domain.map_module.services;
 
 import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
-import com.kbalazsworks.stackjudge.domain.map_module.entities.GoogleStaticMapsCache;
-import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.map_module.enums.MapSizeEnum;
+import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ContentReadException;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
+import com.kbalazsworks.stackjudge.domain.map_module.entities.GoogleStaticMapsCache;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapSizeEnum;
 import com.kbalazsworks.stackjudge.domain.map_module.services.maps_service.StaticProxyService;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleMapsUrlWithHash;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
+import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -35,10 +42,12 @@ public class MapsService
     private final StaticProxyService           staticProxyService;
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
+    private final OpenSdkFileService           openSdkFileService;
+    private final S3UploadApiService           s3UploadApiService;
     private final UrlFactory                   urlFactory;
 
     public StaticMapResponse staticProxy(GoogleStaticMap googleStaticMap, List<GoogleStaticMapMarker> markers)
-        throws ContentReadException
+    throws ContentReadException
     {
         return staticProxy(googleStaticMap, markers, MapPositionEnum.DEFAULT);
     }
@@ -64,16 +73,25 @@ public class MapsService
 
         URL image = urlFactory.create(mapWithHash.url());
 
-        throw new Exception("Implement api call.");
-//        CdnServicePutResponse s3Response = cdnService.put(CdnNamespaceEnum.STATIC_MAPS, hash, "jpg", image);
-//
-//        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
-//            hash,
-//            s3Response.path(),
-//            stateService.getState().now()
-//        ));
-//
-//        return new StaticMapResponse(s3Response.path(), mapPositionEnum);
+        StdResponse<CdnServicePutResponse> s3Response = s3UploadApiService
+            .execute(new PostUploadRequest(
+                CdnNamespaceEnum.STATIC_MAPS.name(),
+                "",
+                hash,
+                "jpg",
+                openSdkFileService.createByteArrayResourceEntityFromString(
+                    image.toString().getBytes(),
+                    hash + ".jpg"
+                )
+            ));
+
+        googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
+            hash,
+            s3Response.data().getPath(),
+            stateService.getState().now()
+        ));
+
+        return new StaticMapResponse(s3Response.data().getPath(), mapPositionEnum);
     }
 
     public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(

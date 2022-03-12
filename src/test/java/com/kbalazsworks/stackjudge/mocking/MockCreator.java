@@ -22,6 +22,7 @@ import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReview
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -153,5 +154,10 @@ public class MockCreator
     public static CrudNotificationService getCrudNotificationService()
     {
         return mock(CrudNotificationService.class);
+    }
+
+    public static S3UploadApiService getS3UploadApiService()
+    {
+        return mock(S3UploadApiService.class);
     }
 }

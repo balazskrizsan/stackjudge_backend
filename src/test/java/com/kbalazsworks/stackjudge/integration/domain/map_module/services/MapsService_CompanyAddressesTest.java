@@ -83,6 +83,8 @@ public class MapsService_CompanyAddressesTest extends AbstractIntegrationTest
             null,
             null,
             mapMapperService,
+            null,
+            null,
             null
         ));
         doReturn(new StaticMapResponse("test/location1", MapPositionEnum.COMPANY_HEADER))
