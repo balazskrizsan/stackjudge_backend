@@ -254,7 +254,7 @@ public class CompanyService
                             "jpg",
                             openSdkFileService.createByteArrayResourceEntityFromString(
                                 companyLogo.getBytes(),
-                                newId + "jpg"
+                                newId + ".jpg"
                             )
                         );
 
