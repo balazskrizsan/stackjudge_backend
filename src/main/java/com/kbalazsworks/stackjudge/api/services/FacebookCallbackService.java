@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 public class FacebookCallbackService
 {
     private final AccountService              accountService;
-    private final GetJwtLoginUrlService       getJwtLoginUrlService;
+    private final GetJwtLoginUrlService       jwtLoginUrlService;
+    private final JwtService                  jwtService;
     private final RegistrationStateService    registrationStateService;
     private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
     private final JooqService                 jooqService;
@@ -38,7 +39,7 @@ public class FacebookCallbackService
         {
             log.error("Facebook authentication error with state: " + state);
 
-            return getJwtLoginUrlService.generateLoginErrorUrl();
+            return jwtLoginUrlService.generateLoginErrorUrl();
         }
 
         try
@@ -51,21 +52,21 @@ public class FacebookCallbackService
         {
             log.error("Facebook authentication error with state: " + e.getMessage(), e);
 
-            return getJwtLoginUrlService.generateLoginErrorUrl();
+            return jwtLoginUrlService.generateLoginErrorUrl();
         }
     }
 
     private String runTransaction(String code) throws Exception
     {
         OAuth20Service    service     = oAuthFacebookServiceBuilder.create();
-        OAuth2AccessToken accessToken = getJwtLoginUrlService.getAccessToken(service, code);
+        OAuth2AccessToken accessToken = jwtLoginUrlService.getAccessToken(service, code);
 
         OAuthRequest request = new OAuthRequest(Verb.GET, FACEBOOK_GRAPH_API);
         request.addParameter("fields", "id,name,picture");
         service.signRequest(accessToken, request);
 
-        Response     response     = getJwtLoginUrlService.getFacebookResponse(service, request);
-        FacebookUser facebookUser = getJwtLoginUrlService.getFacebookUser(response);
+        Response     response     = jwtLoginUrlService.getFacebookResponse(service, request);
+        FacebookUser facebookUser = jwtLoginUrlService.getFacebookUser(response);
 
         User user = accountService.findByFacebookId(facebookUser.getId());
         log.info("Login callback: FacebookId: {}", facebookUser.getId());
@@ -74,7 +75,8 @@ public class FacebookCallbackService
             log.info("Login callback: login with UserId: {}", user.getId());
             accountService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
-            return getJwtLoginUrlService.generateLoginUrl(user);
+            System.out.println(user);
+            return jwtLoginUrlService.generateLoginUrl(user);
         }
         log.info("Login callback: create new user with Facebook");
 
@@ -88,9 +90,10 @@ public class FacebookCallbackService
             accessToken.getAccessToken(),
             facebookUser.getId()
         ));
+        System.out.println(user);
 
         log.info("User created {}", user.getId());
 
-        return getJwtLoginUrlService.generateLoginUrl(user);
+        return jwtLoginUrlService.generateLoginUrl(user);
     }
 }
