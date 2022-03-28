@@ -26,9 +26,9 @@ public class AccountService
     private final UserJooqRepository        userJooqRepository;
     private final ProtectedReviewLogService protectedReviewLogService;
 
-    public @NonNull User create(User user)
+    public User create(User user) throws Exception
     {
-        return usersRepository.save(user);
+        return userJooqRepository.create(user);
     }
 
     public @NonNull List<User> findByIds(List<Long> ids)
