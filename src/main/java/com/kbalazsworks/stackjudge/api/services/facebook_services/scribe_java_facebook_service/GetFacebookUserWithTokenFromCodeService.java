@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.services.facebook_callback_service;
+package com.kbalazsworks.stackjudge.api.services.facebook_services.scribe_java_facebook_service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -10,7 +10,6 @@ import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.state.entities.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class GetJwtLoginUrlService
+public class GetFacebookUserWithTokenFromCodeService
 {
     private final ApplicationProperties applicationProperties;
     private final JwtService            jwtService;
@@ -77,17 +76,5 @@ public class GetJwtLoginUrlService
         }
 
         throw new AuthException();
-    }
-
-    public String generateLoginUrl(@NonNull User user) throws Exception
-    {
-        return applicationProperties.getSiteFrontendHost() + "/"
-            + frontendUriService.getAccountLoginJwtUrl(jwtService.generateAccessToken(user));
-    }
-
-    public String generateLoginErrorUrl()
-    {
-        return applicationProperties.getSiteFrontendHost() + "/"
-            + frontendUriService.getAccountLoginErrorUrl();
     }
 }

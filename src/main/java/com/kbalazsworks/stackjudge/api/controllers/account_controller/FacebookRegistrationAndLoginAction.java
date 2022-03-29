@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.controllers.account_controller;
 
-import com.kbalazsworks.stackjudge.api.services.FacebookService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +17,6 @@ public class FacebookRegistrationAndLoginAction
     @GetMapping("/facebook/registration-and-login")
     public RedirectView action() throws Exception
     {
-        return new RedirectView(facebookService.registrationAndLogin());
+        return new RedirectView(facebookService.redirectToRegistrationAndLogin());
     }
 }

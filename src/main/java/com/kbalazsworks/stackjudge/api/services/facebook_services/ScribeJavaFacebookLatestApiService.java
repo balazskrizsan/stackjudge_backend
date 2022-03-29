@@ -1,4 +1,4 @@
-package com.kbalazsworks.stackjudge.api.services;
+package com.kbalazsworks.stackjudge.api.services.facebook_services;
 
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
@@ -9,16 +9,15 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
-import com.kbalazsworks.stackjudge.api.services.facebook_service.FacebookLatestApiSignService;
 
 import java.io.OutputStream;
 
-public class FacebookLatestApiService extends DefaultApi20
+public class ScribeJavaFacebookLatestApiService extends DefaultApi20
 {
-    private final        String                   latestVersion = "10.0";
-    private static final FacebookLatestApiService INSTANCE      = new FacebookLatestApiService();
+    private final        String                             latestVersion = "10.0";
+    private static final ScribeJavaFacebookLatestApiService INSTANCE      = new ScribeJavaFacebookLatestApiService();
 
-    public static FacebookLatestApiService instance()
+    public static ScribeJavaFacebookLatestApiService instance()
     {
         return INSTANCE;
     }
@@ -60,7 +59,7 @@ public class FacebookLatestApiService extends DefaultApi20
     }
 
     @Override
-    public FacebookLatestApiSignService createService(
+    public ScribeJavaFacebookLatestApiSignService createService(
         String apiKey,
         String apiSecret,
         String callback,
@@ -72,7 +71,7 @@ public class FacebookLatestApiService extends DefaultApi20
         HttpClient httpClient
     )
     {
-        return new FacebookLatestApiSignService(
+        return new ScribeJavaFacebookLatestApiSignService(
             this,
             apiKey,
             apiSecret,

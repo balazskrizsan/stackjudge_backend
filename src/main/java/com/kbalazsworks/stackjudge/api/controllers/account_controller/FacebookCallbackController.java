@@ -1,6 +1,6 @@
 package com.kbalazsworks.stackjudge.api.controllers.account_controller;
 
-import com.kbalazsworks.stackjudge.api.services.FacebookCallbackService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class FacebookCallbackController
 {
-    private final FacebookCallbackService facebookCallbackService;
+    private final FacebookService facebookService;
 
     @GetMapping("/facebook-callback")
     public RedirectView facebookCallback(
@@ -21,6 +21,6 @@ public class FacebookCallbackController
         @RequestParam("state") String state
     )
     {
-        return new RedirectView(facebookCallbackService.getJwtLoginUrl(code, state));
+        return new RedirectView(facebookService.registerAndLoginAndRedirect(code, state));
     }
 }
