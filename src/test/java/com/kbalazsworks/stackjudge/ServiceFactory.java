@@ -1,10 +1,13 @@
 package com.kbalazsworks.stackjudge;
 
+import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -64,13 +67,14 @@ import static org.mockito.Mockito.when;
 @RequiredArgsConstructor
 public class ServiceFactory
 {
-    private final ApplicationProperties applicationProperties;
-    private final DateFactory           dateFactory;
-    private final SystemFactory         systemFactory;
-    private final JwtFactory            jwtFactory;
-    private final LocalDateTimeFactory  localDateTimeFactory;
-    private final UrlFactory            urlFactory;
-    private final PebbleTemplateFactory pebbleTemplateFactory;
+    private final ApplicationProperties       applicationProperties;
+    private final DateFactory                 dateFactory;
+    private final SystemFactory               systemFactory;
+    private final JwtFactory                  jwtFactory;
+    private final LocalDateTimeFactory        localDateTimeFactory;
+    private final UrlFactory                  urlFactory;
+    private final PebbleTemplateFactory       pebbleTemplateFactory;
+    private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
 
     private final AddressService                 addressService;
     private final SearchService                  searchService;
@@ -98,6 +102,8 @@ public class ServiceFactory
     private final CrudNotificationService        crudNotificationService;
     private final S3UploadApiService             s3UploadApiService;
     private final OpenSdkFileService             openSdkFileService;
+    private final RegistrationStateService       registrationStateService;
+    private final RegistrationAndLoginService    registrationAndLoginService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -427,6 +433,28 @@ public class ServiceFactory
         return new ProtectedReviewLogService(
             Optional.ofNullable(protectedReviewLogRepositoryReplacer).orElse(protectedReviewLogRepository),
             Optional.ofNullable(crudNotificationServiceReplacer).orElse(crudNotificationService)
+        );
+    }
+
+    public FacebookService getFacebookService()
+    {
+        return getFacebookService(null, null, null, null, null);
+    }
+
+    public FacebookService getFacebookService(
+        SecureRandomService secureRandomServiceReplacer,
+        RegistrationStateService registrationStateServiceReplacer,
+        OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderReplacer,
+        RegistrationAndLoginService registrationAndLoginServiceReplacer,
+        JooqService jooqServiceReplacer
+    )
+    {
+        return new FacebookService(
+            Optional.ofNullable(secureRandomServiceReplacer).orElse(secureRandomService),
+            Optional.ofNullable(registrationStateServiceReplacer).orElse(registrationStateService),
+            Optional.ofNullable(oAuthFacebookServiceBuilderReplacer).orElse(oAuthFacebookServiceBuilder),
+            Optional.ofNullable(registrationAndLoginServiceReplacer).orElse(registrationAndLoginService),
+            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService)
         );
     }
 }

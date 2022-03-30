@@ -1,5 +1,8 @@
 package com.kbalazsworks.stackjudge.mocking;
 
+import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
+import com.github.scribejava.core.oauth.OAuth20Service;
+import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -159,5 +162,20 @@ public class MockCreator
     public static S3UploadApiService getS3UploadApiService()
     {
         return mock(S3UploadApiService.class);
+    }
+
+    public static AuthorizationUrlBuilder getAuthorizationUrlBuilderMock()
+    {
+        return mock(AuthorizationUrlBuilder.class);
+    }
+
+    public static OAuth20Service getOAuth20ServiceMock()
+    {
+        return mock(OAuth20Service.class);
+    }
+
+    public static OAuthFacebookServiceBuilder getOAuthFacebookServiceBuilder()
+    {
+        return mock(OAuthFacebookServiceBuilder.class);
     }
 }

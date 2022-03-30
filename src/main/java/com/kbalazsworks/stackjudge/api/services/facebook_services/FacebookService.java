@@ -21,7 +21,6 @@ public class FacebookService
     private final RegistrationAndLoginService registrationAndLoginService;
     private final JooqService                 jooqService;
 
-    // @todo: test
     public String redirectToRegistrationAndLogin()
     {
         log.info("Login started");
