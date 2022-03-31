@@ -20,9 +20,9 @@ public class RegistrationAndLoginService
 {
     private final AccountService            accountService;
     private final ScribeJavaFacebookService scribeJavaFacebookService;
-    private final ApplicationProperties     applicationProperties;
     private final JwtService                jwtService;
     private final FrontendUriService        frontendUriService;
+    private final ApplicationProperties     applicationProperties;
 
     // @todo: test
     public String generateLoginUrl(@NonNull User user) throws Exception

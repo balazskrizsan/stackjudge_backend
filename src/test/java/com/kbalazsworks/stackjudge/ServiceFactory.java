@@ -4,10 +4,12 @@ import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
 import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
+import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.ScribeJavaFacebookService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -104,6 +106,9 @@ public class ServiceFactory
     private final OpenSdkFileService             openSdkFileService;
     private final RegistrationStateService       registrationStateService;
     private final RegistrationAndLoginService    registrationAndLoginService;
+    private final ScribeJavaFacebookService      scribeJavaFacebookService;
+    private final JwtService                     jwtService;
+    private final FrontendUriService             frontendUriService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -122,31 +127,31 @@ public class ServiceFactory
     }
 
     public CompanyService getCompanyService(
-        AddressService addressServiceReplacer,
-        SearchService searchServiceReplacer,
-        ReviewService reviewServiceReplacer,
-        PaginatorService paginatorServiceReplacer,
-        JooqService jooqServiceReplacer,
+        AddressService addressServiceMock,
+        SearchService searchServiceMock,
+        ReviewService reviewServiceMock,
+        PaginatorService paginatorServiceMock,
+        JooqService jooqServiceMock,
         AccountService accountServiceReplaces,
-        MapsService mapsServiceReplacer,
-        CompanyOwnersService companyOwnersServiceReplacer,
-        S3UploadApiService s3UploadApiServiceReplacer,
-        OpenSdkFileService openSdkFileServiceReplacer,
-        CompanyRepository companyRepositoryReplacer
+        MapsService mapsServiceMock,
+        CompanyOwnersService companyOwnersServiceMock,
+        S3UploadApiService s3UploadApiServiceMock,
+        OpenSdkFileService openSdkFileServiceMock,
+        CompanyRepository companyRepositoryMock
     )
     {
         return new CompanyService(
-            Optional.ofNullable(addressServiceReplacer).orElse(addressService),
-            Optional.ofNullable(searchServiceReplacer).orElse(searchService),
-            Optional.ofNullable(reviewServiceReplacer).orElse(reviewService),
-            Optional.ofNullable(paginatorServiceReplacer).orElse(paginatorService),
-            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
+            Optional.ofNullable(addressServiceMock).orElse(addressService),
+            Optional.ofNullable(searchServiceMock).orElse(searchService),
+            Optional.ofNullable(reviewServiceMock).orElse(reviewService),
+            Optional.ofNullable(paginatorServiceMock).orElse(paginatorService),
+            Optional.ofNullable(jooqServiceMock).orElse(jooqService),
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
-            Optional.ofNullable(mapsServiceReplacer).orElse(mapsService),
-            Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
-            Optional.ofNullable(s3UploadApiServiceReplacer).orElse(s3UploadApiService),
-            Optional.ofNullable(openSdkFileServiceReplacer).orElse(openSdkFileService),
-            Optional.ofNullable(companyRepositoryReplacer).orElse(companyRepository)
+            Optional.ofNullable(mapsServiceMock).orElse(mapsService),
+            Optional.ofNullable(companyOwnersServiceMock).orElse(companyOwnersService),
+            Optional.ofNullable(s3UploadApiServiceMock).orElse(s3UploadApiService),
+            Optional.ofNullable(openSdkFileServiceMock).orElse(openSdkFileService),
+            Optional.ofNullable(companyRepositoryMock).orElse(companyRepository)
         );
     }
 
@@ -156,17 +161,17 @@ public class ServiceFactory
     }
 
     public JwtService getJwtService(
-        ApplicationProperties applicationPropertiesReplacer,
-        DateFactory dateFactoryReplacer,
-        SystemFactory systemFactoryReplacer,
-        JwtSubService jwtSubServiceReplacer
+        ApplicationProperties applicationPropertiesMock,
+        DateFactory dateFactoryMock,
+        SystemFactory systemFactoryMock,
+        JwtSubService jwtSubServiceMock
     )
     {
         return new JwtService(
-            Optional.ofNullable(applicationPropertiesReplacer).orElse(ApplicationPropertiesMocker.getDefaultMock()),
-            Optional.ofNullable(dateFactoryReplacer).orElse(dateFactory),
-            Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory),
-            Optional.ofNullable(jwtSubServiceReplacer).orElse(jwtSubService)
+            Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock()),
+            Optional.ofNullable(dateFactoryMock).orElse(dateFactory),
+            Optional.ofNullable(systemFactoryMock).orElse(systemFactory),
+            Optional.ofNullable(jwtSubServiceMock).orElse(jwtSubService)
         );
     }
 
@@ -201,13 +206,13 @@ public class ServiceFactory
     }
 
     public JwtSubService getJwtSubService(
-        ApplicationProperties applicationPropertiesReplacer,
-        JwtFactory jwtFactoryReplacer
+        ApplicationProperties applicationPropertiesMock,
+        JwtFactory jwtFactoryMock
     )
     {
         return new JwtSubService(
-            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties),
-            Optional.ofNullable(jwtFactoryReplacer).orElse(jwtFactory)
+            Optional.ofNullable(applicationPropertiesMock).orElse(applicationProperties),
+            Optional.ofNullable(jwtFactoryMock).orElse(jwtFactory)
         );
     }
 
@@ -216,9 +221,9 @@ public class ServiceFactory
         return getReviewService(null);
     }
 
-    public ReviewService getReviewService(ReviewRepository reviewRepositoryReplacer)
+    public ReviewService getReviewService(ReviewRepository reviewRepositoryMock)
     {
-        return new ReviewService(Optional.ofNullable(reviewRepositoryReplacer).orElse(reviewRepository));
+        return new ReviewService(Optional.ofNullable(reviewRepositoryMock).orElse(reviewRepository));
     }
 
     public GroupService getGroupService()
@@ -226,9 +231,9 @@ public class ServiceFactory
         return getGroupService(null);
     }
 
-    public GroupService getGroupService(GroupRepository groupRepositoryReplacer)
+    public GroupService getGroupService(GroupRepository groupRepositoryMock)
     {
-        return new GroupService(Optional.ofNullable(groupRepositoryReplacer).orElse(groupRepository));
+        return new GroupService(Optional.ofNullable(groupRepositoryMock).orElse(groupRepository));
     }
 
     public SearchService getSearchService()
@@ -236,9 +241,9 @@ public class ServiceFactory
         return getSearchService(null);
     }
 
-    public SearchService getSearchService(GroupService groupServiceReplacer)
+    public SearchService getSearchService(GroupService groupServiceMock)
     {
-        return new SearchService(Optional.ofNullable(groupServiceReplacer).orElse(groupService));
+        return new SearchService(Optional.ofNullable(groupServiceMock).orElse(groupService));
     }
 
     public StaticProxyService getStaticProxyService()
@@ -246,10 +251,10 @@ public class ServiceFactory
         return getStaticProxyService(null);
     }
 
-    public StaticProxyService getStaticProxyService(ApplicationProperties applicationPropertiesReplacer)
+    public StaticProxyService getStaticProxyService(ApplicationProperties applicationPropertiesMock)
     {
         return new StaticProxyService(
-            Optional.ofNullable(applicationPropertiesReplacer).orElse(applicationProperties)
+            Optional.ofNullable(applicationPropertiesMock).orElse(applicationProperties)
         );
     }
 
@@ -259,23 +264,23 @@ public class ServiceFactory
     }
 
     public MapsService getMapsService(
-        StateService stateServiceReplacer,
-        StaticProxyService staticProxyServiceReplacer,
-        GoogleStaticMapsCacheService staticMapsCacheServiceReplacer,
-        MapMapperService mapMapperServiceReplacer,
-        OpenSdkFileService openSdkFileServiceReplacer,
-        S3UploadApiService s3UploadApiServiceReplacer,
-        UrlFactory urlFactoryReplacer
+        StateService stateServiceMock,
+        StaticProxyService staticProxyServiceMock,
+        GoogleStaticMapsCacheService staticMapsCacheServiceMock,
+        MapMapperService mapMapperServiceMock,
+        OpenSdkFileService openSdkFileServiceMock,
+        S3UploadApiService s3UploadApiServiceMock,
+        UrlFactory urlFactoryMock
     )
     {
         return new MapsService(
-            Optional.ofNullable(stateServiceReplacer).orElse(MockFactory.getTestStateMock()),
-            Optional.ofNullable(staticProxyServiceReplacer).orElse(staticProxyService),
-            Optional.ofNullable(staticMapsCacheServiceReplacer).orElse(googleStaticMapsCacheService),
-            Optional.ofNullable(mapMapperServiceReplacer).orElse(mapMapperService),
-            Optional.ofNullable(openSdkFileServiceReplacer).orElse(openSdkFileService),
-            Optional.ofNullable(s3UploadApiServiceReplacer).orElse(s3UploadApiService),
-            Optional.ofNullable(urlFactoryReplacer).orElse(urlFactory)
+            Optional.ofNullable(stateServiceMock).orElse(MockFactory.getTestStateMock()),
+            Optional.ofNullable(staticProxyServiceMock).orElse(staticProxyService),
+            Optional.ofNullable(staticMapsCacheServiceMock).orElse(googleStaticMapsCacheService),
+            Optional.ofNullable(mapMapperServiceMock).orElse(mapMapperService),
+            Optional.ofNullable(openSdkFileServiceMock).orElse(openSdkFileService),
+            Optional.ofNullable(s3UploadApiServiceMock).orElse(s3UploadApiService),
+            Optional.ofNullable(urlFactoryMock).orElse(urlFactory)
         );
     }
 
@@ -305,15 +310,15 @@ public class ServiceFactory
     }
 
     public AccountService getAccountService(
-        UsersRepository usersRepositoryReplacer,
+        UsersRepository usersRepositoryMock,
         UserJooqRepository userJooqRepositoryReplaced,
-        ProtectedReviewLogService protectedReviewLogServiceReplacer
+        ProtectedReviewLogService protectedReviewLogServiceMock
     )
     {
         return new AccountService(
-            Optional.ofNullable(usersRepositoryReplacer).orElse(usersRepository),
+            Optional.ofNullable(usersRepositoryMock).orElse(usersRepository),
             Optional.ofNullable(userJooqRepositoryReplaced).orElse(userJooqRepository),
-            Optional.ofNullable(protectedReviewLogServiceReplacer).orElse(protectedReviewLogService)
+            Optional.ofNullable(protectedReviewLogServiceMock).orElse(protectedReviewLogService)
         );
     }
 
@@ -328,11 +333,11 @@ public class ServiceFactory
     }
 
     public CompanyOwnEmailService getCompanyOwnEmailService(
-        PebbleTemplateService pebbleTemplateServiceReplacer
+        PebbleTemplateService pebbleTemplateServiceMock
     )
     {
         return new CompanyOwnEmailService(
-            Optional.ofNullable(pebbleTemplateServiceReplacer).orElse(pebbleTemplateService)
+            Optional.ofNullable(pebbleTemplateServiceMock).orElse(pebbleTemplateService)
         );
     }
 
@@ -342,27 +347,27 @@ public class ServiceFactory
     }
 
     public OwnRequestService getOwnRequestService(
-        PersistenceLogService persistenceLogServiceReplacer,
-        SecureRandomService secureRandomServiceReplacer,
-        CompanyOwnEmailService companyOwnEmailServiceReplacer,
-        CompanyOwnersService companyOwnersServiceReplacer,
-        CompanyService companyServiceReplacer,
-        UrlService urlServiceReplacer,
-        HttpExceptionService httpExceptionServiceReplacer,
-        JooqService jooqServiceReplacer,
-        CompanyOwnRequestRepository companyOwnRequestRepositoryReplacer
+        PersistenceLogService persistenceLogServiceMock,
+        SecureRandomService secureRandomServiceMock,
+        CompanyOwnEmailService companyOwnEmailServiceMock,
+        CompanyOwnersService companyOwnersServiceMock,
+        CompanyService companyServiceMock,
+        UrlService urlServiceMock,
+        HttpExceptionService httpExceptionServiceMock,
+        JooqService jooqServiceMock,
+        CompanyOwnRequestRepository companyOwnRequestRepositoryMock
     )
     {
         return new OwnRequestService(
-            Optional.ofNullable(persistenceLogServiceReplacer).orElse(persistenceLogService),
-            Optional.ofNullable(secureRandomServiceReplacer).orElse(secureRandomService),
-            Optional.ofNullable(companyOwnEmailServiceReplacer).orElse(companyOwnEmailService),
-            Optional.ofNullable(companyOwnersServiceReplacer).orElse(companyOwnersService),
-            Optional.ofNullable(companyServiceReplacer).orElse(companyService),
-            Optional.ofNullable(urlServiceReplacer).orElse(urlService),
-            Optional.ofNullable(httpExceptionServiceReplacer).orElse(httpExceptionService),
-            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService),
-            Optional.ofNullable(companyOwnRequestRepositoryReplacer).orElse(companyOwnRequestRepository)
+            Optional.ofNullable(persistenceLogServiceMock).orElse(persistenceLogService),
+            Optional.ofNullable(secureRandomServiceMock).orElse(secureRandomService),
+            Optional.ofNullable(companyOwnEmailServiceMock).orElse(companyOwnEmailService),
+            Optional.ofNullable(companyOwnersServiceMock).orElse(companyOwnersService),
+            Optional.ofNullable(companyServiceMock).orElse(companyService),
+            Optional.ofNullable(urlServiceMock).orElse(urlService),
+            Optional.ofNullable(httpExceptionServiceMock).orElse(httpExceptionService),
+            Optional.ofNullable(jooqServiceMock).orElse(jooqService),
+            Optional.ofNullable(companyOwnRequestRepositoryMock).orElse(companyOwnRequestRepository)
         );
     }
 
@@ -371,10 +376,10 @@ public class ServiceFactory
         return getPebbleTemplateService(null);
     }
 
-    public PebbleTemplateService getPebbleTemplateService(PebbleTemplateFactory pebbleTemplateFactoryReplacer)
+    public PebbleTemplateService getPebbleTemplateService(PebbleTemplateFactory pebbleTemplateFactoryMock)
     {
         return new PebbleTemplateService(
-            Optional.ofNullable(pebbleTemplateFactoryReplacer).orElse(pebbleTemplateFactory)
+            Optional.ofNullable(pebbleTemplateFactoryMock).orElse(pebbleTemplateFactory)
         );
     }
 
@@ -383,10 +388,10 @@ public class ServiceFactory
         return getSlowServiceLoggerAspectService(null);
     }
 
-    public SlowServiceLoggerAspectService getSlowServiceLoggerAspectService(SystemFactory systemFactoryReplacer)
+    public SlowServiceLoggerAspectService getSlowServiceLoggerAspectService(SystemFactory systemFactoryMock)
     {
         return new SlowServiceLoggerAspectService(
-            Optional.ofNullable(systemFactoryReplacer).orElse(systemFactory)
+            Optional.ofNullable(systemFactoryMock).orElse(systemFactory)
         );
     }
 
@@ -396,11 +401,11 @@ public class ServiceFactory
     }
 
     public SlowServiceLoggerAspect getSlowServiceLoggerAspect(
-        SlowServiceLoggerAspectService slowServiceLoggerAspectServiceReplacer
+        SlowServiceLoggerAspectService slowServiceLoggerAspectServiceMock
     )
     {
         return new SlowServiceLoggerAspect(
-            Optional.ofNullable(slowServiceLoggerAspectServiceReplacer).orElse(slowServiceLoggerAspectService)
+            Optional.ofNullable(slowServiceLoggerAspectServiceMock).orElse(slowServiceLoggerAspectService)
         );
     }
 
@@ -410,13 +415,13 @@ public class ServiceFactory
     }
 
     public RegistrationStateService getRegistrationStateService(
-        RegistrationSecretRepository registrationSecretRepositoryReplacer,
-        RedisTemplate<String, RegistrationSecret> redisTemplateReplacer
+        RegistrationSecretRepository registrationSecretRepositoryMock,
+        RedisTemplate<String, RegistrationSecret> redisTemplateMock
     )
     {
         return new RegistrationStateService(
-            Optional.ofNullable(registrationSecretRepositoryReplacer).orElse(registrationSecretRepository),
-            Optional.ofNullable(redisTemplateReplacer).orElse(redisTemplateStringRegistrationSecret)
+            Optional.ofNullable(registrationSecretRepositoryMock).orElse(registrationSecretRepository),
+            Optional.ofNullable(redisTemplateMock).orElse(redisTemplateStringRegistrationSecret)
         );
     }
 
@@ -426,13 +431,13 @@ public class ServiceFactory
     }
 
     public ProtectedReviewLogService getProtectedReviewLogService(
-        ProtectedReviewLogRepository protectedReviewLogRepositoryReplacer,
-        CrudNotificationService crudNotificationServiceReplacer
+        ProtectedReviewLogRepository protectedReviewLogRepositoryMock,
+        CrudNotificationService crudNotificationServiceMock
     )
     {
         return new ProtectedReviewLogService(
-            Optional.ofNullable(protectedReviewLogRepositoryReplacer).orElse(protectedReviewLogRepository),
-            Optional.ofNullable(crudNotificationServiceReplacer).orElse(crudNotificationService)
+            Optional.ofNullable(protectedReviewLogRepositoryMock).orElse(protectedReviewLogRepository),
+            Optional.ofNullable(crudNotificationServiceMock).orElse(crudNotificationService)
         );
     }
 
@@ -442,19 +447,41 @@ public class ServiceFactory
     }
 
     public FacebookService getFacebookService(
-        SecureRandomService secureRandomServiceReplacer,
-        RegistrationStateService registrationStateServiceReplacer,
-        OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderReplacer,
-        RegistrationAndLoginService registrationAndLoginServiceReplacer,
-        JooqService jooqServiceReplacer
+        SecureRandomService secureRandomServiceMock,
+        RegistrationStateService registrationStateServiceMock,
+        OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderMock,
+        RegistrationAndLoginService registrationAndLoginServiceMock,
+        JooqService jooqServiceMock
     )
     {
         return new FacebookService(
-            Optional.ofNullable(secureRandomServiceReplacer).orElse(secureRandomService),
-            Optional.ofNullable(registrationStateServiceReplacer).orElse(registrationStateService),
-            Optional.ofNullable(oAuthFacebookServiceBuilderReplacer).orElse(oAuthFacebookServiceBuilder),
-            Optional.ofNullable(registrationAndLoginServiceReplacer).orElse(registrationAndLoginService),
-            Optional.ofNullable(jooqServiceReplacer).orElse(jooqService)
+            Optional.ofNullable(secureRandomServiceMock).orElse(secureRandomService),
+            Optional.ofNullable(registrationStateServiceMock).orElse(registrationStateService),
+            Optional.ofNullable(oAuthFacebookServiceBuilderMock).orElse(oAuthFacebookServiceBuilder),
+            Optional.ofNullable(registrationAndLoginServiceMock).orElse(registrationAndLoginService),
+            Optional.ofNullable(jooqServiceMock).orElse(jooqService)
+        );
+    }
+
+    public RegistrationAndLoginService getRegistrationAndLoginService()
+    {
+        return getRegistrationAndLoginService(null, null, null, null, null);
+    }
+
+    public RegistrationAndLoginService getRegistrationAndLoginService(
+        AccountService accountServiceMock,
+        ScribeJavaFacebookService scribeJavaFacebookServiceMock,
+        JwtService jwtServiceMock,
+        FrontendUriService frontendUriServiceMock,
+        ApplicationProperties applicationPropertiesMock
+    )
+    {
+        return new RegistrationAndLoginService(
+            Optional.ofNullable(accountServiceMock).orElse(accountService),
+            Optional.ofNullable(scribeJavaFacebookServiceMock).orElse(scribeJavaFacebookService),
+            Optional.ofNullable(jwtServiceMock).orElse(jwtService),
+            Optional.ofNullable(frontendUriServiceMock).orElse(frontendUriService),
+            Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock())
         );
     }
 }

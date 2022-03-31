@@ -33,7 +33,7 @@ public class FacebookService
         return service.createAuthorizationUrlBuilder().state(currentState).build();
     }
 
-    // @todo: test
+    // @todo: test: existingState_returnsLoginAndRemovesStateFromRedis
     public String registerAndLoginAndRedirect(String code, String state)
     {
         if (!registrationStateService.exists(state))
