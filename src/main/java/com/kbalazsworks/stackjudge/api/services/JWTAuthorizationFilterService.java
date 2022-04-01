@@ -11,13 +11,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
-import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.HEADER_STRING;
-import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.TOKEN_PREFIX;
+import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.AUTHENTICATION_COOKIE_NAME;
+import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.BEARER_TOKEN_PREFIX;
 
 @Slf4j
 public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
@@ -43,17 +46,22 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         @NonNull FilterChain chain
     ) throws IOException, ServletException
     {
-        String authorizationHeader = req.getHeader(HEADER_STRING);
+        // @todo: check cookie for HttpOnly=true and Secure=true
+        Optional<Cookie> optionalToken = Arrays
+            .stream(req.getCookies())
+            .filter(c -> c.getName().equals(AUTHENTICATION_COOKIE_NAME))
+            .findFirst();
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX))
+        if (!optionalToken.isPresent())
         {
             SecurityContextHolder.getContext().setAuthentication(null);
             chain.doFilter(req, res);
 
             return;
         }
+
         UsernamePasswordAuthenticationToken authentication = getAuthentication(
-            authorizationHeader.replace(TOKEN_PREFIX, "")
+            optionalToken.get().getValue().replace(BEARER_TOKEN_PREFIX, "")
         );
 
         // WebSecurityConfig/SessionCreationPolicy.NEVER to disable the redis save

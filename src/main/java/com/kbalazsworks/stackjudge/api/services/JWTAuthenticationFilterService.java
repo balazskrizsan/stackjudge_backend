@@ -56,6 +56,6 @@ public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticati
             .signWith(SignatureAlgorithm.HS512, SECRET)
             .compact();
 
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        res.addHeader(AUTHENTICATION_COOKIE_NAME, BEARER_TOKEN_PREFIX + token);
     }
 }
