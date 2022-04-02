@@ -21,6 +21,7 @@ public class ScribeJavaFacebookService
 
     private static final String FACEBOOK_GRAPH_API = "https://graph.facebook.com/v10.0/me";
 
+    // @todo: test
     public FacebookUserWithAccessToken getFacebookUserWithAccessTokenFromCode(String code)
     {
         OAuth20Service    service     = oAuthFacebookServiceBuilder.build();
