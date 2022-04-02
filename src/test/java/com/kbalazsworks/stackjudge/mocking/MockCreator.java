@@ -30,6 +30,8 @@ import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.aspectj.lang.ProceedingJoinPoint;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.mockito.Mockito.mock;
 
 public class MockCreator
@@ -177,5 +179,10 @@ public class MockCreator
     public static OAuthFacebookServiceBuilder getOAuthFacebookServiceBuilder()
     {
         return mock(OAuthFacebookServiceBuilder.class);
+    }
+
+    public static HttpServletResponse getHttpServletResponseMock()
+    {
+        return mock(HttpServletResponse.class);
     }
 }

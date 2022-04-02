@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController("AccountFacebookCallbackAction")
 @RequestMapping(AccountConfig.CONTROLLER_URI)
 @RequiredArgsConstructor
@@ -18,9 +20,10 @@ public class FacebookCallbackController
     @GetMapping("/facebook-callback")
     public RedirectView facebookCallback(
         @RequestParam("code") String code,
-        @RequestParam("state") String state
-    )
+        @RequestParam("state") String state,
+        HttpServletResponse response
+    ) throws Exception
     {
-        return new RedirectView(facebookService.registerAndLoginAndRedirect(code, state));
+        return new RedirectView(facebookService.registerAndLoginAndRedirect(response, code, state));
     }
 }

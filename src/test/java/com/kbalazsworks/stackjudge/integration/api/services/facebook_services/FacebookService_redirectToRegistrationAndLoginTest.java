@@ -37,6 +37,7 @@ public class FacebookService_redirectToRegistrationAndLoginTest extends Abstract
                 mockedRedirectUri
             ),
             null,
+            null,
             null
         ).redirectToRegistrationAndLogin();
 

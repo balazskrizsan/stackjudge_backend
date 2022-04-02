@@ -2,13 +2,11 @@ package com.kbalazsworks.stackjudge.api.services.facebook_services;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
-import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUserWithAccessToken;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,16 +18,15 @@ public class RegistrationAndLoginService
 {
     private final AccountService            accountService;
     private final ScribeJavaFacebookService scribeJavaFacebookService;
-    private final JwtService                jwtService;
     private final FrontendUriService        frontendUriService;
     private final ApplicationProperties     applicationProperties;
 
     // @todo: test
-    public String generateLoginUrl(@NonNull User user) throws Exception
+    public String generateLoginUrl()
     {
         return applicationProperties.getSiteFrontendHost()
             + "/"
-            + frontendUriService.getAccountLoginJwtUrl(jwtService.generateAccessToken(user));
+            + frontendUriService.getAccountLoginUrl();
     }
 
     // @todo: test
@@ -39,7 +36,7 @@ public class RegistrationAndLoginService
     }
 
     // @todo: test
-    public String updateOrSaveUser(String code) throws Exception
+    public User updateOrSaveUser(String code) throws Exception
     {
         FacebookUserWithAccessToken facebookUserWithAccessToken = scribeJavaFacebookService
             .getFacebookUserWithAccessTokenFromCode(code);
@@ -53,7 +50,7 @@ public class RegistrationAndLoginService
             log.info("Login callback: login with UserId: {}", user.getId());
             accountService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
-            return generateLoginUrl(user);
+            return user;
         }
         log.info("Login callback: create new user with Facebook");
 
@@ -69,6 +66,6 @@ public class RegistrationAndLoginService
         ));
         log.info("User created {}", user);
 
-        return generateLoginUrl(user);
+        return user;
     }
 }

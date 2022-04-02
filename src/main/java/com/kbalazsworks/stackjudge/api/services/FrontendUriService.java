@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class FrontendUriService
 {
-    public String getAccountLoginJwtUrl(String jwt)
+    public String getAccountLoginUrl()
     {
-        return "account/login/".concat(jwt);
+        return "account/login";
     }
 
     public String getAccountLoginErrorUrl()
     {
-        return "account/login-error/";
+        return "account/login-error";
     }
 }

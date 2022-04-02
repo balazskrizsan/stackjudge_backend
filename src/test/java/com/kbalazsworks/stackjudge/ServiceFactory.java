@@ -443,7 +443,7 @@ public class ServiceFactory
 
     public FacebookService getFacebookService()
     {
-        return getFacebookService(null, null, null, null, null);
+        return getFacebookService(null, null, null, null, null, null);
     }
 
     public FacebookService getFacebookService(
@@ -451,7 +451,8 @@ public class ServiceFactory
         RegistrationStateService registrationStateServiceMock,
         OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderMock,
         RegistrationAndLoginService registrationAndLoginServiceMock,
-        JooqService jooqServiceMock
+        JooqService jooqServiceMock,
+        JwtService jwtServiceMock
     )
     {
         return new FacebookService(
@@ -459,19 +460,19 @@ public class ServiceFactory
             Optional.ofNullable(registrationStateServiceMock).orElse(registrationStateService),
             Optional.ofNullable(oAuthFacebookServiceBuilderMock).orElse(oAuthFacebookServiceBuilder),
             Optional.ofNullable(registrationAndLoginServiceMock).orElse(registrationAndLoginService),
-            Optional.ofNullable(jooqServiceMock).orElse(jooqService)
+            Optional.ofNullable(jooqServiceMock).orElse(jooqService),
+            Optional.ofNullable(jwtServiceMock).orElse(jwtService)
         );
     }
 
     public RegistrationAndLoginService getRegistrationAndLoginService()
     {
-        return getRegistrationAndLoginService(null, null, null, null, null);
+        return getRegistrationAndLoginService(null, null, null, null);
     }
 
     public RegistrationAndLoginService getRegistrationAndLoginService(
         AccountService accountServiceMock,
         ScribeJavaFacebookService scribeJavaFacebookServiceMock,
-        JwtService jwtServiceMock,
         FrontendUriService frontendUriServiceMock,
         ApplicationProperties applicationPropertiesMock
     )
@@ -479,7 +480,6 @@ public class ServiceFactory
         return new RegistrationAndLoginService(
             Optional.ofNullable(accountServiceMock).orElse(accountService),
             Optional.ofNullable(scribeJavaFacebookServiceMock).orElse(scribeJavaFacebookService),
-            Optional.ofNullable(jwtServiceMock).orElse(jwtService),
             Optional.ofNullable(frontendUriServiceMock).orElse(frontendUriService),
             Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock())
         );
