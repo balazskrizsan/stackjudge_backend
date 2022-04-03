@@ -1,8 +1,6 @@
 package com.kbalazsworks.stackjudge.api.controllers.account_controller;
 
 import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
-import com.kbalazsworks.stackjudge.api.requests.account_requests.GetByReviewIdRequest;
-import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
