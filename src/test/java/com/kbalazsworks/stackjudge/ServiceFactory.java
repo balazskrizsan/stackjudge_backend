@@ -7,6 +7,7 @@ import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository
 import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
+import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.ScribeJavaFacebookService;
@@ -109,6 +110,7 @@ public class ServiceFactory
     private final ScribeJavaFacebookService      scribeJavaFacebookService;
     private final JwtService                     jwtService;
     private final FrontendUriService             frontendUriService;
+    private final SpringCookieService            springCookieService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -443,7 +445,7 @@ public class ServiceFactory
 
     public FacebookService getFacebookService()
     {
-        return getFacebookService(null, null, null, null, null, null);
+        return getFacebookService(null, null, null, null, null, null, null);
     }
 
     public FacebookService getFacebookService(
@@ -452,7 +454,8 @@ public class ServiceFactory
         OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderMock,
         RegistrationAndLoginService registrationAndLoginServiceMock,
         JooqService jooqServiceMock,
-        JwtService jwtServiceMock
+        JwtService jwtServiceMock,
+        SpringCookieService springCookieMock
     )
     {
         return new FacebookService(
@@ -461,7 +464,8 @@ public class ServiceFactory
             Optional.ofNullable(oAuthFacebookServiceBuilderMock).orElse(oAuthFacebookServiceBuilder),
             Optional.ofNullable(registrationAndLoginServiceMock).orElse(registrationAndLoginService),
             Optional.ofNullable(jooqServiceMock).orElse(jooqService),
-            Optional.ofNullable(jwtServiceMock).orElse(jwtService)
+            Optional.ofNullable(jwtServiceMock).orElse(jwtService),
+            Optional.ofNullable(springCookieMock).orElse(springCookieService)
         );
     }
 

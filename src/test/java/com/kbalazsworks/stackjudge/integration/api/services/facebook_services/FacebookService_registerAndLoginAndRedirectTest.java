@@ -35,6 +35,7 @@ public class FacebookService_registerAndLoginAndRedirectTest extends AbstractInt
             null,
             serviceFactory.getRegistrationAndLoginService(),
             null,
+            null,
             null
         ).registerAndLoginAndRedirect(MockCreator.getHttpServletResponseMock(), testedCode, testedState);
 

@@ -38,6 +38,7 @@ public class FacebookService_redirectToRegistrationAndLoginTest extends Abstract
             ),
             null,
             null,
+            null,
             null
         ).redirectToRegistrationAndLogin();
 
