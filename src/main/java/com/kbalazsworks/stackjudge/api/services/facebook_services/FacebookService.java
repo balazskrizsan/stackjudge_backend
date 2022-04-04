@@ -4,6 +4,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
+import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
 import com.kbalazsworks.stackjudge.state.entities.User;
@@ -29,6 +30,7 @@ public class FacebookService
     private final RegistrationAndLoginService registrationAndLoginService;
     private final JooqService                 jooqService;
     private final JwtService                  jwtService;
+    private final SpringCookieService         springCookieService;
 
     public String redirectToRegistrationAndLogin()
     {
@@ -62,9 +64,17 @@ public class FacebookService
             .getDbContext()
             .transactionResult((Configuration config) -> registrationAndLoginService.updateOrSaveUser(code));
 
-        response.addCookie(
-            new Cookie(AUTHENTICATION_COOKIE_NAME, BEARER_TOKEN_PREFIX.concat(jwtService.generateAccessToken(user)))
+        Cookie authCookie = new Cookie(
+            AUTHENTICATION_COOKIE_NAME,
+            BEARER_TOKEN_PREFIX.concat(jwtService.generateAccessToken(user))
         );
+
+        authCookie.setPath("/");
+        authCookie.setSecure(true);
+        authCookie.setHttpOnly(true);
+        authCookie.setMaxAge(60 * 60 * 24 * 7);
+
+        springCookieService.setCookie(response, authCookie);
 
         return registrationAndLoginService.generateLoginUrl();
     }
