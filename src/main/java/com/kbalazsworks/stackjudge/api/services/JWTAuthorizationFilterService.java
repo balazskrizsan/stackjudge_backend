@@ -46,6 +46,13 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         @NonNull FilterChain chain
     ) throws IOException, ServletException
     {
+        if (req.getCookies() == null)
+        {
+            continueWithoutAuth(chain, req, res);
+
+            return;
+        }
+
         // @todo: check cookie for HttpOnly=true and Secure=true
         Optional<Cookie> optionalToken = Arrays
             .stream(req.getCookies())
@@ -54,8 +61,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 
         if (!optionalToken.isPresent())
         {
-            SecurityContextHolder.getContext().setAuthentication(null);
-            chain.doFilter(req, res);
+            continueWithoutAuth(chain, req, res);
 
             return;
         }
@@ -67,6 +73,16 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         // WebSecurityConfig/SessionCreationPolicy.NEVER to disable the redis save
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        chain.doFilter(req, res);
+    }
+
+    private void continueWithoutAuth(
+        @NonNull FilterChain chain,
+        @NonNull HttpServletRequest req,
+        @NonNull HttpServletResponse res
+    ) throws ServletException, IOException
+    {
+        SecurityContextHolder.getContext().setAuthentication(null);
         chain.doFilter(req, res);
     }
 
