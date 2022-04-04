@@ -74,7 +74,7 @@ public class FacebookService
         authCookie.setHttpOnly(true);
         authCookie.setMaxAge(60 * 60 * 24 * 7);
 
-        springCookieService.setCookie(response, authCookie);
+        springCookieService.set(response, authCookie);
 
         return registrationAndLoginService.generateLoginUrl();
     }

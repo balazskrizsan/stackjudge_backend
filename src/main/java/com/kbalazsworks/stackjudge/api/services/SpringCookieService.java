@@ -8,35 +8,35 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class SpringCookieService
 {
-    public void setCookie(HttpServletResponse response, Cookie cookie)
+    public void set(HttpServletResponse response, Cookie cookie)
     {
         StringBuffer cookieString = new StringBuffer();
 
         cookieString.append(cookie.getName());
         cookieString.append("=");
         cookieString.append(cookie.getValue());
-        cookieString.append("; ");
+        cookieString.append(";");
 
         if (cookie.getPath() != null)
         {
-            cookieString.append("Path=");
+            cookieString.append(" Path=");
             cookieString.append(cookie.getPath());
-            cookieString.append("; ");
+            cookieString.append(";");
         }
 
         if (cookie.getSecure())
         {
-            cookieString.append("Secure; ");
+            cookieString.append(" Secure;");
         }
 
         if (cookie.isHttpOnly())
         {
-            cookieString.append("HttpOnly; ");
+            cookieString.append(" HttpOnly;");
         }
 
         if (cookie.getMaxAge() != -1)
         {
-            cookieString.append("max-age=");
+            cookieString.append(" Max-Age=");
             cookieString.append(cookie.getMaxAge());
             cookieString.append(";");
         }

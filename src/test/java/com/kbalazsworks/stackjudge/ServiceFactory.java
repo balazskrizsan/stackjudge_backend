@@ -488,4 +488,9 @@ public class ServiceFactory
             Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock())
         );
     }
+
+    public SpringCookieService getSpringCookieService()
+    {
+        return new SpringCookieService();
+    }
 }
