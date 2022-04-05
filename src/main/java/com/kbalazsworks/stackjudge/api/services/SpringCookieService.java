@@ -1,11 +1,13 @@
 package com.kbalazsworks.stackjudge.api.services;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
+@Log4j2
 public class SpringCookieService
 {
     public void set(HttpServletResponse response, Cookie cookie)
@@ -40,6 +42,8 @@ public class SpringCookieService
             cookieString.append(cookie.getMaxAge());
             cookieString.append(";");
         }
+
+        log.info("Cookie created: {}", cookie.getName());
 
         response.setHeader("Set-Cookie", cookieString.toString());
     }

@@ -53,7 +53,7 @@ public class FacebookService
     {
         if (!registrationStateService.exists(state))
         {
-            log.error("Facebook authentication error with state: " + state);
+            log.error("Authentication error with state: " + state);
 
             return registrationAndLoginService.generateLoginErrorUrl();
         }
@@ -68,13 +68,14 @@ public class FacebookService
             AUTHENTICATION_COOKIE_NAME,
             BEARER_TOKEN_PREFIX.concat(jwtService.generateAccessToken(user))
         );
-
         authCookie.setPath("/");
         authCookie.setSecure(true);
         authCookie.setHttpOnly(true);
         authCookie.setMaxAge(60 * 60 * 24 * 7);
 
         springCookieService.set(response, authCookie);
+
+        log.info("User login attempted id#{}", user.getId());
 
         return registrationAndLoginService.generateLoginUrl();
     }
