@@ -3,6 +3,9 @@ package com.kbalazsworks.stackjudge.mocking;
 import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
+import com.kbalazsworks.stackjudge.api.services.JwtService;
+import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -84,6 +87,11 @@ public class MockCreator
     public static AccountService getAccountServiceMock()
     {
         return mock(AccountService.class);
+    }
+
+    public static JwtService getJwtService()
+    {
+        return mock(JwtService.class);
     }
 
     public static JwtSubService getJwtSubServiceMock()
@@ -184,5 +192,15 @@ public class MockCreator
     public static HttpServletResponse getHttpServletResponseMock()
     {
         return mock(HttpServletResponse.class);
+    }
+
+    public static RegistrationAndLoginService getRegistrationAndLoginService()
+    {
+        return mock(RegistrationAndLoginService.class);
+    }
+
+    public static SpringCookieService getSpringCookieService()
+    {
+        return mock(SpringCookieService.class);
     }
 }
