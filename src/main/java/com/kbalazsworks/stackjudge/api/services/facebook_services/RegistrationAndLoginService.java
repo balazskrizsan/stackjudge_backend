@@ -29,7 +29,7 @@ public class RegistrationAndLoginService
             + frontendUriService.getAccountLoginUrl();
     }
 
-    // @todo: test
+
     public String generateLoginErrorUrl()
     {
         return applicationProperties.getSiteFrontendHost() + "/" + frontendUriService.getAccountLoginErrorUrl();
