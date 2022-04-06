@@ -21,7 +21,7 @@ public class RegistrationAndLoginService
     private final FrontendUriService        frontendUriService;
     private final ApplicationProperties     applicationProperties;
 
-    // @todo: test
+
     public String generateLoginUrl()
     {
         return applicationProperties.getSiteFrontendHost()
