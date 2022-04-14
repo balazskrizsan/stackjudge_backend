@@ -62,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
             .antMatchers(GET, AccountConfig.CONTROLLER_URI + AccountConfig.REGISTRATION_AND_LOGIN_SECURITY_PATH).permitAll()
             .antMatchers(GET, AccountConfig.CONTROLLER_URI + AccountConfig.FACEBOOK_CALLBACK_SECURITY_PATH).permitAll()
+            .antMatchers(GET, AccountConfig.CONTROLLER_URI + AccountConfig.GET_PUSHOVER_TOKEN_BY_USER_ID_SECURITY_PATH).permitAll()
 
             .antMatchers(POST, GroupConfig.CONTROLLER_URI + GroupConfig.POST_SECURITY_PATH).permitAll()
 

@@ -114,10 +114,9 @@ public class V000001__init extends AbstractBaseJooqMigration
             .column("username", VARCHAR.nullable(true).length(255))
             .column("password", VARCHAR.nullable(true).length(255))
             .column("facebook_access_token", VARCHAR.nullable(true).length(255))
-            .column("facebook_id", BIGINTUNSIGNED.nullable(true).length(255))
-            .constraints(
-                constraint("users_pk").primaryKey("id")
-            )
+            .column("facebook_id", BIGINT.nullable(true).length(255))
+            .column("pushover_user_token", VARCHAR(40).nullable(true))
+            .constraints(constraint("users_pk").primaryKey("id"))
             .execute();
 
         qB.createTable("notification")

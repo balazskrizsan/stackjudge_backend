@@ -2,8 +2,10 @@ package com.kbalazsworks.stackjudge.state.services;
 
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
+import com.kbalazsworks.stackjudge.state.entities.PushoverInfo;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.state.exceptions.StateException;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import lombok.NonNull;
@@ -26,14 +28,19 @@ public class AccountService
     private final UserJooqRepository        userJooqRepository;
     private final ProtectedReviewLogService protectedReviewLogService;
 
-    public User create(User user) throws Exception
+    public @NonNull User create(@NonNull User user) throws Exception
     {
         return userJooqRepository.create(user);
     }
 
-    public @NonNull List<User> findByIds(List<Long> ids)
+    public @NonNull List<User> findByIds(@NonNull List<Long> ids)
     {
         return usersRepository.findAllById(ids);
+    }
+
+    public @NonNull PushoverInfo findPushoverDataById(@NonNull Long id) throws StateException
+    {
+        return new PushoverInfo(id, userJooqRepository.findPushoverUserTokenById(id));
     }
 
     public @NonNull Map<Long, User> findByIdsWithIdMap(List<Long> ids)

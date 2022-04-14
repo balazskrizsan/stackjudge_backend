@@ -8,7 +8,6 @@ import com.kbalazsworks.stackjudge.db.Keys;
 import com.kbalazsworks.stackjudge.db.Public;
 import com.kbalazsworks.stackjudge.db.tables.records.UsersRecord;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -537383236;
+    private static final long serialVersionUID = -520519917;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -86,7 +85,12 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>public.users.facebook_id</code>.
      */
-    public final TableField<UsersRecord, BigDecimal> FACEBOOK_ID = createField(DSL.name("facebook_id"), org.jooq.impl.SQLDataType.NUMERIC, this, "");
+    public final TableField<UsersRecord, Long> FACEBOOK_ID = createField(DSL.name("facebook_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.users.pushover_user_token</code>.
+     */
+    public final TableField<UsersRecord, String> PUSHOVER_USER_TOKEN = createField(DSL.name("pushover_user_token"), org.jooq.impl.SQLDataType.VARCHAR(40), this, "");
 
     /**
      * Create a <code>public.users</code> table reference
@@ -168,11 +172,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Boolean, Boolean, String, String, String, String, BigDecimal> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, Boolean, Boolean, String, String, String, String, Long, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }
