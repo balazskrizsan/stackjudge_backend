@@ -199,6 +199,16 @@ public class ApplicationProperties
         return "83";
     }
 
+    public String getStuckJudgeNotificationSdkHost()
+    {
+        return "https://localhost";
+    }
+
+    public String getStuckJudgeNotificationSdkPort()
+    {
+        return "84";
+    }
+
     public String getStackJudgeSdkCertP12KeystoreFilePath()
     {
         return "classpath:keystore/v2/sjdev.p12";
