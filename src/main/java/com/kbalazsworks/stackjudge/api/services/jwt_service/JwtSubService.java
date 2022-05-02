@@ -27,23 +27,23 @@ public class JwtSubService
         }
         catch (SignatureException e)
         {
-            log.error("Invalid JWT signature; {}", e.getMessage(), e);
+            log.error("Invalid JWT signature: {}", e.getMessage(), e);
         }
         catch (MalformedJwtException e)
         {
-            log.error("Invalid JWT token; {}", e.getMessage(), e);
+            log.error("Invalid JWT token: {}", e.getMessage(), e);
         }
         catch (ExpiredJwtException e)
         {
-            log.error("Expired JWT token", e);
+            log.error("Expired JWT token: {}", e.getMessage(), e);
         }
         catch (UnsupportedJwtException e)
         {
-            log.error("Unsupported JWT token; {}", e.getMessage(), e);
+            log.error("Unsupported JWT error: {}", e.getMessage(), e);
         }
-        catch (IllegalArgumentException e)
+        catch (Exception e)
         {
-            log.error("JWT claims string is empty; {}", e.getMessage(), e);
+            log.error("Unknown JWT error: {}", e.getMessage(), e);
         }
 
         throw new JwtException("Invalid authentication error");
