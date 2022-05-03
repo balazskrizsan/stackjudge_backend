@@ -86,8 +86,9 @@ public class JwtService
 
             return true;
         }
-        catch (Exception ignored)
+        catch (Exception e)
         {
+            log.info("Invalid token checked: " + token);
         }
 
         return false;
