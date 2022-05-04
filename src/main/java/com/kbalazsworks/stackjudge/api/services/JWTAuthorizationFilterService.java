@@ -66,6 +66,8 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
             return;
         }
 
+        // @todo: remove cookie if invalid
+
         UsernamePasswordAuthenticationToken authentication = getAuthentication(
             optionalToken.get().getValue().replace(BEARER_TOKEN_PREFIX, "")
         );
