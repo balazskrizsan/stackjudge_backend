@@ -1,11 +1,13 @@
 package com.kbalazsworks.stackjudge.mocking;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
 import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
+import com.kbalazsworks.stackjudge.api.services.facebook_services.ScribeJavaFacebookService;
 import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -28,7 +30,7 @@ import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReview
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -202,5 +204,15 @@ public class MockCreator
     public static SpringCookieService getSpringCookieService()
     {
         return mock(SpringCookieService.class);
+    }
+
+    public static ScribeJavaFacebookService getScribeJavaFacebookService()
+    {
+        return mock(ScribeJavaFacebookService.class);
+    }
+
+    public static OAuth2AccessToken getOAuth2AccessToken()
+    {
+        return mock(OAuth2AccessToken.class);
     }
 }

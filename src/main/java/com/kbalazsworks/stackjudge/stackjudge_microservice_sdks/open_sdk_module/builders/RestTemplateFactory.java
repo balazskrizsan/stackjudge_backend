@@ -1,6 +1,6 @@
-package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.builders;
+package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.builders;
 
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkSslService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkSslService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;

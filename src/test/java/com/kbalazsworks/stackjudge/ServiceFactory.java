@@ -51,8 +51,9 @@ import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspe
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.notification.push.PushToUserService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
@@ -111,6 +112,7 @@ public class ServiceFactory
     private final JwtService                     jwtService;
     private final FrontendUriService             frontendUriService;
     private final SpringCookieService            springCookieService;
+    private final PushToUserService              pushToUserService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -471,13 +473,14 @@ public class ServiceFactory
 
     public RegistrationAndLoginService getRegistrationAndLoginService()
     {
-        return getRegistrationAndLoginService(null, null, null, null);
+        return getRegistrationAndLoginService(null, null, null, null, null);
     }
 
     public RegistrationAndLoginService getRegistrationAndLoginService(
         AccountService accountServiceMock,
         ScribeJavaFacebookService scribeJavaFacebookServiceMock,
         FrontendUriService frontendUriServiceMock,
+        PushToUserService pushToUserServiceMock,
         ApplicationProperties applicationPropertiesMock
     )
     {
@@ -485,6 +488,7 @@ public class ServiceFactory
             Optional.ofNullable(accountServiceMock).orElse(accountService),
             Optional.ofNullable(scribeJavaFacebookServiceMock).orElse(scribeJavaFacebookService),
             Optional.ofNullable(frontendUriServiceMock).orElse(frontendUriService),
+            Optional.ofNullable(pushToUserServiceMock).orElse(pushToUserService),
             Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock())
         );
     }

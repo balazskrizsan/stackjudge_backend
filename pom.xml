@@ -226,6 +226,11 @@
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
             <version>9eff3831dbf0fb5f44a27f5a7a6a2dc9ce9c8223</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.balazskrizsan</groupId>
+            <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
+            <version>9cb2319349f4021d5652e2b646431a39a18e4c8f</version>
+        </dependency>
     </dependencies>
 
     <build>

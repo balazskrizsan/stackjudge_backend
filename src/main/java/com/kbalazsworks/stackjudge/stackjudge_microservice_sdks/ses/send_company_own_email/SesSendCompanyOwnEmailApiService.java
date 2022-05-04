@@ -1,6 +1,6 @@
-package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.ses.send_company_own_email;
+package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ses.send_company_own_email;
 
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services.AwsOpenSdkService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.AwsOpenSdkService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.interfaces.IOpenSdkPostable;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.ISesSendCompanyownemail;
 import lombok.RequiredArgsConstructor;

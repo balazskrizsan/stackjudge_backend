@@ -13,8 +13,8 @@ import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleMapsUrl
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMap;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
@@ -25,7 +25,6 @@ import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;

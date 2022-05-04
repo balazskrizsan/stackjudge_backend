@@ -5,8 +5,10 @@ import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUser;
 import com.kbalazsworks.stackjudge.api.value_objects.FacebookUserWithAccessToken;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.notification.push.PushToUserService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
+import com.kbalazsworks.stackjudge_notification_sdk.schema_parameter_objects.PushToUserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,8 @@ public class RegistrationAndLoginService
     private final AccountService            accountService;
     private final ScribeJavaFacebookService scribeJavaFacebookService;
     private final FrontendUriService        frontendUriService;
+    private final PushToUserService         pushToUserService;
     private final ApplicationProperties     applicationProperties;
-
 
     public String generateLoginUrl()
     {
@@ -47,12 +49,17 @@ public class RegistrationAndLoginService
         log.info("Login callback: FacebookId: {}", facebookUser.getId());
         if (null != user)
         {
-            log.info("Login callback: login with UserId: {}", user.getId());
+            log.info("Login with UserId: {}", user.getId());
+            pushToUserService.execute(new PushToUserRequest(
+                "1",
+                "SJ: FB login attempted",
+                "userId#" + user.getId()
+            ));
             accountService.updateFacebookAccessToken(accessToken.getAccessToken(), facebookUser.getId());
 
             return user;
         }
-        log.info("Login callback: create new user with Facebook");
+        log.info("Create new user with Facebook");
 
         user = accountService.create(new User(
             null,
@@ -65,6 +72,11 @@ public class RegistrationAndLoginService
             facebookUser.getId()
         ));
         log.info("User created {}", user);
+        pushToUserService.execute(new PushToUserRequest(
+            "1",
+            "SJ: FB user created",
+            "userId#" + user.getId()
+        ));
 
         return user;
     }

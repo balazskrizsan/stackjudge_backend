@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.fake_builders;
 
 import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.open_sdk_module.services.OpenSdkFileService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.Getter;
 import lombok.Setter;

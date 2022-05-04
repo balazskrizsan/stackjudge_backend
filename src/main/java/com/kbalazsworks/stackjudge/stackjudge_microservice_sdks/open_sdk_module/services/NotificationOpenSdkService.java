@@ -1,8 +1,8 @@
-package com.kbalazsworks.stackjudge.stackjudge_aws_sdk.services;
+package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services;
 
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.stackjudge_aws_sdk.builders.RestTemplateFactory;
-import com.kbalazsworks.stackjudge_aws_sdk.common.interfaces.IOpenSdkPostable;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.builders.RestTemplateFactory;
+import com.kbalazsworks.stackjudge_notification_sdk.common.interfaces.IOpenSdkPostable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class AwsOpenSdkService
+public class NotificationOpenSdkService
 {
     private final ApplicationProperties applicationProperties;
     private final RestTemplateFactory   restTemplateFactory;
@@ -31,9 +31,9 @@ public class AwsOpenSdkService
             return restTemplateFactory
                 .build()
                 .postForEntity(
-                    applicationProperties.getStuckJudgeAwsSdkHost()
+                    applicationProperties.getStuckJudgeNotificationSdkHost()
                         + ":"
-                        + applicationProperties.getStuckJudgeAwsSdkPort()
+                        + applicationProperties.getStuckJudgeNotificationSdkPort()
                         + apiUri,
                     new HttpEntity<>(postData.toOpenSdkPost(), headers),
                     String.class
@@ -41,7 +41,7 @@ public class AwsOpenSdkService
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
             // @todo: return with named exception
         }
         return null;
