@@ -21,7 +21,7 @@ public class GetByReviewIdAction
     private final AccountService accountService;
     private final StateService stateService;
 
-    @GetMapping("get-by-review-id/{reviewId}")
+    @GetMapping(AccountConfig.ACTION_GET_BY_REVIEW_ID)
     public ResponseEntity<ResponseData<User>> action(GetByReviewIdRequest request) throws Exception
     {
         new JavaxValidatorService<GetByReviewIdRequest>().validate(request);
