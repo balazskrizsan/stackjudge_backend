@@ -27,16 +27,6 @@ public class StackJudgeApplication
     }
 
     @Bean
-    public GroupedOpenApi frontendApi()
-    {
-        return GroupedOpenApi
-            .builder()
-            .group("frontend")
-            .pathsToMatch(AccountConfig.openapiFrontendUrls.toArray(String[]::new))
-            .build();
-    }
-
-    @Bean
     public ApplicationProperties applicationProperties()
     {
         return new ApplicationProperties();
