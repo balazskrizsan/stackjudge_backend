@@ -15,12 +15,12 @@ public class OidcServiceFactory
 {
     private final OidcHttpClientService oidcHttpClient;
 
-    private static final String WELL_KNOWN_CONFIG = "/.well-known/openid-configuration";
+    private static final String DISCOVERY_ENDPOINT = "/.well-known/openid-configuration";
 
     @SneakyThrows
     public OidcService create(String host)
     {
-        OidcConfig oidcConfig = oidcHttpClient.getWithMap(host + WELL_KNOWN_CONFIG, OidcConfig.class);
+        OidcConfig oidcConfig = oidcHttpClient.getWithMap(host + DISCOVERY_ENDPOINT, OidcConfig.class);
 
         return new OidcService(oidcConfig, oidcHttpClient);
     }
