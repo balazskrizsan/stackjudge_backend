@@ -1,6 +1,8 @@
 package com.kbalazsworks.stackjudge.oidc.services;
 
 import com.kbalazsworks.stackjudge.oidc.entities.AccessTokenRawResponse;
+import com.kbalazsworks.stackjudge.oidc.entities.BasicAuth;
+import com.kbalazsworks.stackjudge.oidc.entities.IntrospectRawResponse;
 import com.kbalazsworks.stackjudge.oidc.entities.OidcConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,6 +27,19 @@ public class OidcService
                 addAll("grant_type", List.of(grantType));
             }},
             AccessTokenRawResponse.class
+        );
+    }
+
+    public IntrospectRawResponse callIntrospectEndpoint(String accessToken, BasicAuth basicAuth)
+    {
+        return oidcHttpClient.postWithMap(
+            oidcConfig.getIntrospectionEndpoint(),
+            new LinkedMultiValueMap<>()
+            {{
+                addAll("token", List.of(accessToken));
+            }},
+            IntrospectRawResponse.class,
+            basicAuth
         );
     }
 }

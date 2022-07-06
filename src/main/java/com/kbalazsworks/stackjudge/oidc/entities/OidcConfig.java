@@ -31,10 +31,10 @@ public class OidcConfig
     private final String checkSessionIframe;
     @JsonProperty("revocation_endpoint")
     private final String revocationEndpoint;
-    @JsonProperty("introspectionEndpoint")
-    private final String introspection_endpoint;
-    @JsonProperty("deviceAuthorizationEndpoint")
-    private final String device_authorization_endpoint;
-    @JsonProperty("backchannelAuthenticationEndpoint")
-    private final String backchannel_authentication_endpoint;
+    @JsonProperty("introspection_endpoint")
+    private final String introspectionEndpoint;
+    @JsonProperty("device_authorization_endpoint")
+    private final String deviceAuthorizationEndpoint;
+    @JsonProperty("backchannel_authentication_endpoint")
+    private final String backchannelAuthenticationEndpoint;
 }
