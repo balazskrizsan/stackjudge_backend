@@ -14,9 +14,9 @@ import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticM
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.GoogleStaticMapMarker;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
@@ -42,7 +42,7 @@ public class MapsService
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
     private final OpenSdkFileService           openSdkFileService;
-    private final S3UploadApiService           s3UploadApiService;
+    private final IS3Upload                    s3UploadApiService;
     private final UrlFactory                   urlFactory;
 
     public StaticMapResponse staticProxy(GoogleStaticMap googleStaticMap, List<GoogleStaticMapMarker> markers)
@@ -73,7 +73,7 @@ public class MapsService
         URL image = urlFactory.create(mapWithHash.url());
 
         StdResponse<CdnServicePutResponse> s3Response = s3UploadApiService
-            .execute(new PostUploadRequest(
+            .post(new PostUploadRequest(
                 CdnNamespaceEnum.STATIC_MAPS.name(),
                 "",
                 hash,

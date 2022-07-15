@@ -28,6 +28,8 @@ public class AwsOpenSdkService
 
         try
         {
+            log.info("Sending out email");
+
             return restTemplateFactory
                 .build()
                 .postForEntity(

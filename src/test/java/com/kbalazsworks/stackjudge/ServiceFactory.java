@@ -53,11 +53,12 @@ import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocke
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.notification.push.PushToUserService;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.ISesSendCompanyOwnEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -104,7 +105,7 @@ public class ServiceFactory
     private final CompanyOwnersService           companyOwnersService;
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
     private final CrudNotificationService        crudNotificationService;
-    private final S3UploadApiService             s3UploadApiService;
+    private final IS3Upload                      s3UploadApiService;
     private final OpenSdkFileService             openSdkFileService;
     private final RegistrationStateService       registrationStateService;
     private final RegistrationAndLoginService    registrationAndLoginService;
@@ -113,6 +114,7 @@ public class ServiceFactory
     private final FrontendUriService             frontendUriService;
     private final SpringCookieService            springCookieService;
     private final PushToUserService              pushToUserService;
+    private final ISesSendCompanyOwnEmail        sesSendCompanyOwnEmailApiService;
 
     private final CompanyRepository                         companyRepository;
     private final ReviewRepository                          reviewRepository;
@@ -139,7 +141,7 @@ public class ServiceFactory
         AccountService accountServiceReplaces,
         MapsService mapsServiceMock,
         CompanyOwnersService companyOwnersServiceMock,
-        S3UploadApiService s3UploadApiServiceMock,
+        IS3Upload s3UploadApiServiceMock,
         OpenSdkFileService openSdkFileServiceMock,
         CompanyRepository companyRepositoryMock
     )
@@ -273,7 +275,7 @@ public class ServiceFactory
         GoogleStaticMapsCacheService staticMapsCacheServiceMock,
         MapMapperService mapMapperServiceMock,
         OpenSdkFileService openSdkFileServiceMock,
-        S3UploadApiService s3UploadApiServiceMock,
+        IS3Upload s3UploadApiServiceMock,
         UrlFactory urlFactoryMock
     )
     {
@@ -337,11 +339,11 @@ public class ServiceFactory
     }
 
     public CompanyOwnEmailService getCompanyOwnEmailService(
-        PebbleTemplateService pebbleTemplateServiceMock
+        ISesSendCompanyOwnEmail sesSendCompanyOwnEmailApiServiceMock
     )
     {
         return new CompanyOwnEmailService(
-            Optional.ofNullable(pebbleTemplateServiceMock).orElse(pebbleTemplateService)
+            Optional.ofNullable(sesSendCompanyOwnEmailApiServiceMock).orElse(sesSendCompanyOwnEmailApiService)
         );
     }
 

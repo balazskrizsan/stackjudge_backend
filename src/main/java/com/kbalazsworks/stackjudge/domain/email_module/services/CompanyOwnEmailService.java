@@ -1,39 +1,32 @@
 package com.kbalazsworks.stackjudge.domain.email_module.services;
 
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.PebbleException;
-import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.ISesSendCompanyOwnEmail;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostCompanyOwnEmailRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class CompanyOwnEmailService
 {
-    private final PebbleTemplateService pebbleTemplateService;
+    private final ISesSendCompanyOwnEmail sesSendCompanyOwnEmailApiService;
 
-    private final static String SUBJECT = "StackJudge - Company Own Request";
-
+    @SneakyThrows
     public void send(
         @NonNull String toAddress,
         @NonNull String name,
         @NonNull String ownUrl
     ) throws PebbleException
     {
-        Map<String, Object> context = new HashMap<>()
-        {{
-            put("name", name);
-            put("ownUrl", ownUrl);
-        }};
-
-        String companyOwnHtml = pebbleTemplateService.render("mail/company_own.html", context);
-        String companyOwnText = pebbleTemplateService.render("mail/company_own.txt", context);
-
-//        sesService.sendMail(toAddress, SUBJECT, companyOwnHtml, companyOwnText);
+        sesSendCompanyOwnEmailApiService.postAsync(new PostCompanyOwnEmailRequest(
+            toAddress,
+            name,
+            ownUrl
+        ));
     }
 }

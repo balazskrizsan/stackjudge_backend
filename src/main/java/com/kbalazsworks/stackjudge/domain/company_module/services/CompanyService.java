@@ -26,11 +26,11 @@ import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.common.exceptions.ResponseException;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
 import lombok.NonNull;
@@ -60,7 +60,7 @@ public class CompanyService
     private final AccountService       accountService;
     private final MapsService          mapsService;
     private final CompanyOwnersService companyOwnersService;
-    private final S3UploadApiService   s3UploadApiService;
+    private final IS3Upload            s3UploadApiService;
     private final OpenSdkFileService   openSdkFileService;
     private final CompanyRepository    companyRepository;
 
@@ -258,8 +258,7 @@ public class CompanyService
                             )
                         );
 
-                        StdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService
-                            .execute(request);
+                        StdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService.post(request);
                         updateLogoPath(newId, apiResponse.data().getPath());
                     }
                     catch (ResponseException e)

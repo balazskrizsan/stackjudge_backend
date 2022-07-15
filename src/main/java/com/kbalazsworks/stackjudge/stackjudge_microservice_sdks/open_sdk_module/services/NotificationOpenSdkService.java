@@ -19,12 +19,9 @@ public class NotificationOpenSdkService
     private final ApplicationProperties applicationProperties;
     private final RestTemplateFactory   restTemplateFactory;
 
-    public ResponseEntity<String> post(IOpenSdkPostable postData, String apiUri)
+    public ResponseEntity<String> post(IOpenSdkPostable postData, String apiUri, HttpHeaders headers)
     {
-        HttpHeaders headers = new HttpHeaders()
-        {{
-            setContentType(MediaType.MULTIPART_FORM_DATA);
-        }};
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         try
         {

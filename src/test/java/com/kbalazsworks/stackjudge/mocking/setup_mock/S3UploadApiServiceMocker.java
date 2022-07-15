@@ -18,7 +18,7 @@ public class S3UploadApiServiceMocker extends MockCreator
     ) throws ResponseException
     {
         S3UploadApiService mock = getS3UploadApiService();
-        when(mock.execute(any())).thenReturn(thanReturn);
+        when(mock.post(any())).thenReturn(thanReturn);
 
         return mock;
     }

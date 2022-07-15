@@ -230,7 +230,7 @@
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
-            <version>9eff3831dbf0fb5f44a27f5a7a6a2dc9ce9c8223</version>
+            <version>634473fa5e29b1895a74315df2e2698682869903</version>
         </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
