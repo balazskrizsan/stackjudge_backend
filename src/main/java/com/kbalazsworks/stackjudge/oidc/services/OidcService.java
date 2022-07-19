@@ -10,7 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OidcService
+public class OidcService implements IOidcService
 {
     private final OidcConfig            oidcConfig;
     private final OidcHttpClientService oidcHttpClient;
