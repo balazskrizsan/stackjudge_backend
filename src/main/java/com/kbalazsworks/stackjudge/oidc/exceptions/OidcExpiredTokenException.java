@@ -3,13 +3,13 @@ package com.kbalazsworks.stackjudge.oidc.exceptions;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class OidcException extends Exception
+public class OidcExpiredTokenException extends OidcException
 {
-    public OidcException()
+    public OidcExpiredTokenException()
     {
     }
 
-    public OidcException(String message)
+    public OidcExpiredTokenException(String message)
     {
         super(message);
     }

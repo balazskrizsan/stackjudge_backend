@@ -3,13 +3,9 @@ package com.kbalazsworks.stackjudge.oidc.exceptions;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class OidcException extends Exception
+public class OidcScopeException extends OidcException
 {
-    public OidcException()
-    {
-    }
-
-    public OidcException(String message)
+    public OidcScopeException(String message)
     {
         super(message);
     }

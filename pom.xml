@@ -232,6 +232,12 @@
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
             <version>634473fa5e29b1895a74315df2e2698682869903</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+        </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
