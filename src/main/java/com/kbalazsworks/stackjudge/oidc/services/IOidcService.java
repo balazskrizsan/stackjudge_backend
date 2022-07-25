@@ -9,5 +9,6 @@ public interface IOidcService
 {
     AccessTokenRawResponse callTokenEndpoint(String clientId, String clientSecret, String scope, String grantType)
     throws OidcApiException;
+
     IntrospectRawResponse callIntrospectEndpoint(String accessToken, BasicAuth basicAuth) throws OidcApiException;
 }
