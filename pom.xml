@@ -240,6 +240,11 @@
         </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
+            <artifactId>simple_oidc_java_maven</artifactId>
+            <version>aa9eaa09cbfb9f1e97084a522e9fd11c23895e27</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
             <version>9cb2319349f4021d5652e2b646431a39a18e4c8f</version>
         </dependency>
