@@ -29,7 +29,9 @@ class CorsFilterConfig implements Filter
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.setHeader(
             "Access-Control-Allow-Headers",
-            "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
+            "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, " +
+                "Access-Control-Request-Headers, Authorization, " +
+                "Authorization-Ids-Id-Token, Authorization-Ids-Access-Token"
         );
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod()))
