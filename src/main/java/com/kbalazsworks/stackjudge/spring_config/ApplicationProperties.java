@@ -141,36 +141,12 @@ public class ApplicationProperties
         return awsSecretKey;
     }
 
-    @Value("${facebook.client.id}")
-    private String facebookClientId;
+    @Value("${sj.ids.full_host}")
+    private String sjIdsFullHost;
 
-    public String getFacebookClientId()
+    public String getSjIdsFullHost()
     {
-        return facebookClientId;
-    }
-
-    @Value("${facebook.client.secret}")
-    private String facebookClientSecret;
-
-    public String getFacebookClientSecret()
-    {
-        return facebookClientSecret;
-    }
-
-    @Value("${facebook.callback.url}")
-    private String facebookCallbackUrl;
-
-    public String getFacebookCallbackUrl()
-    {
-        return facebookCallbackUrl;
-    }
-
-    @Value("${auth.jwt.secret}")
-    private String jwtSecret;
-
-    public String getJwtSecret()
-    {
-        return jwtSecret;
+        return sjIdsFullHost;
     }
 
     @Value("${google.maps.key}")
@@ -191,22 +167,12 @@ public class ApplicationProperties
 
     public String getStuckJudgeAwsSdkHost()
     {
-        return "https://localhost";
-    }
-
-    public String getStuckJudgeAwsSdkPort()
-    {
-        return "83";
+        return "https://localhost:83";
     }
 
     public String getStuckJudgeNotificationSdkHost()
     {
-        return "https://localhost";
-    }
-
-    public String getStuckJudgeNotificationSdkPort()
-    {
-        return "84";
+        return "https://localhost:84";
     }
 
     public String getStackJudgeSdkCertP12KeystoreFilePath()

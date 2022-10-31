@@ -31,7 +31,7 @@ public class MockFactory
     public static StateService getTestStateMock()
     {
         StateService mock = mock(StateService.class);
-        when(mock.getState()).thenReturn(new State(TEST_STATE.now(), TEST_STATE.currentUser()));
+        when(mock.getState()).thenReturn(new State(TEST_STATE.now(), TEST_STATE.currentIdsUser()));
 
         return mock;
     }

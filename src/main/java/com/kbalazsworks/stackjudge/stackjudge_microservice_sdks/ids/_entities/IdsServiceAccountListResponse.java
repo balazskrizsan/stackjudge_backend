@@ -1,7 +1,6 @@
 package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kbalazsworks.stackjudge.state.entities.IdsUser;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

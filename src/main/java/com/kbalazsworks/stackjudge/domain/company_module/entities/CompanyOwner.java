@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public record CompanyOwner(
     long companyId,
-    long userId,
+    String userId,
     @NonNull LocalDateTime createdAt
 )
 {

@@ -15,7 +15,8 @@ import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.StaticMapResponseFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -54,6 +55,7 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         assertThat(true).isTrue();
     }
 
+    @SneakyThrows
     @Test
     public void oneParamMethodCallTest_calls2ParamsMethod()
     {
@@ -120,8 +122,8 @@ public class CompanyService_getTest extends AbstractIntegrationTest
                         )
                     ),
                     Map.of(expectedGroupId, new ReviewFakeBuilder().buildAsList()),
-                    new CompanyOwners(CompanyFakeBuilder.defaultId1, List.of(UserFakeBuilder.defaultId1)),
-                    new UserFakeBuilder().buildAsMap()
+                    new CompanyOwners(CompanyFakeBuilder.defaultId1, List.of(IdsUserFakeBuilder.defaultId1)),
+                    new IdsUserFakeBuilder().buildAsMap()
                 )
             );
         }
@@ -129,6 +131,7 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         throw getRepeatException(repetition);
     }
 
+    @SneakyThrows
     @RepeatedTest(2)
     @SqlGroup(
         {

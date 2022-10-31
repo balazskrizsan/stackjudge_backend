@@ -25,7 +25,7 @@ public class SearchMyNotifications
     @GetMapping(NotificationConfig.SEARCH_MY_NOTIFICATIONS_ACTION)
     public ResponseEntity<ResponseData<NotificationResponse>> action(
         @RequestPayload SearchMyNotificationsRequest request
-    ) throws ApiException
+    ) throws Exception
     {
         return new ResponseEntityBuilder<NotificationResponse>()
             .data(notificationService.searchMyNotifications(request.limit(), stateService.getState()))

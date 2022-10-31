@@ -25,16 +25,11 @@ public class NotificationOpenSdkService
 
         try
         {
-            return restTemplateFactory
-                .build()
-                .postForEntity(
-                    applicationProperties.getStuckJudgeNotificationSdkHost()
-                        + ":"
-                        + applicationProperties.getStuckJudgeNotificationSdkPort()
-                        + apiUri,
-                    new HttpEntity<>(postData.toOpenSdkPost(), headers),
-                    String.class
-                );
+            return restTemplateFactory.build().postForEntity(
+                applicationProperties.getStuckJudgeNotificationSdkHost() + apiUri,
+                new HttpEntity<>(postData.toOpenSdkPost(), headers),
+                String.class
+            );
         }
         catch (Exception e)
         {

@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProtectedReviewLog extends TableImpl<ProtectedReviewLogRecord> {
 
-    private static final long serialVersionUID = -1511566121;
+    private static final long serialVersionUID = -17077091;
 
     /**
      * The reference instance of <code>public.protected_review_log</code>
@@ -54,9 +54,9 @@ public class ProtectedReviewLog extends TableImpl<ProtectedReviewLogRecord> {
     public final TableField<ProtectedReviewLogRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.protected_review_log.viewer_user_id</code>.
+     * The column <code>public.protected_review_log.viewer_user_ids_user_id</code>.
      */
-    public final TableField<ProtectedReviewLogRecord, Long> VIEWER_USER_ID = createField(DSL.name("viewer_user_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
+    public final TableField<ProtectedReviewLogRecord, String> VIEWER_USER_IDS_USER_ID = createField(DSL.name("viewer_user_ids_user_id"), org.jooq.impl.SQLDataType.CHAR(36), this, "");
 
     /**
      * The column <code>public.protected_review_log.review_id</code>.
@@ -161,7 +161,7 @@ public class ProtectedReviewLog extends TableImpl<ProtectedReviewLogRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Long, Long, LocalDateTime> fieldsRow() {
+    public Row4<Long, String, Long, LocalDateTime> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

@@ -4,7 +4,7 @@ import com.kbalazsworks.stackjudge.api.builders.ResponseEntityBuilder;
 import com.kbalazsworks.stackjudge.api.requests.account_requests.GetByReviewIdRequest;
 import com.kbalazsworks.stackjudge.api.services.JavaxValidatorService;
 import com.kbalazsworks.stackjudge.api.value_objects.ResponseData;
-import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ public class GetByReviewIdAction
     private final StateService stateService;
 
     @GetMapping(AccountConfig.ACTION_GET_BY_REVIEW_ID)
-    public ResponseEntity<ResponseData<User>> action(GetByReviewIdRequest request) throws Exception
+    public ResponseEntity<ResponseData<IdsUser>> action(GetByReviewIdRequest request) throws Exception
     {
         new JavaxValidatorService<GetByReviewIdRequest>().validate(request);
 
-        return new ResponseEntityBuilder<User>()
+        return new ResponseEntityBuilder<IdsUser>()
             .data(accountService.getByReviewId(request.getReviewId(), stateService.getState()))
             .build();
     }

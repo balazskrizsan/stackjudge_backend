@@ -24,11 +24,9 @@ public class ProtectedReviewLogService
 
         crudNotificationService.create(new TypedNotification<>(
             null,
-            protectedReviewLog.viewerUserId(),
+            protectedReviewLog.viewerIdsUserId(),
             NotificationTypeEnum.PROTECTED_VIEW.getValue(),
-            new DataProtectedReview(
-                state.currentUser().getId()
-            ),
+            new DataProtectedReview(state.currentIdsUser().getIdsUserId()),
             state.now(),
             null
         ));

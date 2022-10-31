@@ -16,7 +16,7 @@ public class TypedNotification<T> implements ITypedNotification
     @JsonProperty
     private final Long          id;
     @JsonProperty
-    private final long          userId;
+    private final String        idsUserId;
     @JsonProperty
     private final short         type;
     @JsonProperty

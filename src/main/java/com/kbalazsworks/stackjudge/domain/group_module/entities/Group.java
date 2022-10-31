@@ -11,7 +11,7 @@ public record Group(
     short typeId,
     short membersOnGroupId,
     LocalDateTime createdAt,
-    Long createdBy
+    String createdBy
 )
 {
 }

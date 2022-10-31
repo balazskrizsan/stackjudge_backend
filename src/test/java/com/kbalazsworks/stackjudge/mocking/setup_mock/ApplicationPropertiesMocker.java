@@ -23,7 +23,6 @@ public class ApplicationPropertiesMocker extends MockCreator
         when(mock.getAwsSecretKey()).thenReturn(AWS_SECRET_KEY);
         when(mock.getAwsS3CdnBucket()).thenReturn(AWS_S3_CDN_BUCKET);
         when(mock.getGoogleMapsKey()).thenReturn(GOOGLE_MAPS_KEY);
-        when(mock.getJwtSecret()).thenReturn(JWT_SECRET);
         when(mock.getSiteDomain()).thenReturn(SITE_DOMAIN);
         when(mock.getSiteFrontendHost()).thenReturn(SITE_FRONTEND_HOST);
 

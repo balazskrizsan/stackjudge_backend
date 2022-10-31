@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CompanyOwner extends TableImpl<CompanyOwnerRecord> {
 
-    private static final long serialVersionUID = -734963992;
+    private static final long serialVersionUID = -2009837352;
 
     /**
      * The reference instance of <code>public.company_owner</code>
@@ -53,9 +53,9 @@ public class CompanyOwner extends TableImpl<CompanyOwnerRecord> {
     public final TableField<CompanyOwnerRecord, Long> COMPANY_ID = createField(DSL.name("company_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>public.company_owner.user_id</code>.
+     * The column <code>public.company_owner.user_ids_user_id</code>.
      */
-    public final TableField<CompanyOwnerRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<CompanyOwnerRecord, String> USER_IDS_USER_ID = createField(DSL.name("user_ids_user_id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>public.company_owner.created_at</code>.
@@ -102,17 +102,17 @@ public class CompanyOwner extends TableImpl<CompanyOwnerRecord> {
 
     @Override
     public UniqueKey<CompanyOwnerRecord> getPrimaryKey() {
-        return Keys.USER_ID___COMPANY_ID___PK;
+        return Keys.USER_IDS_USER_ID___COMPANY_ID___PK;
     }
 
     @Override
     public List<UniqueKey<CompanyOwnerRecord>> getKeys() {
-        return Arrays.<UniqueKey<CompanyOwnerRecord>>asList(Keys.USER_ID___COMPANY_ID___PK);
+        return Arrays.<UniqueKey<CompanyOwnerRecord>>asList(Keys.USER_IDS_USER_ID___COMPANY_ID___PK);
     }
 
     @Override
     public List<ForeignKey<CompanyOwnerRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<CompanyOwnerRecord, ?>>asList(Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__COMPANY_ID___COMPANY__ID___ON_DELETE_CASCA, Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__USER_ID___USERS__ID___ON_DELETE_CASCADE);
+        return Arrays.<ForeignKey<CompanyOwnerRecord, ?>>asList(Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__COMPANY_ID___COMPANY__ID___ON_DELETE_CASCA, Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__USER_IDS_USER_ID___USERS__IDS_USER_ID___ON);
     }
 
     public Company company() {
@@ -120,7 +120,7 @@ public class CompanyOwner extends TableImpl<CompanyOwnerRecord> {
     }
 
     public Users users() {
-        return new Users(this, Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__USER_ID___USERS__ID___ON_DELETE_CASCADE);
+        return new Users(this, Keys.COMPANY_OWNER__FK___COMPANY_OWNERS__USER_IDS_USER_ID___USERS__IDS_USER_ID___ON);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class CompanyOwner extends TableImpl<CompanyOwnerRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Long, Long, LocalDateTime> fieldsRow() {
+    public Row3<Long, String, LocalDateTime> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

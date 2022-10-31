@@ -32,7 +32,7 @@ public class CompanyFakeBuilder
     private short         itSizeId      = 3;
     private String        logoPath      = "folder/file.jpg";
     private LocalDateTime createdAt     = LocalDateTime.of(2020, 1, 2, 3, 4, 5);
-    private Long          createdBy     = 444L;
+    private String          createdBy     = UserFakeBuilder.defaultId1;
 
     public List<Company> buildAsList()
     {

@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 import java.time.LocalDateTime;
 
 @RedisHash("Address")
-public record Address (
+public record Address(
     @JsonProperty Long id,
     @JsonProperty Long companyId,
     @JsonProperty String fullAddress,
@@ -16,7 +16,7 @@ public record Address (
     @JsonProperty Double manualMarkerLat,
     @JsonProperty Double manualMarkerLng,
     @JsonProperty LocalDateTime createdAt,
-    @JsonProperty Long createdBy
+    @JsonProperty String createdBy
 ) implements IRedisCacheable
 {
     @Override

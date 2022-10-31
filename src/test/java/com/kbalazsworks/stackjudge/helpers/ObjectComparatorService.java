@@ -18,6 +18,11 @@ public class ObjectComparatorService
 
     public <L, R> boolean byValues(L left, R right)
     {
+        return byValues(left, right, false);
+    }
+
+    public <L, R> boolean byValues(L left, R right, boolean recursiveSearch)
+    {
         boolean isOk = true;
 
         for (Field testedField : getAllPublicAndPrivateObjectPropertyName(left))
@@ -54,7 +59,7 @@ public class ObjectComparatorService
                     continue;
                 }
 
-                if (skipRecursiveCompare(leftField))
+                if (!doRecursiveCompare(leftField))
                 {
                     if (!leftField.equals(rightField))
                     {
@@ -85,7 +90,7 @@ public class ObjectComparatorService
     }
 
     // @todo: check from package
-    private boolean skipRecursiveCompare(Object var)
+    private boolean doRecursiveCompare(Object var)
     {
         return var instanceof Boolean
             || var instanceof Short

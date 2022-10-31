@@ -6,7 +6,7 @@ public interface ITypedNotification
 {
     Long getId();
 
-    long getUserId();
+    String getIdsUserId();
 
     short getType();
 

@@ -101,7 +101,7 @@ public class ReviewService_maskProtectedReviewCreatedBysTest extends AbstractTes
                     Map.of(
                         GroupFakeBuilder.defaultId1,
                         List.of(
-                            new ReviewFakeBuilder().visibility((short) 3).createdBy(0L).build(),
+                            new ReviewFakeBuilder().visibility((short) 3).createdBy("").build(),
                             new ReviewFakeBuilder().build()
                         )
                     ),
@@ -109,7 +109,7 @@ public class ReviewService_maskProtectedReviewCreatedBysTest extends AbstractTes
                     Map.of(
                         GroupFakeBuilder.defaultId3,
                         List.of(
-                            new ReviewFakeBuilder().visibility((short) 3).createdBy(0L).build(),
+                            new ReviewFakeBuilder().visibility((short) 3).createdBy("").build(),
                             new ReviewFakeBuilder().build()
                         )
                     )

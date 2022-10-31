@@ -242,7 +242,7 @@
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>simple_oidc_java_maven</artifactId>
-            <version>aa9eaa09cbfb9f1e97084a522e9fd11c23895e27</version>
+            <version>acb1042a3fad24965bb9121d586000ab9d4fd6be</version>
         </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>

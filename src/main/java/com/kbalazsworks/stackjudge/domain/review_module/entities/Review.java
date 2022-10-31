@@ -11,7 +11,7 @@ public record Review(
     @JsonProperty short rate,
     @JsonProperty String review,
     @JsonProperty LocalDateTime createdAt,
-    @JsonProperty Long createdBy
+    @JsonProperty String createdBy
 )
 {
 }

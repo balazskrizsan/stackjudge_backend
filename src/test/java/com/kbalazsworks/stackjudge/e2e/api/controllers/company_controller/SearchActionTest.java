@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -109,10 +109,10 @@ public class SearchActionTest extends AbstractE2eTest
         String path_companyOwners_companyId1_companyId     = "$.data.companyOwners." + companyId1Str + ".companyId";
         long   expected_companyOwners_companyId1_companyId = CompanyFakeBuilder.defaultId1;
         String path_companyOwners_companyId1_owners_0      = "$.data.companyOwners." + companyId1Str + ".owners[0]";
-        long   expected_companyOwners_companyId1_owners_0  = UserFakeBuilder.defaultId1;
+        String expected_companyOwners_companyId1_owners_0  = IdsUserFakeBuilder.defaultId1;
 
-        String path_companyUsers_userId1_userId1     = "$.data.companyUsers." + UserFakeBuilder.defaultId1 + ".id";
-        long   expected_companyUsers_userId1_userId1 = UserFakeBuilder.defaultId1;
+        String path_companyUsers_userId1_userId1     = "$.data.companyUsers.".concat(IdsUserFakeBuilder.defaultId1) + ".id";
+        String expected_companyUsers_userId1_userId1 = IdsUserFakeBuilder.defaultId1;
         // @formatter:on
 
         // Act

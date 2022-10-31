@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,30 +26,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class GetActionTest extends AbstractE2eTest
 {
-    @Test
-    @SqlGroup(
-        {
-            @Sql(
-                executionPhase = BEFORE_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {
-                    "classpath:test/sqls/_truncate_tables.sql",
-                    "classpath:test/sqls/preset_add_1_company.sql",
-                    "classpath:test/sqls/preset_add_1_address.sql",
-                    "classpath:test/sqls/preset_add_1_group.sql",
-                    "classpath:test/sqls/preset_add_1_review.sql",
-                    "classpath:test/sqls/preset_add_1_user.sql",
-                    "classpath:test/sqls/preset_add_1_company_owner.sql",
-                }
-            ),
-            @Sql(
-                executionPhase = AFTER_TEST_METHOD,
-                config = @SqlConfig(transactionMode = ISOLATED),
-                scripts = {"classpath:test/sqls/_truncate_tables.sql"}
-            )
-        }
-    )
-    public void callMethodWithCorrectDbData_allReturnedFieldHasValues() throws Exception
+    @Test @SqlGroup({
+        @Sql(executionPhase = BEFORE_TEST_METHOD, config = @SqlConfig(transactionMode = ISOLATED), scripts = {
+            "classpath:test/sqls/_truncate_tables.sql",
+            "classpath:test/sqls/preset_add_1_company.sql",
+            "classpath:test/sqls/preset_add_1_address.sql",
+            "classpath:test/sqls/preset_add_1_group.sql",
+            "classpath:test/sqls/preset_add_1_review.sql",
+            "classpath:test/sqls/preset_add_1_user.sql",
+            "classpath:test/sqls/preset_add_1_company_owner.sql",
+        }),
+        @Sql(executionPhase = AFTER_TEST_METHOD,
+            config = @SqlConfig(transactionMode = ISOLATED),
+            scripts = {"classpath:test/sqls/_truncate_tables.sql"})
+    }) public void callMethodWithCorrectDbData_allReturnedFieldHasValues() throws Exception
     {
         // Arrange
         String groupId1str     = GroupFakeBuilder.defaultId1.toString();
@@ -68,13 +58,11 @@ public class GetActionTest extends AbstractE2eTest
 
         // Act
         ResultActions result = getMockMvc()
-            .perform(
-                MockMvcRequestBuilders
-                    .get(testedUri, testedCompanyId)
-                    .params(testedParams)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+            .perform(MockMvcRequestBuilders
+                .get(testedUri, testedCompanyId)
+                .params(testedParams)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
             .andDo(print());
 
         // Assert
@@ -104,10 +92,10 @@ public class GetActionTest extends AbstractE2eTest
         String path_companyOwners_companyId     = "$.data.companyOwners.companyId";
         long   expected_companyOwners_companyId = CompanyFakeBuilder.defaultId1;
         String path_companyOwners_owners_0      = "$.data.companyOwners.owners[0]";
-        long   expected_companyOwners_owners_0  = UserFakeBuilder.defaultId1;
+        String expected_companyOwners_owners_0  = IdsUserFakeBuilder.defaultId1;
 
-        String path_companyUsers_userId1_id     = "$.data.companyUsers." + UserFakeBuilder.defaultId1 + ".id";
-        long   expected_companyUsers_userId1_id = UserFakeBuilder.defaultId1;
+        String path_companyUsers_userId1_id     = "$.data.companyUsers." + IdsUserFakeBuilder.defaultId1 + ".id";
+        String expected_companyUsers_userId1_id = IdsUserFakeBuilder.defaultId1;
         // @formatter:on
 
         result
@@ -124,8 +112,7 @@ public class GetActionTest extends AbstractE2eTest
             .andExpect(jsonPath(path_companyUsers_userId1_id).value(expected_companyUsers_userId1_id));
     }
 
-    @Test
-    public void callNotExistingCompany_returnStdApiError() throws Exception
+    @Test public void callNotExistingCompany_returnStdApiError() throws Exception
     {
         // Arrange
         String        testedUri                  = "/company/{id}";
@@ -136,12 +123,10 @@ public class GetActionTest extends AbstractE2eTest
         ResultMatcher expectedStatusCode         = status().isNotFound();
 
         // Act
-        ResultActions result = getMockMvc().perform(
-            MockMvcRequestBuilders
-                .get(testedUri, testedNotExistingCompanyId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        );
+        ResultActions result = getMockMvc().perform(MockMvcRequestBuilders
+            .get(testedUri, testedNotExistingCompanyId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON));
 
         // Assert
         result

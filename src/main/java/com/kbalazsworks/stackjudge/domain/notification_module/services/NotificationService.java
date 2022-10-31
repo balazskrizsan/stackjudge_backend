@@ -19,15 +19,15 @@ public class NotificationService
     private final CrudNotificationService      crudNotificationService;
 
     // @todo: test
-    public NotificationResponse searchMyNotifications(Short limit, State state)
+    public NotificationResponse searchMyNotifications(Short limit, State state) throws Exception
     {
         List<ITypedNotification> typedNotifications = searchMyNotificationsService.convertToTypedNotification(
-            crudNotificationService.searchMyNotifications(limit, state.currentUser().getId())
+            crudNotificationService.searchMyNotifications(limit, state.currentIdsUser().getIdsUserId())
         );
 
-        List<Long> affectedUsersIds = searchMyNotificationsService.getUserIdsFromDataProtectedReviewType(typedNotifications);
+        List<String> affectedUsersIds = searchMyNotificationsService.getUserIdsFromDataProtectedReviewType(typedNotifications);
 
-        affectedUsersIds.add(accountService.getCurrentUser().getId());
+        affectedUsersIds.add(accountService.getCurrentUser().getIdsUserId());
 
         return new NotificationResponse(
             typedNotifications,

@@ -1,17 +1,9 @@
 package com.kbalazsworks.stackjudge;
 
-import com.kbalazsworks.stackjudge.api.builders.OAuthFacebookServiceBuilder;
 import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
-import com.kbalazsworks.stackjudge.api.factories.JwtFactory;
 import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
-import com.kbalazsworks.stackjudge.api.services.FrontendUriService;
-import com.kbalazsworks.stackjudge.api.services.JwtService;
 import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
-import com.kbalazsworks.stackjudge.api.services.facebook_services.FacebookService;
-import com.kbalazsworks.stackjudge.api.services.facebook_services.RegistrationAndLoginService;
-import com.kbalazsworks.stackjudge.api.services.facebook_services.ScribeJavaFacebookService;
-import com.kbalazsworks.stackjudge.api.services.jwt_service.JwtSubService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRepository;
@@ -48,10 +40,8 @@ import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReview
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain_aspects.aspects.SlowServiceLoggerAspect;
 import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
-import com.kbalazsworks.stackjudge.mocking.MockCreator;
-import com.kbalazsworks.stackjudge.mocking.setup_mock.ApplicationPropertiesMocker;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
-import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.notification.push.PushToUserService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids.account.ListService;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
 import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
@@ -65,28 +55,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-
 @Service
 @RequiredArgsConstructor
 public class ServiceFactory
 {
-    private final ApplicationProperties       applicationProperties;
-    private final DateFactory                 dateFactory;
-    private final SystemFactory               systemFactory;
-    private final JwtFactory                  jwtFactory;
-    private final LocalDateTimeFactory        localDateTimeFactory;
-    private final UrlFactory                  urlFactory;
-    private final PebbleTemplateFactory       pebbleTemplateFactory;
-    private final OAuthFacebookServiceBuilder oAuthFacebookServiceBuilder;
+    private final ApplicationProperties applicationProperties;
+    private final DateFactory           dateFactory;
+    private final SystemFactory         systemFactory;
+    private final LocalDateTimeFactory  localDateTimeFactory;
+    private final UrlFactory            urlFactory;
+    private final PebbleTemplateFactory pebbleTemplateFactory;
 
     private final AddressService                 addressService;
     private final SearchService                  searchService;
     private final GroupService                   groupService;
     private final ReviewService                  reviewService;
     private final PaginatorService               paginatorService;
-    private final JwtSubService                  jwtSubService;
     private final DateTimeFormatterService       dateTimeFormatterService;
     private final JooqService                    jooqService;
     private final AccountService                 accountService;
@@ -107,13 +91,6 @@ public class ServiceFactory
     private final CrudNotificationService        crudNotificationService;
     private final IS3Upload                      s3UploadApiService;
     private final OpenSdkFileService             openSdkFileService;
-    private final RegistrationStateService       registrationStateService;
-    private final RegistrationAndLoginService    registrationAndLoginService;
-    private final ScribeJavaFacebookService      scribeJavaFacebookService;
-    private final JwtService                     jwtService;
-    private final FrontendUriService             frontendUriService;
-    private final SpringCookieService            springCookieService;
-    private final PushToUserService              pushToUserService;
     private final ISesSendCompanyOwnEmail        sesSendCompanyOwnEmailApiService;
 
     private final CompanyRepository                         companyRepository;
@@ -126,6 +103,7 @@ public class ServiceFactory
     private final RedisTemplate<String, RegistrationSecret> redisTemplateStringRegistrationSecret;
     private final UserJooqRepository                        userJooqRepository;
     private final ProtectedReviewLogRepository              protectedReviewLogRepository;
+    private final ListService                               listService;
 
     public CompanyService getCompanyService()
     {
@@ -158,67 +136,6 @@ public class ServiceFactory
             Optional.ofNullable(s3UploadApiServiceMock).orElse(s3UploadApiService),
             Optional.ofNullable(openSdkFileServiceMock).orElse(openSdkFileService),
             Optional.ofNullable(companyRepositoryMock).orElse(companyRepository)
-        );
-    }
-
-    public JwtService getJwtService()
-    {
-        return getJwtService(null, null, null, null);
-    }
-
-    public JwtService getJwtService(
-        ApplicationProperties applicationPropertiesMock,
-        DateFactory dateFactoryMock,
-        SystemFactory systemFactoryMock,
-        JwtSubService jwtSubServiceMock
-    )
-    {
-        return new JwtService(
-            Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock()),
-            Optional.ofNullable(dateFactoryMock).orElse(dateFactory),
-            Optional.ofNullable(systemFactoryMock).orElse(systemFactory),
-            Optional.ofNullable(jwtSubServiceMock).orElse(jwtSubService)
-        );
-    }
-
-    public JwtService getJwtMockedService(
-        ApplicationProperties applicationPropertiesMock,
-        DateFactory dateFactoryMock,
-        SystemFactory systemFactoryMock,
-        JwtSubService jwtSubServiceMock
-    )
-    {
-        if (null == applicationPropertiesMock)
-        {
-            applicationPropertiesMock = ApplicationPropertiesMocker.getDefaultMock();
-        }
-
-        if (null == dateFactoryMock)
-        {
-            String testedTime            = "2021-01-02 11:22:33";
-            String testedTimePlusOneWeek = "2021-01-09 11:22:33";
-            dateFactoryMock = MockCreator.getDateFactoryMock();
-            when(dateFactoryMock.create()).thenReturn(MockFactory.getJavaDateFromDateTime(testedTime));
-            when(dateFactoryMock.create(anyLong()))
-                .thenReturn(MockFactory.getJavaDateFromDateTime(testedTimePlusOneWeek));
-        }
-
-        return getJwtService(applicationPropertiesMock, dateFactoryMock, systemFactoryMock, jwtSubServiceMock);
-    }
-
-    public JwtSubService getJwtSubService()
-    {
-        return getJwtSubService(null, null);
-    }
-
-    public JwtSubService getJwtSubService(
-        ApplicationProperties applicationPropertiesMock,
-        JwtFactory jwtFactoryMock
-    )
-    {
-        return new JwtSubService(
-            Optional.ofNullable(applicationPropertiesMock).orElse(applicationProperties),
-            Optional.ofNullable(jwtFactoryMock).orElse(jwtFactory)
         );
     }
 
@@ -316,15 +233,15 @@ public class ServiceFactory
     }
 
     public AccountService getAccountService(
-        UsersRepository usersRepositoryMock,
         UserJooqRepository userJooqRepositoryReplaced,
-        ProtectedReviewLogService protectedReviewLogServiceMock
+        ProtectedReviewLogService protectedReviewLogServiceMock,
+        ListService listServiceMock
     )
     {
         return new AccountService(
-            Optional.ofNullable(usersRepositoryMock).orElse(usersRepository),
             Optional.ofNullable(userJooqRepositoryReplaced).orElse(userJooqRepository),
-            Optional.ofNullable(protectedReviewLogServiceMock).orElse(protectedReviewLogService)
+            Optional.ofNullable(protectedReviewLogServiceMock).orElse(protectedReviewLogService),
+            Optional.ofNullable(listServiceMock).orElse(listService)
         );
     }
 
@@ -444,54 +361,6 @@ public class ServiceFactory
         return new ProtectedReviewLogService(
             Optional.ofNullable(protectedReviewLogRepositoryMock).orElse(protectedReviewLogRepository),
             Optional.ofNullable(crudNotificationServiceMock).orElse(crudNotificationService)
-        );
-    }
-
-    public FacebookService getFacebookService()
-    {
-        return getFacebookService(null, null, null, null, null, null, null);
-    }
-
-    public FacebookService getFacebookService(
-        SecureRandomService secureRandomServiceMock,
-        RegistrationStateService registrationStateServiceMock,
-        OAuthFacebookServiceBuilder oAuthFacebookServiceBuilderMock,
-        RegistrationAndLoginService registrationAndLoginServiceMock,
-        JooqService jooqServiceMock,
-        JwtService jwtServiceMock,
-        SpringCookieService springCookieMock
-    )
-    {
-        return new FacebookService(
-            Optional.ofNullable(secureRandomServiceMock).orElse(secureRandomService),
-            Optional.ofNullable(registrationStateServiceMock).orElse(registrationStateService),
-            Optional.ofNullable(oAuthFacebookServiceBuilderMock).orElse(oAuthFacebookServiceBuilder),
-            Optional.ofNullable(registrationAndLoginServiceMock).orElse(registrationAndLoginService),
-            Optional.ofNullable(jooqServiceMock).orElse(jooqService),
-            Optional.ofNullable(jwtServiceMock).orElse(jwtService),
-            Optional.ofNullable(springCookieMock).orElse(springCookieService)
-        );
-    }
-
-    public RegistrationAndLoginService getRegistrationAndLoginService()
-    {
-        return getRegistrationAndLoginService(null, null, null, null, null);
-    }
-
-    public RegistrationAndLoginService getRegistrationAndLoginService(
-        AccountService accountServiceMock,
-        ScribeJavaFacebookService scribeJavaFacebookServiceMock,
-        FrontendUriService frontendUriServiceMock,
-        PushToUserService pushToUserServiceMock,
-        ApplicationProperties applicationPropertiesMock
-    )
-    {
-        return new RegistrationAndLoginService(
-            Optional.ofNullable(accountServiceMock).orElse(accountService),
-            Optional.ofNullable(scribeJavaFacebookServiceMock).orElse(scribeJavaFacebookService),
-            Optional.ofNullable(frontendUriServiceMock).orElse(frontendUriService),
-            Optional.ofNullable(pushToUserServiceMock).orElse(pushToUserService),
-            Optional.ofNullable(applicationPropertiesMock).orElse(ApplicationPropertiesMocker.getDefaultMock())
         );
     }
 

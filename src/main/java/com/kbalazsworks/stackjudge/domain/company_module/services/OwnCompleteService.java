@@ -26,17 +26,17 @@ public class OwnCompleteService
         {
             CompanyOwnRequest companyOwnRequest = ownRequestService.getAndDeleteByCode(ownComplete.code());
 
-            long userId    = companyOwnRequest.requesterUserId();
+            String idsUserId    = companyOwnRequest.requesterIdsUserId();
             long companyId = companyOwnRequest.requestedCompanyId();
 
-            if (companyOwnersService.isUserOwnerOnCompany(userId, companyId))
+            if (companyOwnersService.isUserOwnerOnCompany(idsUserId, companyId))
             {
                 httpExceptionService.throwCompanyAlreadyOwnedByTheUser();
             }
 
             try
             {
-                companyOwnersService.own(new CompanyOwner(companyId, userId, state.now()));
+                companyOwnersService.own(new CompanyOwner(companyId, idsUserId, state.now()));
             }
             catch (Exception e)
             {

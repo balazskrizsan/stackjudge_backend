@@ -15,7 +15,7 @@ public class CompanyOwnerFakeBuilder
     public static final long defaultId = 100001;
 
     private long          companyId = defaultId;
-    private long          userId    = 105001;
+    private String        userId    = "105001";
     private LocalDateTime createdAt = LocalDateTime.of(2021, 1, 17, 2, 30, 0);
 
     public CompanyOwner build()

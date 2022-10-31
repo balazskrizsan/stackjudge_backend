@@ -1,7 +1,6 @@
 package com.kbalazsworks.stackjudge.state.services;
 
 import com.kbalazsworks.stackjudge.state.entities.State;
-import com.kbalazsworks.stackjudge.state.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -16,7 +16,7 @@ public class ProtectedReviewLogFakeBuilder
     public static Long defaultId1 = 105001L;
 
     private Long          id           = defaultId1;
-    private long          viewerUserId = UserFakeBuilder.defaultId1;
+    private String        viewerUserId = IdsUserFakeBuilder.defaultId1;
     private long          reviewId     = ReviewFakeBuilder.defaultId1;
     private LocalDateTime createdAt    = MockFactory.testLocalDateTimeMock1;
 

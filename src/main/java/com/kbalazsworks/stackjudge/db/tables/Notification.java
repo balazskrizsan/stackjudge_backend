@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Notification extends TableImpl<NotificationRecord> {
 
-    private static final long serialVersionUID = 154441633;
+    private static final long serialVersionUID = 132852221;
 
     /**
      * The reference instance of <code>public.notification</code>
@@ -55,9 +55,9 @@ public class Notification extends TableImpl<NotificationRecord> {
     public final TableField<NotificationRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.notification.user_id</code>.
+     * The column <code>public.notification.user_ids_user_id</code>.
      */
-    public final TableField<NotificationRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<NotificationRecord, String> USER_IDS_USER_ID = createField(DSL.name("user_ids_user_id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>public.notification.type</code>.
@@ -134,11 +134,11 @@ public class Notification extends TableImpl<NotificationRecord> {
 
     @Override
     public List<ForeignKey<NotificationRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<NotificationRecord, ?>>asList(Keys.NOTIFICATION__FK__NOTIFICATION_ID__USERS_ID__ON_DELETE_CASCADE);
+        return Arrays.<ForeignKey<NotificationRecord, ?>>asList(Keys.NOTIFICATION__FK__NOTIFICATION_ID__USERS_IDS_USER_ID__ON_DELETE_CASCADE);
     }
 
     public Users users() {
-        return new Users(this, Keys.NOTIFICATION__FK__NOTIFICATION_ID__USERS_ID__ON_DELETE_CASCADE);
+        return new Users(this, Keys.NOTIFICATION__FK__NOTIFICATION_ID__USERS_IDS_USER_ID__ON_DELETE_CASCADE);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class Notification extends TableImpl<NotificationRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, Long, Short, JSONB, LocalDateTime, LocalDateTime> fieldsRow() {
+    public Row6<Long, String, Short, JSONB, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row6) super.fieldsRow();
     }
 }

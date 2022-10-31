@@ -17,9 +17,11 @@ public class RawNotificationFakeBuilder
     public static Long defaultId1 = TypedNotificationFakeBuilder.defaultId1;
 
     private Long          id        = defaultId1;
-    private long          userId    = UserFakeBuilder.defaultId1;
+    private String        userId    = IdsUserFakeBuilder.defaultId1;
     private short         type      = NotificationTypeEnum.PROTECTED_VIEW.getValue();
-    private String        data      = "{\"viewerUserId\": " + DataProtectedReviewFakeBuilder.defaultViewerUserId + "}";
+    private String        data      = "{" +
+        "\"viewerIdsUserId\": \"" + DataProtectedReviewFakeBuilder.defaultViewerUserId + "\"" +
+        "}";
     private LocalDateTime createdAt = MockFactory.testLocalDateTimeMock1;
     private LocalDateTime viewedAt  = MockFactory.testLocalDateTimeMock2;
 

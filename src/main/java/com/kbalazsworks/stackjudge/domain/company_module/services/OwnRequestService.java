@@ -9,12 +9,12 @@ import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwnRequest;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.TypedPersistenceLog;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.DataOwnRequestSent;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.enums.PersistenceLogTypeEnum;
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.OwnRequest;
 import com.kbalazsworks.stackjudge.domain.email_module.services.CompanyOwnEmailService;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.DataOwnRequestSent;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.TypedPersistenceLog;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.enums.PersistenceLogTypeEnum;
+import com.kbalazsworks.stackjudge.domain.persistance_log_module.services.PersistenceLogService;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class OwnRequestService
     public void own(@NonNull OwnRequest ownRequest, @NonNull State state)
     {
         // @todo2: test condition
-        if (companyOwnersService.isUserOwnerOnCompany(state.currentUser().getId(), ownRequest.companyId()))
+        if (companyOwnersService.isUserOwnerOnCompany(state.currentIdsUser().getIdsUserId(), ownRequest.companyId()))
         {
             httpExceptionService.throwCompanyAlreadyOwnedByTheUser();
         }
@@ -56,10 +56,10 @@ public class OwnRequestService
         }
     }
 
-    private boolean transactionalOwn(@NonNull OwnRequest ownRequest, @NonNull State state)
+    private boolean transactionalOwn(@NonNull OwnRequest ownRequest, @NonNull State state) throws Exception
     {
         String  secret             = secureRandomService.getUrlEncoded(32);
-        long    requesterUserId    = state.currentUser().getId();
+        String  requesterUserId    = state.currentIdsUser().getIdsUserId();
         long    requestedCompanyId = ownRequest.companyId();
         Company company            = companyService.get(requestedCompanyId);
 
@@ -94,7 +94,7 @@ public class OwnRequestService
         {
             companyOwnEmailService.send(
                 generateEmailAddress(company, ownRequest.emailPart()),
-                state.currentUser().getUsername(),
+                state.currentIdsUser().getIdsUserId(),
                 urlService.generateCompanyOwnUrl(secret, ownRequest.companyId())
             );
         }

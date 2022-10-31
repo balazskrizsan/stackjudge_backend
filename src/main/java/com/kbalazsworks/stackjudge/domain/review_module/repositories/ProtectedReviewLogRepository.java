@@ -15,12 +15,12 @@ public class ProtectedReviewLogRepository extends AbstractRepository
         getQueryBuilder()
             .insertInto(
                 protectedReviewLogTable,
-                protectedReviewLogTable.VIEWER_USER_ID,
+                protectedReviewLogTable.VIEWER_USER_IDS_USER_ID,
                 protectedReviewLogTable.REVIEW_ID,
                 protectedReviewLogTable.CREATED_AT
             )
             .values(
-                protectedReviewLog.viewerUserId(),
+                protectedReviewLog.viewerIdsUserId(),
                 protectedReviewLog.reviewId(),
                 protectedReviewLog.createdAt()
             )

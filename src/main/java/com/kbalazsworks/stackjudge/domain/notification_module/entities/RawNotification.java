@@ -11,10 +11,16 @@ import java.time.LocalDateTime;
 // @todo: convert to record, but JOOQ-JSONP has same problem with that
 public class RawNotification
 {
-    @JsonProperty private final Long          id;
-    @JsonProperty private final long          userId;
-    @JsonProperty private final short         type;
-    @JsonProperty private final String        data;
-    @JsonProperty private final LocalDateTime createdAt;
-    @JsonProperty private final LocalDateTime viewedAt;
+    @JsonProperty
+    private final Long          id;
+    @JsonProperty
+    private final String        idsUserId;
+    @JsonProperty
+    private final short         type;
+    @JsonProperty
+    private final String        data;
+    @JsonProperty
+    private final LocalDateTime createdAt;
+    @JsonProperty
+    private final LocalDateTime viewedAt;
 }

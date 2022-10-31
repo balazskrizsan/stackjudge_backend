@@ -21,43 +21,43 @@ public class NotificationRepository extends AbstractRepository
     private final com.kbalazsworks.stackjudge.db.tables.Notification notificationTable
         = com.kbalazsworks.stackjudge.db.tables.Notification.NOTIFICATION;
 
-    public List<RawNotification> searchMyNotifications(long limit, long userId)
+    public List<RawNotification> searchMyNotifications(long limit, String idsUserId)
     {
         return getQueryBuilder()
             .select(
                 notificationTable.ID,
-                notificationTable.USER_ID,
+                notificationTable.USER_IDS_USER_ID,
                 notificationTable.TYPE,
                 field("{0}", String.class, notificationTable.DATA),
                 notificationTable.CREATED_AT,
                 notificationTable.VIEWED_AT
             )
             .from(notificationTable)
-            .where(notificationTable.USER_ID.eq(userId))
+            .where(notificationTable.USER_IDS_USER_ID.eq(idsUserId))
             .orderBy(notificationTable.ID.desc())
             .limit(limit)
             .fetchInto(RawNotification.class);
     }
 
-    public void delete(long notificationId, Long userId)
+    public void delete(long notificationId, String idsUserId)
     {
         getQueryBuilder()
             .deleteFrom(notificationTable)
             .where(
                 notificationTable.ID.eq(notificationId)
-                    .and(notificationTable.USER_ID.eq(userId))
+                    .and(notificationTable.USER_IDS_USER_ID.eq(idsUserId))
             )
             .execute();
     }
 
-    public void markAsRead(long notificationId, Long userId, LocalDateTime now)
+    public void markAsRead(long notificationId, String idsUserId, LocalDateTime now)
     {
         getQueryBuilder()
             .update(notificationTable)
             .set(notificationTable.VIEWED_AT, now)
             .where(
                 notificationTable.ID.eq(notificationId)
-                    .and(notificationTable.USER_ID.eq(userId))
+                    .and(notificationTable.USER_IDS_USER_ID.eq(idsUserId))
             )
             .execute();
     }
@@ -77,13 +77,13 @@ public class NotificationRepository extends AbstractRepository
         getQueryBuilder()
             .insertInto(
                 notificationTable,
-                notificationTable.USER_ID,
+                notificationTable.USER_IDS_USER_ID,
                 notificationTable.TYPE,
                 notificationTable.DATA,
                 notificationTable.CREATED_AT
             )
             .values(
-                typedNotification.getUserId(),
+                typedNotification.getIdsUserId(),
                 typedNotification.getType(),
                 JSONB.valueOf(data),
                 typedNotification.getCreatedAt()

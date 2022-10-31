@@ -2,8 +2,9 @@ package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
-import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -41,13 +42,13 @@ public class FindByIdTest extends AbstractIntegrationTest
     public void selectingFromFilledDb_returnsUserAndCallLogger()
     {
         // Arrange
-        long testedUserId = UserFakeBuilder.defaultId1;
-        User expectedUser = new UserFakeBuilder().build();
+        String  testedUserId    = UserFakeBuilder.defaultId1;
+        IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
 
         // Act
-        User actualUser = serviceFactory.getAccountService().findById(testedUserId);
+        IdsUser actualIdsUser = serviceFactory.getAccountService().findById(testedUserId);
 
         // Assert
-        assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
+        assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser);
     }
 }

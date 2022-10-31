@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ProtectedReviewLog(
     Long id,
-    long viewerUserId,
+    String viewerIdsUserId,
     long reviewId,
     LocalDateTime createdAt
 )

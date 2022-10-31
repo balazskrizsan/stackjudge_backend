@@ -49,13 +49,6 @@ public class JWTAuthenticationFilterService extends UsernamePasswordAuthenticati
         @NonNull Authentication auth
     )
     {
-        String token = Jwts
-            .builder()
-            .setSubject(((User) auth.getPrincipal()).getUsername())
-            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .signWith(SignatureAlgorithm.HS512, SECRET)
-            .compact();
-
-        res.addHeader(AUTHENTICATION_COOKIE_NAME, BEARER_TOKEN_PREFIX + token);
+        //@todo: do we need it with oidc?
     }
 }

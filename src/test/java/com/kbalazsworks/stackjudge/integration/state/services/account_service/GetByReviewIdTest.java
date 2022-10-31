@@ -5,10 +5,10 @@ import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.state.entities.State;
-import com.kbalazsworks.stackjudge.state.entities.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -54,12 +54,12 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
     public void selectingFromFilledDb_returnsUserAndCallLogger()
     {
         // Arrange
-        long  testedReviewId = ReviewFakeBuilder.defaultId1;
-        User  expectedUser   = new UserFakeBuilder().build();
-        State expectedState  = TEST_STATE;
+        long    testedReviewId  = ReviewFakeBuilder.defaultId1;
+        IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
+        State   expectedState   = TEST_STATE;
         ProtectedReviewLog expectedProtectedReviewLog = new ProtectedReviewLog(
             null,
-            expectedUser.getId(),
+            expectedIdsUser.getId(),
             testedReviewId,
             TEST_STATE.now()
         );
@@ -67,17 +67,18 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
         ProtectedReviewLogService protectedReviewLogServiceMock = MockCreator.getProtectedReviewLogServiceMock();
 
         // Act
-        User actualUser = serviceFactory.getAccountService(
-            null,
-            null,
-            protectedReviewLogServiceMock
-        )
+        IdsUser actualIdsUser = serviceFactory
+            .getAccountService(
+                null,
+                protectedReviewLogServiceMock,
+                null
+            )
             .getByReviewId(testedReviewId, TEST_STATE);
 
         // Assert
         assertAll(
             () -> verify(protectedReviewLogServiceMock, only()).create(expectedProtectedReviewLog, expectedState),
-            () -> assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser)
+            () -> assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser)
         );
     }
 }

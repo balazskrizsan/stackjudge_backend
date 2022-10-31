@@ -11,5 +11,5 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @Getter
 @EqualsAndHashCode
 public class DataProtectedReview {
-    @JsonProperty("viewerUserId") private long viewerUserId;
+    @JsonProperty("viewerIdsUserId") private String viewerIdsUserId;
 }

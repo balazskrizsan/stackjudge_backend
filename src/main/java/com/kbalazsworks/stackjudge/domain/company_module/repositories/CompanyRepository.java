@@ -76,7 +76,6 @@ public class CompanyRepository extends AbstractRepository
         return newIdRecord.getValue(companyTable.ID);
     }
 
-    @Cacheable("companies")
     public List<Company> search(long seekId, int limit)
     {
         return getQueryBuilder()
@@ -87,7 +86,6 @@ public class CompanyRepository extends AbstractRepository
             .fetchInto(Company.class);
     }
 
-    @Cacheable("companies")
     public List<Company> search(NavigationEnum navigation, int limit)
     {
         return getQueryBuilder()

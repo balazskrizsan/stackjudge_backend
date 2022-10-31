@@ -5,7 +5,7 @@ import com.kbalazsworks.stackjudge.MockFactory;
 import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class PostActionTest extends AbstractE2eTest
         Review expectedReview = new ReviewFakeBuilder()
             .id(null)
             .createdAt(MockFactory.testLocalDateTimeMock1)
-            .createdBy(UserFakeBuilder.defaultId1)
+            .createdBy(IdsUserFakeBuilder.defaultId1)
             .build();
 
         // Act

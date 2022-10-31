@@ -38,7 +38,7 @@ public class S3UploadApiService implements IS3Upload
                 ApiResponseDataCdnServicePutResponse.class
             );
 
-            return new StdResponse<>(response.getStatusCode(), response.getHeaders(),body.getCdnServicePutResponse());
+            return new StdResponse<>(response.getStatusCode(), response.getHeaders(), body.getCdnServicePutResponse());
         }
         catch (Exception e)
         {

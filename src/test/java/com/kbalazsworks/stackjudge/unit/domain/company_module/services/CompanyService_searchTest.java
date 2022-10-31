@@ -3,22 +3,23 @@ package com.kbalazsworks.stackjudge.unit.domain.company_module.services;
 import com.kbalazsworks.stackjudge.AbstractTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.Address;
-import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
-import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
-import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
-import com.kbalazsworks.stackjudge.domain.review_module.enums.ItemTypeEnum;
-import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
-import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanySearchServiceResponse;
 import com.kbalazsworks.stackjudge.domain.company_module.value_objects.CompanyStatistic;
-import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
+import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
+import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.ItemTypeEnum;
+import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
+import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyStatisticFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
@@ -27,7 +28,8 @@ import com.kbalazsworks.stackjudge.mocking.setup_mock.AddressServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.MapsServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.PaginatorServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.SearchServiceMocker;
-import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -66,7 +68,7 @@ public class CompanyService_searchTest extends AbstractTest
         Map<Long, CompanyAddresses> mockForSearchAddressesAsCompanyAddresses,
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> mockForAddressMaps,
         Map<Long, Map<Long, List<Review>>> mockForReviews,
-        Map<Long, User> mockForUsers,
+        Map<String, IdsUser> mockForUsers,
         Map<Long, List<Long>> mockForOwners,
         CompanySearchServiceResponse expectedResponse
     )
@@ -121,13 +123,16 @@ public class CompanyService_searchTest extends AbstractTest
                 Map.of(CompanyFakeBuilder.defaultId1, new CompanyStatisticFakeBuilder().build()),
                 List.of(new PaginatorItem(ItemTypeEnum.PAGE, "1", NavigationEnum.FIRST, true)),
                 Map.of(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList()),
-                Map.of(CompanyFakeBuilder.defaultId1, new CompanyAddresses(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList())),
+                Map.of(
+                    CompanyFakeBuilder.defaultId1,
+                    new CompanyAddresses(CompanyFakeBuilder.defaultId1, new AddressFakeBuilder().buildAsList())
+                ),
                 Map.of(CompanyFakeBuilder.defaultId1, Map.of(AddressFakeBuilder.defaultId1, new HashMap<>())),
                 Map.of(
                     CompanyFakeBuilder.defaultId1,
                     Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                 ),
-                Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build()),
+                Map.of(UserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build()),
                 new HashMap<>(),
                 // expected
                 new CompanySearchServiceResponse(
@@ -146,7 +151,7 @@ public class CompanyService_searchTest extends AbstractTest
                         Map.of(GroupFakeBuilder.defaultId1, new ReviewFakeBuilder().buildAsList())
                     ),
                     new HashMap<>(),
-                    Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build())
+                    Map.of(IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build())
                 )
             );
         }
@@ -154,6 +159,7 @@ public class CompanyService_searchTest extends AbstractTest
         throw new JUnitException("Missing test data on repetition#" + repetition);
     }
 
+    @SneakyThrows
     @RepeatedTest(2)
     public void allCallableCalled_byTheProvider(RepetitionInfo repetitionInfo)
     {
@@ -184,7 +190,7 @@ public class CompanyService_searchTest extends AbstractTest
                 PaginatorServiceMocker.generate_(1L, 2L, td.testedLimit, td.mockForGenerate),
                 null,
                 AccountServiceMocker.findByUserIdsWithIdMap_returns_mappedUsers(
-                    List.of(UserFakeBuilder.defaultId1),
+                    List.of(IdsUserFakeBuilder.defaultId1),
                     td.mockForUsers
                 ),
                 MapsServiceMocker.searchByAddresses_returns_addressMaps(

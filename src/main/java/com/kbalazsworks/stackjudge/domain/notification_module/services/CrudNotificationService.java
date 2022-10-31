@@ -18,13 +18,13 @@ public class CrudNotificationService
     // @todo: test
     public void delete(long notificationId, State state)
     {
-        notificationRepository.delete(notificationId, state.currentUser().getId());
+        notificationRepository.delete(notificationId, state.currentIdsUser().getIdsUserId());
     }
 
     // @todo: test
     public void markAsRead(long notificationId, State state)
     {
-        notificationRepository.markAsRead(notificationId, state.currentUser().getId(), state.now());
+        notificationRepository.markAsRead(notificationId, state.currentIdsUser().getIdsUserId(), state.now());
     }
 
     // @todo: test
@@ -33,8 +33,8 @@ public class CrudNotificationService
         notificationRepository.create(rawNotification);
     }
 
-    public List<RawNotification> searchMyNotifications(long limit, long userId)
+    public List<RawNotification> searchMyNotifications(long limit, String idsUserId)
     {
-        return this.notificationRepository.searchMyNotifications(limit, userId);
+        return this.notificationRepository.searchMyNotifications(limit, idsUserId);
     }
 }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +32,7 @@ public class SearchMyNotificationsService
 
         return new TypedNotification<>(
             notification.getId(),
-            notification.getUserId(),
+            notification.getIdsUserId(),
             notification.getType(),
             data,
             notification.getCreatedAt(),
@@ -49,7 +50,7 @@ public class SearchMyNotificationsService
         {
             log.error("Notification data parse error: " + data);
 
-            return new DataProtectedReview(0L);
+            return new DataProtectedReview("");
         }
     }
 
@@ -62,20 +63,20 @@ public class SearchMyNotificationsService
             .orElse(null);
     }
 
-    public List<Long> getUserIdsFromDataProtectedReviewType(List<ITypedNotification> typedNotifications)
+    public List<String> getUserIdsFromDataProtectedReviewType(List<ITypedNotification> typedNotifications)
     {
         return typedNotifications
             .stream()
             .map(r -> {
                 if (r.getType() == NotificationTypeEnum.PROTECTED_VIEW.getValue())
                 {
-                    return ((DataProtectedReview) r.getData()).getViewerUserId();
+                    return ((DataProtectedReview) r.getData()).getViewerIdsUserId();
                 }
 
-                return 0L;
+                return "";
             })
             .distinct()
-            .filter(r -> r != 0)
+            .filter(r -> !Objects.equals(r, ""))
             .collect(Collectors.toList());
     }
 }

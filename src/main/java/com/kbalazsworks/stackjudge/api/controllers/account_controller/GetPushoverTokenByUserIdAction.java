@@ -26,7 +26,7 @@ public class GetPushoverTokenByUserIdAction
         new JavaxValidatorService<GetPushoverTokenByUserIdRequest>().validate(request);
 
         return new ResponseEntityBuilder<PushoverInfo>()
-            .data(accountService.findPushoverDataById(request.getUserId()))
+            .data(accountService.findPushoverDataById(request.getIdsUserId()))
             .build();
     }
 }

@@ -13,10 +13,9 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row1;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -32,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -520519917;
+    private static final long serialVersionUID = 93081640;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -48,49 +47,9 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     /**
-     * The column <code>public.users.id</code>.
+     * The column <code>public.users.ids_user_id</code>.
      */
-    public final TableField<UsersRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
-
-    /**
-     * The column <code>public.users.is_email_user</code>.
-     */
-    public final TableField<UsersRecord, Boolean> IS_EMAIL_USER = createField(DSL.name("is_email_user"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
-
-    /**
-     * The column <code>public.users.is_facebook_user</code>.
-     */
-    public final TableField<UsersRecord, Boolean> IS_FACEBOOK_USER = createField(DSL.name("is_facebook_user"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
-
-    /**
-     * The column <code>public.users.profile_picture_url</code>.
-     */
-    public final TableField<UsersRecord, String> PROFILE_PICTURE_URL = createField(DSL.name("profile_picture_url"), org.jooq.impl.SQLDataType.VARCHAR(300), this, "");
-
-    /**
-     * The column <code>public.users.username</code>.
-     */
-    public final TableField<UsersRecord, String> USERNAME = createField(DSL.name("username"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
-
-    /**
-     * The column <code>public.users.password</code>.
-     */
-    public final TableField<UsersRecord, String> PASSWORD = createField(DSL.name("password"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
-
-    /**
-     * The column <code>public.users.facebook_access_token</code>.
-     */
-    public final TableField<UsersRecord, String> FACEBOOK_ACCESS_TOKEN = createField(DSL.name("facebook_access_token"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
-
-    /**
-     * The column <code>public.users.facebook_id</code>.
-     */
-    public final TableField<UsersRecord, Long> FACEBOOK_ID = createField(DSL.name("facebook_id"), org.jooq.impl.SQLDataType.BIGINT, this, "");
-
-    /**
-     * The column <code>public.users.pushover_user_token</code>.
-     */
-    public final TableField<UsersRecord, String> PUSHOVER_USER_TOKEN = createField(DSL.name("pushover_user_token"), org.jooq.impl.SQLDataType.VARCHAR(40), this, "");
+    public final TableField<UsersRecord, String> IDS_USER_ID = createField(DSL.name("ids_user_id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * Create a <code>public.users</code> table reference
@@ -131,11 +90,6 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     @Override
-    public Identity<UsersRecord, Long> getIdentity() {
-        return Keys.IDENTITY_USERS;
-    }
-
-    @Override
     public UniqueKey<UsersRecord> getPrimaryKey() {
         return Keys.USERS_PK;
     }
@@ -172,11 +126,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row1 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Boolean, Boolean, String, String, String, String, Long, String> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row1<String> fieldsRow() {
+        return (Row1) super.fieldsRow();
     }
 }

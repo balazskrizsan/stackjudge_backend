@@ -2,8 +2,8 @@ package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
-import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -31,7 +31,7 @@ public class FindByIdsWithIdMapTest extends AbstractIntegrationTest
         assertThat(true).isTrue();
     }
 
-    private record TestData(List<Long> testedUserIds, Map<Long, User> expectedUsers)
+    private record TestData(List<String> testedUserIds, Map<String, IdsUser> expectedUsers)
     {
     }
 
@@ -48,18 +48,18 @@ public class FindByIdsWithIdMapTest extends AbstractIntegrationTest
         if (2 == repetition)
         {
             return new TestData(
-                List.of(UserFakeBuilder.defaultId1),
-                Map.of(UserFakeBuilder.defaultId1, new UserFakeBuilder().build())
+                List.of(IdsUserFakeBuilder.defaultId1),
+                Map.of(IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build())
             );
         }
 
         if (3 == repetition)
         {
             return new TestData(
-                List.of(UserFakeBuilder.defaultId1, UserFakeBuilder.defaultId2),
+                List.of(IdsUserFakeBuilder.defaultId1, IdsUserFakeBuilder.defaultId2),
                 Map.of(
-                    UserFakeBuilder.defaultId1, new UserFakeBuilder().build(),
-                    UserFakeBuilder.defaultId2, new UserFakeBuilder().build2()
+                    IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build(),
+                    IdsUserFakeBuilder.defaultId2, new IdsUserFakeBuilder().build2()
                 )
             );
         }
@@ -91,7 +91,7 @@ public class FindByIdsWithIdMapTest extends AbstractIntegrationTest
         TestData tD = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
-        Map<Long, User> actualUser = serviceFactory.getAccountService().findByIdsWithIdMap(tD.testedUserIds);
+        Map<String, IdsUser> actualUser = serviceFactory.getAccountService().findByIdsWithIdMap(tD.testedUserIds);
 
         // Assert
         assertThat(actualUser).usingRecursiveComparison().isEqualTo(tD.expectedUsers);

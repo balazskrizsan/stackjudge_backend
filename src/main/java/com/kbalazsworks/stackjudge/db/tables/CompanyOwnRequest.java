@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
 
-    private static final long serialVersionUID = 1226538159;
+    private static final long serialVersionUID = -1805406371;
 
     /**
      * The reference instance of <code>public.company_own_request</code>
@@ -48,9 +48,9 @@ public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
     }
 
     /**
-     * The column <code>public.company_own_request.requester_user_id</code>.
+     * The column <code>public.company_own_request.requester_user_ids_user_id</code>.
      */
-    public final TableField<CompanyOwnRequestRecord, Long> REQUESTER_USER_ID = createField(DSL.name("requester_user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<CompanyOwnRequestRecord, String> REQUESTER_USER_IDS_USER_ID = createField(DSL.name("requester_user_ids_user_id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>public.company_own_request.requested_company_id</code>.
@@ -117,11 +117,11 @@ public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
 
     @Override
     public List<ForeignKey<CompanyOwnRequestRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<CompanyOwnRequestRecord, ?>>asList(Keys.COMPANY_OWN_REQUEST__FK___COMPANY_OWN_REQUEST__ID___USERS__ID___ON_DELETE_CASCADE);
+        return Arrays.<ForeignKey<CompanyOwnRequestRecord, ?>>asList(Keys.COMPANY_OWN_REQUEST__FK___COMPANY_OWN_REQUEST__ID___USERS__IDS_USER_ID___ON_DELETE_C);
     }
 
     public Users users() {
-        return new Users(this, Keys.COMPANY_OWN_REQUEST__FK___COMPANY_OWN_REQUEST__ID___USERS__ID___ON_DELETE_CASCADE);
+        return new Users(this, Keys.COMPANY_OWN_REQUEST__FK___COMPANY_OWN_REQUEST__ID___USERS__IDS_USER_ID___ON_DELETE_C);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class CompanyOwnRequest extends TableImpl<CompanyOwnRequestRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Long, String, LocalDateTime> fieldsRow() {
+    public Row4<String, Long, String, LocalDateTime> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

@@ -72,7 +72,7 @@ public class ReviewService
                     r.rate(),
                     r.review(),
                     r.createdAt(),
-                    0L
+                    ""
                 ))
                 .collect(Collectors.toList());
             items.put(groupId, masked);

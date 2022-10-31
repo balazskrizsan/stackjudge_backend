@@ -26,13 +26,13 @@ public class CompanyOwnersService
     }
 
     // @todo2: test
-    public boolean isUserOwnerOnCompany(long userId, long companyId)
+    public boolean isUserOwnerOnCompany(String idsUserId, long companyId)
     {
-        return companyOwnersRepository.isUserOwnerOnCompany(userId, companyId);
+        return companyOwnersRepository.isUserOwnerOnCompany(idsUserId, companyId);
     }
 
     // @todo2: test
-    public Map<Long, List<Long>> searchByCompanyId(List<Long> companyId)
+    public Map<Long, List<String>> searchByCompanyId(List<Long> companyId)
     {
         return companyOwnersRepository.searchByCompanyId(companyId);
     }

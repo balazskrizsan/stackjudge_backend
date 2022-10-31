@@ -7,7 +7,6 @@ import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddress
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.aws_module.enums.CdnNamespaceEnum;
 import com.kbalazsworks.stackjudge.domain.common_module.exceptions.ExceptionResponseInfo;
-import com.kbalazsworks.stackjudge.domain.common_module.exceptions.RepositoryNotFoundException;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.Company;
 import com.kbalazsworks.stackjudge.domain.company_module.entities.CompanyOwners;
@@ -25,8 +24,8 @@ import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.Paginat
 import com.kbalazsworks.stackjudge.domain.review_module.entities.Review;
 import com.kbalazsworks.stackjudge.domain.review_module.enums.NavigationEnum;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
-import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.common.exceptions.ResponseException;
@@ -69,13 +68,12 @@ public class CompanyService
         companyRepository.delete(companyId);
     }
 
-    public Company get(long companyId)
+    public Company get(long companyId) throws Exception
     {
         return get(companyId, List.of()).company();
     }
 
-    public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds)
-    throws RepositoryNotFoundException
+    public CompanyGetServiceResponse get(long companyId, List<Short> requestRelationIds) throws Exception
     {
         CompanySearchServiceResponse searchResponse = search(
             companyId,
@@ -122,7 +120,7 @@ public class CompanyService
         int limit,
         List<Short> requestRelationIds,
         NavigationEnum navigation
-    )
+    ) throws Exception
     {
         List<Company> companies = search(seekId, limit, navigation);
 
@@ -133,9 +131,9 @@ public class CompanyService
         Map<Long, CompanyAddresses>                                   companyAddresses   = new HashMap<>();
         Map<Long, Map<Long, List<Review>>>                            companyReviews     = new HashMap<>();
         Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps = new HashMap<>();
-        Map<Long, User>                                               companyUsers       = new HashMap<>();
+        Map<String, IdsUser>                                          companyUsers       = new HashMap<>();
         Map<Long, CompanyOwners>                                      companyOwners      = new HashMap<>();
-        List<Long>                                                    affectedUserIds    = new ArrayList<>();
+        List<String>                                                  affectedUserIds    = new ArrayList<>();
 
         if (requestRelationIds != null)
         {

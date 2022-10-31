@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Group extends TableImpl<GroupRecord> {
 
-    private static final long serialVersionUID = 2045782777;
+    private static final long serialVersionUID = 2144330420;
 
     /**
      * The reference instance of <code>public.group</code>
@@ -91,7 +91,7 @@ public class Group extends TableImpl<GroupRecord> {
     /**
      * The column <code>public.group.created_by</code>.
      */
-    public final TableField<GroupRecord, Long> CREATED_BY = createField(DSL.name("created_by"), org.jooq.impl.SQLDataType.BIGINT, this, "");
+    public final TableField<GroupRecord, String> CREATED_BY = createField(DSL.name("created_by"), org.jooq.impl.SQLDataType.CHAR(36), this, "");
 
     /**
      * Create a <code>public.group</code> table reference
@@ -194,7 +194,7 @@ public class Group extends TableImpl<GroupRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Long, Long, Long, String, Short, Short, LocalDateTime, Long> fieldsRow() {
+    public Row9<Long, Long, Long, Long, String, Short, Short, LocalDateTime, String> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 }

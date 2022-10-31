@@ -26,5 +26,5 @@ public class Company implements Serializable
     @JsonProperty
     private String        logoPath;
     private LocalDateTime createdAt;
-    private Long          createdBy;
+    private String        createdBy;
 }

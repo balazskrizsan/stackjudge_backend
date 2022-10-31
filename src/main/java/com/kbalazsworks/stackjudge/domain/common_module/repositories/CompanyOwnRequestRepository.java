@@ -17,13 +17,13 @@ public class CompanyOwnRequestRepository extends AbstractRepository
         getQueryBuilder()
             .insertInto(
                 companyOwnRequestTable,
-                companyOwnRequestTable.REQUESTER_USER_ID,
+                companyOwnRequestTable.REQUESTER_USER_IDS_USER_ID,
                 companyOwnRequestTable.REQUESTED_COMPANY_ID,
                 companyOwnRequestTable.SECRET,
                 companyOwnRequestTable.CREATED_AT
             )
             .values(
-                companyOwnRequest.requesterUserId(),
+                companyOwnRequest.requesterIdsUserId(),
                 companyOwnRequest.requestedCompanyId(),
                 companyOwnRequest.secret(),
                 companyOwnRequest.createdAt()

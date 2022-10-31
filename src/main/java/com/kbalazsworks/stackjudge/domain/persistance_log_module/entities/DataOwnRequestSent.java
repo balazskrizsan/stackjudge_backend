@@ -10,6 +10,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @Getter
 public class DataOwnRequestSent
 {
-    @JsonProperty("requesterUserId") private long requesterOwnerId;
+    @JsonProperty("requesterIdsUserId") private String requesterOwnerId;
     @JsonProperty("requestedCompanyId") private long requestedCompanyId;
 }

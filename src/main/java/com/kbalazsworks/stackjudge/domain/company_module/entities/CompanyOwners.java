@@ -14,7 +14,7 @@ public record CompanyOwners(
     Long companyId,
 
     @JsonProperty
-    List<Long> owners
+    List<String> owners
 ) implements IRedisCacheable
 {
     @Override

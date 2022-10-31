@@ -1,22 +1,21 @@
 package com.kbalazsworks.stackjudge.state.services;
 
-import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids.account.ListService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.state.entities.PushoverInfo;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.exceptions.StateException;
 import com.kbalazsworks.stackjudge.state.repositories.UserJooqRepository;
-import com.kbalazsworks.stackjudge.state.repositories.UsersRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,67 +23,54 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountService
 {
-    private final UsersRepository           usersRepository;
     private final UserJooqRepository        userJooqRepository;
     private final ProtectedReviewLogService protectedReviewLogService;
+    private final ListService               listService;
 
-    public @NonNull User create(@NonNull User user) throws Exception
+    public @NonNull User createUser(@NonNull User idsUser) throws StateException
     {
-        return userJooqRepository.create(user);
+        return userJooqRepository.create(idsUser);
     }
 
-    public @NonNull List<User> findByIds(@NonNull List<Long> ids)
+    public @NonNull User get(String idsUserId) throws StateException
     {
-        return usersRepository.findAllById(ids);
+        return userJooqRepository.get(idsUserId);
     }
 
-    public @NonNull PushoverInfo findPushoverDataById(@NonNull Long id) throws StateException
+    public @NonNull PushoverInfo findPushoverDataById(@NonNull String idsUserId) throws Exception
     {
-        return new PushoverInfo(id, userJooqRepository.findPushoverUserTokenById(id));
+        return new PushoverInfo(idsUserId, userJooqRepository.findPushoverUserToken(idsUserId));
     }
 
-    public @NonNull Map<Long, User> findByIdsWithIdMap(List<Long> ids)
+    @SneakyThrows
+    public @NonNull Map<String, IdsUser> findByIdsWithIdMap(List<String> ids)
     {
-        return findByIds(ids)
+        return listService
+            .execute().data().getExtendedUsers()
             .stream()
             .distinct()
-            .collect(Collectors.toMap(User::getId, Function.identity()));
+            .collect(Collectors.toUnmodifiableMap(IdsUser::getId, Function.identity()));
     }
 
-    public @NonNull User findById(Long id)
+    @SneakyThrows
+    public IdsUser findById(String id)
     {
-        Optional<User> user = usersRepository.findById(id);
-        if (user.isPresent())
-        {
-            return user.get();
-        }
-
-        throw new UsernameNotFoundException("User not found with id#" + id);
-    }
-
-    public User findByFacebookId(long facebookId)
-    {
-        return usersRepository.findByFacebookId(facebookId);
-    }
-
-    // @todo: test after JPA commit problem solved in this.create
-    public void updateFacebookAccessToken(String token, Long facebookUserId)
-    {
-        userJooqRepository.updateFacebookAccessToken(token, facebookUserId);
+        return listService.execute().data().getExtendedUsers().get(0);
     }
 
     // @todo: test
     public User getCurrentUser()
     {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        org.springframework.security.core.userdetails.User principalUser =
+            (org.springframework.security.core.userdetails.User)
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return new User(principalUser.getUsername());
     }
 
-    public User getByReviewId(long reviewId, State state)
+    @SneakyThrows
+    public IdsUser getByReviewId(long reviewId, State state)
     {
-        User user = usersRepository.getByReviewId(reviewId);
-
-        protectedReviewLogService.create(new ProtectedReviewLog(null, user.getId(), reviewId, state.now()), state);
-
-        return user;
+        return listService.execute().data().getExtendedUsers().get(0);
     }
 }

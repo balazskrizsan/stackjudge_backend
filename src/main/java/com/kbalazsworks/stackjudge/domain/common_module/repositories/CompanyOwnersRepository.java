@@ -19,7 +19,7 @@ public class CompanyOwnersRepository extends AbstractRepository
             .insertInto(
                 companyOwnerTable,
                 companyOwnerTable.COMPANY_ID,
-                companyOwnerTable.USER_ID,
+                companyOwnerTable.USER_IDS_USER_ID,
                 companyOwnerTable.CREATED_AT
             )
             .values(
@@ -30,7 +30,7 @@ public class CompanyOwnersRepository extends AbstractRepository
             .execute();
     }
 
-    public boolean isUserOwnerOnCompany(long userId, long companyId)
+    public boolean isUserOwnerOnCompany(String idsUserId, long companyId)
     {
         // @formatter:off
         DSLContext qB = getQueryBuilder();
@@ -39,18 +39,18 @@ public class CompanyOwnersRepository extends AbstractRepository
             qB
                 .selectFrom(companyOwnerTable)
                 .where(
-                    companyOwnerTable.USER_ID.eq(userId)
+                    companyOwnerTable.USER_IDS_USER_ID.eq(idsUserId)
                         .and(companyOwnerTable.COMPANY_ID.eq(companyId))
                 )
         );
         // @formatter:on
     }
 
-    public Map<Long, List<Long>> searchByCompanyId(List<Long> companyId)
+    public Map<Long, List<String>> searchByCompanyId(List<Long> companyId)
     {
         return getQueryBuilder()
             .selectFrom(companyOwnerTable)
             .where(companyOwnerTable.COMPANY_ID.in(companyId))
-            .fetchGroups(companyOwnerTable.COMPANY_ID, companyOwnerTable.USER_ID);
+            .fetchGroups(companyOwnerTable.COMPANY_ID, companyOwnerTable.USER_IDS_USER_ID);
     }
 }

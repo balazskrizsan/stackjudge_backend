@@ -32,7 +32,7 @@ public class AddressFakeBuilder
     private Double        manualMarkerLat = 33.33;
     private Double        manualMarkerLng = 44.44;
     private LocalDateTime createdAt       = LocalDateTime.of(2020, 11, 22, 11, 22, 33);
-    private Long          createdBy       = 333L;
+    private String        createdBy       = UserFakeBuilder.defaultId1;
 
     public List<Address> buildAsList()
     {

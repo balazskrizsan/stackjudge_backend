@@ -9,7 +9,7 @@ import com.kbalazsworks.stackjudge.domain.group_module.value_objects.RecursiveGr
 import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.domain.paginator_module.value_objects.PaginatorItem;
 import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResponse;
-import com.kbalazsworks.stackjudge.state.entities.User;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public record CompanySearchServiceResponse(
     @JsonProperty Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> companyAddressMaps,
     @JsonProperty Map<Long, Map<Long, List<Review>>> companyReviews,
     @JsonProperty Map<Long, CompanyOwners> companyOwners,
-    @JsonProperty Map<Long, User> companyUsers
+    @JsonProperty Map<String, IdsUser> companyUsers
 )
 {
 }

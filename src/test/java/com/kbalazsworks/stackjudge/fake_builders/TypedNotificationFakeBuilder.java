@@ -17,7 +17,7 @@ public class TypedNotificationFakeBuilder<T>
     public static Long defaultId1 = 104001L;
 
     private Long          id        = defaultId1;
-    private long          userId    = UserFakeBuilder.defaultId1;
+    private String          userId    = IdsUserFakeBuilder.defaultId1;
     private short         type      = NotificationTypeEnum.PROTECTED_VIEW.getValue();
     private T             data      = (T) new DataProtectedReviewFakeBuilder().build();
     private LocalDateTime createdAt = MockFactory.testLocalDateTimeMock1;
