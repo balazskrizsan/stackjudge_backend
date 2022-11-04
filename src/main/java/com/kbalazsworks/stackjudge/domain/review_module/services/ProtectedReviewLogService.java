@@ -26,7 +26,7 @@ public class ProtectedReviewLogService
             null,
             protectedReviewLog.viewerIdsUserId(),
             NotificationTypeEnum.PROTECTED_VIEW.getValue(),
-            new DataProtectedReview(state.currentIdsUser().getIdsUserId()),
+            new DataProtectedReview(state.currentIdsUser().getId()),
             state.now(),
             null
         ));

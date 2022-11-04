@@ -18,13 +18,13 @@ public class CrudNotificationService
     // @todo: test
     public void delete(long notificationId, State state)
     {
-        notificationRepository.delete(notificationId, state.currentIdsUser().getIdsUserId());
+        notificationRepository.delete(notificationId, state.currentIdsUser().getId());
     }
 
     // @todo: test
     public void markAsRead(long notificationId, State state)
     {
-        notificationRepository.markAsRead(notificationId, state.currentIdsUser().getIdsUserId(), state.now());
+        notificationRepository.markAsRead(notificationId, state.currentIdsUser().getId(), state.now());
     }
 
     // @todo: test

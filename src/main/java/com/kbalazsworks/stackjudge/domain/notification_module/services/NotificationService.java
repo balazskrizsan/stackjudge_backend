@@ -22,7 +22,7 @@ public class NotificationService
     public NotificationResponse searchMyNotifications(Short limit, State state) throws Exception
     {
         List<ITypedNotification> typedNotifications = searchMyNotificationsService.convertToTypedNotification(
-            crudNotificationService.searchMyNotifications(limit, state.currentIdsUser().getIdsUserId())
+            crudNotificationService.searchMyNotifications(limit, state.currentIdsUser().getId())
         );
 
         List<String> affectedUsersIds = searchMyNotificationsService.getUserIdsFromDataProtectedReviewType(typedNotifications);

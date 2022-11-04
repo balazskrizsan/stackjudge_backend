@@ -40,7 +40,7 @@ public class OwnRequestService
     public void own(@NonNull OwnRequest ownRequest, @NonNull State state)
     {
         // @todo2: test condition
-        if (companyOwnersService.isUserOwnerOnCompany(state.currentIdsUser().getIdsUserId(), ownRequest.companyId()))
+        if (companyOwnersService.isUserOwnerOnCompany(state.currentIdsUser().getId(), ownRequest.companyId()))
         {
             httpExceptionService.throwCompanyAlreadyOwnedByTheUser();
         }
@@ -59,7 +59,7 @@ public class OwnRequestService
     private boolean transactionalOwn(@NonNull OwnRequest ownRequest, @NonNull State state) throws Exception
     {
         String  secret             = secureRandomService.getUrlEncoded(32);
-        String  requesterUserId    = state.currentIdsUser().getIdsUserId();
+        String  requesterUserId    = state.currentIdsUser().getId();
         long    requestedCompanyId = ownRequest.companyId();
         Company company            = companyService.get(requestedCompanyId);
 
@@ -94,7 +94,7 @@ public class OwnRequestService
         {
             companyOwnEmailService.send(
                 generateEmailAddress(company, ownRequest.emailPart()),
-                state.currentIdsUser().getIdsUserId(),
+                state.currentIdsUser().getUserName(),
                 urlService.generateCompanyOwnUrl(secret, ownRequest.companyId())
             );
         }

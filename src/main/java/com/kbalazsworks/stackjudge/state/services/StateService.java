@@ -17,7 +17,7 @@ public class StateService
     {
         return new State(
             new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-            accountService.getCurrentUser()
+            accountService.getCurrentIdsUser()
         );
     }
 }
