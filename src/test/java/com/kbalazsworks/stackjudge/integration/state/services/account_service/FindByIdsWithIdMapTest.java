@@ -1,12 +1,12 @@
 package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import org.junit.Test;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -25,48 +25,6 @@ public class FindByIdsWithIdMapTest extends AbstractIntegrationTest
     @Autowired
     private ServiceFactory serviceFactory;
 
-    @Test
-    public void VintageHack()
-    {
-        assertThat(true).isTrue();
-    }
-
-    private record TestData(List<String> testedUserIds, Map<String, IdsUser> expectedUsers)
-    {
-    }
-
-    private TestData provider(int repetition)
-    {
-        if (1 == repetition)
-        {
-            return new TestData(
-                List.of(),
-                Map.of()
-            );
-        }
-
-        if (2 == repetition)
-        {
-            return new TestData(
-                List.of(IdsUserFakeBuilder.defaultId1),
-                Map.of(IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build())
-            );
-        }
-
-        if (3 == repetition)
-        {
-            return new TestData(
-                List.of(IdsUserFakeBuilder.defaultId1, IdsUserFakeBuilder.defaultId2),
-                Map.of(
-                    IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build(),
-                    IdsUserFakeBuilder.defaultId2, new IdsUserFakeBuilder().build2()
-                )
-            );
-        }
-
-        throw getRepeatException(repetition);
-    }
-
     @SqlGroup(
         {
             @Sql(
@@ -84,16 +42,21 @@ public class FindByIdsWithIdMapTest extends AbstractIntegrationTest
             )
         }
     )
-    @RepeatedTest(3)
-    public void selectingFromFilledDb_returnsUses(RepetitionInfo repetitionInfo)
+    @Test
+    public void selectingFromFilledDb_returnsUses()
     {
         // Arrange
-        TestData tD = provider(repetitionInfo.getCurrentRepetition());
+        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(wireMockServer);
+
+        List<String> testedUserIds         = List.of(IdsUserFakeBuilder.defaultId1);
+        Map<String, IdsUser> expectedUsers = Map.of(IdsUserFakeBuilder.defaultId1, new IdsUserFakeBuilder().build());
 
         // Act
-        Map<String, IdsUser> actualUser = serviceFactory.getAccountService().findByIdsWithIdMap(tD.testedUserIds);
+        Map<String, IdsUser> actualUser = serviceFactory.getAccountService().findByIdsWithIdMap(testedUserIds);
 
         // Assert
-        assertThat(actualUser).usingRecursiveComparison().isEqualTo(tD.expectedUsers);
+        wireMockServer.stop();
+        assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUsers);
     }
 }

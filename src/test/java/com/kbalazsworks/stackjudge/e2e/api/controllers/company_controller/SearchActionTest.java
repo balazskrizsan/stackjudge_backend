@@ -1,11 +1,16 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.AwsWireMocker;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -25,6 +30,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class SearchActionTest extends AbstractE2eTest
 {
+    WireMockServer idsWireMockServer;
+    WireMockServer awsWireMockServer;
+
+    @Before
+    public void before()
+    {
+        idsWireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(idsWireMockServer);
+        IdsWireMocker.mockPostConnectToken(idsWireMockServer);
+
+        awsWireMockServer = createStartAndGetAwsMockServer();
+        AwsWireMocker.postS3Upload(awsWireMockServer);
+    }
+
+    @After
+    public void after()
+    {
+        idsWireMockServer.stop();
+        awsWireMockServer.stop();
+    }
+
     @Test
     @SqlGroup(
         {
@@ -51,7 +77,6 @@ public class SearchActionTest extends AbstractE2eTest
     public void callSearchWithFullyPreparedDb_willReturnAllEntities() throws Exception
     {
         // Arrange
-
         String companyId1Str = CompanyFakeBuilder.defaultId1.toString();
         String groupId1str   = GroupFakeBuilder.defaultId1.toString();
 
@@ -111,8 +136,8 @@ public class SearchActionTest extends AbstractE2eTest
         String path_companyOwners_companyId1_owners_0      = "$.data.companyOwners." + companyId1Str + ".owners[0]";
         String expected_companyOwners_companyId1_owners_0  = IdsUserFakeBuilder.defaultId1;
 
-        String path_companyUsers_userId1_userId1     = "$.data.companyUsers.".concat(IdsUserFakeBuilder.defaultId1) + ".id";
-        String expected_companyUsers_userId1_userId1 = IdsUserFakeBuilder.defaultId1;
+        String path_companyUsers_idsUserId1_idsUserId1     = "$.data.companyUsers['".concat(IdsUserFakeBuilder.defaultId1) + "'].sub";
+        String expected_companyUsers_idsUserId1_idsUserId1 = IdsUserFakeBuilder.defaultId1;
         // @formatter:on
 
         // Act
@@ -143,7 +168,7 @@ public class SearchActionTest extends AbstractE2eTest
             .andExpect(jsonPath(path_companyReviews_companyId1_groupId1_id).value(expected_companyReviews_companyId1_groupId1_id))
             .andExpect(jsonPath(path_companyOwners_companyId1_companyId).value(expected_companyOwners_companyId1_companyId))
             .andExpect(jsonPath(path_companyOwners_companyId1_owners_0).value(expected_companyOwners_companyId1_owners_0))
-            .andExpect(jsonPath(path_companyUsers_userId1_userId1).value(expected_companyUsers_userId1_userId1));
+            .andExpect(jsonPath(path_companyUsers_idsUserId1_idsUserId1).value(expected_companyUsers_idsUserId1_idsUserId1));
         // @formatter:on
     }
 }

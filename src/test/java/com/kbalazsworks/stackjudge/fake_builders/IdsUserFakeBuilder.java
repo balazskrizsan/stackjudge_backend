@@ -14,8 +14,8 @@ import java.util.Map;
 public class IdsUserFakeBuilder
 {
     public static final String  defaultId1                 = "00000000-0000-0000-0000-000000105001";
-    public static final String  defaultUserName1           = "Db test user name";
-    public static final String  defaultNormalizedUserName1 = "Db test user name";
+    public static final String  defaultUserName1           = "IDS UserName";
+    public static final String  defaultNormalizedUserName1 = "IDS UserName normalized";
     public static final String  defaultEmail1              = "email@address.com";
     public static final Boolean defaultEmailConfirmed1     = true;
     public static final String  defaultProfilePictureUrl1  = "http://facebook.com/profile.jpg";

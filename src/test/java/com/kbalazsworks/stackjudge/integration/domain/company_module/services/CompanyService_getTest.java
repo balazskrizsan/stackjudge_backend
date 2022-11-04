@@ -1,5 +1,6 @@
 package com.kbalazsworks.stackjudge.integration.domain.company_module.services;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.address_module.entities.CompanyAddresses;
@@ -12,10 +13,11 @@ import com.kbalazsworks.stackjudge.domain.map_module.enums.MapPositionEnum;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.StaticMapResponseFakeBuilder;
-import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
@@ -159,6 +161,9 @@ public class CompanyService_getTest extends AbstractIntegrationTest
     public void findTheInsertedCompanyAndRelatedInfo_byProvider(RepetitionInfo repetitionInfo)
     {
         // Arrange - In preset
+        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(wireMockServer);
+
         TestData tD = provider(repetitionInfo.getCurrentRepetition());
 
         // Act
@@ -168,6 +173,7 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         );
 
         // Assert
+        wireMockServer.stop();
         assertThat(actualResponse).usingRecursiveComparison().isEqualTo(tD.expectedResponse);
     }
 }

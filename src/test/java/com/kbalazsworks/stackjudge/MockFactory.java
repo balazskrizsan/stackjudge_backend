@@ -2,7 +2,7 @@ package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
-import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.state.entities.State;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class MockFactory
     public static final LocalDateTime testLocalDateTimeMock1 = LocalDateTime.of(2011, 1, 2, 3, 4, 5);
     public static final LocalDateTime testLocalDateTimeMock2 = LocalDateTime.of(2021, 6, 7, 8, 8, 9);
 
-    public static final State TEST_STATE = new State(testLocalDateTimeMock1, new UserFakeBuilder().build());
+    public static final State TEST_STATE = new State(testLocalDateTimeMock1, new IdsUserFakeBuilder().build());
 
     public static StateService getTestStateMock()
     {

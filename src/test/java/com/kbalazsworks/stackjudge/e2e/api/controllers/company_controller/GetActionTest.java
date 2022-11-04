@@ -1,11 +1,16 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.company_controller;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GroupFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.AwsWireMocker;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,6 +31,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class GetActionTest extends AbstractE2eTest
 {
+    WireMockServer idsWireMockServer;
+    WireMockServer awsWireMockServer;
+
+    @Before
+    public void before()
+    {
+        idsWireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(idsWireMockServer);
+        IdsWireMocker.mockPostConnectToken(idsWireMockServer);
+
+        awsWireMockServer = createStartAndGetAwsMockServer();
+        AwsWireMocker.postS3Upload(awsWireMockServer);
+    }
+
+    @After
+    public void after()
+    {
+        idsWireMockServer.stop();
+        awsWireMockServer.stop();
+    }
+
     @Test @SqlGroup({
         @Sql(executionPhase = BEFORE_TEST_METHOD, config = @SqlConfig(transactionMode = ISOLATED), scripts = {
             "classpath:test/sqls/_truncate_tables.sql",
@@ -94,7 +120,7 @@ public class GetActionTest extends AbstractE2eTest
         String path_companyOwners_owners_0      = "$.data.companyOwners.owners[0]";
         String expected_companyOwners_owners_0  = IdsUserFakeBuilder.defaultId1;
 
-        String path_companyUsers_userId1_id     = "$.data.companyUsers." + IdsUserFakeBuilder.defaultId1 + ".id";
+        String path_companyUsers_userId1_id     = "$.data.companyUsers['" + IdsUserFakeBuilder.defaultId1 + "'].sub";
         String expected_companyUsers_userId1_id = IdsUserFakeBuilder.defaultId1;
         // @formatter:on
 
@@ -112,7 +138,8 @@ public class GetActionTest extends AbstractE2eTest
             .andExpect(jsonPath(path_companyUsers_userId1_id).value(expected_companyUsers_userId1_id));
     }
 
-    @Test public void callNotExistingCompany_returnStdApiError() throws Exception
+    @Test
+    public void callNotExistingCompany_returnStdApiError() throws Exception
     {
         // Arrange
         String        testedUri                  = "/company/{id}";

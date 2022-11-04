@@ -1,9 +1,11 @@
 package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +46,14 @@ public class FindByIdTest extends AbstractIntegrationTest
         // Arrange
         String  testedUserId    = UserFakeBuilder.defaultId1;
         IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
+        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(wireMockServer);
 
         // Act
         IdsUser actualIdsUser = serviceFactory.getAccountService().findById(testedUserId);
 
         // Assert
+        wireMockServer.stop();
         assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser);
     }
 }

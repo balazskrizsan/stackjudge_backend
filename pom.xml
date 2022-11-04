@@ -249,6 +249,13 @@
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
             <version>9cb2319349f4021d5652e2b646431a39a18e4c8f</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.34.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

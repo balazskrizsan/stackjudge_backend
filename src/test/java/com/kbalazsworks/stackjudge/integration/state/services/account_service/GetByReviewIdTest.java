@@ -1,11 +1,13 @@
 package com.kbalazsworks.stackjudge.integration.state.services.account_service;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractIntegrationTest;
 import com.kbalazsworks.stackjudge.ServiceFactory;
 import com.kbalazsworks.stackjudge.domain.persistance_log_module.entities.ProtectedReviewLog;
 import com.kbalazsworks.stackjudge.domain.review_module.services.ProtectedReviewLogService;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.state.entities.State;
@@ -54,6 +56,9 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
     public void selectingFromFilledDb_returnsUserAndCallLogger()
     {
         // Arrange
+        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
+        IdsWireMocker.mockGetApiAccountList(wireMockServer);
+
         long    testedReviewId  = ReviewFakeBuilder.defaultId1;
         IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
         State   expectedState   = TEST_STATE;
@@ -76,6 +81,7 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
             .getByReviewId(testedReviewId, TEST_STATE);
 
         // Assert
+        wireMockServer.stop();
         assertAll(
             () -> verify(protectedReviewLogServiceMock, only()).create(expectedProtectedReviewLog, expectedState),
             () -> assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser)
