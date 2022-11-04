@@ -23,6 +23,8 @@ public class IdsOpenSdkService
     public ResponseEntity<String> post(IOpenSdkPostable postData, String apiUri, HttpHeaders headers)
     throws ResponseException
     {
+        log.info("IDS post: {}{}", applicationProperties.getSjIdsFullHost(), apiUri);
+
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         try
@@ -35,9 +37,9 @@ public class IdsOpenSdkService
         }
         catch (Exception e)
         {
-            log.error("Invalid OpenSdk call: {}", e.getMessage(), e);
+            log.error("IDS post error: {}", e.getMessage(), e);
 
-            throw new ResponseException("Invalid OpenSdk call");
+            throw new ResponseException("IDS post error");
         }
     }
 }

@@ -33,7 +33,7 @@ public class AwsOpenSdkService
     {
         try
         {
-            log.info("Sending out email");
+            log.info("IDS post: {}{}", applicationProperties.getStuckJudgeAwsSdkHost(), apiUri);
 
             String accessToken = oidcService.callTokenEndpoint(SJ__AWS__EC2.getValue()).getAccessToken();
 
@@ -49,11 +49,17 @@ public class AwsOpenSdkService
                 String.class
             );
         }
-        catch (GrantStoreException | OidcApiException | OpenSdkResponseException e)
+        catch (GrantStoreException | OidcApiException e)
         {
-            log.error("Email sending error: " + e.getMessage(), e);
+            log.error("AWS post OIDC error: " + e.getMessage(), e);
 
-            throw new ResponseException("Email sending error");
+            throw new ResponseException("AWS post OIDC error");
+        }
+        catch (OpenSdkResponseException e)
+        {
+            log.error("AWS post error: " + e.getMessage(), e);
+
+            throw new ResponseException("AWS post error");
         }
     }
 }
