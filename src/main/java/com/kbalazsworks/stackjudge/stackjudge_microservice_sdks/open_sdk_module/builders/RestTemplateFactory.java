@@ -34,8 +34,10 @@ public class RestTemplateFactory
             throw new OpenSdkResponseException("SSL context load error");
         }
 
-        try (CloseableHttpClient client = HttpClients.custom().setSSLContext(sslContext).build())
+        try
         {
+            CloseableHttpClient client = HttpClients.custom().setSSLContext(sslContext).build();
+
             return new RestTemplateBuilder()
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(client))
                 .build();

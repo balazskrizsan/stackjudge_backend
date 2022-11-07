@@ -1,6 +1,9 @@
 package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kbalazsworks.simple_oidc.exceptions.GrantStoreException;
+import com.kbalazsworks.simple_oidc.exceptions.OidcApiException;
+import com.kbalazsworks.simple_oidc.services.IOidcService;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.ApiResponseDataIdsServiceAccountListResponse;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsServiceAccountListResponse;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.OpenSdkEmptyPost;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.SJ__IDS__API;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +27,18 @@ public class ListService
     private final IdsOpenSdkService idsOpenSdkService;
     private final ObjectMapper      objectMapper = new ObjectMapper().disable(FAIL_ON_UNKNOWN_PROPERTIES);
     private final String            apiUri       = "/api/account/list";
+    private final IOidcService      oidcService;
 
     public StdResponse<IdsServiceAccountListResponse> execute() throws ResponseException
     {
         try
         {
-            HttpHeaders headers = new HttpHeaders();
+            String accessToken = oidcService.callTokenEndpoint(SJ__IDS__API.getValue()).getAccessToken();
+
+            HttpHeaders headers = new HttpHeaders()
+            {{
+                setBearerAuth(accessToken);
+            }};
 
             ResponseEntity<String> response = idsOpenSdkService.post(new OpenSdkEmptyPost(), apiUri, headers);
 
@@ -43,11 +53,22 @@ public class ListService
                 body.getIdsServiceAccountListResponse()
             );
         }
-        catch (Exception e)
+        catch (ResponseException e)
         {
             log.error("Api response error: {}", e.getMessage(), e);
 
             throw new ResponseException("Invalid service response");
+        }
+        catch (GrantStoreException | OidcApiException e)
+        {
+            log.error("OIDC error: {}", e.getMessage(), e);
+
+            throw new ResponseException("Invalid service response");
+        }
+        catch (Exception e)
+        {
+            //@todo
+            throw new ResponseException("");
         }
     }
 }

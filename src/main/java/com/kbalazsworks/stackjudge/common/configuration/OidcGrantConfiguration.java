@@ -18,7 +18,6 @@ public class OidcGrantConfiguration
 {
     private final IOidcService oidcService;
 
-    @PostConstruct
     public void init() throws GrantStoreException
     {
         GrantStoreService grantStoreService = oidcService.getGrantStoreService();
@@ -39,6 +38,12 @@ public class OidcGrantConfiguration
             "sj.aws",
             "m2m.client.secret",
             List.of("sj", "sj.aws", "sj.aws.ses", "sj.aws.ses.send_mail")
+        ));
+
+        grantStoreService.addGrant(SJ__IDS__API.getValue(), new ClientCredentials(
+            "sj.ids.api",
+            "sj.ids.api.secret",
+            List.of("sj", "sj.ids", "sj.ids.api", "IdentityServerApi")
         ));
 
         grantStoreService.protectStore();

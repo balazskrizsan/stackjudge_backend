@@ -9,7 +9,8 @@ public enum OidcGrantNamesEnum
 {
     NOTIFICATION__SEND_PUSH("notification.send_push"),
     SJ__AWS__EC2("sj.aws.ec2"),
-    SJ__AWS__SES("sj.aws.ses");
+    SJ__AWS__SES("sj.aws.ses"),
+    SJ__IDS__API("sj.ids.api");
 
     final private String value;
 }

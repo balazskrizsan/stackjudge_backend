@@ -33,7 +33,7 @@ public class AwsOpenSdkService
     {
         try
         {
-            log.info("IDS post: {}{}", applicationProperties.getStuckJudgeAwsSdkHost(), apiUri);
+            log.info("Aws post: {}{}", applicationProperties.getStuckJudgeAwsSdkHost(), apiUri);
 
             String accessToken = oidcService.callTokenEndpoint(SJ__AWS__EC2.getValue()).getAccessToken();
 

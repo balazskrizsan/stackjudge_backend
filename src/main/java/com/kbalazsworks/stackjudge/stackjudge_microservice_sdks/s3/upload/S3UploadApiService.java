@@ -30,8 +30,9 @@ public class S3UploadApiService implements IS3Upload
     {
         try
         {
+            log.info("S3 upload post: {}", getApiUri());
             ResponseEntity<String> response = awsOpenSdkService.post(postUploadRequest, getApiUri());
-            log.info("Api response: {}", response.getBody());
+            log.info("Response: {}", response.getBody());
 
             ApiResponseDataCdnServicePutResponse body = objectMapper.readValue(
                 response.getBody(),
@@ -42,7 +43,7 @@ public class S3UploadApiService implements IS3Upload
         }
         catch (Exception e)
         {
-            log.error("Api response error: {}", e.getMessage(), e);
+            log.error("Post error: {}", e.getMessage(), e);
 
             throw new ResponseException("Invalid service response");
         }
