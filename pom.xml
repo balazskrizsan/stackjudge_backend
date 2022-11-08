@@ -213,6 +213,13 @@
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
             <version>634473fa5e29b1895a74315df2e2698682869903</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
         <dependency>
@@ -224,11 +231,25 @@
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>simple_oidc_java_maven</artifactId>
             <version>7f1825f2fcaf91ac387ea02c35dd692365ffc28e</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.balazskrizsan</groupId>
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
             <version>9cb2319349f4021d5652e2b646431a39a18e4c8f</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock -->
         <dependency>
