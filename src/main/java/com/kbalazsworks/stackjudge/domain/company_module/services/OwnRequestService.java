@@ -2,7 +2,6 @@ package com.kbalazsworks.stackjudge.domain.company_module.services;
 
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.db_migrations.DbConstants;
-import com.kbalazsworks.stackjudge.domain.common_module.exceptions.PebbleException;
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.CompanyOwnRequestRepository;
 import com.kbalazsworks.stackjudge.domain.common_module.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
@@ -90,21 +89,12 @@ public class OwnRequestService
             state.now()
         ));
 
-        try
-        {
-            companyOwnEmailService.send(
-                generateEmailAddress(company, ownRequest.emailPart()),
-                state.currentIdsUser().getUserName(),
-                urlService.generateCompanyOwnUrl(secret, ownRequest.companyId())
-            );
-        }
-        // @todo3: test
-        catch (PebbleException e)
-        {
-            log.error("Pebble email generation error: " + e.getMessage());
-
-            return false;
-        }
+        // @todo: check error
+        companyOwnEmailService.send(
+            generateEmailAddress(company, ownRequest.emailPart()),
+            state.currentIdsUser().getUserName(),
+            urlService.generateCompanyOwnUrl(secret, ownRequest.companyId())
+        );
 
         return true;
     }

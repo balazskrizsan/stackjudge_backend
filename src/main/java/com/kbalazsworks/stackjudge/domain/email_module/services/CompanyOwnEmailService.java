@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.domain.email_module.services;
 
-import com.kbalazsworks.stackjudge.domain.common_module.exceptions.PebbleException;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.ISesSendCompanyOwnEmail;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostCompanyOwnEmailRequest;
 import lombok.NonNull;
@@ -21,7 +20,7 @@ public class CompanyOwnEmailService
         @NonNull String toAddress,
         @NonNull String name,
         @NonNull String ownUrl
-    ) throws PebbleException
+    )
     {
         sesSendCompanyOwnEmailApiService.postAsync(new PostCompanyOwnEmailRequest(
             toAddress,

@@ -1,17 +1,12 @@
 package com.kbalazsworks.stackjudge.mocking;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
-import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
-import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.company_module.services.company_service.SearchService;
@@ -27,7 +22,6 @@ import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspe
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import javax.servlet.http.HttpServletResponse;
@@ -101,11 +95,6 @@ public class MockCreator
         return mock(ProtectedReviewLogService.class);
     }
 
-    public static PebbleTemplateService getPebbleTemplateService()
-    {
-        return mock(PebbleTemplateService.class);
-    }
-
     public static SecureRandomService getSecureRandomService()
     {
         return mock(SecureRandomService.class);
@@ -124,16 +113,6 @@ public class MockCreator
     public static PersistenceLogService getPersistenceLogService()
     {
         return mock(PersistenceLogService.class);
-    }
-
-    public static PebbleTemplateFactory getPebbleTemplateFactoryMock()
-    {
-        return mock(PebbleTemplateFactory.class);
-    }
-
-    public static PebbleTemplate getPebbleTemplateMock()
-    {
-        return mock(PebbleTemplate.class);
     }
 
     public static SystemFactory getSystemFactoryMock()
@@ -161,15 +140,6 @@ public class MockCreator
         return mock(S3UploadApiService.class);
     }
 
-    public static AuthorizationUrlBuilder getAuthorizationUrlBuilderMock()
-    {
-        return mock(AuthorizationUrlBuilder.class);
-    }
-
-    public static OAuth20Service getOAuth20ServiceMock()
-    {
-        return mock(OAuth20Service.class);
-    }
 
     public static HttpServletResponse getHttpServletResponseMock()
     {
@@ -179,10 +149,5 @@ public class MockCreator
     public static SpringCookieService getSpringCookieService()
     {
         return mock(SpringCookieService.class);
-    }
-
-    public static OAuth2AccessToken getOAuth2AccessToken()
-    {
-        return mock(OAuth2AccessToken.class);
     }
 }

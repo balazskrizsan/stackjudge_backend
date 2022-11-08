@@ -10,14 +10,12 @@ import com.kbalazsworks.stackjudge.domain.address_module.repositories.AddressRep
 import com.kbalazsworks.stackjudge.domain.address_module.services.AddressService;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.DateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.LocalDateTimeFactory;
-import com.kbalazsworks.stackjudge.domain.common_module.factories.PebbleTemplateFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.SystemFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.factories.UrlFactory;
 import com.kbalazsworks.stackjudge.domain.common_module.repositories.CompanyOwnRequestRepository;
 import com.kbalazsworks.stackjudge.domain.common_module.services.DateTimeFormatterService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.HttpExceptionService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.JooqService;
-import com.kbalazsworks.stackjudge.domain.common_module.services.PebbleTemplateService;
 import com.kbalazsworks.stackjudge.domain.common_module.services.UrlService;
 import com.kbalazsworks.stackjudge.domain.company_module.repositories.CompanyRepository;
 import com.kbalazsworks.stackjudge.domain.company_module.services.CompanyOwnersService;
@@ -64,7 +62,6 @@ public class ServiceFactory
     private final SystemFactory         systemFactory;
     private final LocalDateTimeFactory  localDateTimeFactory;
     private final UrlFactory            urlFactory;
-    private final PebbleTemplateFactory pebbleTemplateFactory;
 
     private final AddressService                 addressService;
     private final SearchService                  searchService;
@@ -79,7 +76,6 @@ public class ServiceFactory
     private final GoogleStaticMapsCacheService   googleStaticMapsCacheService;
     private final MapMapperService               mapMapperService;
     private final ProtectedReviewLogService      protectedReviewLogService;
-    private final PebbleTemplateService          pebbleTemplateService;
     private final PersistenceLogService          persistenceLogService;
     private final SecureRandomService            secureRandomService;
     private final CompanyOwnEmailService         companyOwnEmailService;
@@ -291,18 +287,6 @@ public class ServiceFactory
             Optional.ofNullable(httpExceptionServiceMock).orElse(httpExceptionService),
             Optional.ofNullable(jooqServiceMock).orElse(jooqService),
             Optional.ofNullable(companyOwnRequestRepositoryMock).orElse(companyOwnRequestRepository)
-        );
-    }
-
-    public PebbleTemplateService getPebbleTemplateService()
-    {
-        return getPebbleTemplateService(null);
-    }
-
-    public PebbleTemplateService getPebbleTemplateService(PebbleTemplateFactory pebbleTemplateFactoryMock)
-    {
-        return new PebbleTemplateService(
-            Optional.ofNullable(pebbleTemplateFactoryMock).orElse(pebbleTemplateFactory)
         );
     }
 

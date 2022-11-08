@@ -1,6 +1,5 @@
 package com.kbalazsworks.stackjudge.helpers;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,7 +101,6 @@ public class ObjectComparatorService
             || var instanceof Character
             || var instanceof LocalDate
             || var instanceof LocalDateTime
-            || var instanceof DateTime
             || var instanceof Date
             || var instanceof Enum<?>;
     }
