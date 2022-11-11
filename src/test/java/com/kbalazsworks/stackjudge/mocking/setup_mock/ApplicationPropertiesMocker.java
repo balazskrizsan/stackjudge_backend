@@ -19,6 +19,7 @@ public class ApplicationPropertiesMocker extends MockCreator
     {
         ApplicationProperties mock = getApplicationPropertiesMock();
 
+        when(mock.getGoogleMapsKey()).thenReturn(GOOGLE_MAPS_KEY);
         when(mock.getSiteDomain()).thenReturn(SITE_DOMAIN);
         when(mock.getSiteFrontendHost()).thenReturn(SITE_FRONTEND_HOST);
 
