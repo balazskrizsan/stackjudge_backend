@@ -30,8 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class SearchActionTest extends AbstractE2eTest
 {
-    WireMockServer idsWireMockServer;
-    WireMockServer awsWireMockServer;
+    private WireMockServer idsWireMockServer;
+    private WireMockServer awsWireMockServer;
 
     @Before
     public void before()

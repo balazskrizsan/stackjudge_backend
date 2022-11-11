@@ -31,8 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class GetActionTest extends AbstractE2eTest
 {
-    WireMockServer idsWireMockServer;
-    WireMockServer awsWireMockServer;
+    private WireMockServer idsWireMockServer;
+    private WireMockServer awsWireMockServer;
 
     @Before
     public void before()
@@ -52,7 +52,8 @@ public class GetActionTest extends AbstractE2eTest
         awsWireMockServer.stop();
     }
 
-    @Test @SqlGroup({
+    @Test
+    @SqlGroup({
         @Sql(executionPhase = BEFORE_TEST_METHOD, config = @SqlConfig(transactionMode = ISOLATED), scripts = {
             "classpath:test/sqls/_truncate_tables.sql",
             "classpath:test/sqls/preset_add_1_company.sql",

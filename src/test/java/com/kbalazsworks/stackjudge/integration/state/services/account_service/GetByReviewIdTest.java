@@ -11,6 +11,8 @@ import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import com.kbalazsworks.stackjudge.mocking.MockCreator;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
 import com.kbalazsworks.stackjudge.state.entities.State;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -30,6 +32,20 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
+
+    private WireMockServer wireMockServer;
+
+    @Before
+    public void before()
+    {
+        wireMockServer = createStartAndGetIdsMockServer();
+    }
+
+    @After
+    public void after()
+    {
+        wireMockServer.stop();
+    }
 
     @Test
     @SqlGroup(
@@ -56,8 +72,8 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
     public void selectingFromFilledDb_returnsUserAndCallLogger()
     {
         // Arrange
-        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
         IdsWireMocker.mockGetApiAccountList(wireMockServer);
+        IdsWireMocker.mockPostConnectToken(wireMockServer);
 
         long    testedReviewId  = ReviewFakeBuilder.defaultId1;
         IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
@@ -81,7 +97,6 @@ public class GetByReviewIdTest extends AbstractIntegrationTest
             .getByReviewId(testedReviewId, TEST_STATE);
 
         // Assert
-        wireMockServer.stop();
         assertAll(
             () -> verify(protectedReviewLogServiceMock, only()).create(expectedProtectedReviewLog, expectedState),
             () -> assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser)

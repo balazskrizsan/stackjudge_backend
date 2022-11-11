@@ -7,6 +7,8 @@ import com.kbalazsworks.stackjudge.fake_builders.IdsUserFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.UserFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsUser;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -22,6 +24,20 @@ public class FindByIdTest extends AbstractIntegrationTest
 {
     @Autowired
     private ServiceFactory serviceFactory;
+
+    private WireMockServer wireMockServer;
+
+    @Before
+    public void before()
+    {
+        wireMockServer = createStartAndGetIdsMockServer();
+    }
+
+    @After
+    public void after()
+    {
+        wireMockServer.stop();
+    }
 
     @Test
     @SqlGroup(
@@ -46,14 +62,12 @@ public class FindByIdTest extends AbstractIntegrationTest
         // Arrange
         String  testedUserId    = UserFakeBuilder.defaultId1;
         IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
-        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
         IdsWireMocker.mockGetApiAccountList(wireMockServer);
 
         // Act
         IdsUser actualIdsUser = serviceFactory.getAccountService().findById(testedUserId);
 
         // Assert
-        wireMockServer.stop();
         assertThat(actualIdsUser).usingRecursiveComparison().isEqualTo(expectedIdsUser);
     }
 }

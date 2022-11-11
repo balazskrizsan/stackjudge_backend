@@ -18,8 +18,9 @@ import com.kbalazsworks.stackjudge.fake_builders.RecursiveGroupTreeFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.ReviewFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.StaticMapResponseFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
-import lombok.SneakyThrows;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,20 @@ public class CompanyService_getTest extends AbstractIntegrationTest
     @Autowired
     private ServiceFactory serviceFactory;
 
+    private WireMockServer wireMockServer;
+
+    @BeforeEach
+    public void before()
+    {
+        wireMockServer = createStartAndGetIdsMockServer();
+    }
+
+    @AfterEach
+    public void after()
+    {
+        wireMockServer.stop();
+    }
+
     private record TestData(
         Long testedCompanyId,
         List<Short> testedRequestRelationIds,
@@ -57,9 +72,9 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         assertThat(true).isTrue();
     }
 
-    @SneakyThrows
     @Test
     public void oneParamMethodCallTest_calls2ParamsMethod()
+    throws Exception
     {
         // Arrange
         CompanyService companyServiceMock = spy(serviceFactory.getCompanyService());
@@ -133,7 +148,6 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         throw getRepeatException(repetition);
     }
 
-    @SneakyThrows
     @RepeatedTest(2)
     @SqlGroup(
         {
@@ -159,10 +173,11 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         }
     )
     public void findTheInsertedCompanyAndRelatedInfo_byProvider(RepetitionInfo repetitionInfo)
+    throws Exception
     {
         // Arrange - In preset
-        WireMockServer wireMockServer = createStartAndGetIdsMockServer();
         IdsWireMocker.mockGetApiAccountList(wireMockServer);
+        IdsWireMocker.mockPostConnectToken(wireMockServer);
 
         TestData tD = provider(repetitionInfo.getCurrentRepetition());
 
@@ -173,7 +188,6 @@ public class CompanyService_getTest extends AbstractIntegrationTest
         );
 
         // Assert
-        wireMockServer.stop();
         assertThat(actualResponse).usingRecursiveComparison().isEqualTo(tD.expectedResponse);
     }
 }
