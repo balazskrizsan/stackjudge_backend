@@ -93,52 +93,12 @@ public class ApplicationProperties
         return healthCheckEnvVarTest;
     }
 
-    @Value("${searchly.url}")
-    private String searchlyUrl;
-
-    public String getSearchlyUrl()
-    {
-        return searchlyUrl;
-    }
-
     @Value("${server.env}")
     private String serverEnv;
 
     public String getServerEnv()
     {
         return serverEnv;
-    }
-
-    //    @Value("${is_search_box_log_enabled}")
-    private String isSearchBoxLogEnabled = "false";
-
-    public boolean isSearchBoxLogEnabled()
-    {
-        return isSearchBoxLogEnabled.equals("true");
-    }
-
-    @Value("${aws.s3.cdn_bucket}")
-    private String awsS3CdnBucket;
-
-    public String getAwsS3CdnBucket()
-    {
-        return awsS3CdnBucket;
-    }
-
-    @Value("${aws.access_key}")
-    private String awsAccessKey;
-
-    public String getAwsAccessKey()
-    {
-        return awsAccessKey;
-    }
-
-    @Value("${aws.secret_key}")
-    private String awsSecretKey;
-
-    public String getAwsSecretKey()
-    {
-        return awsSecretKey;
     }
 
     @Value("${sj.ids.full_host}")
