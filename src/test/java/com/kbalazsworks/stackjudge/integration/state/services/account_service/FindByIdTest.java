@@ -63,6 +63,7 @@ public class FindByIdTest extends AbstractIntegrationTest
         String  testedUserId    = UserFakeBuilder.defaultId1;
         IdsUser expectedIdsUser = new IdsUserFakeBuilder().build();
         IdsWireMocker.mockGetApiAccountList(wireMockServer);
+        IdsWireMocker.mockPostConnectToken(wireMockServer);
 
         // Act
         IdsUser actualIdsUser = serviceFactory.getAccountService().findById(testedUserId);
