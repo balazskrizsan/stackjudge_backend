@@ -18,6 +18,7 @@ public class OidcGrantConfiguration
 {
     private final IOidcService oidcService;
 
+    @PostConstruct
     public void init() throws GrantStoreException
     {
         GrantStoreService grantStoreService = oidcService.getGrantStoreService();
