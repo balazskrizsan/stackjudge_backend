@@ -73,6 +73,7 @@ public class AccountService
 
         return new User(principalUser.getUsername());
     }
+
     public IdsUser getCurrentIdsUser()
     {
         if (!isLoggedIn())

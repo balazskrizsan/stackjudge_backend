@@ -28,8 +28,10 @@ public class RecursiveValidationExceptionBuilder
             return lastException;
         }
 
-        ValidationException newLastException = new ValidationException(exceptions.get(exceptions.size() - 1)
-                                                                           .getMessage(), lastException);
+        ValidationException newLastException = new ValidationException(
+            exceptions.get(exceptions.size() - 1).getMessage(),
+            lastException
+        );
         exceptions.remove(exceptions.size() - 1);
 
         return newLastException;

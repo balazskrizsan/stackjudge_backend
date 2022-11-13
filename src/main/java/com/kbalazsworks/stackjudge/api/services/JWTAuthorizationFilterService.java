@@ -47,7 +47,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         @NonNull HttpServletRequest req,
         @NonNull HttpServletResponse res,
         @NonNull FilterChain chain
-    ) throws ServletException, IOException
+    )
     {
         String prefixedReferenceToken = req.getHeader(AUTHENTICATION_ACCESS_TOKEN_HEADER_NAME);
         if (null == prefixedReferenceToken)
