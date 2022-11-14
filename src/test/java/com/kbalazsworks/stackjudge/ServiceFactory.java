@@ -1,8 +1,6 @@
 package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.api.entities.RegistrationSecret;
-import com.kbalazsworks.stackjudge.api.repositories.RegistrationSecretRepository;
-import com.kbalazsworks.stackjudge.api.services.RegistrationStateService;
 import com.kbalazsworks.stackjudge.api.services.SpringCookieService;
 import com.kbalazsworks.stackjudge.common.services.PaginatorService;
 import com.kbalazsworks.stackjudge.common.services.SecureRandomService;
@@ -94,7 +92,6 @@ public class ServiceFactory
     private final AddressRepository                         addressRepository;
     private final UsersRepository                           usersRepository;
     private final CompanyOwnRequestRepository               companyOwnRequestRepository;
-    private final RegistrationSecretRepository              registrationSecretRepository;
     private final GroupRepository                           groupRepository;
     private final RedisTemplate<String, RegistrationSecret> redisTemplateStringRegistrationSecret;
     private final UserJooqRepository                        userJooqRepository;
@@ -313,22 +310,6 @@ public class ServiceFactory
     {
         return new SlowServiceLoggerAspect(
             Optional.ofNullable(slowServiceLoggerAspectServiceMock).orElse(slowServiceLoggerAspectService)
-        );
-    }
-
-    public RegistrationStateService getRegistrationStateService()
-    {
-        return getRegistrationStateService(null, null);
-    }
-
-    public RegistrationStateService getRegistrationStateService(
-        RegistrationSecretRepository registrationSecretRepositoryMock,
-        RedisTemplate<String, RegistrationSecret> redisTemplateMock
-    )
-    {
-        return new RegistrationStateService(
-            Optional.ofNullable(registrationSecretRepositoryMock).orElse(registrationSecretRepository),
-            Optional.ofNullable(redisTemplateMock).orElse(redisTemplateStringRegistrationSecret)
         );
     }
 
