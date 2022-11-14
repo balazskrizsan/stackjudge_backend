@@ -1,15 +1,16 @@
 package com.kbalazsworks.stackjudge.e2e.api.controllers.group_controller;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.kbalazsworks.stackjudge.AbstractE2eTest;
 import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
-import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
+import com.kbalazsworks.stackjudge.mocking.IdsWireMocker;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -20,8 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.LinkedList;
-
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
@@ -30,8 +29,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class CreateActionTest extends AbstractE2eTest
 {
+    private WireMockServer idsWireMockServer;
+
+    @Before
+    public void before()
+    {
+        idsWireMockServer = createStartAndGetIdsMockServer();
+    }
+
+    @After
+    public void after()
+    {
+        idsWireMockServer.stop();
+    }
+
     @Test
-    @Ignore("Need to fix authenticated action")
     @SqlGroup(
         {
             @Sql(
@@ -52,6 +64,10 @@ public class CreateActionTest extends AbstractE2eTest
     public void insertValidGroup_returns200ok() throws Exception
     {
         // Arrange
+        IdsWireMocker.mockGetApiAccountList(idsWireMockServer);
+        IdsWireMocker.mockPostConnectToken(idsWireMockServer);
+        IdsWireMocker.mockPostConnectIntrospect(idsWireMockServer);
+
         String testedUri = "/group";
         MultiValueMap<String, String> testedParams = new LinkedMultiValueMap<>()
         {{
@@ -64,22 +80,7 @@ public class CreateActionTest extends AbstractE2eTest
         Matcher<Object> expectedData       = IsNull.nullValue();
         boolean         expectedSuccess    = true;
         int             expectedErrorCode  = 0;
-        HttpHeaders     httpHeaders        = new HttpHeaders();
-        httpHeaders.setAccessControlAllowOrigin("http://fake.com");
-        httpHeaders.setAccessControlAllowCredentials(true);
-        httpHeaders.setAccessControlAllowMethods(new LinkedList<>()
-        {{
-            add(HttpMethod.GET);
-            add(HttpMethod.POST);
-            add(HttpMethod.DELETE);
-            add(HttpMethod.PUT);
-            add(HttpMethod.OPTIONS);
-        }});
-        httpHeaders.setAccessControlMaxAge(3600L);
-        httpHeaders.setAccessControlExposeHeaders(new LinkedList<>()
-        {{
-            add("Content-Disposition");
-        }});
+        HttpHeaders     httpHeaders        = IdsWireMocker.getHeadersForE2eTest();
 
         // Act
         ResultActions result = getMockMvcWithSecurity().perform(

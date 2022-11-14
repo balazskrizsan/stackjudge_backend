@@ -2,6 +2,10 @@ package com.kbalazsworks.stackjudge.mocking;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.NonNull;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+
+import java.util.LinkedList;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
@@ -46,5 +50,41 @@ public class IdsWireMocker
                         )
                 )
         );
+    }
+
+    public static void mockPostConnectIntrospect(@NonNull WireMockServer wireMockServer)
+    {
+        wireMockServer.stubFor(
+            post("/connect/introspect")
+                .willReturn(
+                    ok()
+                        .withBody(
+                            "{\"iss\":\"https://localhost:5001\",\"nbf\":1668289138,\"iat\":1668289138,\"exp\":1668303538,\"aud\":[\"sj.resource.aws\",\"sj.resource.frontend\",\"sj.resource.ids\",\"https://localhost:5001/resources\"],\"client_id\":\"sj.frontend\",\"sub\":\"00000000-0000-0000-0000-000000105001\",\"auth_time\":1668289137,\"idp\":\"Facebook\",\"amr\":\"external\",\"sid\":\"126C90C8782EA9B53B3678FCAD00E3B6\",\"jti\":\"ACA1E1E1A4ADF4A5A2B4F5093E2D3DE3\",\"active\":true,\"scope\":\"sj\"}"
+                        )
+                )
+        );
+    }
+
+    public static HttpHeaders getHeadersForE2eTest()
+    {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccessControlAllowOrigin("http://fake.com");
+        httpHeaders.setAccessControlAllowCredentials(true);
+        httpHeaders.setAccessControlAllowMethods(new LinkedList<>()
+        {{
+            add(HttpMethod.GET);
+            add(HttpMethod.POST);
+            add(HttpMethod.DELETE);
+            add(HttpMethod.PUT);
+            add(HttpMethod.OPTIONS);
+        }});
+        httpHeaders.setAccessControlMaxAge(3600L);
+        httpHeaders.setAccessControlExposeHeaders(new LinkedList<>()
+        {{
+            add("Content-Disposition");
+        }});
+        httpHeaders.set("Authorization-Ids-Access-Token", "Bearer fake-token");
+
+        return httpHeaders;
     }
 }
