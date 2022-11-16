@@ -9,12 +9,17 @@ import com.kbalazsworks.stackjudge.fake_builders.AddressFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.CompanyFakeBuilder;
 import com.kbalazsworks.stackjudge.integration.annotations.TruncateAllTables;
 import org.junit.Test;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -27,22 +32,23 @@ public class AddressService_createTest extends AbstractIntegrationTest
     @Autowired
     private ServiceFactory serviceFactory;
 
-    private Address provider(int repetition) throws Exception
+    static class Provider_insertOneRecordToTheDbWithCompany_perfect implements ArgumentsProvider
     {
-        if (repetition == 1)
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context)
         {
-            return new AddressFakeBuilder().build();
+            return Stream.of(
+                Arguments.of(new AddressFakeBuilder().build(), new AddressFakeBuilder().build()),
+                Arguments.of(
+                    new AddressFakeBuilder().manualMarkerLat(null).manualMarkerLng(null).build(),
+                    new AddressFakeBuilder().manualMarkerLat(null).manualMarkerLng(null).build()
+                )
+            );
         }
-
-        if (repetition == 2)
-        {
-            return new AddressFakeBuilder().manualMarkerLat(null).manualMarkerLng(null).build();
-        }
-
-        throw new Exception();
     }
 
-    @RepeatedTest(value = 2, name = RepeatedTest.LONG_DISPLAY_NAME)
+    @ParameterizedTest(name = "{index} => testedAddress={0}")
+    @ArgumentsSource(Provider_insertOneRecordToTheDbWithCompany_perfect.class)
     @SqlGroup(
         {
             @Sql(
@@ -60,13 +66,11 @@ public class AddressService_createTest extends AbstractIntegrationTest
             )
         }
     )
-    public void insertOneRecordToTheDbWithCompany_perfect(RepetitionInfo repetitionInfo) throws Exception
+    public void insertOneRecordToTheDbWithCompany_perfect(Address testedAddress, Address expectedAddress)
     {
         // Arrange
-        long    testedCompanyId = CompanyFakeBuilder.defaultId1;
-        long    testedAddressId = AddressFakeBuilder.defaultId1;
-        Address testedAddress   = provider(repetitionInfo.getCurrentRepetition());
-        Address expectedAddress = provider(repetitionInfo.getCurrentRepetition());
+        long testedCompanyId = CompanyFakeBuilder.defaultId1;
+        long testedAddressId = AddressFakeBuilder.defaultId1;
 
         // Act
         serviceFactory.getAddressService().create(testedAddress);
