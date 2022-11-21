@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  backend:
+    container_name: "stack_judge_backend"
+    ports:
+      - "8181:8181"
+    env_file: ${ENV_FILE}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: "postgres:13"
+    container_name: "stack_judge_postgres"
+    ports:
+      - "54320:5432"
+    env_file: ${ENV_FILE}
+
+  redis:
+    image: "redis:6.2.4"
+    container_name: "stack_judge_redis"
+    ports:
+      - "63790:6379"
