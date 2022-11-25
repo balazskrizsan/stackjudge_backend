@@ -38,6 +38,9 @@ jobs:
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v1
       with:
+        java-version: 17
+        distribution: zulu
+        cache: maven
         username: ${{ env.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         repository: kbalazsworks/stackjudge_backend
