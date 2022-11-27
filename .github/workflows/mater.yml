@@ -31,14 +31,14 @@ jobs:
 
     - name: File system info
       run: |
-        echo "===> github.workspace var: ${{ github.workspace }}"
-        echo "===> pwd:"
+        echo "===========> github.workspace var: ${{ github.workspace }}"
+        echo "===========> pwd:"
         pwd
-        echo "===> ls -hal:"
+        echo "===========> ls -hal:"
         ls -hal
-        echo "===> ls -hal /src:"
+        echo "===========> ls -hal /src:"
         ls -hal ./src
-        echo "===> ls -hal /target:"
+        echo "===========> ls -hal /target:"
         ls -hal ./target
 
     - name: Docker Login
