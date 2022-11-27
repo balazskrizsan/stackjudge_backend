@@ -34,9 +34,9 @@ jobs:
         echo "===> ls -hal:"
         ls -hal
         echo "===> ls -hal /src:"
-        ls -hal /src
+        ls -hal ./src
         echo "===> ls -hal /target:"
-        ls -hal /target
+        ls -hal ./target
 
     - name: Docker Login
       uses: docker/login-action@v2
