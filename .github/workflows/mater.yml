@@ -33,12 +33,10 @@ jobs:
       run: |
         echo "===> ls -hal:"
         ls -hal
-        echo "===> cd src && ls -hal:"
-        cd /src
-        ls -hal
-        echo "===> cd target && ls -hal:"
-        cd /target
-        ls -hal
+        echo "===> ls -hal /src:"
+        ls -hal /src
+        echo "===> ls -hal /target:"
+        ls -hal /target
 
     - name: Docker Login
       uses: docker/login-action@v2
