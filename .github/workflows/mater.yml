@@ -29,8 +29,12 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests=true
 
-    - name: ls command
+    - name: File system info
       run: |
+        echo "===> ${{ github.workspace }}"
+        ${{ github.workspace }}
+        echo "===> pwd:"
+        pwd
         echo "===> ls -hal:"
         ls -hal
         echo "===> ls -hal /src:"
