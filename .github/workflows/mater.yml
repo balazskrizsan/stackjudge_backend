@@ -31,8 +31,7 @@ jobs:
 
     - name: File system info
       run: |
-        echo "===> ${{ github.workspace }}"
-        ${{ github.workspace }}
+        echo "===> github.workspace var: ${{ github.workspace }}"
         echo "===> pwd:"
         pwd
         echo "===> ls -hal:"
