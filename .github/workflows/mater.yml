@@ -47,6 +47,13 @@ jobs:
         username: ${{ env.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+    - name: Temporarily save jar artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: jar-artifact
+        path: ${{ github.workspace }}/target/stackjudge-0.0.1-SNAPSHOT.jar
+        retention-days: 1
+
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v3
       with:
