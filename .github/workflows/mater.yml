@@ -28,8 +28,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
-        - mvn -B package --file pom.xml -DskipTests=true
-        - ls -hal
+        mvn -B package --file pom.xml -DskipTests=true
+        ls -hal
 
     - name: Docker Login
       uses: docker/login-action@v2
