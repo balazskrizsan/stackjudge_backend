@@ -4,8 +4,7 @@ cache:
 
 stages:
   - build
-#  - test
-  - deploy
+  - push to docker hub
 
 build:
   stage: build
@@ -15,25 +14,10 @@ build:
   tags:
     - docker
 
-#test:
-#  stage: test
-#  image: maven:3.6.3-openjdk-15
-#  script:
-#    - mvn test
-#  tags:
-#    - docker
-
-deploy_prod:
-  stage: deploy
-  image: ruby:latest
+push_to_docker_hub:
+  image: docker:stable
+  stage: push to docker hub
   script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_PROD --api-key=$HEROKU_API_KEY
-  environment:
-    name: prod
-    url: https://stackjudge-prod.herokuapp.com/
-  when: manual
-  only:
-    - master
-  tags:
-    - docker
+  - docker build --build-arg -t $DOCKER_HUB_REPO ./cicd
+  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD docker.io
+  - docker push $DOCKER_HUB_REPO
