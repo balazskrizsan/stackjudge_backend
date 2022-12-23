@@ -57,7 +57,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
-        context: ./cicd
+        context: ${{ github.workspace }}/cicd
         push: true
         tags: first_tag
         labels: first_label
