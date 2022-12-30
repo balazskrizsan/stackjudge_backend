@@ -42,8 +42,8 @@ jobs:
         pwd
         echo "===========> ls -hal:"
         ls -hal
-        echo "printing ~/.m2/settings.xml"
-        cat ~/.m2/settings.xml
+        echo "printing .m2/settings.xml"
+        cat ./.m2/settings.xml
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
