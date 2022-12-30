@@ -35,7 +35,7 @@ jobs:
           [
             {"id": "github", "username": "${{github.repository_owner}}", "password": "${{secrets.GHP_KEY}}"}
           ]
-        output_file: /settings.xml
+        output_file: ./settings.xml
 
     - name: File system info 1
       run: |
