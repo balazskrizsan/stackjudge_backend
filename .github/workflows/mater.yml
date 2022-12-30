@@ -27,7 +27,8 @@ jobs:
         repositories: |
           [
           {"id": "central","name": "https://repo1.maven.org/maven2","url": "https://repo1.maven.org/maven2","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"},"snapshots": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}},
-          {"id": "github","name": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"},"snapshots": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}}]'
+          {"id": "github","name": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"},"snapshots": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}}
+          ]
         servers: |
           [
           {"id": "github", "username": "${github.repository_owner}", "password": "${secrets.GHP_KEY}"}
