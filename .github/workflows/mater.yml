@@ -42,10 +42,6 @@ jobs:
         pwd
         echo "===========> ls -hal:"
         ls -hal
-        echo "===========> ls -hal /src:"
-        ls -hal ./src
-        echo "===========> ls -hal /target:"
-        ls -hal ./target
         echo "printing ~/.m2/settings.xml"
         cat ~/.m2/settings.xml
 
