@@ -72,10 +72,10 @@ jobs:
         password: "${{ secrets.GITHUB_TOKEN }}"
 
 
-#    - name: Build and push Docker image
-#      uses: docker/build-push-action@v3
-#      with:
-#        context: .
-#        push: true
-#        tags: first_tag
-#        labels: first_label
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: first_tag
+        labels: first_label
