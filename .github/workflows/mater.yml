@@ -26,8 +26,9 @@ jobs:
       with:
         repositories: |
           [
-          {"id": "central","name": "https://repo1.maven.org/maven2","url": "https://repo1.maven.org/maven2","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"},"snapshots": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}},
-          {"id": "github","name": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"},"snapshots": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}}
+          {"id": "central","name": "/maven2","url": "https://repo1.maven.org/maven2","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}, "snapshots": {"enabled": "true"}},
+          {"id": "github", "name": "/balazskrizsan/stackjudge_notification_sdk_java_maven", "url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
+          {"id": "github", "name": "/balazskrizsan/simple_oidc", "url": "https://maven.pkg.github.com/balazskrizsan/simple_oidc", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}}
           ]
         servers: |
           [
@@ -37,12 +38,13 @@ jobs:
 
     - name: File system info 1
       run: |
+        cp ./.m2/settings.xml ./settings.xml
         echo "===========> github.workspace var: ${{ github.workspace }}"
         echo "===========> pwd:"
         pwd
         echo "===========> ls -hal:"
         ls -hal
-        echo "printing .m2/settings.xml"
+        echo "===========> printing .m2/settings.xml"
         cat ./.m2/settings.xml
 
     - name: Set up JDK 17
@@ -52,7 +54,7 @@ jobs:
         distribution: zulu
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      run: mvn -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
     - name: File system info 2
       run: |
