@@ -94,18 +94,18 @@ jobs:
         echo "===========> ls -hal /target:"
         ls -hal ./target
 
-    - name: Docker Login
-      uses: docker/login-action@v2
-      with:
-        username: "${{ env.DOCKER_HUB_USERNAME }}"
-        password: "${{ secrets.DOCKER_HUB_PASSWORD }}"
-
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: "ghcr.io"
-        username: "${{ github.repository_owner }}"
-        password: "${{ secrets.GITHUB_TOKEN }}"
+#    - name: Docker Login
+#      uses: docker/login-action@v2
+#      with:
+#        username: "${{ env.DOCKER_HUB_USERNAME }}"
+#        password: "${{ secrets.DOCKER_HUB_PASSWORD }}"
+#
+#    - name: Login to GitHub Container Registry
+#      uses: docker/login-action@v2
+#      with:
+#        registry: "ghcr.io"
+#        username: "${{ github.repository_owner }}"
+#        password: "${{ secrets.GITHUB_TOKEN }}"
 
 #    - name: Temporarily save jar artifact
 #      uses: actions/upload-artifact@v2
