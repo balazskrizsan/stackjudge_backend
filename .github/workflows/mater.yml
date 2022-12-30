@@ -31,7 +31,7 @@ jobs:
           ]
         servers: |
           [
-          {"id": "github", "username": "${github.repository_owner}", "password": "${secrets.GHP_KEY}"}
+          {"id": "github", "username": "${{github.repository_owner}}", "password": "${{secrets.GHP_KEY}}"}
           ]
         output_file: .m2/settings.xml
 
