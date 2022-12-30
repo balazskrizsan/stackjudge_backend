@@ -234,7 +234,7 @@
         </dependency>
         <dependency>
             <groupId>com.kbalazsworks</groupId>
-            <artifactId>stackjudgen_notification_sdk_java_maven</artifactId>
+            <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
