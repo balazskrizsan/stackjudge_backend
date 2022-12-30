@@ -11,7 +11,7 @@ on:
         description: DEBUG
 
 env:
-  DOCKER_HUB_USERNAME: kbalazsworks
+  DOCKER_HUB_USERNAME: "kbalazsworks"
 
 jobs:
   build:
