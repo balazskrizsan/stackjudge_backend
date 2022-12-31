@@ -23,7 +23,7 @@ jobs:
       with:
         repositories: |
           [
-            {"id": "central","name": "/maven2","url": "https://repo1.maven.org/maven2","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}, "snapshots": {"enabled": "true"}},
+            {"id": "central", "name": "/maven2", "url": "https://repo1.maven.org/maven2", "releases": {"enabled": "true", "updatePolicy": "always", "checksumPolicy": "fail"}, "snapshots": {"enabled": "true"}},
             {"id": "github", "name": "/balazskrizsan/stackjudge_notification_sdk_java_maven", "url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_notification_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
             {"id": "github", "name": "/balazskrizsan/stackjudge_aws_sdk_java_maven", "url": "https://maven.pkg.github.com/balazskrizsan/stackjudge_aws_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
             {"id": "github", "name": "/balazskrizsan/simple_oidc", "url": "https://maven.pkg.github.com/balazskrizsan/simple_oidc", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}}
@@ -71,9 +71,10 @@ jobs:
         username: "${{ github.repository_owner }}"
         password: "${{ secrets.GITHUB_TOKEN }}"
 
-
     - name: Build and push Docker image
       uses: docker/build-push-action@v3
+      run: |
+        ls -hal
       with:
         context: .
         push: true
