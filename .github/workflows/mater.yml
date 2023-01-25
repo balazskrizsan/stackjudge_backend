@@ -34,6 +34,20 @@ jobs:
           ]
         output_file: ./settings.xml
 
+    - name: File system info
+      run: |
+        echo "===========> github.workspace var: ${{ github.workspace }}"
+        echo "===========> pwd:"
+        pwd
+        echo "===========> ls -hal:"
+        ls -hal
+        echo "===========> ls -hal /src:"
+        ls -hal ./src
+        echo "===========> ls -hal /target:"
+        ls -hal ./target
+        echo "===========> print generated settings.xml"
+        cat ./settings.xml
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
