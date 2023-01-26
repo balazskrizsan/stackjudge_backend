@@ -43,8 +43,6 @@ jobs:
         ls -hal
         echo "===========> ls -hal /src:"
         ls -hal ./src
-        echo "===========> ls -hal /target:"
-        ls -hal ./target
         echo "===========> print generated settings.xml"
         cat ./settings.xml
 
