@@ -24,9 +24,9 @@ jobs:
         repositories: |
           [
             {"id": "central", "name": "/maven2", "url": "https://repo1.maven.org/maven2", "releases": {"enabled": "true", "updatePolicy": "always", "checksumPolicy": "fail"}, "snapshots": {"enabled": "true"}},
-            {"id": "github", "name": "/stackjudge/stackjudge_notification_sdk_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/stackjudge_notification_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
-            {"id": "github", "name": "/stackjudge/stackjudge_aws_sdk_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/stackjudge_aws_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
-            {"id": "github", "name": "/stackjudge/simple_oidc_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/simple_oidc_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}}
+            {"id": "stackjudge_stackjudge_notification_sdk_java_maven", "name": "/stackjudge/stackjudge_notification_sdk_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/stackjudge_notification_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
+            {"id": "stackjudge_aws_sdk_java_maven", "name": "/stackjudge/stackjudge_aws_sdk_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/stackjudge_aws_sdk_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}},
+            {"id": "stackjudge_simple_oidc_java_maven", "name": "/stackjudge/simple_oidc_java_maven", "url": "https://maven.cloudsmith.io/stackjudge/simple_oidc_java_maven", "releases": {"enabled": "true"}, "snapshots": {"enabled": "true"}}
           ]
         servers: |
           [
