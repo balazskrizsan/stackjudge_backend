@@ -37,7 +37,7 @@ jobs:
         distribution: zulu
         cache: maven
     - name: Build with Maven
-      run: mvn -e -X -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      run: mvn -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
     - name: File system info
       run: |
