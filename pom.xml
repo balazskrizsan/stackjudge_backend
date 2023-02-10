@@ -222,7 +222,7 @@
         </dependency>
         <dependency>
             <groupId>com.kbalazsworks</groupId>
-            <artifactId>simple_oidc</artifactId>
+            <artifactId>simple_oidc_java_maven</artifactId>
             <version>1.0.1</version>
 
             <exclusions>
