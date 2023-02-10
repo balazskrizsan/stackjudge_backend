@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <id>cloudsmith</id>
+                    <name>/stackjudge/stackjudge_notification_sdk_java_maven</name>
+                    <url>https://maven.cloudsmith.io/stackjudge/stackjudge_notification_sdk_java_maven</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>cloudsmith</id>
+                    <name>/balazskrizsan/stackjudge_aws_sdk_java_maven</name>
+                    <url>https://maven.cloudsmith.io/stackjudge/stackjudge_aws_sdk_java_maven</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>cloudsmith</id>
+                    <name>/balazskrizsan/simple_oidc</name>
+                    <url>https://maven.cloudsmith.io/stackjudge/simple_oidc</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <servers>
+        <server>
+            <id>cloudsmith</id>
+            <username>krizsan-balazs</username>
+            <password>ffe61187c0230469f7120be055ed0f528305988e</password>
+        </server>
+    </servers>
+
+</settings>
