@@ -1,7 +1,7 @@
 FROM maven:3.8.3-openjdk-17
 
 ENV GOOGLE_MAPS_KEY=qwe
-ENV HEALTH_CHECK_ENV_VAR_TEST=env var test
+ENV HEALTH_CHECK_ENV_VAR_TEST="env var test"
 ENV HTTP_CORS_ORIGINS=https://localhost:4200
 ENV IS_SEARCH_BOX_LOG_ENABLED=false
 ENV JAVAX_NET_SSL_TRUST_STORE_PASSWORD=password
@@ -21,14 +21,15 @@ ENV SPRING_REDIS_HOST=localhost
 ENV SPRING_REDIS_PASSWORD=
 ENV SPRING_REDIS_PORT=63790
 
-COPY ./backend/pom.xml /project/backend/pom.xml
+COPY ./pom.xml /project/pom.xml
+COPY ./settings.xml /project/settings.xml
 
-RUN  cd /project/backend && mvn verify clean --fail-never
+RUN  cd /project && mvn verify clean --fail-never --settings settings.xml
 
-COPY ./backend /project/backend
+COPY ./ /project
 
-RUN  cd /project/backend && mvn clean install -DskipTests=true
+RUN  cd /project && mvn clean install -DskipTests=true --settings settings.xml
 
 EXPOSE 8181
 
-ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/backend/snapshot/stackjudge-snapshot.jar"]
+ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/snapshot/stackjudge-snapshot.jar"]
