@@ -32,7 +32,7 @@ jobs:
 
     - name: Build docker image
       run: |
-        docker build --tag latest docker.cloudsmith.io/stackjudge/stackjudge_backend/stackjudge_backend:latest
+        docker build --tag latest .
 
     - name: Save docker image
       run: |
