@@ -19,10 +19,7 @@ jobs:
       postgres:
         image: "postgres:14"
         env:
-          POSTGRES_USER=admin
           POSTGRES_PASSWORD=admin_pass
-          POSTGRES_DB=stackjudge
-          PGDATA=/data/postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
