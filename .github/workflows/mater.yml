@@ -32,11 +32,11 @@ jobs:
 
     - name: Build docker image
       run: |
-        docker build --tag latest .
+        docker build --tag stackjudge:latest .
 
     - name: Save docker image
       run: |
-        docker save -o latest.docker
+        docker save -o latest.docker stackjudge:latest
 
     - name: Push do Cloudsmith
       uses: cloudsmith-io/action@2f8578217e6fa9fe305977bb278057514bccd8ea
