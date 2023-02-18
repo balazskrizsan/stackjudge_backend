@@ -22,6 +22,8 @@ jobs:
           POSTGRES_USER: admin
           POSTGRES_PASSWORD: admin_pass
           POSTGRES_DB: stackjudge
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -51,7 +53,14 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      env:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postgres
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+        SPRING_REDIS_HOST: redis
+        SPRING_REDIS_PASSWORD:
+        SPRING_REDIS_PORT: 6379
+      run: mvn -B package --file pom.xml --settings settings.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
     - name: File system info
       run: |
