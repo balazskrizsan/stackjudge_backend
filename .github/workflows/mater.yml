@@ -12,33 +12,33 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-  services:
-    postgres:
-      image: "postgres:14"
-      container_name: postgres
-      env:
-        POSTGRES_USER=admin
-        POSTGRES_PASSWORD=admin_pass
-        POSTGRES_DB=stackjudge
-        PGDATA=/data/postgres
-      options: >-
-        --health-cmd pg_isready
-        --health-interval 10s
-        --health-timeout 5s
-        --health-retries 5
+    services:
 
-    redis:
-      image: "redis:6.2.6"
-      options: >-
-        --health-cmd "redis-cli ping"
-        --health-interval 10s
-        --health-timeout 5s
-        --health-retries 5
+      postgres:
+        image: "postgres:14"
+        container_name: postgres
+        env:
+          POSTGRES_USER=admin
+          POSTGRES_PASSWORD=admin_pass
+          POSTGRES_DB=stackjudge
+          PGDATA=/data/postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: "redis:6.2.6"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
+
     - uses: actions/checkout@v3
 
     - name: File system info
