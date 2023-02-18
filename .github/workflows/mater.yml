@@ -18,7 +18,6 @@ jobs:
 
       postgres:
         image: "postgres:14"
-        container_name: postgres
         env:
           POSTGRES_USER=admin
           POSTGRES_PASSWORD=admin_pass
