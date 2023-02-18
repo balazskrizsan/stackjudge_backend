@@ -41,7 +41,7 @@ jobs:
 
     - name: Set Release version env variable
       run: |
-        echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $env:CURRENT_APP_VERSION
+        echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
@@ -71,7 +71,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: jar-artifact
-        path: ${{ github.workspace }}/target/stackjudge-{{ CURRENT_APP_VERSION }}.jar
+        path: ${{ github.workspace }}/target/stackjudge-{{ env.RELEASE_VERSION }}.jar
         retention-days: 1
 
     - name: Build docker image
@@ -80,7 +80,7 @@ jobs:
 
     - name: Save docker image
       run: |
-        docker save -o stackjudge:{{ CURRENT_APP_VERSION }}.docker stackjudge:latest
+        docker save -o stackjudge:{{ env.RELEASE_VERSION }}.docker stackjudge:latest
 
     - name: Push do Cloudsmith
       uses: cloudsmith-io/action@2f8578217e6fa9fe305977bb278057514bccd8ea
@@ -91,4 +91,4 @@ jobs:
         owner: stackjudge
         repo: stackjudge_backend
         republish: true
-        file: ./stackjudge:{{ CURRENT_APP_VERSION }}.docker
+        file: ./stackjudge:{{ env.RELEASE_VERSION }}.docker
