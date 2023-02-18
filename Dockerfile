@@ -28,7 +28,7 @@ RUN  cd /project && mvn verify clean --fail-never --settings settings.xml
 
 COPY ./ /project
 
-RUN  cd /project && mvn clean install -DskipTests=true --settings settings.xml
+RUN  cd /project && mvn clean install --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
 EXPOSE 8181
 
