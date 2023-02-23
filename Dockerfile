@@ -21,10 +21,8 @@ ENV SPRING_REDIS_HOST=localhost
 ENV SPRING_REDIS_PASSWORD=
 ENV SPRING_REDIS_PORT=63790
 
-COPY ./ /project
-
-RUN cd /project && mvn -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+COPY ./stackjudge-docker-latest.jar /project
 
 EXPOSE 8181
 
-ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/snapshot/stackjudge-snapshot.jar"]
+ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/snapshot/stackjudge-docker-latest.jar"]

@@ -90,6 +90,10 @@ jobs:
         path: ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}.jar
         retention-days: 1
 
+    - name: Copy created .jar for docker
+      run: |
+        cp ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}.jar ./stackjudge-docker-latest.jar
+
     - name: Build docker image
       run: |
         docker build --tag stackjudge:latest .
