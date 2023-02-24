@@ -1,4 +1,4 @@
-FROM maven:3.8.3-openjdk-17
+FROM openjdk:17-alpine
 
 ENV GOOGLE_MAPS_KEY=qwe
 ENV HEALTH_CHECK_ENV_VAR_TEST="env var test"
