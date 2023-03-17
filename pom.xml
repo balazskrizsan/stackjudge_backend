@@ -201,24 +201,23 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.8</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+        </dependency>
         <!-- idaig-->
         <dependency>
-            <groupId>com.kbalazsworks</groupId>
-            <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
-            <version>1.0.1</version>
-
+            <groupId>io.github.balazskrizsan</groupId>
+            <artifactId>simple_oidc_java_maven</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.slf4j</groupId>
                     <artifactId>slf4j-jboss-logmanager</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.kbalazsworks</groupId>
@@ -233,9 +232,20 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.kbalazsworks</groupId>
+            <groupId>io.github.balazskrizsan</groupId>
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.balazskrizsan</groupId>
+            <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.slf4j</groupId>
