@@ -220,18 +220,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.kbalazsworks</groupId>
-            <artifactId>simple_oidc_java_maven</artifactId>
-            <version>1.0.1</version>
-
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.slf4j</groupId>
-                    <artifactId>slf4j-jboss-logmanager</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>io.github.balazskrizsan</groupId>
             <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
             <version>1.0.1-SNAPSHOT</version>
