@@ -1,38 +1,38 @@
 package com.kbalazsworks.stackjudge.common.configuration;
 
 import com.kbalazsworks.simple_oidc.entities.grant_type.ClientCredentials;
-import com.kbalazsworks.simple_oidc.exceptions.GrantStoreException;
-import com.kbalazsworks.simple_oidc.services.GrantStoreService;
-import com.kbalazsworks.simple_oidc.services.IOidcService;
+import com.kbalazsworks.simple_oidc.entities.grant_type.TokenExchange;
+import com.kbalazsworks.simple_oidc.services.IGrantStoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.*;
 
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class OidcGrantConfiguration
 {
-    private final IOidcService oidcService;
+    private final IGrantStoreService grantStoreService;
 
-    @PostConstruct
-    public void init() throws GrantStoreException
+    public void init()
     {
-        GrantStoreService grantStoreService = oidcService.getGrantStoreService();
-
         grantStoreService.addGrant(NOTIFICATION__SEND_PUSH.getValue(), new ClientCredentials(
             "sj.notification",
             "sj.notification.client.secret",
             List.of("sj sj.notification sj.notification.send_push")
         ));
 
-        grantStoreService.addGrant(SJ__AWS__EC2.getValue(), new ClientCredentials(
+        grantStoreService.addGrant(XC__SJ__AWS.getValue(), new ClientCredentials(
             "sj.aws",
             "m2m.client.secret",
-            List.of("sj", "sj.aws", "sj.aws.ec2", "sj.aws.ec2.upload_company_logo", "sj.aws.ec2.upload_company_map")
+            List.of(
+                "sj_be",
+                "xc/sj_be.aws.ec2",
+                "xc/sj_be.aws.ec2.upload_company_logo",
+                "xc/sj_be.aws.ec2.upload_company_map"
+            )
         ));
 
         grantStoreService.addGrant(SJ__AWS__SES.getValue(), new ClientCredentials(
@@ -43,8 +43,19 @@ public class OidcGrantConfiguration
 
         grantStoreService.addGrant(SJ__IDS__API.getValue(), new ClientCredentials(
             "sj.ids.api",
-            "sj.ids.api.secret",
+            "sj.ids.api",
             List.of("sj", "sj.ids", "sj.ids.api", "IdentityServerApi")
+        ));
+
+        grantStoreService.addGrant(SJ__AWS.getValue(), new TokenExchange(
+            "sj.exchange",
+            "sj.exchange",
+            List.of(
+                "sj_be",
+                "xc/sj_be.aws.ec2",
+                "xc/sj_be.aws.ec2.upload_company_logo",
+                "xc/sj_be.aws.ec2.upload_company_map"
+            )
         ));
 
         grantStoreService.protectStore();

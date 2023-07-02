@@ -1,7 +1,7 @@
 package com.kbalazsworks.stackjudge.api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kbalazsworks.simple_oidc.services.IOidcService;
+import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.stackjudge.api.controllers.account_controller.AccountConfig;
 import com.kbalazsworks.stackjudge.api.controllers.company_controller.CompanyConfig;
 import com.kbalazsworks.stackjudge.api.controllers.group_controller.GroupConfig;
@@ -35,8 +35,8 @@ import static org.springframework.http.HttpMethod.POST;
 @Log4j2
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private final AccountService accountService;
-    private final IOidcService   oidcService;
+    private final AccountService        accountService;
+    private final ICommunicationService communicationService;
 
     @Override
     @Bean
@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .and()
 
             .addFilter(new JWTAuthenticationFilterService(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilterService(authenticationManager(), accountService, oidcService))
+            .addFilter(new JWTAuthorizationFilterService(authenticationManager(), accountService, communicationService))
 
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
 

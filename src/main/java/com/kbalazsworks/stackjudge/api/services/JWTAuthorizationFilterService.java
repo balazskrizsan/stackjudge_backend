@@ -3,7 +3,7 @@ package com.kbalazsworks.stackjudge.api.services;
 import com.kbalazsworks.simple_oidc.entities.BasicAuth;
 import com.kbalazsworks.simple_oidc.entities.IntrospectRawResponse;
 import com.kbalazsworks.simple_oidc.exceptions.OidcApiException;
-import com.kbalazsworks.simple_oidc.services.IOidcService;
+import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.stackjudge.state.entities.User;
 import com.kbalazsworks.stackjudge.state.exceptions.StateException;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
@@ -27,18 +27,18 @@ import static com.kbalazsworks.stackjudge.api.config.SecurityConstants.BEARER_TO
 @Slf4j
 public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
 {
-    private final AccountService accountService;
-    private final IOidcService   oidcService;
+    private final AccountService        accountService;
+    private final ICommunicationService communicationService;
 
     public JWTAuthorizationFilterService(
         @NonNull AuthenticationManager authManager,
         @NonNull AccountService accountService,
-        @NonNull IOidcService oidcService
+        @NonNull ICommunicationService communicationService
     )
     {
         super(authManager);
-        this.accountService = accountService;
-        this.oidcService    = oidcService;
+        this.accountService       = accountService;
+        this.communicationService = communicationService;
     }
 
     @SneakyThrows
@@ -57,14 +57,14 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
             return;
         }
 
-        String referenceToken = prefixedReferenceToken.replace(BEARER_TOKEN_PREFIX, "");
+        String accessToken = prefixedReferenceToken.replace(BEARER_TOKEN_PREFIX, "");
 
         IntrospectRawResponse introspectRawResponse;
         try
         {
-            introspectRawResponse = oidcService.callIntrospectEndpoint(
-                referenceToken,
-                new BasicAuth("sj.resource.aws", "sj_aws_scopes")
+            introspectRawResponse = communicationService.callIntrospectEndpoint(
+                accessToken,
+                new BasicAuth("sj.resource.frontend", "sj.resource.frontend")
             );
 
             if (null == introspectRawResponse.getSub())
@@ -75,7 +75,7 @@ public class JWTAuthorizationFilterService extends BasicAuthenticationFilter
         catch (OidcApiException oae)
         {
             // @todo: expired token should send back 401
-            log.error("Invalid reference token: {}", referenceToken);
+            log.error("IdeintityServer: Invalid access token: {}, {}", oae.getMessage(), accessToken);
 
             continueWithoutAuth(chain, req, res);
 

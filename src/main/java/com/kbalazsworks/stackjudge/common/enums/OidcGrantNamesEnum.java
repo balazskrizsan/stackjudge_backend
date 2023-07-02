@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum OidcGrantNamesEnum
 {
     NOTIFICATION__SEND_PUSH("notification.send_push"),
-    SJ__AWS__EC2("sj.aws.ec2"),
+    XC__SJ__AWS("xc/sj.aws"),
+    SJ__AWS("sj.aws"),
     SJ__AWS__SES("sj.aws.ses"),
     SJ__IDS__API("sj.ids.api");
 

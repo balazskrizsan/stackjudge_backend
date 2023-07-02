@@ -10,12 +10,14 @@ import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.GoogleStaticMapMarkerFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.PostUploadRequestFakeBuilder;
 import com.kbalazsworks.stackjudge.fake_builders.StdResponseCdnServicePutResponseFakeBuilder;
+import com.kbalazsworks.stackjudge.fake_builders.StdResponsePutAndSaveResponseFakeBuilder;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.S3UploadApiServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.StaticProxyServiceMocker;
 import com.kbalazsworks.stackjudge.mocking.setup_mock.UrlFactoryMocker;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PutAndSaveResponse;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +112,7 @@ public class MapsService_staticProxyTest extends AbstractIntegrationTest
         List<GoogleStaticMapMarker> testedMapMarker = new GoogleStaticMapMarkerFakeBuilder()
             .buildAsListWithTwoItems();
         PostUploadRequest                  mockAwsRequest  = new PostUploadRequestFakeBuilder().build();
-        StdResponse<CdnServicePutResponse> mockAwsResponse = new StdResponseCdnServicePutResponseFakeBuilder().build();
+        StdResponse<PutAndSaveResponse> mockAwsResponse = new StdResponsePutAndSaveResponseFakeBuilder().build();
 
         StaticMapResponse expectedStaticMapResponse = new StaticMapResponse(fakeGoogleMapsUrl, COMPANY_LEFT);
 

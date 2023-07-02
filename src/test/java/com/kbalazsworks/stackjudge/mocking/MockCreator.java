@@ -21,6 +21,7 @@ import com.kbalazsworks.stackjudge.domain.review_module.services.ReviewService;
 import com.kbalazsworks.stackjudge.domain_aspects.services.SlowServiceLoggerAspectService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.S3UploadApiService;
+import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.s3.upload.V2S3UploadApiService;
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -138,6 +139,11 @@ public class MockCreator
     public static S3UploadApiService getS3UploadApiService()
     {
         return mock(S3UploadApiService.class);
+    }
+
+    public static V2S3UploadApiService getV2S3UploadApiService()
+    {
+        return mock(V2S3UploadApiService.class);
     }
 
 

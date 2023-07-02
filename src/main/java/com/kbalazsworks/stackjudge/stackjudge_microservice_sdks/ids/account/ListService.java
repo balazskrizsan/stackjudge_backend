@@ -1,9 +1,8 @@
 package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kbalazsworks.simple_oidc.exceptions.GrantStoreException;
 import com.kbalazsworks.simple_oidc.exceptions.OidcApiException;
-import com.kbalazsworks.simple_oidc.services.IOidcService;
+import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.ApiResponseDataIdsServiceAccountListResponse;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.IdsServiceAccountListResponse;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.ids._entities.OpenSdkEmptyPost;
@@ -24,16 +23,16 @@ import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.SJ__ID
 @Log4j2
 public class ListService
 {
-    private final IdsOpenSdkService idsOpenSdkService;
-    private final ObjectMapper      objectMapper = new ObjectMapper().disable(FAIL_ON_UNKNOWN_PROPERTIES);
-    private final String            apiUri       = "/api/account/list";
-    private final IOidcService      oidcService;
+    private final IdsOpenSdkService     idsOpenSdkService;
+    private final ObjectMapper          objectMapper = new ObjectMapper().disable(FAIL_ON_UNKNOWN_PROPERTIES);
+    private final String                apiUri       = "/api/account/list";
+    private final ICommunicationService communicationService;
 
     public StdResponse<IdsServiceAccountListResponse> execute() throws ResponseException
     {
         try
         {
-            String accessToken = oidcService.callTokenEndpoint(SJ__IDS__API.getValue()).getAccessToken();
+            String accessToken = communicationService.callTokenEndpoint(SJ__IDS__API.getValue()).getAccessToken();
 
             HttpHeaders headers = new HttpHeaders()
             {{
@@ -59,7 +58,7 @@ public class ListService
 
             throw new ResponseException("Invalid service response");
         }
-        catch (GrantStoreException | OidcApiException e)
+        catch (OidcApiException e)
         {
             log.error("OIDC error: {}", e.getMessage(), e);
 

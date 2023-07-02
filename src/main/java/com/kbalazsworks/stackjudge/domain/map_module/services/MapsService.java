@@ -16,9 +16,9 @@ import com.kbalazsworks.stackjudge.domain.map_module.value_objects.StaticMapResp
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services.OpenSdkFileService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IV2S3Upload;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PutAndSaveResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -42,7 +42,7 @@ public class MapsService
     private final GoogleStaticMapsCacheService googleStaticMapsCacheService;
     private final MapMapperService             mapMapperService;
     private final OpenSdkFileService           openSdkFileService;
-    private final IS3Upload                    s3UploadApiService;
+    private final IV2S3Upload                  v2S3UploadApiService;
     private final UrlFactory                   urlFactory;
 
     public StaticMapResponse staticProxy(GoogleStaticMap googleStaticMap, List<GoogleStaticMapMarker> markers)
@@ -72,7 +72,7 @@ public class MapsService
 
         URL image = urlFactory.create(mapWithHash.url());
 
-        StdResponse<CdnServicePutResponse> s3Response = s3UploadApiService
+        StdResponse<PutAndSaveResponse> s3Response = v2S3UploadApiService
             .post(new PostUploadRequest(
                 CdnNamespaceEnum.STATIC_MAPS.name(),
                 "",
@@ -86,11 +86,11 @@ public class MapsService
 
         googleStaticMapsCacheService.create(new GoogleStaticMapsCache(
             hash,
-            s3Response.data().getPath(),
+            s3Response.data().getRemoteFile().getPath(),
             stateService.getState().now()
         ));
 
-        return new StaticMapResponse(s3Response.data().getPath(), mapPositionEnum);
+        return new StaticMapResponse(s3Response.data().getRemoteFile().getPath(), mapPositionEnum);
     }
 
     public Map<Long, Map<Long, Map<MapPositionEnum, StaticMapResponse>>> searchByAddresses(

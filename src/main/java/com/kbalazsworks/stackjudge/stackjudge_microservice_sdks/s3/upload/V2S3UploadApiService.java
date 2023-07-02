@@ -5,9 +5,9 @@ import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.common.exceptions.ResponseException;
 import com.kbalazsworks.stackjudge_aws_sdk.common.interfaces.IOpenSdkPostable;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.ApiResponseDataCdnServicePutResponse;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IV2S3Upload;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.ApiResponseDataPutAndSaveResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PutAndSaveResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.NotImplementedException;
@@ -20,13 +20,13 @@ import java.util.concurrent.Future;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class S3UploadApiService implements IS3Upload
+public class V2S3UploadApiService implements IV2S3Upload
 {
     private final AwsOpenSdkService awsOpenSdkService;
     private final ObjectMapper      objectMapper = new ObjectMapper();
 
     @Override
-    public StdResponse<CdnServicePutResponse> post(IOpenSdkPostable postUploadRequest) throws ResponseException
+    public StdResponse<PutAndSaveResponse> post(IOpenSdkPostable postUploadRequest) throws ResponseException
     {
         try
         {
@@ -34,9 +34,9 @@ public class S3UploadApiService implements IS3Upload
             ResponseEntity<String> response = awsOpenSdkService.post(postUploadRequest, getApiUri());
             log.info("Response: {}", response.getBody());
 
-            ApiResponseDataCdnServicePutResponse body = objectMapper.readValue(
+            ApiResponseDataPutAndSaveResponse body = objectMapper.readValue(
                 response.getBody(),
-                ApiResponseDataCdnServicePutResponse.class
+                ApiResponseDataPutAndSaveResponse.class
             );
 
             return new StdResponse<>(response.getStatusCode(), response.getHeaders(), body.getData());
@@ -51,8 +51,7 @@ public class S3UploadApiService implements IS3Upload
 
     @Async
     @Override
-    public Future<StdResponse<CdnServicePutResponse>> postAsync(IOpenSdkPostable postUploadRequest)
-    throws ResponseException
+    public Future<StdResponse<PutAndSaveResponse>> postAsync(IOpenSdkPostable postUploadRequest)
     {
         throw new NotImplementedException();
     }

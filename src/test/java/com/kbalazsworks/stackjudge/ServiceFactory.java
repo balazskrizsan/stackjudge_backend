@@ -45,6 +45,7 @@ import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge.state.services.StateService;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.ISesSendCompanyOwnEmail;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IV2S3Upload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,7 @@ public class ServiceFactory
     private final SlowServiceLoggerAspectService slowServiceLoggerAspectService;
     private final CrudNotificationService        crudNotificationService;
     private final IS3Upload                      s3UploadApiService;
+    private final IV2S3Upload                    v2S3UploadService;
     private final OpenSdkFileService             openSdkFileService;
     private final ISesSendCompanyOwnEmail        sesSendCompanyOwnEmailApiService;
 
@@ -112,7 +114,7 @@ public class ServiceFactory
         AccountService accountServiceReplaces,
         MapsService mapsServiceMock,
         CompanyOwnersService companyOwnersServiceMock,
-        IS3Upload s3UploadApiServiceMock,
+        IV2S3Upload v2S3UploadServiceMock,
         OpenSdkFileService openSdkFileServiceMock,
         CompanyRepository companyRepositoryMock
     )
@@ -126,7 +128,7 @@ public class ServiceFactory
             Optional.ofNullable(accountServiceReplaces).orElse(accountService),
             Optional.ofNullable(mapsServiceMock).orElse(mapsService),
             Optional.ofNullable(companyOwnersServiceMock).orElse(companyOwnersService),
-            Optional.ofNullable(s3UploadApiServiceMock).orElse(s3UploadApiService),
+            Optional.ofNullable(v2S3UploadServiceMock).orElse(v2S3UploadService),
             Optional.ofNullable(openSdkFileServiceMock).orElse(openSdkFileService),
             Optional.ofNullable(companyRepositoryMock).orElse(companyRepository)
         );
@@ -185,7 +187,7 @@ public class ServiceFactory
         GoogleStaticMapsCacheService staticMapsCacheServiceMock,
         MapMapperService mapMapperServiceMock,
         OpenSdkFileService openSdkFileServiceMock,
-        IS3Upload s3UploadApiServiceMock,
+        IV2S3Upload v2S3UploadMock,
         UrlFactory urlFactoryMock
     )
     {
@@ -195,7 +197,7 @@ public class ServiceFactory
             Optional.ofNullable(staticMapsCacheServiceMock).orElse(googleStaticMapsCacheService),
             Optional.ofNullable(mapMapperServiceMock).orElse(mapMapperService),
             Optional.ofNullable(openSdkFileServiceMock).orElse(openSdkFileService),
-            Optional.ofNullable(s3UploadApiServiceMock).orElse(s3UploadApiService),
+            Optional.ofNullable(v2S3UploadMock).orElse(v2S3UploadService),
             Optional.ofNullable(urlFactoryMock).orElse(urlFactory)
         );
     }

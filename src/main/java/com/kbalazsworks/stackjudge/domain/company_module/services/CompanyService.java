@@ -29,9 +29,9 @@ import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.
 import com.kbalazsworks.stackjudge.state.services.AccountService;
 import com.kbalazsworks.stackjudge_aws_sdk.common.entities.StdResponse;
 import com.kbalazsworks.stackjudge_aws_sdk.common.exceptions.ResponseException;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IS3Upload;
-import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.CdnServicePutResponse;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_interfaces.IV2S3Upload;
 import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PostUploadRequest;
+import com.kbalazsworks.stackjudge_aws_sdk.schema_parameter_objects.PutAndSaveResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class CompanyService
     private final AccountService       accountService;
     private final MapsService          mapsService;
     private final CompanyOwnersService companyOwnersService;
-    private final IS3Upload            s3UploadApiService;
+    private final IV2S3Upload          v2S3UploadService;
     private final OpenSdkFileService   openSdkFileService;
     private final CompanyRepository    companyRepository;
 
@@ -256,8 +256,8 @@ public class CompanyService
                             )
                         );
 
-                        StdResponse<CdnServicePutResponse> apiResponse = s3UploadApiService.post(request);
-                        updateLogoPath(newId, apiResponse.data().getPath());
+                        StdResponse<PutAndSaveResponse> apiResponse = v2S3UploadService.post(request);
+                        updateLogoPath(newId, apiResponse.data().getRemoteFile().getPath());
                     }
                     catch (ResponseException e)
                     {

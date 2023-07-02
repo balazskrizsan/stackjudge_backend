@@ -1,9 +1,7 @@
 package com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.services;
 
-import com.kbalazsworks.simple_oidc.exceptions.GrantStoreException;
 import com.kbalazsworks.simple_oidc.exceptions.OidcApiException;
-import com.kbalazsworks.simple_oidc.services.IOidcService;
-import com.kbalazsworks.simple_oidc.services.OidcService;
+import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.builders.RestTemplateFactory;
 import com.kbalazsworks.stackjudge.stackjudge_microservice_sdks.open_sdk_module.exceptions.OpenSdkResponseException;
@@ -17,7 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.SJ__AWS__EC2;
+import java.util.HashMap;
+
+import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.SJ__AWS;
+import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.XC__SJ__AWS;
 
 @Service
 @Log4j2
@@ -25,8 +26,8 @@ import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.SJ__AW
 public class AwsOpenSdkService
 {
     private final ApplicationProperties applicationProperties;
-    private final RestTemplateFactory restTemplateFactory;
-    private final IOidcService        oidcService;
+    private final RestTemplateFactory   restTemplateFactory;
+    private final ICommunicationService communicationService;
 
     public ResponseEntity<String> post(IOpenSdkPostable postData, String apiUri)
     throws ResponseException
@@ -35,7 +36,15 @@ public class AwsOpenSdkService
         {
             log.info("Aws post: {}{}", applicationProperties.getStuckJudgeAwsSdkHost(), apiUri);
 
-            String accessToken = oidcService.callTokenEndpoint(SJ__AWS__EC2.getValue()).getAccessToken();
+            String xcAccessToken = communicationService.callTokenEndpoint(XC__SJ__AWS.getValue()).getAccessToken();
+            String accessToken = communicationService.callTokenEndpoint(
+                SJ__AWS.getValue(),
+                new HashMap<>()
+                {{
+                    put("token", xcAccessToken);
+                    put("exchange_from", XC__SJ__AWS.getValue());
+                }}
+            ).getAccessToken();
 
             HttpHeaders headers = new HttpHeaders()
             {{
@@ -49,7 +58,7 @@ public class AwsOpenSdkService
                 String.class
             );
         }
-        catch (GrantStoreException | OidcApiException e)
+        catch (OidcApiException e)
         {
             log.error("AWS post OIDC error: " + e.getMessage(), e);
 
