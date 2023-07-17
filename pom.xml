@@ -175,7 +175,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.11</version>
         </dependency>
-<!-- check necessary plugins before this point-->
+        <!-- check necessary plugins before this point-->
         <!-- https://mvnrepository.com/artifact/io.github.hakky54/logcaptor -->
         <dependency>
             <groupId>io.github.hakky54</groupId>
@@ -210,8 +210,13 @@
         <!-- idaig-->
         <dependency>
             <groupId>io.github.balazskrizsan</groupId>
-            <artifactId>simple_oidc_java_maven</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <artifactId>simple-oidc-simple_oidc_java_maven</artifactId>
+            <version>2.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.balazskrizsan</groupId>
+            <artifactId>stackjudge-stackjudge_notification_sdk_java_maven</artifactId>
+            <version>1.0.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.slf4j</groupId>
@@ -221,19 +226,8 @@
         </dependency>
         <dependency>
             <groupId>io.github.balazskrizsan</groupId>
-            <artifactId>stackjudge_notification_sdk_java_maven</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.slf4j</groupId>
-                    <artifactId>slf4j-jboss-logmanager</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.github.balazskrizsan</groupId>
-            <artifactId>stackjudge_aws_sdk_java_maven</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <artifactId>stackjudge-stackjudge_aws_sdk_java_maven</artifactId>
+            <version>1.0.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.slf4j</groupId>
@@ -284,6 +278,19 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <!-- @todo: do we need this for aws? -->
+        <repository>
+            <id>oss.sonatype.org-snapshot</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
