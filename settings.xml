@@ -3,11 +3,46 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>stackjudge-stackjudge_notification_sdk_java_maven</id>
+                    <url>https://stackjudge-926974633545.d.codeartifact.us-east-1.amazonaws.com/maven/stackjudge_notification_sdk_java_maven/</url>
+                </repository>
+                <repository>
+                    <id>stackjudge-stackjudge_aws_sdk_java_maven</id>
+                    <url>https://stackjudge-926974633545.d.codeartifact.us-east-1.amazonaws.com/maven/stackjudge_aws_sdk_java_maven/</url>
+                </repository>
+                <repository>
+                    <id>simple-oidc-maven-central-store</id>
+                    <url>https://simple-oidc-926974633545.d.codeartifact.us-east-1.amazonaws.com/maven/maven-central-store/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>all</activeProfile>
+    </activeProfiles>
     <servers>
         <server>
-            <id>ossrh</id>
-            <username>BalazsKrizsan</username>
-            <password>k!92P3prs!ymiMs</password>
+            <id>stackjudge-stackjudge_aws_sdk_java_maven</id>
+            <username>aws</username>
+            <password>${env.AWS_MAVEN_PASSWORD}</password>
+        </server>
+        <server>
+            <id>stackjudge-stackjudge_notification_sdk_java_maven</id>
+            <username>aws</username>
+            <password>${env.AWS_MAVEN_PASSWORD}</password>
+        </server>
+        <server>
+            <id>simple-oidc-maven-central-store</id>
+            <username>aws</username>
+            <password>${env.AWS_MAVEN_PASSWORD}</password>
         </server>
     </servers>
 
