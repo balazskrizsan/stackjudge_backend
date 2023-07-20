@@ -107,21 +107,9 @@ jobs:
       run: |
         cp ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}.jar ./stackjudge-docker-latest.jar
 
-    - name: Build docker image
-      run: |
-        docker build --tag stackjudge:latest .
-
-    - name: Save docker image
-      run: |
-        docker save -o stackjudge:${{ env.RELEASE_VERSION }}.docker stackjudge:latest
-
-    - name: Push do Cloudsmith
-      uses: cloudsmith-io/action@2f8578217e6fa9fe305977bb278057514bccd8ea
+    - name: Build and push Docker image
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
-        api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
-        command: push
-        format: docker
-        owner: stackjudge
-        repo: stackjudge_backend
-        republish: true
-        file: ./stackjudge:${{ env.RELEASE_VERSION }}.docker
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
