@@ -21,7 +21,7 @@ ENV SPRING_REDIS_HOST=localhost
 ENV SPRING_REDIS_PASSWORD=
 ENV SPRING_REDIS_PORT=63790
 
-COPY ./stackjudge-docker-latest.jar /project
+COPY ./stackjudge-docker-latest.jar /project/
 
 EXPOSE 8181
 
