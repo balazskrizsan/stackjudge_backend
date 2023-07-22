@@ -299,6 +299,9 @@
                             <mainClass>com.kbalazsworks.stackjudge.StackJudgeApplication</mainClass>
                         </manifest>
                     </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
         </plugins>
