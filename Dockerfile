@@ -25,4 +25,4 @@ COPY ./stackjudge-docker-latest.jar /project/
 
 EXPOSE 8181
 
-ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/stackjudge-docker-latest.jar"]
+ENTRYPOINT ["java", "--enable-preview", "-jar", "/project/stackjudge-docker-latest.jar com.kbalazsworks.stackjudge.StackJudgeApplication"]
