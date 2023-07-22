@@ -105,9 +105,16 @@ jobs:
         path: ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}.jar
         retention-days: 1
 
+    - name: Temporarily save jar artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: jar-artifact-jar-with-dependencies
+        path: ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}-jar-with-dependencies.jar
+        retention-days: 1
+
     - name: Copy created .jar for docker
       run: |
-        cp ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}.jar ./stackjudge-docker-latest.jar
+        cp ${{ github.workspace }}/target/stackjudge-${{ env.RELEASE_VERSION }}-jar-with-dependencies.jar ./stackjudge-docker-latest.jar
 
     - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
