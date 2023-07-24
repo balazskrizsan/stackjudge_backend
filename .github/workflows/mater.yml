@@ -81,8 +81,7 @@ jobs:
         SPRING_REDIS_PORT: 6379
         AWS_MAVEN_PASSWORD: ${{ secrets.AWS_MAVEN_PASSWORD }}
       run: |
-        mvn -B package assembly:single --file pom.xml --settings settings.xml -DskipTests=true -Dmaven.repo.local=./m2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-        mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+        mvn -B package --file pom.xml --settings settings.xml -DskipTests=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
     - name: File system info
       run: |
