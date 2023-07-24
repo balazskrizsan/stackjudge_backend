@@ -94,8 +94,6 @@ jobs:
         ls -hal ./src
         echo "===========> ls -hal /target:"
         ls -hal ./target
-        echo "===========> ls -hal /target/dependency:"
-        ls -hal ./target/dependency
         echo "===========> ls -hal /m2:"
         ls -hal ./m2
         echo "===========> print generated settings.xml"
