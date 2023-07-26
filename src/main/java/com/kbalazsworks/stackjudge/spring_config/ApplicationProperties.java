@@ -60,7 +60,6 @@ public class ApplicationProperties
         return dataSourcePassword;
     }
 
-
     @Value("${spring.redis.host}")
     private String redisHost;
 
