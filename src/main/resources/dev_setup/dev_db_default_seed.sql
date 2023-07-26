@@ -72,7 +72,7 @@ VALUES (default, 1, 1, 1, 'Review 1, Group 1, Review text test, short 111', '202
        (default, 4, 1, 7, 'Review 7, Group 4, Review text test, short 777', '2021-01-16 01:50:01', '00000000-0000-0000-0000-000000000001'),
        (default, 4, 2, 8, 'Review 8, Group 4, Review text test, 888 \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line \n multi line  multi line  multi line 888', '2021-01-16 01:50:01', '00000000-0000-0000-0000-000000000002');
 
-INSERT INTO stackjudge.public."users" (ids_user_id)
+INSERT INTO stackjudge.public."users" (id)
 VALUES ('00000000-0000-0000-0000-000000000001'),
        ('00000000-0000-0000-0000-000000000002'),
        ('00000000-0000-0000-0000-000000000002');
