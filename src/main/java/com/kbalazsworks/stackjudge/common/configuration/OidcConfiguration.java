@@ -11,6 +11,7 @@ import com.kbalazsworks.simple_oidc.services.HttpClientService;
 import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.simple_oidc.services.IGrantStoreService;
 import com.kbalazsworks.simple_oidc.services.ISmartTokenStoreService;
+import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,12 +26,13 @@ import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.*;
 @RequiredArgsConstructor
 public class OidcConfiguration
 {
+    private final ApplicationProperties applicationProperties;
     private Injector injector;
 
     @PostConstruct
     public void postConstruct() throws OidcApiException
     {
-        HttpClientService.host = "https://localhost:5001";
+        HttpClientService.host = applicationProperties.getSjIdsFullHost();
         injector = Guice.createInjector(new DiConfigModule());
 
         IGrantStoreService grantStoreService = injector.getInstance(IGrantStoreService.class);
