@@ -6,7 +6,7 @@ import com.kbalazsworks.simple_oidc.DiConfigModule;
 import com.kbalazsworks.simple_oidc.entities.AccessTokenRawResponse;
 import com.kbalazsworks.simple_oidc.entities.grant_type.ClientCredentials;
 import com.kbalazsworks.simple_oidc.entities.grant_type.TokenExchange;
-import com.kbalazsworks.simple_oidc.exceptions.OidcApiException;
+import com.kbalazsworks.simple_oidc.exceptions.OidcException;
 import com.kbalazsworks.simple_oidc.services.HttpClientService;
 import com.kbalazsworks.simple_oidc.services.ICommunicationService;
 import com.kbalazsworks.simple_oidc.services.IGrantStoreService;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
-
 import java.util.List;
 
 import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.*;
@@ -27,18 +26,18 @@ import static com.kbalazsworks.stackjudge.common.enums.OidcGrantNamesEnum.*;
 public class OidcConfiguration
 {
     private final ApplicationProperties applicationProperties;
-    private Injector injector;
+    private       Injector              injector;
 
     @PostConstruct
-    public void postConstruct() throws OidcApiException
+    public void postConstruct() throws OidcException
     {
         HttpClientService.host = applicationProperties.getSjIdsFullHost();
-        injector = Guice.createInjector(new DiConfigModule());
+        injector               = Guice.createInjector(new DiConfigModule());
 
         IGrantStoreService grantStoreService = injector.getInstance(IGrantStoreService.class);
         setupStore(grantStoreService);
 
-        ICommunicationService communicationService = getCommunicationService();
+        ICommunicationService   communicationService   = getCommunicationService();
         ISmartTokenStoreService smartTokenStoreService = getSmartTokenStoreService();
 
         AccessTokenRawResponse xcSjAws = communicationService.callTokenEndpoint(XC__SJ__AWS.getValue());
