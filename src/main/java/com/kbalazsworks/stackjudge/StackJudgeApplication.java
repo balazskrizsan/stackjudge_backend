@@ -43,7 +43,7 @@ public class StackJudgeApplication
         ApplicationProperties applicationProperties = applicationProperties();
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(applicationProperties.getDataSourceDriverClassName());
+        dataSource.setDriverClassName(applicationProperties.getDriverClassName());
         dataSource.setUrl(applicationProperties.getDataSourceUrl());
         dataSource.setUsername(applicationProperties.getDataSourceUsername());
         dataSource.setPassword(applicationProperties.getDataSourcePassword());
