@@ -35,7 +35,7 @@ import static org.springframework.http.HttpMethod.POST;
 @Log4j2
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private final AccountService        accountService;
+    private final AccountService accountService;
     private final ICommunicationService communicationService;
 
     @Override
@@ -56,6 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .disable()
 
             .authorizeRequests()
+
+            .antMatchers(GET, "/api-docs/**").permitAll()
 
             .antMatchers(POST, SIGN_UP_URL).permitAll()
 
@@ -89,7 +91,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     private AuthenticationEntryPoint authenticationEntryPoint()
     {
-        return (request, response, e) -> {
+        return (request, response, e) ->
+        {
             log.error("Authentication error", e);
             //@todo: add request id
             ResponseData<String> errorResponse = new ResponseData<>("User not authenticated", true, 2, "0");
