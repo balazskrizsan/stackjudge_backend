@@ -93,7 +93,7 @@ public class OidcConfiguration
         grantStoreService.addGrant(SJ__IDS__API.getValue(), new ClientCredentials(
             "sj.ids.api",
             "sj.ids.api",
-            List.of("sj", "sj.ids", "sj.ids.api", "IdentityServerApi")
+            List.of("sj", "sj.ids.api", "IdentityServerApi")
         ));
 
         grantStoreService.protectStore();
