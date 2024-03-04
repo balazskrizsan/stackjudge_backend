@@ -1,6 +1,9 @@
 package com.kbalazsworks.stackjudge;
 
 import com.kbalazsworks.stackjudge.spring_config.ApplicationProperties;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.util.IsolationLevel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -34,20 +37,5 @@ public class StackJudgeApplication
     public BCryptPasswordEncoder bCryptPasswordEncoder()
     {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    @Primary
-    public DataSource dataSource()
-    {
-        ApplicationProperties applicationProperties = applicationProperties();
-
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(applicationProperties.getDriverClassName());
-        dataSource.setUrl(applicationProperties.getDataSourceUrl());
-        dataSource.setUsername(applicationProperties.getDataSourceUsername());
-        dataSource.setPassword(applicationProperties.getDataSourcePassword());
-
-        return dataSource;
     }
 }
